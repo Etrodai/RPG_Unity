@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786e8237bfe69b94d83e8a51da9a03cf, type: 3}
   m_Name: Generator
   m_EditorClassIdentifier: 
-  Costs:
+  costs:
   - resource: 0
     value: 100
-  RequiredSpace: {x: 0, y: 0, z: 0}
-  Consumption:
+  requiredSpace: {x: 1, y: 1, z: 1}
+  consumption:
+  - resource: 0
+    value: 10
   - resource: 2
     value: 10
-  Production:
+  production:
   - resource: 1
     value: 50
+  saveSpace: []
