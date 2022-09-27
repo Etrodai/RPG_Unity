@@ -13,9 +13,9 @@ public class CitizenConsumption : MonoBehaviour
     private void Start()
     {
         foodManager = FoodManager.Instance;
-        foodManager.CurrentFoodDemand += foodDemand; //Adds own food demand to combined food demand
+        foodManager.CurrentResourceDemand += foodDemand; //Adds own food demand to combined food demand
 
         waterManager = WaterManager.Instance;
-        waterManager.CurrentWaterDemand += waterDemand; //Adds own water demand to combined water demand
+        waterManager.CurrentResourceDemand += waterDemand; //Adds own water demand to combined water demand
     }
 }
