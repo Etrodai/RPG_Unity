@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnergyManager : ResourceManager
@@ -11,10 +13,27 @@ public class EnergyManager : ResourceManager
         set { instance = value; }
     }
 
-    public override float CurrentResourceValue { get; set; }
+    [SerializeField] private TextMeshProUGUI savedResourceText;
+    [SerializeField] private TextMeshProUGUI surplusText;
+    
+    public override float CurrentResourceSurplus { get; set; }
     public override float CurrentResourceProduction { get; set; }
     public override float CurrentResourceDemand { get; set; }
-    public override float SavedResourceValue { get; set; }
+
+    public override float SavedResourceValue
+    {
+        get;
+        set;
+        // get => SavedResourceValue;
+        // set
+        // {
+        //     if (value <= 0) value = 0;
+        //     SavedResourceValue = SaveSpace < value ? SaveSpace : value;
+        //     uiText.text = $"SavedEnergy {SavedResourceValue}";
+        // }
+    }
+
+    public override float SaveSpace { get; set; }
 
     // private float currentEnergyValue; //Calculated Energy production
     // public float CurrentEnergyValue
@@ -61,7 +80,8 @@ public class EnergyManager : ResourceManager
     /// </summary>
     protected override void InvokeCalculation()
     {
-        CalculateCurrentResourceValue(CurrentResourceProduction, SavedResourceValue, CurrentResourceDemand);
+        CalculateCurrentResourceSurplus(CurrentResourceProduction, CurrentResourceDemand);
+        CalculateSavedResourceValue();
     }
 
     /// <summary>
@@ -70,9 +90,29 @@ public class EnergyManager : ResourceManager
     /// <param name="currentProduction">Combined value of all energy production sources</param>
     /// <param name="savedValue">Combined value of all (when needed) active saved energy sources like batteries</param>
     /// <param name="currentDemand">Combined value of all energy consuming sources like modules</param>
-    protected override void CalculateCurrentResourceValue(float currentProduction, float savedValue, float currentDemand)
+    protected override void CalculateCurrentResourceSurplus(float currentProduction, float currentDemand)
     {
-        CurrentResourceValue = currentProduction + savedValue - currentDemand;
+        CurrentResourceSurplus = currentProduction - currentDemand;
+        surplusText.text = $"{CurrentResourceSurplus}";
     }
 
+    protected override void CalculateSavedResourceValue()
+    {
+        if (SaveSpace > SavedResourceValue + CurrentResourceSurplus/20)
+        {
+            SavedResourceValue += CurrentResourceSurplus/20;
+        }
+        else
+        {
+            SavedResourceValue = SaveSpace;
+        }
+        
+        if (SavedResourceValue < 0)
+        {
+            SavedResourceValue = 0;
+            // Disable Modules
+        }
+        
+        savedResourceText.text = $"{(int)SavedResourceValue}/{SaveSpace}";
+    }
 }

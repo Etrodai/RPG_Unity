@@ -21,9 +21,9 @@ public class BuildingResourcesScriptableObject : ScriptableObject
 
 public enum ResourceTypes
 {
-    BuildingResource,
+    Material,
     Energy,
-    Inhabitant,
+    Citizen,
     Food,
     Water
 }

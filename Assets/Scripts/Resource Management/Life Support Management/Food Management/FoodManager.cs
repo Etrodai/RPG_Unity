@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class FoodManager : ResourceManager
@@ -11,10 +12,14 @@ public class FoodManager : ResourceManager
         set { instance = value; }
     }
     
-    public override float CurrentResourceValue { get; set; }
+    [SerializeField] private TextMeshProUGUI savedResourceText;
+    [SerializeField] private TextMeshProUGUI surplusText;
+
+    public override float CurrentResourceSurplus { get; set; }
     public override float CurrentResourceProduction { get; set; }
     public override float CurrentResourceDemand { get; set; }
     public override float SavedResourceValue { get; set; }
+    public override float SaveSpace { get; set; }
 
     // private float currentFoodValue; //Calculated food production
     // public float CurrentFoodValue
@@ -65,7 +70,8 @@ public class FoodManager : ResourceManager
     /// </summary>
     protected override void InvokeCalculation()
     {
-        CalculateCurrentResourceValue(CurrentResourceProduction, SavedResourceValue, CurrentResourceDemand);
+        CalculateCurrentResourceSurplus(CurrentResourceProduction, CurrentResourceDemand);
+        CalculateSavedResourceValue();
     }
 
     /// <summary>
@@ -74,8 +80,28 @@ public class FoodManager : ResourceManager
     /// <param name="currentProduction">Combined value of all food production sources</param>
     /// <param name="savedValue">Won't be used since there won't be any saving Options like silos</param>
     /// <param name="currentDemand">Combined value of all food consuming sources like modules</param>
-    protected override void CalculateCurrentResourceValue(float currentProduction, float savedValue, float currentDemand)
+    protected override void CalculateCurrentResourceSurplus(float currentProduction, float currentDemand)
     {
-        CurrentResourceValue = currentProduction + SavedResourceValue - currentDemand * foodScalingFactor;
+        CurrentResourceSurplus = currentProduction - currentDemand;
+        surplusText.text = $"{CurrentResourceSurplus}";
+    }
+
+    protected override void CalculateSavedResourceValue()
+    {
+        if (SaveSpace > SavedResourceValue + CurrentResourceSurplus/20)
+        {
+            SavedResourceValue += CurrentResourceSurplus/20;
+        }
+        else
+        {
+            SavedResourceValue = SaveSpace;
+        }
+
+        if (SavedResourceValue < 0)
+        {
+            SavedResourceValue = 0;
+            // Kill People???
+        }
+        savedResourceText.text = $"{(int)SavedResourceValue}/{SaveSpace}";
     }
 }
