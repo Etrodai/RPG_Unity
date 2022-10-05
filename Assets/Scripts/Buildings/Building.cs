@@ -9,16 +9,13 @@ public class Building : MonoBehaviour
     private FoodManager foodManager;
     private WaterManager waterManager;
 
-    private void Awake()
+    private void Start()
     {
         buildingResourceManager = BuilingResourceManager.Instance;
         energyManager = EnergyManager.Instance;
         foodManager = FoodManager.Instance;
         waterManager = WaterManager.Instance;
-    }
-
-    private void Start()
-    {
+        
         foreach (Resource item in buildingResources.Costs)
         {
             switch (item.resource)
@@ -45,14 +42,14 @@ public class Building : MonoBehaviour
 
     private void Update() // Can be solved as usual Method via UI
     {
-        if (isDisabled)
-        {
-            DisableModule();
-        }
-        else
-        {
-            EnableModule();
-        }
+        //if (isDisabled)
+        //{
+        //    DisableModule();
+        //}
+        //else
+        //{
+        //    EnableModule();
+        //}
     }
 
     private void EnableModule()
@@ -147,6 +144,10 @@ public class Building : MonoBehaviour
 
     private void OnDestroy()
     {
-        DisableModule();
+        if (!isDisabled)
+        {
+            DisableModule();
+        }
+        
     }
 }

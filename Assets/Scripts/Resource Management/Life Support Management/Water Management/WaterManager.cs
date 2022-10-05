@@ -76,7 +76,7 @@ public class WaterManager : ResourceManager
     /// <param name="currentDemand">Combined value of all water consuming sources like modules</param>
     protected override void CalculateCurrentResourceValue(float currentProduction, float savedValue, float currentDemand)
     {
-        CurrentResourceValue = currentProduction + SavedResourceValue - currentDemand * waterScalingFactor;
+        CurrentResourceValue = currentProduction + savedValue - currentDemand * waterScalingFactor;
     }
 
 }
