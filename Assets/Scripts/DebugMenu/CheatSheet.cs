@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 
-[CreateAssetMenu(fileName = "New CheatSheet", menuName = "Tools/CheatSheet")]
+[CreateAssetMenu(fileName = "New CheatSheet", menuName = "CheatSheet")]
 public class CheatSheet : ScriptableObject
 {
     [SerializeField] private Cheat[] usableCheats;
@@ -13,6 +13,7 @@ public class CheatSheet : ScriptableObject
 
     private void OnValidate()
     {
+        cheats = new Dictionary<string, Cheat>();
         foreach (Cheat item in usableCheats)
         {
             cheats.Add(item.Command, item);

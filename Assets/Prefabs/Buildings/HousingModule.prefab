@@ -111,4 +111,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingResources: {fileID: 11400000, guid: 9e3cc1d344f2a1d4e859cdb04b7002bd, type: 2}
+  buildingType: 7
   isDisabled: 0

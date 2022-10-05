@@ -3,6 +3,8 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     [SerializeField] private BuildingResourcesScriptableObject buildingResources;
+    [SerializeField] private BuildingTypes buildingType;
+    private int indexOfAllBuildings;
     [SerializeField] private bool isDisabled;
     private MaterialManager materialManager;
     private EnergyManager energyManager;
@@ -71,6 +73,8 @@ public class Building : MonoBehaviour
             }
         }
 
+        GameManager.Instance.AllBuildings.Add(buildingType);
+        indexOfAllBuildings = GameManager.Instance.AllBuildings.Count - 1;
         EnableModule();
     }
 
@@ -226,5 +230,7 @@ public class Building : MonoBehaviour
         {
             DisableModule();
         }
+
+        GameManager.Instance.AllBuildings[indexOfAllBuildings] = BuildingTypes.Empty;
     }
 }
