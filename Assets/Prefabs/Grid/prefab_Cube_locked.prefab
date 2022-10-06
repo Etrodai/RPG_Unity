@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1372631920068343065}
   - component: {fileID: 5137126702952132624}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: prefab_Cube_locked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a6a0ea544661c9946aa442f4e5192b5a, type: 2}
+  - {fileID: 2100000, guid: 3e0b50dbe4bddda4e964763048c16b52, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

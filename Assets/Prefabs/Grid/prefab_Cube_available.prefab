@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1372631920068343065}
   - component: {fileID: 5137126702952132624}
   m_Layer: 0
-  m_Name: Cube_available
+  m_Name: prefab_Cube_available
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 8258403147317470255}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8258403147317470255}
-  m_Mesh: {fileID: -9159484625162641634, guid: 9ed1aad74fd1af046841be1995b66d7f, type: 3}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &5137126702952132624
 MeshRenderer:
   m_ObjectHideFlags: 0

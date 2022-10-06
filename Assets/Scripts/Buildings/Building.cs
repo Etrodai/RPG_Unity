@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Building : MonoBehaviour
@@ -9,6 +10,8 @@ public class Building : MonoBehaviour
     private FoodManager foodManager;
     private WaterManager waterManager;
     private CitizenManager citizenManager;
+    
+    
 
     private void Start()
     {
@@ -217,14 +220,6 @@ public class Building : MonoBehaviour
                     waterManager.SaveSpace -= item.value;
                     break;
             }
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (!isDisabled)
-        {
-            DisableModule();
         }
     }
 }
