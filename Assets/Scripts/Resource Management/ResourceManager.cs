@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public abstract class ResourceManager : MonoBehaviour
 {
     // protected float currentResourceValue;
-    public abstract float CurrentResourceValue { get; set; }
+    public abstract float CurrentResourceSurplus { get; set; }
 
     // protected float currentResourceProduction;
     public abstract float CurrentResourceProduction { get; set; }
@@ -16,6 +15,9 @@ public abstract class ResourceManager : MonoBehaviour
     // protected float savedResourceValue;
     public abstract float SavedResourceValue { get; set; }
 
+    public abstract float SaveSpace { get; set; }
+    
     protected abstract void InvokeCalculation();
-    protected abstract void CalculateCurrentResourceValue(float currentProduction, float savedValue, float currentDemand);
+    protected abstract void CalculateCurrentResourceSurplus(float currentProduction, float currentDemand);
+    protected abstract void CalculateSavedResourceValue();
 }

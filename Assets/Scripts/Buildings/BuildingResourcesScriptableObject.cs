@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Buildings", menuName = "Buildings")]
+[CreateAssetMenu(fileName = "New Building", menuName = "Buildings")]
 public class BuildingResourcesScriptableObject : ScriptableObject
 {
     [SerializeField] private Resource[] costs;
@@ -17,20 +17,4 @@ public class BuildingResourcesScriptableObject : ScriptableObject
     public Resource[] Consumption => consumption;
     public Resource[] Production => production;
     public Resource[] SaveSpace => saveSpace;
-}
-
-public enum ResourceTypes
-{
-    BuildingResource,
-    Energy,
-    Inhabitant,
-    Food,
-    Water
-}
-
-[System.Serializable]
-public class Resource
-{
-    public ResourceTypes resource;
-    public int value;
 }

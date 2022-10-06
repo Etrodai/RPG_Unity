@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 786e8237bfe69b94d83e8a51da9a03cf, type: 3}
-  m_Name: Generator
+  m_Name: WorkModule
   m_EditorClassIdentifier: 
   costs:
   - resource: 0
-    value: 100
+    value: 5
   requiredSpace: {x: 1, y: 1, z: 1}
   consumption:
-  - resource: 0
-    value: 10
+  - resource: 1
+    value: 5
   - resource: 2
     value: 10
   production:
-  - resource: 1
-    value: 50
-  saveSpace: []
+  - resource: 0
+    value: 10
+  saveSpace:
+  - resource: 0
+    value: 100

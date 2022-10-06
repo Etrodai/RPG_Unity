@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
+    //                                                      TODO use new InputSystem in a better way
     [SerializeField] private InputAction cameraMovement;
     [SerializeField] private InputAction cameraRotation;
     [SerializeField] private InputAction cameraZoom;
