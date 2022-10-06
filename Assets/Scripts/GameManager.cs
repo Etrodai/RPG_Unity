@@ -27,17 +27,31 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // public int GetAllBuildingsCount()
-    // {
-    //     int count = 0;
-    //     foreach (BuildingTypes item in allBuildings)
-    //     {
-    //         if (item != BuildingTypes.Empty)
-    //         {
-    //             count++;
-    //         }
-    //     }
-    //
-    //     return count;
-    // }
+    public int GetAllBuildingsCount()
+    {
+        int count = 0;
+        foreach (BuildingTypes item in allBuildings)
+        {
+            if (item != BuildingTypes.Empty)
+            {
+                count++;
+            }
+        }
+    
+        return count;
+    }
+
+    public int GetBuildingCount(BuildingTypes type)
+    {
+        int count = 0;
+        foreach (BuildingTypes item in allBuildings)
+        {
+            if (item == type)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }

@@ -18,7 +18,9 @@ MonoBehaviour:
     0. MilestoneText, Element 0'
   requiredEvent: 
   requiredResources: []
-  requiredModules: []
+  requiredModules:
+  - buildingTypes: 0
+    value: 1
   mileStoneAchievedText:
   - 0. MilestoneAchievedText, Element 0
   - 0. MilestoneAchievedText, Element 1

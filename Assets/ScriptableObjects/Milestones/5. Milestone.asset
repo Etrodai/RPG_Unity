@@ -18,6 +18,6 @@ MonoBehaviour:
   requiredResources: []
   requiredModules:
   - buildingTypes: 8
-    value: 5
+    value: 8
   mileStoneAchievedText:
   - 5. MilestoneAchievedText, Element 0

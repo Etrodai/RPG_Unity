@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 
 // TODO
-// NullChecks for all SO types
 // Comments in all scripts
 // events for MileStoneSystem (siehe SO)
 
@@ -29,105 +25,196 @@ public class MileStoneSystem : MonoBehaviour
     {
         mileStoneText = mainText.GetComponentInChildren<TextMeshProUGUI>();
         requiredStuffText = menu.GetComponentInChildren<TextMeshProUGUI>();
-        BuildMenu();
-        OnClickMenuButton();
-        BuildMainText();
     }
 
-    private void BuildMainText()
+    private void Start()
     {
-        mainText.SetActive(true);
-        Time.timeScale = 0;
-        mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
-        textIndex++;
+        BuildPreMainText();
+    }
+
+    #region MainText
+    // immer vor einem Meilenstein
+    private void BuildPreMainText()
+    {
+        if (textIndex < mileStones[mileStonesDone].MileStoneText.Length)
+        {
+            if (!isMinimized) CloseMenu();
+            mainText.SetActive(true);
+            Time.timeScale = 0;
+            mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
+            textIndex++;
+        }
+        else
+        {
+            mainText.SetActive(false);
+            BuildMenu();
+            if (isMinimized) OpenMenu();
+            Time.timeScale = 1;
+            textIndex = 0;
+        }
     }
     
-    private void BuildMenu()
+    // immer nach einem Meilenstein
+    private void BuildPostMainText()
     {
-        requiredStuffText.text = mileStones[mileStonesDone].RequiredEvent;
-        foreach (Resource item in mileStones[mileStonesDone].RequiredResources)
+        if (textIndex < mileStones[mileStonesDone].MileStoneAchievedText.Length)
         {
-            requiredStuffText.text += "\n";
-            requiredStuffText.text += item.resource;
-            requiredStuffText.text += ":    ";
-            requiredStuffText.text += item.value;
-        }
-
-        foreach (MileStoneModules item in mileStones[mileStonesDone].RequiredModules)
-        {
-            requiredStuffText.text += "\n";
-            requiredStuffText.text += item.buildingTypes;
-            requiredStuffText.text += ":    ";
-            requiredStuffText.text += item.value;
-        }
-    }
-
-    private void Update()
-    {
-        if (isAchieved)                     // CheckIfAchieved()
-        {
-            isDone = true;
+            if (!isMinimized) CloseMenu();
             mainText.SetActive(true);
             Time.timeScale = 0;
             mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
             textIndex++;
-            isAchieved = false;
+        }
+        else
+        {
+            textIndex = 0;
+            isDone = false;
+            mileStonesDone++;
+            BuildPreMainText();
+        }
+    }
+    
+    public void OnClickOKButton()
+    {
+        if (isDone)
+        {
+            BuildPostMainText();
+        }
+        else
+        {
+            BuildPreMainText();
+        }
+    }
+    #endregion
+    
+    #region Menu
+    // immer, wenn ein Meilenstein erreicht wurde
+    private void BuildMenu() 
+    {
+        requiredStuffText.text = mileStones[mileStonesDone].RequiredEvent;
+        
+        if (mileStones[mileStonesDone].RequiredResources.Length != 0)
+        {
+            requiredStuffText.text += "\nRequired resources:";
+            foreach (Resource item in mileStones[mileStonesDone].RequiredResources)
+            {
+                requiredStuffText.text += $"\n{item.value} {item.resource}\n";
+            }
+        }
+
+        if (mileStones[mileStonesDone].RequiredModules.Length != 0)
+        {
+            requiredStuffText.text += "\nRequired modules:";
+            foreach (MileStoneModules item in mileStones[mileStonesDone].RequiredModules)
+            {
+                requiredStuffText.text += $"\n{item.value} {item.buildingTypes}\n";
+            }
+        }
+    }
+
+    public void OnClickMenuButton()
+    {
+        if (isMinimized)
+        {
+            OpenMenu();
+        }
+        else
+        {
+            CloseMenu();
+        }
+    }
+
+    private void OpenMenu()
+    {
+        var transformPosition = menu.transform.position;
+        transformPosition.x -= 300;
+        menu.transform.position = transformPosition;
+        isMinimized = false;
+    }
+
+    private void CloseMenu()
+    {
+        var transformPosition = menu.transform.position;
+        transformPosition.x += 300;
+        menu.transform.position = transformPosition;
+        isMinimized = true;
+    }
+    #endregion
+
+    #region CheckIfAchieved
+
+    private void Update()
+    {
+        // isAchieved = ;
+        
+        if (CheckIfAchieved())
+        {
+            // isAchieved = false;
+            isDone = true;
+            BuildPostMainText();
         }
     }
 
     private bool CheckIfAchieved()                                                  //TODO
     {
-        return false;
-    }
+        bool hasAllRequiredStuff = true;
+        
+        //mileStones[mileStonesDone].RequiredEvent
+        
+        foreach (Resource item in mileStones[mileStonesDone].RequiredResources)
+        {
+            switch (item.resource)
+            {
+                case ResourceTypes.Material:
+                    if (MaterialManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
+                    break;
+                case ResourceTypes.Energy:
+                    if (EnergyManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
+                    break;                
+                case ResourceTypes.Citizen:
+                    if (CitizenManager.Instance.Citizen < item.value) hasAllRequiredStuff = false;
+                    break;
+                case ResourceTypes.Food:
+                    if (FoodManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
+                    break;
+                case ResourceTypes.Water:
+                    if (WaterManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
+                    break;
+            }
+        }
 
-    public void OnClickMenuButton()
-    {
-        isMinimized = !isMinimized;
-        if (isMinimized)
+        foreach (MileStoneModules item in mileStones[mileStonesDone].RequiredModules)
         {
-            var transformPosition = menu.transform.position;
-            transformPosition.x += 300;
-            menu.transform.position = transformPosition;
+            switch (item.buildingTypes)
+            {
+                case BuildingTypes.All:
+                    if (GameManager.Instance.GetAllBuildingsCount() < item.value) hasAllRequiredStuff = false;
+                    break;
+                case BuildingTypes.CitizenSave:
+                    if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                    break;
+                case BuildingTypes.EnergyGain:
+                    if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                    break;
+                case BuildingTypes.EnergySave:
+                    if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                    break;
+                case BuildingTypes.MaterialGain:
+                    if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                    break;
+                case BuildingTypes.MaterialSave:
+                    if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                    break;
+                case BuildingTypes.LifeSupportGain:
+                    if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                    break;
+                case BuildingTypes.LifeSupportSave:
+                    if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                    break;
+            }
         }
-        else
-        {
-            var transformPosition = menu.transform.position;
-            transformPosition.x -= 300;
-            menu.transform.position = transformPosition;
-        }
-    }
 
-    public void OnClickOKButton()
-    {
-        if (isDone)
-        {
-            if (textIndex < mileStones[mileStonesDone].MileStoneAchievedText.Length)
-            {
-                mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
-                textIndex++;
-            }
-            else
-            {
-                textIndex = 0;
-                isDone = false;
-                mileStonesDone++;
-                BuildMainText();
-                BuildMenu();
-            }
-        }
-        else
-        {
-            if (textIndex < mileStones[mileStonesDone].MileStoneText.Length)
-            {
-                mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
-                textIndex++;
-            }
-            else
-            {
-                mainText.SetActive(false);
-                Time.timeScale = 1;
-                textIndex = 0;
-            }
-        }
+        return hasAllRequiredStuff;
     }
+    #endregion
 }
