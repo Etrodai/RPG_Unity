@@ -1,3 +1,6 @@
+/// <summary>
+/// names all types of Buildings
+/// </summary>
 public enum BuildingTypes
 {
     StartModule,
