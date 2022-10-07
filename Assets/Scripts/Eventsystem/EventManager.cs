@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    private static EventManager instance;
+    private static EventManager instance;                           //Singleton
     public static EventManager Instance
     {
         get => instance;
@@ -23,7 +23,7 @@ public class EventManager : MonoBehaviour
         get => availableEvents;
         set { availableEvents = value; }
     }
-    private Queue<BaseEvent> playedEvents = new Queue<BaseEvent>(); //Not necessary if we don't add them after a period of time (one at a time or all), since we could also use allEvents list
+    private Queue<BaseEvent> playedEvents = new Queue<BaseEvent>();
     private Action action;
     public Action Action
     {
@@ -88,6 +88,7 @@ public class EventManager : MonoBehaviour
             }
         }
 
+        Time.timeScale = 0f;
         eventIsPlaying = true;
         System.Random random = new System.Random();
         int nextEvent = random.Next(0, availableEvents.Count - 1);          //null check for the list is necessary in order to never run out and crash at this point
@@ -105,5 +106,6 @@ public class EventManager : MonoBehaviour
     {
         timer = setTimer;
         eventIsPlaying = false;
+        Time.timeScale = 1f;
     }
 }

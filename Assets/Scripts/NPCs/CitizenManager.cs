@@ -11,7 +11,12 @@ public class CitizenManager : MonoBehaviour
     }
     
     private int citizen;
-    public int Citizen => citizen;
+    //public int Citizen => citizen;
+    public int Citizen
+    {
+        get => citizen;
+        set { citizen = value; }
+    }
 
     // private int joblessCitizen;                          TODO
     // public int JoblessCitizen
