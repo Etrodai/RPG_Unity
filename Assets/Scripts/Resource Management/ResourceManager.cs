@@ -12,7 +12,7 @@ public abstract class ResourceManager : MonoBehaviour
    
     #region Methods
     protected abstract void InvokeCalculation();
-    protected abstract void CalculateCurrentResourceSurplus(float currentProduction, float currentDemand);
+    protected abstract void CalculateCurrentResourceSurplus();
     protected abstract void CalculateSavedResourceValue();
     #endregion
 }

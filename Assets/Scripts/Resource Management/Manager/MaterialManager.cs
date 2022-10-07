@@ -1,26 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class MaterialManager : ResourceManager
 {
-    private static MaterialManager instance; //Singleton
+    #region TODOS
+    // what happens, when there are no Materials left?
+    // bad code in Calculation ( * 20) // Cause of growTime??
+    #endregion
+    
+    #region Variables
+    private static MaterialManager instance;
+    [SerializeField] private TextMeshProUGUI savedResourceText;
+    [SerializeField] private TextMeshProUGUI surplusText;
+    #endregion
+
+    #region Properties
     public static MaterialManager Instance
     {
         get => instance;
         set { instance = value; }
     }
-    
-    [SerializeField] private TextMeshProUGUI savedResourceText;
-    [SerializeField] private TextMeshProUGUI surplusText;
-
     public override float CurrentResourceSurplus { get; set; }
     public override float CurrentResourceProduction { get; set; }
     public override float CurrentResourceDemand { get; set; }
     public override float SavedResourceValue { get; set; }
     public override float SaveSpace { get; set; }
+    #endregion
 
+    #region UnityEvents
+    /// <summary>
+    /// Singleton
+    /// </summary>
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -33,23 +43,37 @@ public class MaterialManager : ResourceManager
         }
     }
 
+    /// <summary>
+    /// Starts Calculation
+    /// </summary>
     private void Start()
     {
         InvokeRepeating(nameof(InvokeCalculation), 0f, 0.5f);
     }
-    
+    #endregion
+
+    #region Methods
+    /// <summary>
+    /// calls the Calculations
+    /// </summary>
     protected override void InvokeCalculation()
     {
-        CalculateCurrentResourceSurplus(CurrentResourceProduction, CurrentResourceDemand);
+        CalculateCurrentResourceSurplus();
         CalculateSavedResourceValue();
     }
 
-    protected override void CalculateCurrentResourceSurplus(float currentProduction, float currentDemand)
+    /// <summary>
+    /// Calculation of currentMaterialSurplus
+    /// </summary>
+    protected override void CalculateCurrentResourceSurplus()
     {
-        CurrentResourceSurplus = currentProduction - currentDemand;
+        CurrentResourceSurplus = CurrentResourceProduction - CurrentResourceDemand;
         surplusText.text = $"{CurrentResourceSurplus}";
     }
 
+    /// <summary>
+    /// Calculation of SavedMaterialValue every 0.5 seconds
+    /// </summary>
     protected override void CalculateSavedResourceValue()
     {
         if (SaveSpace > SavedResourceValue + CurrentResourceSurplus/20)
@@ -69,4 +93,5 @@ public class MaterialManager : ResourceManager
         
         savedResourceText.text = $"{(int)SavedResourceValue}/{SaveSpace}";
     }
+    #endregion
 }

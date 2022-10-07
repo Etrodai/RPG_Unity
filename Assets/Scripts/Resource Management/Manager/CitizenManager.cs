@@ -4,10 +4,9 @@ using UnityEngine;
 public class CitizenManager : MonoBehaviour
 {
     #region TODOS
-
     // Citizen werden abgezogen, wenn sie arbeiten
     // JoblessCitizen/Working Citizen fehlt
-
+    // Weniger Citizen, wenn Surplus negativ, oder wenn kein SavedResource mehr??
     #endregion
     
     #region Variables

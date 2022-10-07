@@ -1,40 +1,33 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class EnergyManager : ResourceManager
 {
-    private static EnergyManager instance; //Singleton
+    #region TODOS
+    // what happens, when there are no Energy left?
+    // bad code in Calculation ( * 20) // Cause of growTime??
+    #endregion
+
+    #region Variables
+    private static EnergyManager instance;
+    [SerializeField] private TextMeshProUGUI savedResourceText;
+    [SerializeField] private TextMeshProUGUI surplusText;
+    #endregion
+
+    #region Properties
     public static EnergyManager Instance
     {
         get => instance;
         set { instance = value; }
     }
-
-    [SerializeField] private TextMeshProUGUI savedResourceText;
-    [SerializeField] private TextMeshProUGUI surplusText;
-    
     public override float CurrentResourceSurplus { get; set; }
     public override float CurrentResourceProduction { get; set; }
     public override float CurrentResourceDemand { get; set; }
-
-    public override float SavedResourceValue
-    {
-        get;
-        set;
-        // get => SavedResourceValue;
-        // set
-        // {
-        //     if (value <= 0) value = 0;
-        //     SavedResourceValue = SaveSpace < value ? SaveSpace : value;
-        //     uiText.text = $"SavedEnergy {SavedResourceValue}";
-        // }
-    }
-
+    public override float SavedResourceValue { get; set; }
     public override float SaveSpace { get; set; }
-
+    #endregion
+    
+    #region OldCode
     // private float currentEnergyValue; //Calculated Energy production
     // public float CurrentEnergyValue
     // {
@@ -57,7 +50,12 @@ public class EnergyManager : ResourceManager
     // }
     //
     // private float savedEnergyValue; //No use for now
+    #endregion
 
+    #region UnityEvents
+    /// <summary>
+    /// Singleton
+    /// </summary>
     private void Awake()
     {
         if(instance != null && instance != this)
@@ -70,32 +68,46 @@ public class EnergyManager : ResourceManager
         }
     }
 
+    /// <summary>
+    /// Starts Calculation
+    /// </summary>
     private void Start()
     {
         InvokeRepeating(nameof(InvokeCalculation), 0, 0.5f);
     }
+    #endregion
     
+    #region Methods
     /// <summary>
-    /// Class which is called to call the Calculation of currentEnergyValue with parameters
+    /// calls the Calculations
     /// </summary>
     protected override void InvokeCalculation()
     {
-        CalculateCurrentResourceSurplus(CurrentResourceProduction, CurrentResourceDemand);
+        CalculateCurrentResourceSurplus();
         CalculateSavedResourceValue();
     }
 
+    #region OldSummary
     /// <summary>
     /// Calculation of currentEnergyValue
     /// </summary>
     /// <param name="currentProduction">Combined value of all energy production sources</param>
     /// <param name="savedValue">Combined value of all (when needed) active saved energy sources like batteries</param>
     /// <param name="currentDemand">Combined value of all energy consuming sources like modules</param>
-    protected override void CalculateCurrentResourceSurplus(float currentProduction, float currentDemand)
+    #endregion
+    
+    /// <summary>
+    /// Calculation of currentMaterialSurplus
+    /// </summary>
+    protected override void CalculateCurrentResourceSurplus()
     {
-        CurrentResourceSurplus = currentProduction - currentDemand;
+        CurrentResourceSurplus = CurrentResourceProduction - CurrentResourceDemand;
         surplusText.text = $"{CurrentResourceSurplus}";
     }
 
+    /// <summary>
+    /// Calculation of SavedMaterialValue every 0.5 seconds
+    /// </summary>
     protected override void CalculateSavedResourceValue()
     {
         if (SaveSpace > SavedResourceValue + CurrentResourceSurplus/20)
@@ -115,4 +127,5 @@ public class EnergyManager : ResourceManager
         
         savedResourceText.text = $"{(int)SavedResourceValue}/{SaveSpace}";
     }
+    #endregion
 }

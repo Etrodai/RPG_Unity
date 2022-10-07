@@ -1,26 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class FoodManager : ResourceManager
 {
-    private static FoodManager  instance; //Singleton
+    #region TODOS
+    // use foodScalingFactor
+    // what happens, when there are no Food left?
+    // bad code in Calculation ( * 20) // Cause of growTime??
+    #endregion
+
+    #region Variables
+    private static FoodManager  instance;
+    [SerializeField] private TextMeshProUGUI savedResourceText;
+    [SerializeField] private TextMeshProUGUI surplusText;
+    private const float foodScalingFactor = 1.25f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
+    #endregion
+
+    #region Properties
     public static FoodManager Instance
     {
         get => instance;
         set { instance = value; }
     }
-    
-    [SerializeField] private TextMeshProUGUI savedResourceText;
-    [SerializeField] private TextMeshProUGUI surplusText;
-
     public override float CurrentResourceSurplus { get; set; }
     public override float CurrentResourceProduction { get; set; }
     public override float CurrentResourceDemand { get; set; }
     public override float SavedResourceValue { get; set; }
     public override float SaveSpace { get; set; }
+    #endregion
 
+    #region OldCode
     // private float currentFoodValue; //Calculated food production
     // public float CurrentFoodValue
     // {
@@ -43,9 +52,12 @@ public class FoodManager : ResourceManager
     // }
     //
     // private float savedFoodValue; //No use for now
+    #endregion
 
-    private const float foodScalingFactor = 1.25f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
-
+    #region UnityEvents
+    /// <summary>
+    /// Singleton
+    /// </summary>
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -58,34 +70,46 @@ public class FoodManager : ResourceManager
         }
     }
 
+    /// <summary>
+    /// Starts Calculation
+    /// </summary>
     private void Start()
     {
         InvokeRepeating(nameof(InvokeCalculation), 0f, 0.5f);
     }
+    #endregion
 
-
-
+    #region Methods
     /// <summary>
-    /// Class which is called to call the Calculation of currentFoodValue with parameters
+    /// calls the Calculations
     /// </summary>
     protected override void InvokeCalculation()
     {
-        CalculateCurrentResourceSurplus(CurrentResourceProduction, CurrentResourceDemand);
+        CalculateCurrentResourceSurplus();
         CalculateSavedResourceValue();
     }
 
+    #region OldSummary
     /// <summary>
     /// Calculation of currentFoodValue
     /// </summary>
     /// <param name="currentProduction">Combined value of all food production sources</param>
     /// <param name="savedValue">Won't be used since there won't be any saving Options like silos</param>
     /// <param name="currentDemand">Combined value of all food consuming sources like modules</param>
-    protected override void CalculateCurrentResourceSurplus(float currentProduction, float currentDemand)
+    #endregion
+
+    /// <summary>
+    /// Calculation of currentMaterialSurplus
+    /// </summary>
+    protected override void CalculateCurrentResourceSurplus()
     {
-        CurrentResourceSurplus = currentProduction - currentDemand;
+        CurrentResourceSurplus = CurrentResourceProduction - CurrentResourceDemand;
         surplusText.text = $"{CurrentResourceSurplus}";
     }
 
+    /// <summary>
+    /// Calculation of SavedMaterialValue every 0.5 seconds
+    /// </summary>
     protected override void CalculateSavedResourceValue()
     {
         if (SaveSpace > SavedResourceValue + CurrentResourceSurplus/20)
@@ -104,4 +128,5 @@ public class FoodManager : ResourceManager
         }
         savedResourceText.text = $"{(int)SavedResourceValue}/{SaveSpace}";
     }
+    #endregion
 }
