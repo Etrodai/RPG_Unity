@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 8406391516498353692}
   - component: {fileID: 7701430267681751538}
   - component: {fileID: 5897647007886467027}
-  - component: {fileID: 6107611021632587767}
   m_Layer: 0
   m_Name: prefab_Station
   m_TagString: Station
@@ -147,17 +146,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &6107611021632587767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6137071565662030411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebf34de4408de2f46b12a87d03e4b6f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabBlueprint: {fileID: 6137071565662030411, guid: f8a40523c72cff94a97f91bed5e3aaa5,
-    type: 3}

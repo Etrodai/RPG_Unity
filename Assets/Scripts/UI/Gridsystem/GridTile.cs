@@ -13,7 +13,15 @@ public class GridTile : MonoBehaviour
     private MeshFilter meshFilter;
     private BoxCollider boxCollider;
 
+
     private bool isLocked = false;
+
+    public bool IsLocked
+    {
+        get => isLocked;
+        set => isLocked = value;
+    }
+
 
     /// <summary>
     /// Collect Components
@@ -36,7 +44,7 @@ public class GridTile : MonoBehaviour
 
     private void LateUpdate()
     {
-        switch (isLocked)
+        switch (IsLocked)
         {
             case true:
                 meshRenderer.sharedMaterial = prefabGridTileLocked.GetComponent<MeshRenderer>().sharedMaterial;
@@ -49,22 +57,22 @@ public class GridTile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        isLocked = true;
+        IsLocked = true;
     }
 
     private void OnCollisionExit(Collision other)
     {
-        isLocked = false;
+        IsLocked = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        isLocked = true;
+        IsLocked = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        isLocked = false;
+        IsLocked = false;
     }
 
     /// <summary>
@@ -74,11 +82,10 @@ public class GridTile : MonoBehaviour
     public void SetActive(bool isVisible)
     {
         meshRenderer.enabled = isVisible;
-        boxCollider.enabled = isVisible;
+        //boxCollider.enabled = isVisible;
     }
-    
-    
-    
+
+
     /// <summary>
     /// NOT USED
     /// Create GridTiles around object on Scriptstart
@@ -87,7 +94,7 @@ public class GridTile : MonoBehaviour
     {
         //Layer 1
         Vector3 offset = this.transform.position;
-        
+
         offset.x += 1;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 
@@ -97,7 +104,7 @@ public class GridTile : MonoBehaviour
         offset.z -= 2;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 
-        
+
         offset.y += 1;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 
@@ -116,18 +123,18 @@ public class GridTile : MonoBehaviour
 
         offset.z -= 1;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-        
+
 
         //Layer 2
         offset = this.transform.position;
-        
+
         offset.z += 1;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 
         offset.z -= 2;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 
-        
+
         offset.y += 1;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 
@@ -146,12 +153,12 @@ public class GridTile : MonoBehaviour
 
         offset.z -= 1;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-        
-        
+
+
         //Layer 3
-        
+
         offset = this.transform.position;
-        
+
         offset.x += -1;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 
@@ -161,7 +168,7 @@ public class GridTile : MonoBehaviour
         offset.z -= 2;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 
-        
+
         offset.y += 1;
         Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
 

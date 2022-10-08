@@ -24,11 +24,9 @@ public class Gridsystem : MonoBehaviour
     public bool gridIsVisible = true;
     
     //Workaround in static or Singleton?
-    public GridTile[,,] tileArray; // !! Change in Property
+    public GridTile[,,] tileArray;
 
 
-
-    
     
     private void Awake()
     {
@@ -49,22 +47,70 @@ public class Gridsystem : MonoBehaviour
         InitGrid();
     }
 
+
+
+    public void CheckAvailableGridTilesAroundStation()
+    {
+        for (int z = 0; z < GridSizeXYZ.z; z++)
+        {
+            for (int y = 0; y < GridSizeXYZ.y; y++)
+            {
+                for (int x = 0; x < GridSizeXYZ.x; x++)
+                {
+                    //Check only when Tile is locked
+                    if (!tileArray[x,y,z].IsLocked)
+                    {
+                        continue;
+                    }
+                    //X-Axis
+                    tileArray[x+1,y,z].SetActive(true);
+                    tileArray[x-1,y,z].SetActive(true);
+                    //Y-Axis
+                    tileArray[x,y+1,z].SetActive(true);
+                    tileArray[x,y-1,z].SetActive(true);
+                    //Z-Axis
+                    tileArray[x,y,z+1].SetActive(true);
+                    tileArray[x,y,z-1].SetActive(true);
+                    
+                }
+            }
+        }
+    }
     
-    
+    public void UnCheckAvailableGridTilesAroundStation()
+    {
+        for (int z = 0; z < GridSizeXYZ.z; z++)
+        {
+            for (int y = 0; y < GridSizeXYZ.y; y++)
+            {
+                for (int x = 0; x < GridSizeXYZ.x; x++)
+                {
+                    //Check only when Tile is locked
+                    if (!tileArray[x,y,z].IsLocked)
+                    {
+                        continue;
+                    }
+                    //X-Axis
+                    tileArray[x+1,y,z].SetActive(false);
+                    tileArray[x-1,y,z].SetActive(false);
+                    //Y-Axis
+                    tileArray[x,y+1,z].SetActive(false);
+                    tileArray[x,y-1,z].SetActive(false);
+                    //Z-Axis
+                    tileArray[x,y,z+1].SetActive(false);
+                    tileArray[x,y,z-1].SetActive(false);
+                    
+                }
+            }
+        }
+    }
+
+
+    #region Initializing
     private void InitGrid()
     {
         //Parent Object as Container
         GameObject gridContainer = new GameObject { name = "GridBox", transform = { position = spawnPos } };
-        
-        //Initial Station Spawn
-                //spawnPos = new Vector3(-0.5f, (gridSizeXYZ.y - 1) / 2, -0.5f); //System with predefined Grid
-
-        GameObject centerTile = Instantiate(prefabStation, Vector3.zero, Quaternion.identity);
-
-        centerTile.name = "Station";
-        centerTile.tag = "Station";
-        centerTile.transform.parent = gridContainer.transform;
-        
 
         int arrayIndex = 0;
         
@@ -96,6 +142,15 @@ public class Gridsystem : MonoBehaviour
                 }
             }
         }
+        
+        //Initial Station Spawn
+        //spawnPos = new Vector3(-0.5f, (gridSizeXYZ.y - 1) / 2, -0.5f); //System with predefined Grid
+
+        GameObject centerTile = Instantiate(prefabStation, Vector3.zero, Quaternion.identity);
+
+        centerTile.name = "Station";
+        centerTile.tag = "Station";
+        centerTile.transform.parent = gridContainer.transform;
     }
 
     /// <summary>
@@ -132,4 +187,6 @@ public class Gridsystem : MonoBehaviour
         tileArray = new GridTile[(int) GridSizeXYZ.x, (int) GridSizeXYZ.y, (int) GridSizeXYZ.z];
         InitGrid();
     }
+    
+    #endregion
 }
