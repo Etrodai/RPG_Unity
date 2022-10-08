@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -17,8 +14,11 @@ public class CheatConsole : MonoBehaviour
 
     public void EnablePanel()
     {
-        cheatConsolePanel.SetActive(true);
-        inputField.Select();
+        if (DebugMenu.Instance.isOpen)
+        {
+            cheatConsolePanel.SetActive(true);
+            inputField.Select();
+        }
     }
 
     public void DisablePanel() => cheatConsolePanel.SetActive(false);

@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class DebugMenu : MonoBehaviour
 {
@@ -11,7 +7,7 @@ public class DebugMenu : MonoBehaviour
     [SerializeField] private GameObject menu;
     [SerializeField] private CheatConsole cheatConsole;
     
-    private bool isOpen;
+    public bool isOpen;
 
     private void Awake()
     {
@@ -30,19 +26,11 @@ public class DebugMenu : MonoBehaviour
         menu.SetActive(false);
     }
 
-    private void Update()
-    {
-        //                                                              TODO => use new InputSystem
-        // if (Input.GetKeyDown(KeyCode.Delete)) ToggleMenu();
-        // if (Input.GetKeyDown(KeyCode.Tab) && isOpen) cheatConsole.EnablePanel();
-    }
-
-    private void ToggleMenu()
+    public void ToggleMenu()
     {
         isOpen = !isOpen;
         menu.SetActive(isOpen);
         cheatConsole.DisablePanel();
-        // if (isOpen) GameManager.Instance.DisablePlayerMovement();
-        // else GameManager.Instance.EnablePlayerMovement();
+        Time.timeScale = isOpen ? 0 : 1;
     }
 }

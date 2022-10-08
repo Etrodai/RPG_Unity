@@ -3,16 +3,32 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
+    #region TODOS
+
+    // Empty slots im GameManager ersetzen, falls vorhanden
+    // Citizen nicht vollständig
+    // Was passiert, wenn nicht genug Resourcen vorhanden?
+
+    #endregion
+    
+    #region Variables
     [SerializeField] private BuildingResourcesScriptableObject buildingResources;
+    [SerializeField] private BuildingTypes buildingType;
+    private int indexOfAllBuildings;
     [SerializeField] private bool isDisabled;
     private MaterialManager materialManager;
     private EnergyManager energyManager;
     private FoodManager foodManager;
     private WaterManager waterManager;
     private CitizenManager citizenManager;
-    
-    
+    #endregion
 
+    #region UnityEvents
+    /// <summary>
+    /// sets all Variables
+    /// reduces needed resources when build the building
+    /// adds building to gameManager building count
+    /// </summary>
     private void Start()
     {
         materialManager = MaterialManager.Instance;
@@ -26,57 +42,32 @@ public class Building : MonoBehaviour
             switch (item.resource)
             {
                 case ResourceTypes.Material:
-                    if (materialManager.SavedResourceValue < item.value)
-                    {
-                        Debug.Log("Not enough Material to build this Module.");
-                    }
-                    else
-                    {
-                        materialManager.SavedResourceValue -= item.value;
-                    }
+                    if (materialManager.SavedResourceValue < item.value) Debug.Log("Not enough Material to build this Module.");
+                    else materialManager.SavedResourceValue -= item.value;
                     break;
                 case ResourceTypes.Energy:
-                    if (energyManager.SavedResourceValue < item.value)
-                    {
-                        Debug.Log("Not enough Energy to build this Module.");
-                    }
-                    else
-                    {
-                        energyManager.SavedResourceValue -= item.value;
-                    }
+                    if (energyManager.SavedResourceValue < item.value) Debug.Log("Not enough Energy to build this Module.");
+                    else energyManager.SavedResourceValue -= item.value;
                     break; 
                 case ResourceTypes.Citizen:
-                    if (citizenManager.Citizen < item.value)
-                    {
-                        Debug.Log("Not enough Citizen to build this Module.");
-                    }
+                    if (citizenManager.Citizen < item.value) Debug.Log("Not enough Citizen to build this Module.");
                     break;
                 case ResourceTypes.Food:
-                    if (foodManager.SavedResourceValue < item.value)
-                    {
-                        Debug.Log("Not enough Food to build this Module.");
-                    }
-                    else
-                    {
-                        foodManager.SavedResourceValue -= item.value;
-                    }
+                    if (foodManager.SavedResourceValue < item.value) Debug.Log("Not enough Food to build this Module.");
+                    else foodManager.SavedResourceValue -= item.value;
                     break;
                 case ResourceTypes.Water:
-                    if (waterManager.SavedResourceValue < item.value)
-                    {
-                        Debug.Log("Not enough Water to build this Module.");
-                    }
-                    else
-                    {
-                        waterManager.SavedResourceValue -= item.value;
-                    }
+                    if (waterManager.SavedResourceValue < item.value) Debug.Log("Not enough Water to build this Module.");
+                    else waterManager.SavedResourceValue -= item.value;
                     break;
             }
         }
 
+        GameManager.Instance.AllBuildings.Add(buildingType);
+        indexOfAllBuildings = GameManager.Instance.AllBuildings.Count - 1;
         EnableModule();
     }
-
+    
     // private void Update() // Can be solved as usual Method via UI                    TODO
     // {
     //     if (isDisabled)
@@ -89,6 +80,25 @@ public class Building : MonoBehaviour
     //     }
     // }
 
+    /// <summary>
+    /// disables function of building when it gets deleted
+    /// unsubscribes building from gameManagerList
+    /// </summary>
+    private void OnDestroy()
+    {
+        if (!isDisabled)
+        {
+            DisableModule();
+        }
+
+        GameManager.Instance.AllBuildings[indexOfAllBuildings] = BuildingTypes.Empty;
+    }
+    #endregion
+
+    #region Methods
+    /// <summary>
+    /// adds production, consumption and saveSpace
+    /// </summary>
     private void EnableModule()
     {
         foreach (Resource item in buildingResources.Production)
@@ -156,6 +166,9 @@ public class Building : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// reduces production, consumption and saveSpace
+    /// </summary>
     private void DisableModule()
     {
         foreach (Resource item in buildingResources.Production)
@@ -222,4 +235,5 @@ public class Building : MonoBehaviour
             }
         }
     }
+    #endregion
 }
