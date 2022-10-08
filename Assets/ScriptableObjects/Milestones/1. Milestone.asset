@@ -18,5 +18,4 @@ MonoBehaviour:
   requiredEvent: Move the Camera using WASD.
   requiredResources: []
   requiredModules: []
-  mileStoneAchievedText:
-  - 1. MilestoneAchievedText, Element 0
+  mileStoneAchievedText: []

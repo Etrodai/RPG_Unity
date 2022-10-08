@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2
   m_EditorClassIdentifier: 
   mileStoneText:
-  - 2. MilestoneText, Element 0
+  - 1. MilestoneText, Element 0
   requiredEvent: 
   requiredResources: []
   requiredModules:

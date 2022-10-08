@@ -79,7 +79,7 @@ public class CitizenManager : MonoBehaviour
         }
         else
         {
-            surplusText.text = $"0 per 10 seconds";
+            surplusText.text = $"0";
         }
 
         savedResourceText.text = $"{citizen}/{Housing}";
