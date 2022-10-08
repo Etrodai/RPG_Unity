@@ -1,81 +1,84 @@
+using Buildings;
+using ResourceManagement;
+using ResourceManagement.Manager;
 using TMPro;
 using UnityEngine;
 
-public class MileStoneSystem : MonoBehaviour
+namespace MilestoneSystem
 {
-    #region TODOS
-
-    // events for MileStoneSystem (siehe SO)
-    // Text springt weg, ohne auf OK zu drücken
-
-    #endregion
-    
-    #region Variables
-    [SerializeField] private MileStonesScriptableObject[] mileStones;
-    private int mileStonesDone;
-    [SerializeField] private GameObject mainText;
-    private int textIndex;
-    private bool isDone;
-    private TextMeshProUGUI mileStoneText;
-    [SerializeField] private GameObject menu;
-    private TextMeshProUGUI requiredStuffText;
-    bool isMinimized;
-    #endregion
-
-    #region UnityEvents
-    /// <summary>
-    /// sets variables
-    /// </summary>
-    private void Awake()
+    public class MileStoneSystem : MonoBehaviour
     {
-        mileStoneText = mainText.GetComponentInChildren<TextMeshProUGUI>();
-        requiredStuffText = menu.GetComponentInChildren<TextMeshProUGUI>();
-    }
+        #region TODOS
+        // events for MileStoneSystem (siehe SO)
+        // Text springt weg, ohne auf OK zu drücken
+        #endregion
 
-    /// <summary>
-    /// Builds PreMainText of first Milestone
-    /// </summary>
-    private void Start()
-    {
-        BuildPreMainText();
-    }
+        #region Variables
+        [SerializeField] private MileStonesScriptableObject[] mileStones;
+        private int mileStonesDone; // Counter of Milestones Done
+        [SerializeField] private GameObject mainText; // Full Screen Text what's happening
+        private int textIndex; // Counter of Texts Shown
+        private bool isDone; // Shows, if a Milestone is done, and the end-text can be shown
+        private TextMeshProUGUI mileStoneText; // TextField of MainText
+        [SerializeField] private GameObject menu; // SideMenu which always is there and can be mini and maximized
+        private TextMeshProUGUI requiredStuffText; // TextField of Menu
+        bool isMinimized; // shows if the SideMenu is mini or maximized
+        #endregion
 
-    /// <summary>
-    /// checks if the Milestone is achieved
-    /// if it is, builds PostMainText of this Milestone
-    /// </summary>
-    private void Update()
-    {
-        if (CheckIfAchieved())
+        #region UnityEvents
+        /// <summary>
+        /// sets variables
+        /// </summary>
+        private void Awake()
         {
-            isDone = true;
-            BuildPostMainText();
+            mileStoneText = mainText.GetComponentInChildren<TextMeshProUGUI>();
+            requiredStuffText = menu.GetComponentInChildren<TextMeshProUGUI>();
         }
-    }
-    #endregion
 
-    #region ClickEvents
-    /// <summary>
-    /// starts next MainText
-    /// </summary>
-    public void OnClickOKButton()
-    {
-        if (isDone) BuildPostMainText();
-        else BuildPreMainText();
-    }
-    
-    /// <summary>
-    /// mini- or maximizes MileStoneMenu
-    /// </summary>
-    public void OnClickMenuButton()
-    {
-        if (isMinimized) OpenMenu();
-        else CloseMenu();
-    }
-    #endregion
-    
-    #region Methods
-    
+        /// <summary>
+        /// Builds PreMainText of first Milestone
+        /// </summary>
+        private void Start()
+        {
+            BuildPreMainText();
+        }
+
+        /// <summary>
+        /// checks if the Milestone is achieved
+        /// if it is, builds PostMainText of this Milestone
+        /// </summary>
+        private void Update()
+        {
+            if (CheckIfAchieved())
+            {
+                isDone = true;
+                BuildPostMainText();
+            }
+        }
+        #endregion
+
+        #region ClickEvents
+        /// <summary>
+        /// starts next MainText
+        /// </summary>
+        public void OnClickOKButton()
+        {
+            if (isDone) BuildPostMainText();
+            else BuildPreMainText();
+        }
+
+        /// <summary>
+        /// mini- or maximizes MileStoneMenu
+        /// </summary>
+        public void OnClickMenuButton()
+        {
+            if (isMinimized) OpenMenu();
+            else CloseMenu();
+        }
+        #endregion
+
+        #region Methods
+        
         #region MainText
         /// <summary>
         /// when new MileStone starts, it builds and shows its PreMainText and stops the game
@@ -100,7 +103,7 @@ public class MileStoneSystem : MonoBehaviour
                 textIndex = 0;
             }
         }
-        
+
         /// <summary>
         /// when the curren MileStone is achieved, it builds and shows its PostMainText and stops the game
         /// after all Texts are shown, the game goes on and the MainTextMenu gets closed
@@ -124,15 +127,15 @@ public class MileStoneSystem : MonoBehaviour
             }
         }
         #endregion
-        
+
         #region Menu
         /// <summary>
         /// when a Milestone is achieved it builds a new MilestoneMenu
         /// </summary>
-        private void BuildMenu() 
+        private void BuildMenu()
         {
             requiredStuffText.text = mileStones[mileStonesDone].RequiredEvent;
-            
+
             if (mileStones[mileStonesDone].RequiredResources.Length != 0)
             {
                 requiredStuffText.text += "\nRequired resources:";
@@ -141,7 +144,7 @@ public class MileStoneSystem : MonoBehaviour
                     requiredStuffText.text += $"\n{item.value} {item.resource}\n";
                 }
             }
-    
+
             if (mileStones[mileStonesDone].RequiredModules.Length != 0)
             {
                 requiredStuffText.text += "\nRequired modules:";
@@ -151,7 +154,7 @@ public class MileStoneSystem : MonoBehaviour
                 }
             }
         }
-        
+
         /// <summary>
         /// maximizes menu by moving it to the left side
         /// </summary>
@@ -162,7 +165,7 @@ public class MileStoneSystem : MonoBehaviour
             menu.transform.position = transformPosition;
             isMinimized = false;
         }
-    
+
         /// <summary>
         /// minimizes menu by moving it to the right side
         /// </summary>
@@ -174,18 +177,18 @@ public class MileStoneSystem : MonoBehaviour
             isMinimized = true;
         }
         #endregion
-    
+
         #region CheckIfAchieved
         /// <summary>
         /// checks if all required events, resources and buildings are achieved
         /// </summary>
         /// <returns>if all required things are achieved</returns>
-        private bool CheckIfAchieved()                                                  //TODO
+        private bool CheckIfAchieved() //TODO
         {
             bool hasAllRequiredStuff = true;
-            
+
             //mileStones[mileStonesDone].RequiredEvent
-            
+
             foreach (Resource item in mileStones[mileStonesDone].RequiredResources)
             {
                 switch (item.resource)
@@ -195,7 +198,7 @@ public class MileStoneSystem : MonoBehaviour
                         break;
                     case ResourceTypes.Energy:
                         if (EnergyManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
-                        break;                
+                        break;
                     case ResourceTypes.Citizen:
                         if (CitizenManager.Instance.Citizen < item.value) hasAllRequiredStuff = false;
                         break;
@@ -207,7 +210,7 @@ public class MileStoneSystem : MonoBehaviour
                         break;
                 }
             }
-    
+
             foreach (MileStoneModules item in mileStones[mileStonesDone].RequiredModules)
             {
                 switch (item.buildingTypes)
@@ -216,32 +219,40 @@ public class MileStoneSystem : MonoBehaviour
                         if (GameManager.Instance.GetAllBuildingsCount() < item.value) hasAllRequiredStuff = false;
                         break;
                     case BuildingTypes.CitizenSave:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
+                            hasAllRequiredStuff = false;
                         break;
                     case BuildingTypes.EnergyGain:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
+                            hasAllRequiredStuff = false;
                         break;
                     case BuildingTypes.EnergySave:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
+                            hasAllRequiredStuff = false;
                         break;
                     case BuildingTypes.MaterialGain:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
+                            hasAllRequiredStuff = false;
                         break;
                     case BuildingTypes.MaterialSave:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
+                            hasAllRequiredStuff = false;
                         break;
                     case BuildingTypes.LifeSupportGain:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
+                            hasAllRequiredStuff = false;
                         break;
                     case BuildingTypes.LifeSupportSave:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) hasAllRequiredStuff = false;
+                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
+                            hasAllRequiredStuff = false;
                         break;
                 }
             }
-    
+
             return hasAllRequiredStuff;
         }
         #endregion
-    
-    #endregion
+
+        #endregion
+    }
 }

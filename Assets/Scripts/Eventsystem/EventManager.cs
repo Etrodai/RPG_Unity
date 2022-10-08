@@ -53,7 +53,7 @@ public class EventManager : MonoBehaviour
 
     private void Update()
     {
-        if (eventIsPlaying == false) //Kann wahrscheinlich mit Coroutine gelöst werden!
+        if (eventIsPlaying == false) //Kann wahrscheinlich mit Coroutine gelÃ¶st werden!
         {
             timer -= Time.deltaTime;
         }
@@ -76,7 +76,7 @@ public class EventManager : MonoBehaviour
          * remove event from available events
          * reset timer & contine timer condition (eventIsPlaying = false)
          * 
-         * Theoretisch möglich hier die Instanz von EventManager an die Events zu übergeben um Singleton zu sparen
+         * Theoretisch mÃ¶glich hier die Instanz von EventManager an die Events zu Ã¼bergeben um Singleton zu sparen
          */
 
         if (availableEvents.Count == resetEvents)                           //Refills the availableEvents list when empty

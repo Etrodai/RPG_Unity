@@ -4,13 +4,14 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     #region TODOS
-    
+
     // use new InputSystem in a better way
-    // use Cinemachine
+    // use Cine machine
 
     #endregion
-    
+
     #region Variables
+
     [SerializeField] private InputAction cameraMovement;
     [SerializeField] private InputAction cameraRotation;
     [SerializeField] private InputAction cameraZoom;
@@ -24,9 +25,11 @@ public class CameraController : MonoBehaviour
     private float zoom;
     private new Transform transform;
     private new Transform camera;
+
     #endregion
 
     #region UnityEvents
+
     /// <summary>
     /// sets Variables
     /// </summary>
@@ -73,8 +76,20 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        transform.position += new Vector3(0, moveDirection, 0);
+        Move();
+        Rotate();
+        Zoom();
+    }
+
+    #endregion
+        
+    #region Methods
+
+    private void Move()
+    {
         var position = transform.position;
+        position += new Vector3(0, moveDirection, 0);
+            
         if (position.y < minMaxHeight.x)
         {
             position = new Vector3(position.x, minMaxHeight.x, position.z);
@@ -85,11 +100,17 @@ public class CameraController : MonoBehaviour
             position = new Vector3(position.x, minMaxHeight.y, position.z);
             transform.position = position;
         }
-        
-        transform.Rotate(0,  rotation, 0);
-        
-        camera.localPosition += new Vector3(0, 0, zoom);
+    }
+
+    private void Rotate()
+    {
+        transform.Rotate(0, rotation, 0);
+    }
+
+    private void Zoom()
+    {
         var localPosition = camera.localPosition;
+        localPosition += new Vector3(0, 0, zoom);
         if (localPosition.z > minMaxZoom.x)
         {
             localPosition = new Vector3(localPosition.x, localPosition.y, minMaxZoom.x);

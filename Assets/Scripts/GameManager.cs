@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Buildings;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,22 +11,28 @@ public class GameManager : MonoBehaviour
     // GetEmptyBuildingsIndex hinzufügen
 
     #endregion
-    
+
     #region Varables
+
     private static GameManager instance;
     [SerializeField] private List<BuildingTypes> allBuildings = new List<BuildingTypes>();
+
     #endregion
 
     #region Properties
+
     public static GameManager Instance
     {
         get => instance;
         set => instance = value;
     }
+
     public List<BuildingTypes> AllBuildings => allBuildings;
+
     #endregion
-    
+
     #region UnityEvents
+
     /// <summary>
     /// singleton
     /// </summary>
@@ -40,9 +47,11 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
+
     #endregion
 
     #region Methods
+
     /// <summary>
     /// Gets count of all buildings
     /// </summary>
@@ -57,10 +66,10 @@ public class GameManager : MonoBehaviour
                 count++;
             }
         }
-    
+
         return count;
     }
-    
+
     /// <summary>
     /// Gets count of one buildingType
     /// </summary>
@@ -76,5 +85,6 @@ public class GameManager : MonoBehaviour
 
         return count;
     }
+
     #endregion
 }

@@ -1,16 +1,19 @@
-/// <summary>
-/// names all types of Buildings
-/// </summary>
-public enum BuildingTypes
+namespace Buildings
 {
-    StartModule,
-    EnergyGain,
-    LifeSupportGain,
-    MaterialGain,
-    EnergySave,
-    LifeSupportSave,
-    MaterialSave,
-    CitizenSave,
-    All,
-    Empty
+    /// <summary>
+    /// names all types of Buildings
+    /// </summary>
+    public enum BuildingTypes
+    {
+        StartModule,
+        EnergyGain,
+        LifeSupportGain,
+        MaterialGain,
+        EnergySave,
+        LifeSupportSave,
+        MaterialSave,
+        CitizenSave,
+        All,
+        Empty
+    }
 }
