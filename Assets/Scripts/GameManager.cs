@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using Buildings;
+using PriorityListSystem;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager instance;
     [SerializeField] private List<BuildingTypes> allBuildings = new List<BuildingTypes>();
-
+    [SerializeField] private PriorityListMenu[] priorityListItems;
     #endregion
 
     #region Properties
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     }
 
     public List<BuildingTypes> AllBuildings => allBuildings;
+    public PriorityListMenu[] PriorityListItems => priorityListItems;
 
     #endregion
 
@@ -52,6 +53,19 @@ public class GameManager : MonoBehaviour
 
     #region Methods
 
+    public int GetPriority(BuildingTypes type)
+    {
+        int priority = 0;
+        foreach (PriorityListMenu item in priorityListItems)
+        {
+            if (item.Type == type)
+            {
+                priority = item.Priority;
+            }
+        }
+        return priority;
+    }
+    
     /// <summary>
     /// Gets count of all buildings
     /// </summary>
