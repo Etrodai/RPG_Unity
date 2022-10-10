@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1447249157749328080}
   - component: {fileID: 4345982582915531722}
   - component: {fileID: 3445383757091331111}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,9 +94,8 @@ GameObject:
   - component: {fileID: 8406391516498353692}
   - component: {fileID: 7701430267681751538}
   - component: {fileID: 5897647007886467027}
-  - component: {fileID: 6107611021632587767}
-  - component: {fileID: -8703949039853611365}
-  m_Layer: 0
+  - component: {fileID: 3054358282773753036}
+  m_Layer: 2
   m_Name: prefab_blueprint
   m_TagString: Station
   m_Icon: {fileID: 0}
@@ -148,7 +147,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &6107611021632587767
+--- !u!114 &3054358282773753036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,19 +156,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6137071565662030411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebf34de4408de2f46b12a87d03e4b6f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabBlueprint: {fileID: 6137071565662030411}
---- !u!114 &-8703949039853611365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6137071565662030411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c830294cb72b0354a98fa5d783ab5d1e, type: 3}
+  m_Script: {fileID: 11500000, guid: c8c77ed2a23d0dd4298eb57249311acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -63,14 +63,14 @@ public class Gridsystem : MonoBehaviour
                         continue;
                     }
                     //X-Axis
-                    tileArray[x+1,y,z].SetActive(true);
-                    tileArray[x-1,y,z].SetActive(true);
+                    tileArray[x+1,y,z].ChangeActiveState(true);
+                    tileArray[x-1,y,z].ChangeActiveState(true);
                     //Y-Axis
-                    tileArray[x,y+1,z].SetActive(true);
-                    tileArray[x,y-1,z].SetActive(true);
+                    tileArray[x,y+1,z].ChangeActiveState(true);
+                    tileArray[x,y-1,z].ChangeActiveState(true);
                     //Z-Axis
-                    tileArray[x,y,z+1].SetActive(true);
-                    tileArray[x,y,z-1].SetActive(true);
+                    tileArray[x,y,z+1].ChangeActiveState(true);
+                    tileArray[x,y,z-1].ChangeActiveState(true);
                     
                 }
             }
@@ -91,14 +91,14 @@ public class Gridsystem : MonoBehaviour
                         continue;
                     }
                     //X-Axis
-                    tileArray[x+1,y,z].SetActive(false);
-                    tileArray[x-1,y,z].SetActive(false);
+                    tileArray[x+1,y,z].ChangeActiveState(false);
+                    tileArray[x-1,y,z].ChangeActiveState(false);
                     //Y-Axis
-                    tileArray[x,y+1,z].SetActive(false);
-                    tileArray[x,y-1,z].SetActive(false);
+                    tileArray[x,y+1,z].ChangeActiveState(false);
+                    tileArray[x,y-1,z].ChangeActiveState(false);
                     //Z-Axis
-                    tileArray[x,y,z+1].SetActive(false);
-                    tileArray[x,y,z-1].SetActive(false);
+                    tileArray[x,y,z+1].ChangeActiveState(false);
+                    tileArray[x,y,z-1].ChangeActiveState(false);
                     
                 }
             }
@@ -134,9 +134,8 @@ public class Gridsystem : MonoBehaviour
                     gridTile.name = $"Tile_{spawnPos.x}.{spawnPos.y}.{spawnPos.z}";
 
                     GridTile gridTileScript = gridTile.GetComponent<GridTile>();
-                    gridTileScript.SetActive(gridIsVisible);
-                    gridTileScript.SetActive(gridIsVisible);
-                    
+                    gridTileScript.ChangeActiveState(gridIsVisible);
+
                     //Save GridFile in Array
                     tileArray[x,y,z] = gridTileScript;
                 }

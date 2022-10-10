@@ -11,7 +11,7 @@ public class GridTile : MonoBehaviour
 
     private MeshRenderer meshRenderer;
     private MeshFilter meshFilter;
-    private BoxCollider boxCollider;
+    
 
 
     private bool isLocked = false;
@@ -30,7 +30,6 @@ public class GridTile : MonoBehaviour
     {
         meshRenderer = this.GetComponent<MeshRenderer>();
         meshFilter = this.GetComponent<MeshFilter>();
-        boxCollider = this.GetComponent<BoxCollider>();
     }
 
     /// <summary>
@@ -79,10 +78,20 @@ public class GridTile : MonoBehaviour
     /// Setting Renderer and Collider active or inactive
     /// </summary>
     /// <param name="isVisible">enabler</param>
-    public void SetActive(bool isVisible)
+    public void ChangeActiveState(bool isVisible)
     {
         meshRenderer.enabled = isVisible;
         //boxCollider.enabled = isVisible;
+        
+        if (!meshRenderer.enabled)
+        {
+            int layerIgnoreRayCast = LayerMask.NameToLayer("Ignore Raycast");
+            this.gameObject.layer = layerIgnoreRayCast;
+        }
+        else
+        {
+            this.gameObject.layer = 0; //Default Layer
+        }
     }
 
 
