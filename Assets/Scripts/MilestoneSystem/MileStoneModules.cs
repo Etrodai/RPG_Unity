@@ -1,6 +1,13 @@
-[System.Serializable]
-public class MileStoneModules
+using Buildings;
+
+namespace MilestoneSystem
 {
-    public BuildingTypes buildingTypes;
-    public int value;
+    [System.Serializable]
+    public class MileStoneModules
+    {
+        #region Variables
+        public BuildingTypes buildingTypes;
+        public int value;
+        #endregion
+    }
 }

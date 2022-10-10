@@ -1,25 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
+using ResourceManagement;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New MileStone", menuName = "MileStones")]
-public class MileStonesScriptableObject : ScriptableObject
+namespace MilestoneSystem
 {
-    // Kamerasteuerung, ChangePrioListe                                         TODO
-    
-    [SerializeField][TextArea] private string[] mileStoneText;
-    [SerializeField] private string requiredEvent;                              //TODO
-    [SerializeField] private Resource[] requiredResources;
-    [SerializeField] private MileStoneModules[] requiredModules;
-    [SerializeField][TextArea] private string[] mileStoneAchievedText;
+    [CreateAssetMenu(fileName = "New MileStone", menuName = "MileStones")]
+    public class MileStonesScriptableObject : ScriptableObject
+    {
+        #region TODOS
+        // Kamerasteuerung, ChangePrioListe                                         TODO
+        #endregion
 
-    public string[] MileStoneText => mileStoneText;
+        #region Variables
+        [SerializeField] [TextArea] private string[] mileStoneText;
+        [SerializeField] private string requiredEvent; //TODO
+        [SerializeField] private Resource[] requiredResources;
+        [SerializeField] private MileStoneModules[] requiredModules;
+        [SerializeField] [TextArea] private string[] mileStoneAchievedText;
+        #endregion
 
-    public string RequiredEvent => requiredEvent;
+        #region Properties
+        public string[] MileStoneText => mileStoneText;
+        public string RequiredEvent => requiredEvent;
+        public Resource[] RequiredResources => requiredResources;
+        public MileStoneModules[] RequiredModules => requiredModules;
+        public string[] MileStoneAchievedText => mileStoneAchievedText;
 
-    public Resource[] RequiredResources => requiredResources;
-
-    public MileStoneModules[] RequiredModules => requiredModules;
-
-    public string[] MileStoneAchievedText => mileStoneAchievedText;
+        #endregion
+    }
 }

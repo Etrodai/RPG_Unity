@@ -3,7 +3,15 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    //                                                      TODO use new InputSystem in a better way
+    #region TODOS
+
+    // use new InputSystem in a better way
+    // use Cine machine
+
+    #endregion
+
+    #region Variables
+
     [SerializeField] private InputAction cameraMovement;
     [SerializeField] private InputAction cameraRotation;
     [SerializeField] private InputAction cameraZoom;
@@ -15,9 +23,16 @@ public class CameraController : MonoBehaviour
     private float moveDirection;
     private float rotation;
     private float zoom;
-    private Transform transform;
-    private Transform camera;
+    private new Transform transform;
+    private new Transform camera;
 
+    #endregion
+
+    #region UnityEvents
+
+    /// <summary>
+    /// sets Variables
+    /// </summary>
     private void Awake()
     {
         transform = gameObject.transform;
@@ -26,6 +41,9 @@ public class CameraController : MonoBehaviour
         minMaxZoom *= -1;
     }
 
+    /// <summary>
+    /// enables movement, rotation and zoom
+    /// </summary>
     private void OnEnable()
     {
         cameraMovement.Enable();
@@ -33,6 +51,9 @@ public class CameraController : MonoBehaviour
         cameraZoom.Enable();
     }
 
+    /// <summary>
+    /// disables movement, rotation and zoom
+    /// </summary>
     private void OnDisable()
     {
         cameraMovement.Disable();
@@ -40,6 +61,9 @@ public class CameraController : MonoBehaviour
         cameraZoom.Disable();
     }
 
+    /// <summary>
+    /// gets input
+    /// </summary>
     private void Update()
     {
         moveDirection = cameraMovement.ReadValue<float>() * moveSpeed;
@@ -47,10 +71,25 @@ public class CameraController : MonoBehaviour
         zoom = cameraZoom.ReadValue<float>() * zoomSpeed;
     }
 
+    /// <summary>
+    /// moves, rotates and zooms camera
+    /// </summary>
     private void FixedUpdate()
     {
-        transform.position += new Vector3(0, moveDirection, 0);
+        Move();
+        Rotate();
+        Zoom();
+    }
+
+    #endregion
+        
+    #region Methods
+
+    private void Move()
+    {
         var position = transform.position;
+        position += new Vector3(0, moveDirection, 0);
+            
         if (position.y < minMaxHeight.x)
         {
             position = new Vector3(position.x, minMaxHeight.x, position.z);
@@ -61,11 +100,17 @@ public class CameraController : MonoBehaviour
             position = new Vector3(position.x, minMaxHeight.y, position.z);
             transform.position = position;
         }
-        
-        transform.Rotate(0,  rotation, 0);
-        
-        camera.localPosition += new Vector3(0, 0, zoom);
+    }
+
+    private void Rotate()
+    {
+        transform.Rotate(0, rotation, 0);
+    }
+
+    private void Zoom()
+    {
         var localPosition = camera.localPosition;
+        localPosition += new Vector3(0, 0, zoom);
         if (localPosition.z > minMaxZoom.x)
         {
             localPosition = new Vector3(localPosition.x, localPosition.y, minMaxZoom.x);
@@ -77,4 +122,5 @@ public class CameraController : MonoBehaviour
             camera.localPosition = localPosition;
         }
     }
+    #endregion
 }

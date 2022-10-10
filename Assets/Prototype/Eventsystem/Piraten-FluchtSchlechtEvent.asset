@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d5802053f27044487803778aa1f0d5, type: 3}
+  m_Name: Piraten-FluchtSchlechtEvent
+  m_EditorClassIdentifier: 
+  eventText: "Die Gefl\xFCchteten Piraten kommen noch zahlreicher zur\xFCck als zuletzt."
+  decisions:
+  - Decisions: "K\xE4mpfen.\nDie Entscheidest dich erneut gegen die Piraten zu k\xE4mpfen."
+    ConsequenceEvent: {fileID: 0}
+    StartNow: 0
+    ConsequenceOnResouces:
+    - resource: 2
+      value: -10
+    - resource: 0
+      value: -100
+    - resource: 3
+      value: -100
+    - resource: 4
+      value: -100
+    ConsequenceOnBuildings: []
+    ConsequenceText: "Du hast keine Chance gegen die Piraten. Nachdem sie sich zum
+      n\xE4chstbesten Lager durchgeschlagen haben, nehmen sie sich was sie wollen
+      und verschwinden."
+  - Decisions: 'Ergeben.
+
+      Du ergibst dich und gibst den Piraten, was sie verlangen.'
+    ConsequenceEvent: {fileID: 0}
+    StartNow: 0
+    ConsequenceOnResouces:
+    - resource: 0
+      value: -100
+    - resource: 3
+      value: -100
+    - resource: 4
+      value: -100
+    ConsequenceOnBuildings: []
+    ConsequenceText: Die Piraten nehmen sie sich was sie wollen und verschwinden.
