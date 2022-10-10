@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 82f5276305576654fa94adc4a6ce0d32
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - prefabGridTileAvailable: {fileID: 8258403147317470255, guid: 633cd4751ab6ded499f50976b4eb73a7,
+      type: 3}
+  - prefabGridTileLocked: {fileID: 8258403147317470255, guid: 211bc4a01223eeb40b4a6d316537c90b,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
