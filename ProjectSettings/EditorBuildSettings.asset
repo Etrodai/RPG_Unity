@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu Scene.unity
     guid: 1e2d464bafbc6e949a44db91a347aa11
   - enabled: 1
-    path: Assets/Scenes/Merge Scene Events and resources.unity
-    guid: 253faa21fb6a6c24da12002ef082adfa
+    path: Assets/Scenes/Full Merge Scene.unity
+    guid: 5d5e31c13f0cf6d46ab126066e9d54ab
   m_configObjects: {}
