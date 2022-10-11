@@ -5,18 +5,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    #region TODOS
-
-    // GetAllBuildingsCount in GetBuildingsCount integrieren
-    // GetEmptyBuildingsIndex hinzufügen
-
-    #endregion
-
-    #region Varables
+    #region Variables
 
     private static GameManager instance;
-    [SerializeField] private List<BuildingTypes> allBuildings = new List<BuildingTypes>();
+    [SerializeField] private List<Building> allBuildings = new List<Building>();
     [SerializeField] private PriorityListMenu[] priorityListItems;
+    private List<Building> disabledBuildings = new List<Building>();
+    
     #endregion
 
     #region Properties
@@ -27,8 +22,15 @@ public class GameManager : MonoBehaviour
         set => instance = value;
     }
 
-    public List<BuildingTypes> AllBuildings => allBuildings;
+    public List<Building> AllBuildings => allBuildings;
+    
     public PriorityListMenu[] PriorityListItems => priorityListItems;
+
+    public List<Building> DisabledBuildings
+    {
+        get => disabledBuildings;
+        set => disabledBuildings = value;
+    }
 
     #endregion
 
@@ -53,6 +55,20 @@ public class GameManager : MonoBehaviour
 
     #region Methods
 
+    /// <summary>
+    /// Searches for an empty slot in allBuildingsList
+    /// </summary>
+    /// <returns>Index of first empty in allBuildings</returns>
+    public int GetIndexOfFirstEmpty()
+    {
+        return allBuildings.IndexOf(null);
+    }
+    
+    /// <summary>
+    /// Searches the Priority of the given BuildingType
+    /// </summary>
+    /// <param name="type">BuildingType</param>
+    /// <returns>Priority of the given BuildingType</returns>
     public int GetPriority(BuildingTypes type)
     {
         int priority = 0;
@@ -65,23 +81,24 @@ public class GameManager : MonoBehaviour
         }
         return priority;
     }
-    
+
     /// <summary>
-    /// Gets count of all buildings
+    /// Searches Building Type with given Priority
     /// </summary>
-    /// <returns>value of all buildings</returns>
-    public int GetAllBuildingsCount()
+    /// <param name="priority">Priority</param>
+    /// <returns>type of given Priority, if no Type has given Priority it returns All</returns>
+    public BuildingTypes GetBuildingTypeOnPriority(int priority)
     {
-        int count = 0;
-        foreach (BuildingTypes item in allBuildings)
+        BuildingTypes type = BuildingTypes.All;
+        foreach (PriorityListMenu item in priorityListItems)
         {
-            if (item != BuildingTypes.Empty)
+            if (item.Priority == priority)
             {
-                count++;
+                type = item.Type;
             }
         }
-
-        return count;
+    
+        return type;
     }
 
     /// <summary>
@@ -92,12 +109,39 @@ public class GameManager : MonoBehaviour
     public int GetBuildingCount(BuildingTypes type)
     {
         int count = 0;
-        foreach (BuildingTypes item in allBuildings)
+        if (type == BuildingTypes.All)
         {
-            if (item == type) count++;
+            foreach (Building item in allBuildings)
+            {
+                if (item != null)
+                {
+                    count++;
+                }
+            }
+    
+            return count;
+        }
+    
+        foreach (Building item in allBuildings)
+        {
+            if (item.BuildingType == type) count++;
+        }
+    
+        return count;
+    }
+
+    public List<Building> GetAllBuildingsOfType(BuildingTypes type)
+    {
+        List<Building> buildings = new List<Building>();
+        foreach (Building item in allBuildings)
+        {
+            if (item.BuildingType == type)
+            {
+                buildings.Add(item);
+            }
         }
 
-        return count;
+        return buildings;
     }
 
     #endregion

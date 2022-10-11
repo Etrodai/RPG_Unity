@@ -1,7 +1,7 @@
 namespace ResourceManagement
 {
     [System.Serializable]
-    public class Resource
+    public struct Resource
     {
         #region Variables
 

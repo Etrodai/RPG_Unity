@@ -2100,6 +2100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savedResourceText: {fileID: 26005972}
   surplusText: {fileID: 1080930670}
+  repeatRate: 0.5
 --- !u!114 &377740614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2114,6 +2115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savedResourceText: {fileID: 1130008360}
   surplusText: {fileID: 688524541}
+  repeatRate: 0.5
 --- !u!114 &377740615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2128,6 +2130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savedResourceText: {fileID: 893958722}
   surplusText: {fileID: 225454835}
+  repeatRate: 0.5
 --- !u!114 &377740616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2142,6 +2145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savedResourceText: {fileID: 1597399402}
   surplusText: {fileID: 662144395}
+  repeatRate: 0.5
 --- !u!4 &377740617
 Transform:
   m_ObjectHideFlags: 0
@@ -2169,7 +2173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b870641a0a42fe64eb8a1f82bed64630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allBuildings: 
+  allBuildings: []
   priorityListItems:
   - {fileID: 353198823}
   - {fileID: 632818392}
@@ -2188,7 +2192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 6a707d90ab3ef65488b9e290934d7025,
+  m_Actions: {fileID: -944628639613478452, guid: c7c317a7595544f48a895301c12a4c96,
     type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
@@ -2204,37 +2208,17 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: c5617631-c0f4-4dbf-8b25-ee5f3a1174ef
+    m_ActionId: 676e3445-4011-4ad2-a3c4-13b4f78855db
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: a1164a6a-1fbb-48e3-ad41-08613ef25511
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c2c48b4b-3ec7-4eda-b316-66ff1d2e393e
-    m_ActionName: Player/Fire[/Mouse/leftButton]
+    m_ActionId: 48871afe-e478-4b10-80b1-eef22cd09685
+    m_ActionName: Player/Rotate[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7270265832368156664}
-        m_TargetAssemblyTypeName: DebugMenu, Assembly-CSharp
-        m_MethodName: ToggleMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-    m_ActionId: d24ace49-4a24-4bf9-9527-d63808183373
-    m_ActionName: Player/DebugMenuOpen[/Keyboard/delete]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7270265832368156665}
-        m_TargetAssemblyTypeName: CheatConsole, Assembly-CSharp
-        m_MethodName: EnablePanel
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: BuildMenu, Assembly-CSharp
+        m_MethodName: RightMouseButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2244,47 +2228,67 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 5e79db65-cdd6-4a4e-a3cc-bcf07d98adcd
-    m_ActionName: Player/DebugMenuClose[/Keyboard/tab]
+    m_ActionId: 74079f85-5e4c-46cb-867d-bec66679d0d2
+    m_ActionName: Player/OpenBuildMenu[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: BuildMenu, Assembly-CSharp
+        m_MethodName: LeftMouseButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0d37d173-8e57-431e-966e-15a0ea4b6e18
+    m_ActionName: Player/LeftClick[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: af3561b5-0b82-4e2a-ad93-df3df0b99650
+    m_ActionId: fbdbdcb9-e7d1-41fc-ada9-ae21e0070322
+    m_ActionName: Player/OpenEscapeMenu[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bda4f8ff-c08b-470e-b452-75e4da0fcbdf
     m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 15cf7168-1267-4cd5-9ed1-6cef23a6df23
+    m_ActionId: 2c20498b-3ce2-4e7f-84b0-a2646e5a9a08
     m_ActionName: UI/Submit[/Keyboard/enter]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 7370b5e6-3831-4b5e-8bd9-f34e828f95ba
+    m_ActionId: a6ccbe3c-8e62-4623-824d-2d08b2b98c63
     m_ActionName: UI/Cancel[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 4970045d-9121-49af-a717-f63af0cf5476
+    m_ActionId: 056d5300-5637-446b-b773-75810ef97e5a
     m_ActionName: UI/Point[/Mouse/position]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 07b90e84-bc3c-4e12-bf93-089fba0eecc3
+    m_ActionId: 4d5264d6-53ee-4a77-bac7-c0abca20ca1b
     m_ActionName: UI/Click[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: af511b28-0462-472f-ad1a-d8ecb6f0e63b
+    m_ActionId: 688a40ea-92dc-47ca-a975-11140e20ab15
     m_ActionName: UI/ScrollWheel[/Mouse/scroll]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 6b4f10fa-d6bf-433a-a6dc-3dfd235f148a
+    m_ActionId: 1ad1d1dc-be22-4c50-99ea-3f7272fdf27f
     m_ActionName: UI/MiddleClick[/Mouse/middleButton]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 31209453-5737-49f3-a711-925c064e73a1
+    m_ActionId: bdc361a4-8af4-4f70-b7be-4b3deac30794
     m_ActionName: UI/RightClick[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 7291ec8a-0eea-43a2-9d35-de45d68606be
+    m_ActionId: fbd48ce2-427e-47e8-b91d-bc38613f85db
     m_ActionName: UI/TrackedDevicePosition
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 8ee839e5-5d62-4b3b-87ac-306ecd0f2cd2
+    m_ActionId: 747778ec-8e4e-44ca-af46-bc427f6612b4
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
@@ -2435,6 +2439,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 502352697}
+  - component: {fileID: 502352699}
+  - component: {fileID: 502352698}
   m_Layer: 5
   m_Name: PriorityListMenu
   m_TagString: Untagged
@@ -2464,6 +2470,41 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 500}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!114 &502352698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502352696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.14901961, b: 0.39607844, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &502352699
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502352696}
+  m_CullTransparentMesh: 1
 --- !u!1 &512646130
 GameObject:
   m_ObjectHideFlags: 0
@@ -4046,6 +4087,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f1dc6ffbcfcc86499b2fbfe2eb71e10, type: 2}
   mainText: {fileID: 1856798866}
   menu: {fileID: 1723735876}
+  canvas: {fileID: 1077545316386000495}
 --- !u!114 &893958722
 MonoBehaviour:
   m_ObjectHideFlags: 0

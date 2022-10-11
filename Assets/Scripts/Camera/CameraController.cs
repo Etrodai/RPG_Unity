@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     #region TODOS
-
-    // use new InputSystem in a better way
+    
     // use Cine machine
 
     #endregion
