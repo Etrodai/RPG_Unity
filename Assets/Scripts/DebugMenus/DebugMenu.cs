@@ -19,8 +19,6 @@ namespace DebugMenus
                 Destroy(gameObject);
                 throw new System.Exception("There are two DebugMenus in the scene!");
             }
-
-            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()

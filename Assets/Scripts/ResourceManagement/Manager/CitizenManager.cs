@@ -43,7 +43,11 @@ namespace ResourceManagement.Manager
             set => instance = value;
         }
 
-        public int Citizen => citizen;
+        public int Citizen //Needed in PirateAttack Event
+        {
+            get => citizen;
+            set { citizen = value; }
+        }
 
         public int Housing
         {
