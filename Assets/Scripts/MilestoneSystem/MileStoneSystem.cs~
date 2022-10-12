@@ -173,7 +173,7 @@ namespace MilestoneSystem
         private void CloseMenu()
         {
             var transformPosition = menu.transform.position;
-            transformPosition.x += 300 * canvas.scaleFactor;
+            transformPosition.x += 300;
             menu.transform.position = transformPosition;
             isMinimized = true;
         }

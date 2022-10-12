@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Buildings;
 using TMPro;
 using UnityEngine;
 
@@ -7,8 +9,7 @@ namespace ResourceManagement.Manager
     {
         #region TODOS
 
-        // what happens, when there are no Energy left?
-        // bad code in Calculation ( * 20) // Cause of growTime??
+        // what happens, if there are no Energy left? => PrioritySystem
 
         #endregion
 
@@ -17,6 +18,8 @@ namespace ResourceManagement.Manager
         private static EnergyManager instance;
         [SerializeField] private TextMeshProUGUI savedResourceText;
         [SerializeField] private TextMeshProUGUI surplusText;
+        [SerializeField] private float repeatRate = 0.5f;
+        private float dividendFor10Seconds;
 
         #endregion
 
@@ -85,7 +88,8 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void Start()
         {
-            InvokeRepeating(nameof(InvokeCalculation), 0, 0.5f);
+            dividendFor10Seconds = 10 / repeatRate;
+            InvokeRepeating(nameof(InvokeCalculation), 0, repeatRate);
         }
 
         #endregion
@@ -126,9 +130,9 @@ namespace ResourceManagement.Manager
         /// </summary>
         protected override void CalculateSavedResourceValue()
         {
-            if (SaveSpace > SavedResourceValue + CurrentResourceSurplus / 20)
+            if (SaveSpace > SavedResourceValue + CurrentResourceSurplus / dividendFor10Seconds)
             {
-                SavedResourceValue += CurrentResourceSurplus / 20;
+                SavedResourceValue += CurrentResourceSurplus / dividendFor10Seconds;
             }
             else
             {
@@ -137,8 +141,14 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
+                
+                GameManager.Instance.GetAllBuildingsOfType
+                (GameManager.Instance.GetBuildingTypeOnPriority(GameManager.Instance.PriorityListItems.Length));
+
+
+                // Get Modules of this type, Random Disable it
+                
                 SavedResourceValue = 0;
-                // Disable Modules
             }
 
             savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";

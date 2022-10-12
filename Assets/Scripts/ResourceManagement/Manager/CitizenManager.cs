@@ -37,13 +37,13 @@ namespace ResourceManagement.Manager
 
         #region Properties
 
-        public static CitizenManager Instance
-        {
-            get => instance;
-            set => instance = value;
-        }
+        public static CitizenManager Instance => instance;
 
-        public int Citizen => citizen;
+        public int Citizen
+        {
+            get => citizen;
+            set => citizen = value;
+        }
 
         public int Housing
         {

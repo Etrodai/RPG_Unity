@@ -6,6 +6,12 @@ namespace PriorityListSystem
 {
     public class PriorityListMenu : MonoBehaviour
     {
+        #region TODOS
+
+        // anfügen an Scripte
+
+        #endregion
+        #region Variables
         [SerializeField] private BuildingTypes type;
         [SerializeField] private TextMeshProUGUI buildingGroup;
         [SerializeField] private TextMeshProUGUI workingBuildings;
@@ -13,10 +19,14 @@ namespace PriorityListSystem
         [SerializeField] private GameObject downButton;
         private GameManager gameManager;
         private int priority;
+        #endregion
 
+        #region Properties
         public int Priority => priority;
         public BuildingTypes Type => type;
+        #endregion
 
+        #region UnityEvents
         private void Start()
         {
             gameManager = GameManager.Instance;
@@ -25,25 +35,9 @@ namespace PriorityListSystem
             workingBuildings.text = $"{gameManager.GetBuildingCount(type)}";
             ChangePriority(priority);
         }
+        #endregion
 
-        public void ChangePriority(int index)
-        {
-            priority = index;
-            if (priority == 0)
-            {
-                upButton.SetActive(false);
-            }
-            else if (priority == gameManager.PriorityListItems.Length)
-            {
-                downButton.SetActive(false);
-            }
-            else
-            {
-                upButton.SetActive(true);
-                downButton.SetActive(true);
-            }
-        }
-
+        #region OnClickEvents
         public void OnClickPlusButton()
         {
             if (priority != 0)
@@ -79,5 +73,29 @@ namespace PriorityListSystem
                 transform.SetSiblingIndex(priority);
             }
         }
+        #endregion
+
+        #region Methods
+        public void ChangePriority(int index)
+        {
+            priority = index;
+            if (priority == 0)
+            {
+                upButton.SetActive(false);
+            }
+            else if (priority == gameManager.PriorityListItems.Length)
+            {
+                downButton.SetActive(false);
+            }
+            else
+            {
+                upButton.SetActive(true);
+                downButton.SetActive(true);
+            }
+        }
+        #endregion
+
+
+        
     }
 }

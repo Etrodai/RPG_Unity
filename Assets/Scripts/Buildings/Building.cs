@@ -7,14 +7,11 @@ namespace Buildings
     public class Building : MonoBehaviour
     {
         #region TODOS
-        // Empty slots im GameManager ersetzen, falls vorhanden
         // Citizen nicht vollständig
-        // Was passiert, wenn nicht genug Resourcen vorhanden?
         #endregion
 
         #region Variables
-        [SerializeField]
-        private BuildingResourcesScriptableObject buildingResources; // Which Resources the building needs/produces
+        [SerializeField] private BuildingResourcesScriptableObject buildingResources; // Which Resources the building needs/produces
         [SerializeField] private BuildingTypes buildingType; // ENUM
         private int indexOfAllBuildings; // index of the building in allBuildingsList of gameManager
         [SerializeField] private bool isDisabled; // does the Building work?
@@ -23,6 +20,17 @@ namespace Buildings
         private FoodManager foodManager;
         private WaterManager waterManager;
         private CitizenManager citizenManager;
+        private GameManager gameManager;
+        #endregion
+
+        #region Properties
+        public BuildingTypes BuildingType => buildingType;
+
+        public bool IsDisabled
+        {
+            get => isDisabled;
+            set => isDisabled = value;
+        }
         #endregion
 
         #region UnityEvents
@@ -38,6 +46,7 @@ namespace Buildings
             foodManager = FoodManager.Instance;
             waterManager = WaterManager.Instance;
             citizenManager = CitizenManager.Instance;
+            gameManager = GameManager.Instance;
 
             foreach (Resource item in buildingResources.Costs)
             {
@@ -69,11 +78,22 @@ namespace Buildings
                 }
             }
 
-            GameManager.Instance.AllBuildings.Add(buildingType);
-            indexOfAllBuildings = GameManager.Instance.AllBuildings.Count - 1;
+            int empty = gameManager.GetIndexOfFirstEmpty();
+            if (empty == -1)
+            {
+                gameManager.AllBuildings.Add(this);
+                indexOfAllBuildings = gameManager.AllBuildings.Count - 1;
+            }
+            else
+            {
+                gameManager.AllBuildings[empty] = this;
+                indexOfAllBuildings = empty;
+            }
+
             EnableModule();
         }
 
+        #region Unused Code
         // private void Update() // Can be solved as usual Method via UI                    TODO
         // {
         //     if (isDisabled)
@@ -85,7 +105,8 @@ namespace Buildings
         //         EnableModule();
         //     }
         // }
-
+        #endregion
+        
         /// <summary>
         /// disables function of building when it gets deleted
         /// unsubscribes building from gameManagerList
@@ -97,7 +118,7 @@ namespace Buildings
                 DisableModule();
             }
 
-            GameManager.Instance.AllBuildings[indexOfAllBuildings] = BuildingTypes.Empty;
+            GameManager.Instance.AllBuildings[indexOfAllBuildings] = null;
         }
         #endregion
 
