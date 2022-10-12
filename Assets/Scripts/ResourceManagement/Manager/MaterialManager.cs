@@ -5,12 +5,6 @@ namespace ResourceManagement.Manager
 {
     public class MaterialManager : ResourceManager
     {
-        #region TODOS
-
-        // what happens, when there are no Materials left? => PrioritySystem
-
-        #endregion
-
         #region Variables
 
         private static MaterialManager instance;
@@ -18,6 +12,8 @@ namespace ResourceManagement.Manager
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private float repeatRate = 0.5f;
         private float dividendFor10Seconds;
+        private ResourceTypes resourceType = ResourceTypes.Material;
+
 
         #endregion
 
@@ -101,8 +97,12 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
+                GameManager.Instance.DisableBuildings(SavedResourceValue, resourceType);
                 SavedResourceValue = 0;
-                // Disable Modules
+            }
+            else
+            {
+                GameManager.Instance.EnableBuildings(SavedResourceValue, resourceType);
             }
 
             savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";

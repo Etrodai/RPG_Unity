@@ -9,11 +9,14 @@ namespace MilestoneSystem
     public class MileStoneSystem : MonoBehaviour
     {
         #region TODOS
+        
         // events for MileStoneSystem (siehe SO)
         // Text springt weg, ohne auf OK zu drücken
+        
         #endregion
 
         #region Variables
+        
         [SerializeField] private MileStonesScriptableObject[] mileStones;
         private int mileStonesDone; // Counter of Milestones Done
         [SerializeField] private GameObject mainText; // Full Screen Text what's happening
@@ -24,9 +27,11 @@ namespace MilestoneSystem
         private TextMeshProUGUI requiredStuffText; // TextField of Menu
         bool isMinimized; // shows if the SideMenu is mini or maximized
         [SerializeField] private Canvas canvas;
+    
         #endregion
 
         #region UnityEvents
+        
         /// <summary>
         /// sets variables
         /// </summary>
@@ -56,9 +61,11 @@ namespace MilestoneSystem
                 BuildPostMainText();
             }
         }
+        
         #endregion
 
         #region ClickEvents
+        
         /// <summary>
         /// starts next MainText
         /// </summary>
@@ -76,6 +83,7 @@ namespace MilestoneSystem
             if (isMinimized) OpenMenu();
             else CloseMenu();
         }
+        
         #endregion
 
         #region Methods

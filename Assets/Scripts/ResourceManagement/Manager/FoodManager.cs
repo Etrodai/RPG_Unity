@@ -18,6 +18,8 @@ namespace ResourceManagement.Manager
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private float repeatRate = 0.5f;
         private float dividendFor10Seconds;
+        private ResourceTypes resourceType = ResourceTypes.Food;
+
 
         private const float foodScalingFactor = 1.25f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
 

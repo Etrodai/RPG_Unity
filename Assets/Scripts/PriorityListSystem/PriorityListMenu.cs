@@ -6,96 +6,45 @@ namespace PriorityListSystem
 {
     public class PriorityListMenu : MonoBehaviour
     {
-        #region TODOS
-
-        // anfügen an Scripte
-
-        #endregion
         #region Variables
-        [SerializeField] private BuildingTypes type;
-        [SerializeField] private TextMeshProUGUI buildingGroup;
-        [SerializeField] private TextMeshProUGUI workingBuildings;
-        [SerializeField] private GameObject upButton;
-        [SerializeField] private GameObject downButton;
-        private GameManager gameManager;
-        private int priority;
-        #endregion
 
-        #region Properties
-        public int Priority => priority;
-        public BuildingTypes Type => type;
-        #endregion
+        [SerializeField] private Canvas canvas;
+        [SerializeField] private GameObject menu; // SideMenu which always is there and can be mini and maximized
+        bool isMinimized; // shows if the SideMenu is mini or maximized
 
-        #region UnityEvents
-        private void Start()
-        {
-            gameManager = GameManager.Instance;
-            priority = transform.GetSiblingIndex();
-            buildingGroup.text = type.ToString();
-            workingBuildings.text = $"{gameManager.GetBuildingCount(type)}";
-            ChangePriority(priority);
-        }
         #endregion
-
+        
         #region OnClickEvents
-        public void OnClickPlusButton()
+        public void OnClickMenuButton()
         {
-            if (priority != 0)
-            {
-                foreach (PriorityListMenu item in gameManager.PriorityListItems)
-                {
-                    if (item.transform.GetSiblingIndex() == priority - 1)
-                    {
-                        item.transform.SetSiblingIndex(priority);
-                        item.ChangePriority(priority);
-                    }
-                }
-
-                priority--;
-                transform.SetSiblingIndex(priority);
-            }
-        }
-
-        public void OnClickMinusButton()
-        {
-            if (priority != gameManager.PriorityListItems.Length)
-            {
-                foreach (PriorityListMenu item in gameManager.PriorityListItems)
-                {
-                    if (item.transform.GetSiblingIndex() == priority + 1)
-                    {
-                        item.transform.SetSiblingIndex(priority);
-                        item.ChangePriority(priority);
-                    }
-                }
-
-                priority++;
-                transform.SetSiblingIndex(priority);
-            }
+            if (isMinimized) OpenMenu();
+            else CloseMenu();
         }
         #endregion
 
         #region Methods
-        public void ChangePriority(int index)
+       
+        /// <summary>
+        /// maximizes menu by moving it to the left side
+        /// </summary>
+        private void OpenMenu()
         {
-            priority = index;
-            if (priority == 0)
-            {
-                upButton.SetActive(false);
-            }
-            else if (priority == gameManager.PriorityListItems.Length)
-            {
-                downButton.SetActive(false);
-            }
-            else
-            {
-                upButton.SetActive(true);
-                downButton.SetActive(true);
-            }
+            Vector3 transformPosition = menu.transform.position;
+            transformPosition.x -= 300 * canvas.scaleFactor;
+            menu.transform.position = transformPosition;
+            isMinimized = false;
+        }
+
+        /// <summary>
+        /// minimizes menu by moving it to the right side
+        /// </summary>
+        private void CloseMenu()
+        {
+            var transformPosition = menu.transform.position;
+            transformPosition.x += 300 * canvas.scaleFactor;
+            menu.transform.position = transformPosition;
+            isMinimized = true;
         }
         #endregion
-
-
-        
     }
 }

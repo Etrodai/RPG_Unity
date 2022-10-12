@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Buildings;
 using TMPro;
 using UnityEngine;
 
@@ -7,12 +5,6 @@ namespace ResourceManagement.Manager
 {
     public class EnergyManager : ResourceManager
     {
-        #region TODOS
-
-        // what happens, if there are no Energy left? => PrioritySystem
-
-        #endregion
-
         #region Variables
 
         private static EnergyManager instance;
@@ -20,6 +12,7 @@ namespace ResourceManagement.Manager
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private float repeatRate = 0.5f;
         private float dividendFor10Seconds;
+        private ResourceTypes resourceType = ResourceTypes.Energy;
 
         #endregion
 
@@ -89,7 +82,7 @@ namespace ResourceManagement.Manager
         private void Start()
         {
             dividendFor10Seconds = 10 / repeatRate;
-            InvokeRepeating(nameof(InvokeCalculation), 0, repeatRate);
+            InvokeRepeating(nameof(InvokeCalculation), 0, repeatRate); 
         }
 
         #endregion
@@ -141,14 +134,12 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                
-                GameManager.Instance.GetAllBuildingsOfType
-                (GameManager.Instance.GetBuildingTypeOnPriority(GameManager.Instance.PriorityListItems.Length));
-
-
-                // Get Modules of this type, Random Disable it
-                
+                GameManager.Instance.DisableBuildings(SavedResourceValue, resourceType);
                 SavedResourceValue = 0;
+            }
+            else
+            {
+                GameManager.Instance.EnableBuildings(SavedResourceValue, resourceType);
             }
 
             savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";
