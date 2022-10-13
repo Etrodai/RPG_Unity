@@ -35,7 +35,7 @@ public class BuildMenu : MonoBehaviour
         else
         {
             Destroy(blueprintObject);
-            UnCheckAvailableGridTiles();
+            UnCheckAvailableGridTiles(false);
         }
     }
 
@@ -49,14 +49,13 @@ public class BuildMenu : MonoBehaviour
         Blueprint blueprint = blueprintObject.GetComponent<Blueprint>();
         if (blueprint.IsLockedIn)
         {
-            UnCheckAvailableGridTiles();
+            UnCheckAvailableGridTiles(true);
             buildmenuLayout.SetActive(false);
 
             GameObject module = Instantiate(moduleToBuild, blueprint.transform.position, quaternion.identity);
             module.transform.parent = GameObject.FindGameObjectWithTag("Station").transform; //Redo
-            
-            //blueprint.enabled = false;
-            //blueprintObject = null;
+
+            blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
             Destroy(blueprintObject);
         }
     }
@@ -79,8 +78,8 @@ public class BuildMenu : MonoBehaviour
     {
         Gridsystem.Instance.CheckAvailableGridTilesAroundStation();
     }
-    private void UnCheckAvailableGridTiles()
+    private void UnCheckAvailableGridTiles(bool isBuilded)
     {
-        Gridsystem.Instance.UnCheckAvailableGridTilesAroundStation();
+        Gridsystem.Instance.UnCheckAvailableGridTilesAroundStation(isBuilded);
     }
 }
