@@ -52,12 +52,12 @@
                 },
                 {
                     "name": "Zoom",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "775b9245-cbbe-4312-a30d-d9dfbf62a405",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -162,7 +162,7 @@
                 },
                 {
                     "name": "1D Axis",
-                    "id": "8a800532-66b4-4f32-ba39-6ec0630a144f",
+                    "id": "d419fa7b-a8b3-42c0-be29-17725f0352f9",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
@@ -173,22 +173,22 @@
                 },
                 {
                     "name": "negative",
-                    "id": "0e18a225-925b-43f3-80eb-fd5a985a6ad6",
-                    "path": "<VirtualMouse>/scroll/down",
+                    "id": "bca74937-8a6b-477a-9213-17b46e2201df",
+                    "path": "<Mouse>/scroll/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
-                    "id": "1c4f1135-804d-4037-ac7b-164a544043c8",
+                    "id": "17e5059a-fb10-4487-863c-80ee49669e1e",
                     "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": true

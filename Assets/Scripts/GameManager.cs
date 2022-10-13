@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
         BuildingTypes priorityBuildingType;
         int surplus = 0;
 
-        for (int i = priorityListItems.Length; i > 0; i--)
+        for (int i = priorityListItems.Length - 1; i > 0; i--)
         {
             priorityBuildingType = GetBuildingTypeOnPriority(i);
             priorityList = GetAllBuildingsOfType(priorityBuildingType);

@@ -38,7 +38,7 @@ public class CameraController : MonoBehaviour
         minMaxZoom *= -1;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Move();
         Rotate();
@@ -102,6 +102,7 @@ public class CameraController : MonoBehaviour
                 return;
             case float movementDirection:
                 moveDirection = movementDirection;
+                Debug.Log(moveDirection);
                 break;
         }
     }
@@ -126,10 +127,11 @@ public class CameraController : MonoBehaviour
         switch (check)
         {
             case null:
-                rotation = 0;
+                zoom = 0;
                 return;
             case float zoomDirection:
-                rotation = zoomDirection;
+                zoom = zoomDirection;
+                Debug.Log(zoom);
                 break;
         }
     }

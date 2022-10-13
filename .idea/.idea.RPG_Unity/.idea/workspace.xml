@@ -55,10 +55,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="32664">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="32664" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -130,27 +130,13 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/MilestoneSystem/MileStoneSystem.cs</url>
           <line>104</line>
-          <properties documentPath="D:\robin\Studium\GIT\RPG_Unity\Assets\Scripts\MilestoneSystem\MileStoneSystem.cs" initialLine="103" containingFunctionPresentation="method 'BuildPreMainText'">
-            <startOffsets>
-              <option value="3074" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3075" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\robin\Studium\GIT\RPG_Unity\Assets\Scripts\MilestoneSystem\MileStoneSystem.cs" initialLine="103" containingFunctionPresentation="method 'BuildPreMainText'" />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/MilestoneSystem/MileStoneSystem.cs</url>
           <line>128</line>
-          <properties documentPath="D:\robin\Studium\GIT\RPG_Unity\Assets\Scripts\MilestoneSystem\MileStoneSystem.cs" initialLine="127" containingFunctionPresentation="method 'BuildPostMainText'">
-            <startOffsets>
-              <option value="3955" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3956" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\robin\Studium\GIT\RPG_Unity\Assets\Scripts\MilestoneSystem\MileStoneSystem.cs" initialLine="127" containingFunctionPresentation="method 'BuildPostMainText'" />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>

@@ -35,12 +35,6 @@ namespace ResourceManagement.Manager
 
         public static CitizenManager Instance => instance;
 
-        public int Citizen
-        {
-            get => citizen;
-            set => citizen = value;
-        }
-
         public int Citizen //Needed in PirateAttack Event
         {
             get => citizen;
