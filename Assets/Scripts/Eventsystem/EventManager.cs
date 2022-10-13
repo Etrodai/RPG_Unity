@@ -13,7 +13,7 @@ public class EventManager : MonoBehaviour
 
     private float timer;                                            //Time until next event will start / Should be randomized in order to make the events appear a bit more dynamic
     private float totalTime;                                        //Total time elapsed since starting the game
-    private const float setTimer = 5f;
+    private const float setTimer = 300f;
 
     private List<MonoBehaviour> allEvents = new List<MonoBehaviour>();
     [SerializeField]
