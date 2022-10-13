@@ -1,22 +1,19 @@
 using System.Collections.Generic;
 using Buildings;
 using PriorityListSystem;
+using ResourceManagement;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    #region TODOS
-
-    // GetAllBuildingsCount in GetBuildingsCount integrieren
-    // GetEmptyBuildingsIndex hinzufügen
-
-    #endregion
-
-    #region Varables
+    #region Variables
 
     private static GameManager instance;
-    [SerializeField] private List<BuildingTypes> allBuildings = new List<BuildingTypes>();
-    [SerializeField] private PriorityListMenu[] priorityListItems;
+    [SerializeField] private List<Building> allBuildings = new List<Building>();
+    [SerializeField] private PriorityListItem[] priorityListItems;
+    private Stack<Building> disabledBuildings = new Stack<Building>();
+    [SerializeField] private Building NULLBuilding;
+
     #endregion
 
     #region Properties
@@ -27,8 +24,15 @@ public class GameManager : MonoBehaviour
         set => instance = value;
     }
 
-    public List<BuildingTypes> AllBuildings => allBuildings;
-    public PriorityListMenu[] PriorityListItems => priorityListItems;
+    public List<Building> AllBuildings => allBuildings;
+    
+    public PriorityListItem[] PriorityListItems => priorityListItems;
+
+    public Stack<Building> DisabledBuildings
+    {
+        get => disabledBuildings;
+        set => disabledBuildings = value;
+    }
 
     #endregion
 
@@ -47,16 +51,37 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+
+        Instantiate(NULLBuilding);
+    }
+
+    private void Start()
+    {
+        NULLBuilding = GameObject.FindGameObjectWithTag("NULLBuilding").GetComponent<Building>();
     }
 
     #endregion
 
     #region Methods
 
+    /// <summary>
+    /// Searches for an empty slot in allBuildingsList
+    /// </summary>
+    /// <returns>Index of first empty in allBuildings</returns>
+    public int GetIndexOfFirstEmpty()
+    {
+        return allBuildings.IndexOf(NULLBuilding);
+    }
+    
+    /// <summary>
+    /// Searches the Priority of the given BuildingType
+    /// </summary>
+    /// <param name="type">BuildingType</param>
+    /// <returns>Priority of the given BuildingType</returns>
     public int GetPriority(BuildingTypes type)
     {
         int priority = 0;
-        foreach (PriorityListMenu item in priorityListItems)
+        foreach (PriorityListItem item in priorityListItems)
         {
             if (item.Type == type)
             {
@@ -65,23 +90,24 @@ public class GameManager : MonoBehaviour
         }
         return priority;
     }
-    
+
     /// <summary>
-    /// Gets count of all buildings
+    /// Searches Building Type with given Priority
     /// </summary>
-    /// <returns>value of all buildings</returns>
-    public int GetAllBuildingsCount()
+    /// <param name="priority">Priority</param>
+    /// <returns>type of given Priority, if no Type has given Priority it returns All</returns>
+    public BuildingTypes GetBuildingTypeOnPriority(int priority)
     {
-        int count = 0;
-        foreach (BuildingTypes item in allBuildings)
+        BuildingTypes type = BuildingTypes.All;
+        foreach (PriorityListItem item in priorityListItems)
         {
-            if (item != BuildingTypes.Empty)
+            if (item.Priority == priority)
             {
-                count++;
+                type = item.Type;
             }
         }
-
-        return count;
+    
+        return type;
     }
 
     /// <summary>
@@ -92,12 +118,134 @@ public class GameManager : MonoBehaviour
     public int GetBuildingCount(BuildingTypes type)
     {
         int count = 0;
-        foreach (BuildingTypes item in allBuildings)
+        if (type == BuildingTypes.All)
         {
-            if (item == type) count++;
+            foreach (Building item in allBuildings)
+            {
+                if (item != NULLBuilding)
+                {
+                    count++;
+                }
+            }
+    
+            return count;
+        }
+    
+        foreach (Building item in allBuildings)
+        {
+            if (item.BuildingType == type) count++;
+        }
+    
+        return count;
+    }
+
+    public List<Building> GetAllBuildingsOfType(BuildingTypes type)
+    {
+        List<Building> buildings = new List<Building>();
+        foreach (Building item in allBuildings)
+        {
+            if (item.BuildingType == type)
+            {
+                buildings.Add(item);
+            }
         }
 
-        return count;
+        return buildings;
+    }
+
+    public void DisableBuildings(float neededResourceValue, ResourceTypes type)
+    {
+        List<Building> priorityList = new List<Building>();
+        BuildingTypes priorityBuildingType;
+        int surplus = 0;
+
+        for (int i = priorityListItems.Length; i > 0; i--)
+        {
+            priorityBuildingType = GetBuildingTypeOnPriority(i);
+            priorityList = GetAllBuildingsOfType(priorityBuildingType);
+
+            foreach (Resource item in priorityList[0].BuildingResources.Consumption)
+            {
+                if (item.resource == type)
+                {
+                    surplus += item.value;
+                }
+            }
+
+            foreach (Resource item in priorityList[0].BuildingResources.Production)
+            {
+                if (item.resource == type)
+                {
+                    surplus -= item.value;
+                    return;
+                }
+            }
+
+            if (surplus <= 0)
+            {
+                Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
+            }
+            else
+            {
+                foreach (Building item in priorityList)
+                {
+                    item.IsDisabled = true;
+                    disabledBuildings.Push(item);
+                    neededResourceValue += surplus;
+                    if (neededResourceValue >= 0)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            if (neededResourceValue >= 0)
+            {
+                return;
+            }
+        }
+    }
+
+    public void EnableBuildings(float givenResourceValue, ResourceTypes type)
+    {
+        if (disabledBuildings.Count == 0)
+        {
+            return;
+        }
+
+        int surplus = 0;
+        Building building;
+
+        for (int i = 0; i < disabledBuildings.Count; i++)
+        {
+            building = disabledBuildings.Peek();
+            foreach (Resource item in building.BuildingResources.Consumption)
+            {
+                if (item.resource == type)
+                {
+                    surplus -= item.value;
+                }
+            }
+
+            foreach (Resource item in building.BuildingResources.Production)
+            {
+                if (item.resource == type)
+                {
+                    surplus += item.value;
+                    return;
+                }
+            }
+
+            if (surplus <= givenResourceValue)
+            {
+                givenResourceValue += surplus;
+                disabledBuildings.Pop().IsDisabled = false;
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 
     #endregion

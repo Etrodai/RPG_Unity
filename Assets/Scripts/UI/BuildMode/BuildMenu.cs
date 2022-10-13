@@ -19,7 +19,7 @@ public class BuildMenu : MonoBehaviour
     {
         mainCam = Camera.main;
     }
-    
+
     /// <summary>
     /// De/Activate Build Menu
     /// </summary>

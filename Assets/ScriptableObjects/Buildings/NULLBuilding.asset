@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f972099e262cfc14b868da121d356ee4, type: 3}
-  m_Name: 1
+  m_Script: {fileID: 11500000, guid: 786e8237bfe69b94d83e8a51da9a03cf, type: 3}
+  m_Name: NULLBuilding
   m_EditorClassIdentifier: 
-  mileStoneText:
-  - 1. MilestoneText, Element 0
-  - 1. MilestoneText, Element 1
-  requiredEvent: 00000000
-  requiredResources: []
-  requiredModules: []
-  mileStoneAchievedText: []
+  costs: []
+  requiredSpace: {x: 0, y: 0, z: 0}
+  consumption: []
+  production: []
+  saveSpace: []

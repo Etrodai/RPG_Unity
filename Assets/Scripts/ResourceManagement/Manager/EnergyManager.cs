@@ -5,18 +5,15 @@ namespace ResourceManagement.Manager
 {
     public class EnergyManager : ResourceManager
     {
-        #region TODOS
-
-        // what happens, when there are no Energy left?
-        // bad code in Calculation ( * 20) // Cause of growTime??
-
-        #endregion
-
         #region Variables
 
         private static EnergyManager instance;
         [SerializeField] private TextMeshProUGUI savedResourceText;
         [SerializeField] private TextMeshProUGUI surplusText;
+        [SerializeField] private float repeatRate = 0.5f;
+        private float dividendFor10Seconds;
+        private GameManager gameManager;
+        private ResourceTypes resourceType = ResourceTypes.Energy;
 
         #endregion
 
@@ -85,7 +82,9 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void Start()
         {
-            InvokeRepeating(nameof(InvokeCalculation), 0, 0.5f);
+            gameManager = GameManager.Instance;
+            dividendFor10Seconds = 10 / repeatRate;
+            InvokeRepeating(nameof(InvokeCalculation), 0, repeatRate); 
         }
 
         #endregion
@@ -126,9 +125,9 @@ namespace ResourceManagement.Manager
         /// </summary>
         protected override void CalculateSavedResourceValue()
         {
-            if (SaveSpace > SavedResourceValue + CurrentResourceSurplus / 20)
+            if (SaveSpace > SavedResourceValue + CurrentResourceSurplus / dividendFor10Seconds)
             {
-                SavedResourceValue += CurrentResourceSurplus / 20;
+                SavedResourceValue += CurrentResourceSurplus / dividendFor10Seconds;
             }
             else
             {
@@ -137,8 +136,12 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
+                gameManager.DisableBuildings(SavedResourceValue, resourceType);
                 SavedResourceValue = 0;
-                // Disable Modules
+            }
+            else
+            {
+                gameManager.EnableBuildings(SavedResourceValue, resourceType);
             }
 
             savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";

@@ -8,8 +8,6 @@ namespace ResourceManagement.Manager
         #region TODOS
 
         // use waterScalingFactor
-        // what happens, when there's no water left?
-        // bad code in Calculation ( * 20) // Cause of growTime??
 
         #endregion
 
@@ -18,10 +16,11 @@ namespace ResourceManagement.Manager
         private static WaterManager instance;
         [SerializeField] private TextMeshProUGUI savedResourceText;
         [SerializeField] private TextMeshProUGUI surplusText;
+        [SerializeField] private float repeatRate = 0.5f;
+        private float dividendFor10Seconds;
+        private ResourceTypes resourceType = ResourceTypes.Water;
 
-        private const float
-            waterScalingFactor =
-                1.6f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
+        private const float waterScalingFactor = 1.6f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
 
         #endregion
 
@@ -90,7 +89,8 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void Start()
         {
-            InvokeRepeating(nameof(InvokeCalculation), 0f, 0.5f);
+            dividendFor10Seconds = 10 / repeatRate;
+            InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
         }
 
         #endregion
@@ -131,9 +131,9 @@ namespace ResourceManagement.Manager
         /// </summary>
         protected override void CalculateSavedResourceValue()
         {
-            if (SaveSpace > SavedResourceValue + CurrentResourceSurplus / 20)
+            if (SaveSpace > SavedResourceValue + CurrentResourceSurplus / dividendFor10Seconds)
             {
-                SavedResourceValue += CurrentResourceSurplus / 20;
+                SavedResourceValue += CurrentResourceSurplus / dividendFor10Seconds;
             }
             else
             {

@@ -13,7 +13,6 @@ namespace Buildings
         LifeSupportSave,
         MaterialSave,
         CitizenSave,
-        All,
-        Empty
+        All
     }
 }

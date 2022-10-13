@@ -3,7 +3,7 @@ using Buildings;
 namespace MilestoneSystem
 {
     [System.Serializable]
-    public class MileStoneModules
+    public struct MileStoneModules
     {
         #region Variables
         public BuildingTypes buildingTypes;

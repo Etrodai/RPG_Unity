@@ -6,9 +6,7 @@ namespace ResourceManagement.Manager
     public class CitizenManager : MonoBehaviour
     {
         #region TODOS
-
-        // Citizen werden abgezogen, wenn sie arbeiten
-        // JoblessCitizen/Working Citizen fehlt
+        
         // Weniger Citizen, wenn Surplus negativ, oder wenn kein SavedResource mehr??
 
         #endregion
@@ -22,25 +20,25 @@ namespace ResourceManagement.Manager
         [SerializeField] private int growTime;
         [SerializeField] private float waterConsumptionPerCitizen;
         [SerializeField] private float foodConsumptionPerCitizen;
+        [SerializeField] private float repeatRate = 0.5f;
         private FoodManager foodManager;
         private WaterManager waterManager;
         private int housing;
-
-        // private int joblessCitizen;                          TODO
-        // public int JoblessCitizen
-        // {
-        //     get => joblessCitizen;
-        //     set => joblessCitizen = value;
-        // }
+        private int neededCitizen;
+        private int joblessCitizen;
+        private GameManager gameManager;
+        private ResourceTypes resourceType = ResourceTypes.Citizen;
 
         #endregion
 
         #region Properties
 
-        public static CitizenManager Instance
+        public static CitizenManager Instance => instance;
+
+        public int Citizen
         {
-            get => instance;
-            set => instance = value;
+            get => citizen;
+            set => citizen = value;
         }
 
         public int Citizen //Needed in PirateAttack Event
@@ -53,6 +51,17 @@ namespace ResourceManagement.Manager
         {
             get => housing;
             set => housing = value;
+        }
+        
+        public int NeededCitizen
+        {
+            get => neededCitizen;
+            set => neededCitizen = value;
+        }
+        
+        public int JoblessCitizen
+        {
+            get => joblessCitizen;
         }
 
         #endregion
@@ -83,7 +92,9 @@ namespace ResourceManagement.Manager
         {
             foodManager = FoodManager.Instance;
             waterManager = WaterManager.Instance;
+            gameManager = GameManager.Instance;
             InvokeRepeating(nameof(Growth), 0, growTime);
+            InvokeRepeating(nameof(CalculateJoblessCitizen), 0, repeatRate);
             foodManager.CurrentResourceDemand = citizen * foodConsumptionPerCitizen;
             waterManager.CurrentResourceDemand = citizen * waterConsumptionPerCitizen;
         }
@@ -91,7 +102,7 @@ namespace ResourceManagement.Manager
         #endregion
 
         #region Methods
-
+        
         /// <summary>
         /// reduces citizen, if there are too few housings, food or water
         /// adds citizen, if there are more than needed housings, food and water
@@ -127,8 +138,30 @@ namespace ResourceManagement.Manager
             foodManager.CurrentResourceDemand += foodConsumptionPerCitizen * value;
             waterManager.CurrentResourceDemand += waterConsumptionPerCitizen * value;
             surplusText.text = $"{value}";
+            CalculateJoblessCitizen();
+            if (value > 0)
+            {
+                gameManager.EnableBuildings(joblessCitizen, resourceType);
+            }
+            else
+            {
+                gameManager.DisableBuildings(joblessCitizen, resourceType);
+            }
         }
 
+        private void CalculateJoblessCitizen()
+        {
+            joblessCitizen = citizen - neededCitizen;
+            if (joblessCitizen < 0)
+            {
+                gameManager.DisableBuildings(joblessCitizen, resourceType);
+            }
+            else
+            {
+                gameManager.EnableBuildings(joblessCitizen, resourceType);
+            }
+        }
+        
         #endregion
     }
 }

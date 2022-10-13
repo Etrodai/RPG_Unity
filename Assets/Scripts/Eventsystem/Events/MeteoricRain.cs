@@ -1,6 +1,7 @@
 using ResourceManagement.Manager;
 using System.Collections;
 using System.Collections.Generic;
+using ResourceManagement.Manager;
 using TMPro;
 using UnityEngine;
 

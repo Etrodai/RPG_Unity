@@ -6,78 +6,45 @@ namespace PriorityListSystem
 {
     public class PriorityListMenu : MonoBehaviour
     {
-        [SerializeField] private BuildingTypes type;
-        [SerializeField] private TextMeshProUGUI buildingGroup;
-        [SerializeField] private TextMeshProUGUI workingBuildings;
-        [SerializeField] private GameObject upButton;
-        [SerializeField] private GameObject downButton;
-        private GameManager gameManager;
-        private int priority;
+        #region Variables
 
-        public int Priority => priority;
-        public BuildingTypes Type => type;
+        [SerializeField] private Canvas canvas;
+        [SerializeField] private GameObject menu; // SideMenu which always is there and can be mini and maximized
+        bool isMinimized; // shows if the SideMenu is mini or maximized
 
-        private void Start()
+        #endregion
+        
+        #region OnClickEvents
+        public void OnClickMenuButton()
         {
-            gameManager = GameManager.Instance;
-            priority = transform.GetSiblingIndex();
-            buildingGroup.text = type.ToString();
-            workingBuildings.text = $"{gameManager.GetBuildingCount(type)}";
-            ChangePriority(priority);
+            if (isMinimized) OpenMenu();
+            else CloseMenu();
+        }
+        #endregion
+
+        #region Methods
+       
+        /// <summary>
+        /// maximizes menu by moving it to the left side
+        /// </summary>
+        private void OpenMenu()
+        {
+            Vector3 transformPosition = menu.transform.position;
+            transformPosition.x -= 300 * canvas.scaleFactor;
+            menu.transform.position = transformPosition;
+            isMinimized = false;
         }
 
-        public void ChangePriority(int index)
+        /// <summary>
+        /// minimizes menu by moving it to the right side
+        /// </summary>
+        private void CloseMenu()
         {
-            priority = index;
-            if (priority == 0)
-            {
-                upButton.SetActive(false);
-            }
-            else if (priority == gameManager.PriorityListItems.Length)
-            {
-                downButton.SetActive(false);
-            }
-            else
-            {
-                upButton.SetActive(true);
-                downButton.SetActive(true);
-            }
+            var transformPosition = menu.transform.position;
+            transformPosition.x += 300 * canvas.scaleFactor;
+            menu.transform.position = transformPosition;
+            isMinimized = true;
         }
-
-        public void OnClickPlusButton()
-        {
-            if (priority != 0)
-            {
-                foreach (PriorityListMenu item in gameManager.PriorityListItems)
-                {
-                    if (item.transform.GetSiblingIndex() == priority - 1)
-                    {
-                        item.transform.SetSiblingIndex(priority);
-                        item.ChangePriority(priority);
-                    }
-                }
-
-                priority--;
-                transform.SetSiblingIndex(priority);
-            }
-        }
-
-        public void OnClickMinusButton()
-        {
-            if (priority != gameManager.PriorityListItems.Length)
-            {
-                foreach (PriorityListMenu item in gameManager.PriorityListItems)
-                {
-                    if (item.transform.GetSiblingIndex() == priority + 1)
-                    {
-                        item.transform.SetSiblingIndex(priority);
-                        item.ChangePriority(priority);
-                    }
-                }
-
-                priority++;
-                transform.SetSiblingIndex(priority);
-            }
-        }
+        #endregion
     }
 }
