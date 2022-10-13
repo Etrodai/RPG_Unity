@@ -55,12 +55,13 @@ namespace PriorityListSystem
 
                 priority--;
                 transform.SetSiblingIndex(priority);
+                ChangePriority(priority);
             }
         }
 
         public void OnClickMinusButton()
         {
-            if (priority != gameManager.PriorityListItems.Length)
+            if (priority != gameManager.PriorityListItems.Length - 1)
             {
                 foreach (PriorityListItem item in gameManager.PriorityListItems)
                 {
@@ -73,6 +74,7 @@ namespace PriorityListSystem
 
                 priority++;
                 transform.SetSiblingIndex(priority);
+                ChangePriority(priority);
             }
         }
         
@@ -87,7 +89,7 @@ namespace PriorityListSystem
             {
                 upButton.SetActive(false);
             }
-            else if (priority == gameManager.PriorityListItems.Length)
+            else if (priority == gameManager.PriorityListItems.Length - 1)
             {
                 downButton.SetActive(false);
             }

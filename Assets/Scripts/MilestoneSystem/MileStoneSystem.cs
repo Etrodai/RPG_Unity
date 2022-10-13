@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Buildings;
 using ResourceManagement;
 using ResourceManagement.Manager;
@@ -10,13 +11,13 @@ namespace MilestoneSystem
     {
         #region TODOS
         
-        // events for MileStoneSystem (siehe SO)
         // Text springt weg, ohne auf OK zu drücken
         
         #endregion
 
         #region Variables
-        
+
+        [SerializeField] private List<MileStoneEvent> events;
         [SerializeField] private MileStonesScriptableObject[] mileStones;
         private int mileStonesDone; // Counter of Milestones Done
         [SerializeField] private GameObject mainText; // Full Screen Text what's happening
@@ -30,6 +31,12 @@ namespace MilestoneSystem
     
         #endregion
 
+        public List<MileStoneEvent> Events
+        {
+            get => events;
+            set => events = value;
+        }
+        
         #region UnityEvents
         
         /// <summary>
@@ -58,7 +65,7 @@ namespace MilestoneSystem
             if (CheckIfAchieved())
             {
                 isDone = true;
-                BuildPostMainText();
+                if (textIndex == 0) BuildPostMainText();
             }
         }
         
@@ -89,6 +96,7 @@ namespace MilestoneSystem
         #region Methods
         
         #region MainText
+        
         /// <summary>
         /// when new MileStone starts, it builds and shows its PreMainText and stops the game
         /// after all Texts are shown, the game goes on and the MainTextMenu gets closed
@@ -135,15 +143,58 @@ namespace MilestoneSystem
                 BuildPreMainText();
             }
         }
+        
         #endregion
 
         #region Menu
+        
         /// <summary>
         /// when a Milestone is achieved it builds a new MilestoneMenu
         /// </summary>
         private void BuildMenu()
         {
-            requiredStuffText.text = mileStones[mileStonesDone].RequiredEvent;
+            if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
+            {
+                foreach (MileStoneEventNames item in mileStones[mileStonesDone].RequiredEvent)
+                {
+                    switch (item)
+                    {
+                        case MileStoneEventNames.CameraMovement:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.CameraMovement)
+                                {
+                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
+                                    jtem.enabled = true;
+                                    jtem.ResetAll();
+                                }
+                            }
+                            break;
+                        case MileStoneEventNames.ShowPrioritySystem:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
+                                {
+                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
+                                    jtem.enabled = true;
+                                    jtem.ResetAll();
+                                }
+                            }
+                            break;
+                        case MileStoneEventNames.WaitForSeconds:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.WaitForSeconds)
+                                {
+                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
+                                    jtem.enabled = true;
+                                    jtem.ResetAll();
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
 
             if (mileStones[mileStonesDone].RequiredResources.Length != 0)
             {
@@ -185,18 +236,64 @@ namespace MilestoneSystem
             menu.transform.position = transformPosition;
             isMinimized = true;
         }
+        
         #endregion
 
         #region CheckIfAchieved
+        
         /// <summary>
         /// checks if all required events, resources and buildings are achieved
         /// </summary>
         /// <returns>if all required things are achieved</returns>
-        private bool CheckIfAchieved() //TODO
+        private bool CheckIfAchieved()
         {
             bool hasAllRequiredStuff = true;
 
-            //mileStones[mileStonesDone].RequiredEvent
+            if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
+            {
+                foreach (MileStoneEventNames item in mileStones[mileStonesDone].RequiredEvent)
+                {
+                    switch (item)
+                    {
+                        case MileStoneEventNames.CameraMovement:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.CameraMovement)
+                                {
+                                    if (!jtem.CheckAchieved())
+                                    {
+                                        hasAllRequiredStuff = false;
+                                    }
+                                }
+                            }
+                            break;
+                        case MileStoneEventNames.ShowPrioritySystem:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
+                                {
+                                    if (!jtem.CheckAchieved())
+                                    {
+                                        hasAllRequiredStuff = false;
+                                    }
+                                }
+                            }
+                            break;
+                        case MileStoneEventNames.WaitForSeconds:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.WaitForSeconds)
+                                {
+                                    if (!jtem.CheckAchieved())
+                                    {
+                                        hasAllRequiredStuff = false;
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
 
             foreach (Resource item in mileStones[mileStonesDone].RequiredResources)
             {
@@ -259,8 +356,46 @@ namespace MilestoneSystem
                 }
             }
 
+            if (hasAllRequiredStuff)
+            {
+                foreach (MileStoneEventNames item in mileStones[mileStonesDone].RequiredEvent)
+                {
+                    switch (item)
+                    {
+                        case MileStoneEventNames.CameraMovement:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.CameraMovement)
+                                {
+                                    jtem.enabled = false;
+                                }
+                            }
+                            break;
+                        case MileStoneEventNames.ShowPrioritySystem:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
+                                {
+                                    jtem.enabled = false;
+                                }
+                            }
+                            break;
+                        case MileStoneEventNames.WaitForSeconds:
+                            foreach (MileStoneEvent jtem in events)
+                            {
+                                if (jtem.Name == MileStoneEventNames.WaitForSeconds)
+                                {
+                                    jtem.enabled = false;
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+
             return hasAllRequiredStuff;
         }
+        
         #endregion
 
         #endregion

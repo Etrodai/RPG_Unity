@@ -385,9 +385,9 @@ RectTransform:
   m_Father: {fileID: 659659689}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -315}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &44201957
@@ -1098,9 +1098,9 @@ RectTransform:
   m_Father: {fileID: 659659689}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -225}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &118408729
@@ -1204,9 +1204,9 @@ RectTransform:
   m_Father: {fileID: 118408728}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 235.87952, y: -25}
   m_SizeDelta: {x: 64.5518, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &170387403
@@ -1430,9 +1430,9 @@ RectTransform:
   m_Father: {fileID: 1194012935}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &204571311
@@ -1479,9 +1479,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 353198822}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickPlusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickPlusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1753,6 +1766,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230751581}
   m_CullTransparentMesh: 1
+--- !u!114 &298725801 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6742884353743928170, guid: be886929db2b8e545a2f531dfe230f1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6742884354591724328}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdaf7cfb7a08ac9429bddd9c18910423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &314781965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1786,9 +1811,9 @@ RectTransform:
   m_Father: {fileID: 759161823}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 116.1036, y: -25}
   m_SizeDelta: {x: 175, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &314781967
@@ -2061,9 +2086,9 @@ RectTransform:
   m_Father: {fileID: 659659689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -45}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &353198819
@@ -2168,9 +2193,9 @@ RectTransform:
   m_Father: {fileID: 44201956}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 14.3018, y: -25}
   m_SizeDelta: {x: 28.6036, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &375304040
@@ -2329,11 +2354,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allBuildings: []
   priorityListItems:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 353198822}
+  - {fileID: 759161824}
+  - {fileID: 118408729}
+  - {fileID: 44201957}
+  - {fileID: 1130744334}
   NULLBuilding: {fileID: 8814598076140169003, guid: b3ad9b4defdfdb942a65180f17879bfa,
     type: 3}
 --- !u!114 &377740619
@@ -2362,14 +2387,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 676e3445-4011-4ad2-a3c4-13b4f78855db
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 48871afe-e478-4b10-80b1-eef22cd09685
-    m_ActionName: Player/Rotate[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -2446,6 +2463,93 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 747778ec-8e4e-44ca-af46-bc427f6612b4
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 298725801}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191389}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.CameraMovementMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a24c2b0a-fbf9-43e6-83e3-86ffa787c2c4
+    m_ActionName: Player/Move[/Keyboard/s,/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 298725801}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: Rotate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191389}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.CameraMovementMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: Rotate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b1e17217-a47a-4708-9166-c09aa23bc5f9
+    m_ActionName: Player/Rotate[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 298725801}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: Zoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191389}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.CameraMovementMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: Zoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 775b9245-cbbe-4312-a30d-d9dfbf62a405
+    m_ActionName: Player/Zoom[/Mouse/scroll/up]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2621,9 +2725,9 @@ RectTransform:
   m_Father: {fileID: 2143891538}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -35}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &483171947
@@ -2670,9 +2774,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 118408729}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickMinusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickMinusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2738,7 +2855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &502352697
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2845,9 +2962,9 @@ RectTransform:
   m_Father: {fileID: 1444447544}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -35}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &558269911
@@ -2894,9 +3011,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 1130744334}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickMinusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickMinusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3301,9 +3431,9 @@ RectTransform:
   m_Father: {fileID: 1958033951}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &651961691
@@ -3350,9 +3480,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 759161824}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickPlusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickPlusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4388,9 +4531,9 @@ RectTransform:
   m_Father: {fileID: 375304039}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &722074002
@@ -4437,9 +4580,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 44201957}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickPlusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickPlusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4525,9 +4681,9 @@ RectTransform:
   m_Father: {fileID: 659659689}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -135}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &759161824
@@ -4901,9 +5057,9 @@ RectTransform:
   m_Father: {fileID: 759161823}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 235.87952, y: -25}
   m_SizeDelta: {x: 64.5518, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &798683629
@@ -5013,6 +5169,9 @@ GameObject:
   m_Component:
   - component: {fileID: 805191386}
   - component: {fileID: 805191387}
+  - component: {fileID: 805191388}
+  - component: {fileID: 805191389}
+  - component: {fileID: 805191390}
   m_Layer: 5
   m_Name: MilestoneSystem
   m_TagString: Untagged
@@ -5054,6 +5213,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a154452527a9bc4c8ba651e1d9cbfd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  events:
+  - {fileID: 805191388}
+  - {fileID: 805191389}
+  - {fileID: 805191390}
   mileStones:
   - {fileID: 11400000, guid: 38bc66eadc48a5c4c9d682023bdbefb2, type: 2}
   - {fileID: 11400000, guid: 0b6aecb271d9ea7409223e93cc808307, type: 2}
@@ -5066,6 +5229,42 @@ MonoBehaviour:
   mainText: {fileID: 1856798866}
   menu: {fileID: 1723735876}
   canvas: {fileID: 1077545316386000495}
+--- !u!114 &805191388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805191385}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c154260710efb940a555d3fafef269b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &805191389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805191385}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad57e42c797ec064e876ad185c5148f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &805191390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805191385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d76c7c08002df479bdb9c9137097f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &893958722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5188,9 +5387,9 @@ RectTransform:
   m_Father: {fileID: 44201956}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 116.1036, y: -25}
   m_SizeDelta: {x: 175, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &897602438
@@ -5412,9 +5611,9 @@ RectTransform:
   m_Father: {fileID: 1130744333}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 235.87952, y: -25}
   m_SizeDelta: {x: 64.5518, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &977896544
@@ -5735,9 +5934,9 @@ RectTransform:
   m_Father: {fileID: 353198818}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 116.1036, y: -25}
   m_SizeDelta: {x: 175, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1023617169
@@ -5872,9 +6071,9 @@ RectTransform:
   m_Father: {fileID: 1194012935}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -35}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1043726423
@@ -5921,9 +6120,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 353198822}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickMinusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickMinusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6232,9 +6444,9 @@ RectTransform:
   m_Father: {fileID: 1444447544}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1087876402
@@ -6281,9 +6493,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 1130744334}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickPlusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickPlusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6458,9 +6683,9 @@ RectTransform:
   m_Father: {fileID: 659659689}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -405}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1130744334
@@ -6564,9 +6789,9 @@ RectTransform:
   m_Father: {fileID: 1130744333}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 116.1036, y: -25}
   m_SizeDelta: {x: 175, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1158300208
@@ -6700,9 +6925,9 @@ RectTransform:
   m_Father: {fileID: 353198818}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 14.3018, y: -25}
   m_SizeDelta: {x: 28.6036, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1194012936
@@ -6764,9 +6989,9 @@ RectTransform:
   m_Father: {fileID: 44201956}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 235.87952, y: -25}
   m_SizeDelta: {x: 64.5518, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1212402067
@@ -6901,9 +7126,9 @@ RectTransform:
   m_Father: {fileID: 375304039}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -35}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1249628798
@@ -6950,9 +7175,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 44201957}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickMinusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickMinusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7035,9 +7273,9 @@ RectTransform:
   m_Father: {fileID: 1958033951}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -35}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1433506900
@@ -7084,9 +7322,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 759161824}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickMinusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickMinusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7168,9 +7419,9 @@ RectTransform:
   m_Father: {fileID: 1130744333}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 14.3018, y: -25}
   m_SizeDelta: {x: 28.6036, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1444447545
@@ -7987,9 +8238,9 @@ RectTransform:
   m_Father: {fileID: 118408728}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 116.1036, y: -25}
   m_SizeDelta: {x: 175, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1845906022
@@ -8198,9 +8449,9 @@ RectTransform:
   m_Father: {fileID: 353198818}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 235.87952, y: -25}
   m_SizeDelta: {x: 64.5518, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1923946407
@@ -8334,9 +8585,9 @@ RectTransform:
   m_Father: {fileID: 759161823}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 14.3018, y: -25}
   m_SizeDelta: {x: 28.6036, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1958033952
@@ -8400,9 +8651,9 @@ RectTransform:
   m_Father: {fileID: 2143891538}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1969815990
@@ -8449,9 +8700,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PriorityListMenu, Assembly-CSharp
+      - m_Target: {fileID: 118408729}
+        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
         m_MethodName: OnClickPlusButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickPlusButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8869,6 +9133,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 805191388}
+        m_TargetAssemblyTypeName: MilestoneSystem.Events.ShowPrioritySystemMileStoneEvent,
+          Assembly-CSharp
+        m_MethodName: ClickPriorityButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2111236195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9018,9 +9295,9 @@ RectTransform:
   m_Father: {fileID: 118408728}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 14.3018, y: -25}
   m_SizeDelta: {x: 28.6036, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2143891539

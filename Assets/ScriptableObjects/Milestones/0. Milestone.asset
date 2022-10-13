@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 0. Milestone
   m_EditorClassIdentifier: 
   mileStoneText:
-  - 'Tutorialtext / Cutcene
+  - 'Tutorialtext / Cutscene
 
     0. MilestoneText, Element 0'
-  requiredEvent: 
+  requiredEvent: 02000000
   requiredResources: []
   requiredModules:
   - buildingTypes: 0

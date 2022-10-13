@@ -12,6 +12,7 @@ namespace ResourceManagement.Manager
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private float repeatRate = 0.5f;
         private float dividendFor10Seconds;
+        private GameManager gameManager;
         private ResourceTypes resourceType = ResourceTypes.Energy;
 
         #endregion
@@ -81,6 +82,7 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void Start()
         {
+            gameManager = GameManager.Instance;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0, repeatRate); 
         }
@@ -134,12 +136,12 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                GameManager.Instance.DisableBuildings(SavedResourceValue, resourceType);
+                gameManager.DisableBuildings(SavedResourceValue, resourceType);
                 SavedResourceValue = 0;
             }
             else
             {
-                GameManager.Instance.EnableBuildings(SavedResourceValue, resourceType);
+                gameManager.EnableBuildings(SavedResourceValue, resourceType);
             }
 
             savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";

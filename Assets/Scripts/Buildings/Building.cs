@@ -81,7 +81,7 @@ namespace Buildings
                 DisableModule();
             }
 
-            GameManager.Instance.AllBuildings[indexOfAllBuildings] = NULLBuilding;
+            gameManager.AllBuildings[indexOfAllBuildings] = NULLBuilding;
         }
         
         #endregion

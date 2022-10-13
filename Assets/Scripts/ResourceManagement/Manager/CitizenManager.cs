@@ -26,6 +26,7 @@ namespace ResourceManagement.Manager
         private int housing;
         private int neededCitizen;
         private int joblessCitizen;
+        private GameManager gameManager;
         private ResourceTypes resourceType = ResourceTypes.Citizen;
 
         #endregion
@@ -85,6 +86,7 @@ namespace ResourceManagement.Manager
         {
             foodManager = FoodManager.Instance;
             waterManager = WaterManager.Instance;
+            gameManager = GameManager.Instance;
             InvokeRepeating(nameof(Growth), 0, growTime);
             InvokeRepeating(nameof(CalculateJoblessCitizen), 0, repeatRate);
             foodManager.CurrentResourceDemand = citizen * foodConsumptionPerCitizen;
@@ -133,11 +135,11 @@ namespace ResourceManagement.Manager
             CalculateJoblessCitizen();
             if (value > 0)
             {
-                GameManager.Instance.EnableBuildings(joblessCitizen, resourceType);
+                gameManager.EnableBuildings(joblessCitizen, resourceType);
             }
             else
             {
-                GameManager.Instance.DisableBuildings(joblessCitizen, resourceType);
+                gameManager.DisableBuildings(joblessCitizen, resourceType);
             }
         }
 
@@ -146,11 +148,11 @@ namespace ResourceManagement.Manager
             joblessCitizen = citizen - neededCitizen;
             if (joblessCitizen < 0)
             {
-                GameManager.Instance.DisableBuildings(joblessCitizen, resourceType);
+                gameManager.DisableBuildings(joblessCitizen, resourceType);
             }
             else
             {
-                GameManager.Instance.EnableBuildings(joblessCitizen, resourceType);
+                gameManager.EnableBuildings(joblessCitizen, resourceType);
             }
         }
         

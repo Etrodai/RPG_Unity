@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mileStoneText:
   - 6. MilestoneText, Element 0
-  requiredEvent: Show PrioSystem
+  requiredEvent: 01000000
   requiredResources: []
   requiredModules:
   - buildingTypes: 1
