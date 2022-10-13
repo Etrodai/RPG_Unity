@@ -11,10 +11,9 @@ public class GridTile : MonoBehaviour
 
     private MeshRenderer meshRenderer;
     private MeshFilter meshFilter;
-    
 
 
-    private bool isLocked = false;
+    private bool isLocked;
 
     public bool IsLocked
     {
@@ -30,6 +29,10 @@ public class GridTile : MonoBehaviour
     {
         meshRenderer = this.GetComponent<MeshRenderer>();
         meshFilter = this.GetComponent<MeshFilter>();
+
+        meshRenderer.enabled = false;
+        int layerIgnoreRayCast = LayerMask.NameToLayer("Ignore Raycast");
+        this.gameObject.layer = layerIgnoreRayCast;
     }
 
     /// <summary>
@@ -41,37 +44,16 @@ public class GridTile : MonoBehaviour
         meshRenderer.sharedMaterial = prefabGridTileAvailable.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
-    private void LateUpdate()
-    {
-        switch (IsLocked)
-        {
-            case true:
-                meshRenderer.sharedMaterial = prefabGridTileLocked.GetComponent<MeshRenderer>().sharedMaterial;
-                break;
-            case false:
-                meshRenderer.sharedMaterial = prefabGridTileAvailable.GetComponent<MeshRenderer>().sharedMaterial;
-                break;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        IsLocked = true;
-    }
-
-    private void OnCollisionExit(Collision other)
-    {
-        IsLocked = false;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         IsLocked = true;
+        meshRenderer.sharedMaterial = prefabGridTileLocked.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     private void OnTriggerExit(Collider other)
     {
         IsLocked = false;
+        meshRenderer.sharedMaterial = prefabGridTileAvailable.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     /// <summary>
@@ -81,8 +63,7 @@ public class GridTile : MonoBehaviour
     public void ChangeActiveState(bool isVisible)
     {
         meshRenderer.enabled = isVisible;
-        //boxCollider.enabled = isVisible;
-        
+
         if (!meshRenderer.enabled)
         {
             int layerIgnoreRayCast = LayerMask.NameToLayer("Ignore Raycast");
@@ -96,105 +77,14 @@ public class GridTile : MonoBehaviour
 
 
     /// <summary>
-    /// NOT USED
-    /// Create GridTiles around object on Scriptstart
+    /// Activate Ignore Raycast by Showing Grid
     /// </summary>
-    private void CreateGridTilesAround()
+    public void InitActiveState()
     {
-        //Layer 1
-        Vector3 offset = this.transform.position;
-
-        offset.x += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 2;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-
-        offset.y += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-
-        offset.y -= 2;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-
-        //Layer 2
-        offset = this.transform.position;
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 2;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-
-        offset.y += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-
-        offset.y -= 2;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-
-        //Layer 3
-
-        offset = this.transform.position;
-
-        offset.x += -1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 2;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-
-        offset.y += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z += 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-
-        offset.y -= 2;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
-
-        offset.z -= 1;
-        Instantiate(prefabGridTileAvailable, offset, Quaternion.identity);
+        meshRenderer.enabled = true;
+        int layerIgnoreRayCast = LayerMask.NameToLayer("Ignore Raycast");
+        this.gameObject.layer = layerIgnoreRayCast;
     }
+
+    
 }
