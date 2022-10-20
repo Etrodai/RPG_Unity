@@ -103,6 +103,7 @@ namespace ResourceManagement.Manager
             }
             else
             {
+                // gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
                 gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
             }
 

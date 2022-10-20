@@ -18,7 +18,7 @@ namespace Buildings
         private WaterManager waterManager;
         private CitizenManager citizenManager;
         private GameManager gameManager;
-        private Building NULLBuilding;
+        private Building nullBuilding;
 
         private bool lastIsDisabled;
         
@@ -53,12 +53,10 @@ namespace Buildings
             waterManager = WaterManager.Instance;
             citizenManager = CitizenManager.Instance;
             gameManager = GameManager.Instance;
-            NULLBuilding = GameObject.FindGameObjectWithTag("NULLBuilding").GetComponent<Building>();
+            nullBuilding = gameManager.NullBuilding;
             BuildModule();
             EnableModule();
         }
-
-        #region Unused Code
         private void Update() // Can be solved as usual Method via UI                    TODO
         {
             if (isDisabled == lastIsDisabled) return;
@@ -74,8 +72,7 @@ namespace Buildings
 
             lastIsDisabled = isDisabled;
         }
-        #endregion
-        
+
         /// <summary>
         /// disables function of building when it gets deleted
         /// unsubscribes building from gameManagerList
@@ -87,7 +84,7 @@ namespace Buildings
                 DisableModule();
             }
 
-            gameManager.AllBuildings[indexOfAllBuildings] = NULLBuilding;
+            gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
         }
         
         #endregion
@@ -112,6 +109,7 @@ namespace Buildings
                         break;
                     case ResourceTypes.Citizen:
                         if (citizenManager.Citizen < item.value) Debug.LogError("Not enough Citizen to build this Module.");
+                        else citizenManager.Citizen -= item.value;      // TODO nur kontrollieren, ob genug Citizen vorhanden sind???, außer wert ist negativ wegen startmodul
                         break;
                     case ResourceTypes.Food:
                         if (foodManager.SavedResourceValue < item.value)
@@ -156,7 +154,7 @@ namespace Buildings
                         energyManager.CurrentResourceProduction += item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen += item.value;
+                        citizenManager.NeededCitizen -= item.value;
                         break;
                     case ResourceTypes.Food:
                         foodManager.CurrentResourceProduction += item.value;
@@ -178,7 +176,7 @@ namespace Buildings
                         energyManager.CurrentResourceDemand += item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen -= item.value; 
+                        citizenManager.NeededCitizen += item.value; 
                         break;
                     case ResourceTypes.Food:
                         foodManager.CurrentResourceDemand += item.value;
@@ -228,7 +226,7 @@ namespace Buildings
                         energyManager.CurrentResourceProduction -= item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen -= item.value;
+                        citizenManager.NeededCitizen += item.value;
                         break;
                     case ResourceTypes.Food:
                         foodManager.CurrentResourceProduction -= item.value;
@@ -250,7 +248,7 @@ namespace Buildings
                         energyManager.CurrentResourceDemand -= item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen += item.value; 
+                        citizenManager.NeededCitizen -= item.value; 
                         break;
                     case ResourceTypes.Food:
                         foodManager.CurrentResourceDemand -= item.value;

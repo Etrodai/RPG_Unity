@@ -4,6 +4,18 @@ using PriorityListSystem;
 using ResourceManagement;
 using UnityEngine;
 
+public struct DisabledBuilding
+{
+    public Building building;
+    public ResourceTypes type;
+
+    public DisabledBuilding(Building building, ResourceTypes type)
+    {
+        this.building = building;
+        this.type = type;
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     #region Variables
@@ -11,8 +23,9 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     [SerializeField] private List<Building> allBuildings = new List<Building>();
     [SerializeField] private PriorityListItem[] priorityListItems;
-    private Stack<Building> disabledBuildings = new Stack<Building>();
-    [SerializeField] private Building NULLBuilding;
+    [SerializeField] private Stack<DisabledBuilding> disabledBuildings = new Stack<DisabledBuilding>();
+    [SerializeField] private Building nullBuilding;
+
 
     #endregion
 
@@ -28,11 +41,13 @@ public class GameManager : MonoBehaviour
     
     public PriorityListItem[] PriorityListItems => priorityListItems;
 
-    public Stack<Building> DisabledBuildings
+    public Stack<DisabledBuilding> DisabledBuildings
     {
         get => disabledBuildings;
         set => disabledBuildings = value;
     }
+
+    public Building NullBuilding => nullBuilding;
 
     #endregion
 
@@ -52,12 +67,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
 
-        Instantiate(NULLBuilding);
-    }
-
-    private void Start()
-    {
-        NULLBuilding = GameObject.FindGameObjectWithTag("NULLBuilding").GetComponent<Building>();
+        Instantiate(nullBuilding);
     }
 
     #endregion
@@ -70,7 +80,7 @@ public class GameManager : MonoBehaviour
     /// <returns>Index of first empty in allBuildings</returns>
     public int GetIndexOfFirstEmpty()
     {
-        return allBuildings.IndexOf(NULLBuilding);
+        return allBuildings.IndexOf(nullBuilding);
     }
     
     /// <summary>
@@ -122,7 +132,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (Building item in allBuildings)
             {
-                if (item != NULLBuilding)
+                if (item != nullBuilding)
                 {
                     count++;
                 }
@@ -155,14 +165,11 @@ public class GameManager : MonoBehaviour
 
     public void DisableBuildings(float neededResourceValue, ResourceTypes type)
     {
-        List<Building> priorityList = new List<Building>();
-        BuildingTypes priorityBuildingType;
-
         for (int i = priorityListItems.Length - 1; i > 0; i--)
         {
             int surplus = 0;
-            priorityBuildingType = GetBuildingTypeOnPriority(i);
-            priorityList = GetAllBuildingsOfType(priorityBuildingType);
+            BuildingTypes priorityBuildingType = GetBuildingTypeOnPriority(i);
+            List<Building> priorityList = GetAllBuildingsOfType(priorityBuildingType);
 
             if (priorityList.Count > 0)
             {
@@ -194,7 +201,9 @@ public class GameManager : MonoBehaviour
                         if (!item.IsDisabled)
                         {
                             item.IsDisabled = true;
-                            disabledBuildings.Push(item);
+                            
+                            
+                            disabledBuildings.Push(new DisabledBuilding(item, type));
                             neededResourceValue += surplus;
                             if (neededResourceValue >= 0)
                             {
@@ -223,7 +232,12 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < disabledBuildings.Count; i++)
         {
-            Building building = disabledBuildings.Peek();
+            if (disabledBuildings.Peek().type != type)
+            {
+                return;
+            }
+            
+            Building building = disabledBuildings.Peek().building;
             foreach (Resource item in building.BuildingResources.Consumption)
             {
                 if (item.resource == type)
@@ -240,13 +254,45 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (surplus <= givenResourceValue && surplus > 0)
+            if (surplus > 0 && surplus <= givenResourceValue)
             {
                 givenResourceValue -= surplus;
-                Debug.Log(disabledBuildings.Peek() + " is Enabled");
-                disabledBuildings.Pop().IsDisabled = false;
+                Debug.Log(disabledBuildings.Peek().building.BuildingType + " is Enabled");
+                disabledBuildings.Pop().building.IsDisabled = false;
             }
             else
+            {
+                return;
+            }
+        }
+    }
+
+    public void OnChangePriority()
+    {
+        if (disabledBuildings.Count == 0)
+        {
+            return;
+        }
+
+        DisabledBuilding[] buildings = new DisabledBuilding[disabledBuildings.Count];
+        int count = disabledBuildings.Count;
+        for (int i = 0; i < count; i++)
+        {
+            buildings[i] = disabledBuildings.Pop();
+        }
+        
+        for (int i = priorityListItems.Length - 1; i > 0; i--)
+        {
+            BuildingTypes type = GetBuildingTypeOnPriority(i);
+            foreach (DisabledBuilding item in buildings)
+            {
+                if (type == item.building.BuildingType)
+                {
+                    disabledBuildings.Push(item);
+                }
+            }
+
+            if (disabledBuildings.Count == buildings.Length)
             {
                 return;
             }

@@ -3,18 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="a0cdd3bc-3f30-4750-97f0-1104b7d7d534" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RPG_Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RPG_Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prototype/BuildMenuScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prototype/BuildMenuScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Full Merge Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Full Merge Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ScriptableObjects/Buildings/StartModule.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScriptableObjects/Buildings/StartModule.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Buildings/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Buildings/Building.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Camera/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Camera/CameraController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PriorityListSystem/PriorityListItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PriorityListSystem/PriorityListItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/CitizenManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/CitizenManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/EnergyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/EnergyManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/FoodManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/FoodManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/MaterialManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/MaterialManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/WaterManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/WaterManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ThirdParty/PolygonPrototype/URP_ExtractMe.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,10 +60,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="22556">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="23008">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="22556" />
+      <option name="pid" value="23008" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -114,6 +109,7 @@
       <workItem from="1666263957915" duration="1023000" />
       <workItem from="1666265012207" duration="1010000" />
       <workItem from="1666266216722" duration="5474000" />
+      <workItem from="1666293064941" duration="9626000" />
     </task>
     <servers />
   </component>

@@ -7046,7 +7046,7 @@ MonoBehaviour:
   - {fileID: 1832704568}
   - {fileID: 627976107}
   - {fileID: 1241838520}
-  NULLBuilding: {fileID: 8814598076140169003, guid: b3ad9b4defdfdb942a65180f17879bfa,
+  nullBuilding: {fileID: 8814598076140169003, guid: b3ad9b4defdfdb942a65180f17879bfa,
     type: 3}
 --- !u!114 &829820939
 MonoBehaviour:

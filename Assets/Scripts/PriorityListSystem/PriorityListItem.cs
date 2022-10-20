@@ -42,21 +42,20 @@ namespace PriorityListSystem
         
         public void OnClickPlusButton()
         {
-            if (priority != 0)
+            if (priority == 0) return;
+            foreach (PriorityListItem item in gameManager.PriorityListItems)
             {
-                foreach (PriorityListItem item in gameManager.PriorityListItems)
+                if (item.transform.GetSiblingIndex() == priority - 1)
                 {
-                    if (item.transform.GetSiblingIndex() == priority - 1)
-                    {
-                        item.transform.SetSiblingIndex(priority);
-                        item.ChangePriority(priority);
-                    }
+                    item.transform.SetSiblingIndex(priority);
+                    item.ChangePriority(priority);
                 }
-
-                priority--;
-                transform.SetSiblingIndex(priority);
-                ChangePriority(priority);
             }
+
+            priority--;
+            transform.SetSiblingIndex(priority);
+            ChangePriority(priority);
+            gameManager.OnChangePriority();
         }
 
         public void OnClickMinusButton()
@@ -75,14 +74,15 @@ namespace PriorityListSystem
                 priority++;
                 transform.SetSiblingIndex(priority);
                 ChangePriority(priority);
+                gameManager.OnChangePriority();
             }
         }
         
         #endregion
 
         #region Methods
-        
-        public void ChangePriority(int index)
+
+        private void ChangePriority(int index)
         {
             priority = index;
             if (priority == 0)

@@ -132,15 +132,6 @@ namespace ResourceManagement.Manager
             foodManager.CurrentResourceDemand += foodConsumptionPerCitizen * value;
             waterManager.CurrentResourceDemand += waterConsumptionPerCitizen * value;
             surplusText.text = $"{value}";
-            CalculateJoblessCitizen();
-            // if (value > 0)
-            // {
-            //     gameManager.EnableBuildings(joblessCitizen, resourceType);
-            // }
-            // else
-            // {
-            //     gameManager.DisableBuildings(joblessCitizen, resourceType);
-            // }
         }
 
         private void CalculateJoblessCitizen()
@@ -148,12 +139,14 @@ namespace ResourceManagement.Manager
             joblessCitizen = citizen - neededCitizen;
             if (joblessCitizen < 0)
             {
-                gameManager.DisableBuildings(joblessCitizen, resourceType);
+                // gameManager.DisableBuildings(joblessCitizen, resourceType);
             }
             else
             {
-                gameManager.EnableBuildings(joblessCitizen, resourceType);
+                // gameManager.EnableBuildings(joblessCitizen, resourceType);
             }
+
+            // Debug.Log("Jobless " + joblessCitizen + "\nNeeded " + neededCitizen);
         }
         
         #endregion
