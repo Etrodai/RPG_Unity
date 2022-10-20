@@ -157,51 +157,57 @@ public class GameManager : MonoBehaviour
     {
         List<Building> priorityList = new List<Building>();
         BuildingTypes priorityBuildingType;
-        int surplus = 0;
 
         for (int i = priorityListItems.Length - 1; i > 0; i--)
         {
+            int surplus = 0;
             priorityBuildingType = GetBuildingTypeOnPriority(i);
             priorityList = GetAllBuildingsOfType(priorityBuildingType);
 
-            foreach (Resource item in priorityList[0].BuildingResources.Consumption)
+            if (priorityList.Count > 0)
             {
-                if (item.resource == type)
+                foreach (Resource item in priorityList[0].BuildingResources.Consumption)
                 {
-                    surplus += item.value;
-                }
-            }
-
-            foreach (Resource item in priorityList[0].BuildingResources.Production)
-            {
-                if (item.resource == type)
-                {
-                    surplus -= item.value;
-                    return;
-                }
-            }
-
-            if (surplus <= 0)
-            {
-                Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
-            }
-            else
-            {
-                foreach (Building item in priorityList)
-                {
-                    item.IsDisabled = true;
-                    disabledBuildings.Push(item);
-                    neededResourceValue += surplus;
-                    if (neededResourceValue >= 0)
+                    if (item.resource == type)
                     {
+                        surplus += item.value;
+                    }
+                }
+
+                foreach (Resource item in priorityList[0].BuildingResources.Production)
+                {
+                    if (item.resource == type)
+                    {
+                        surplus -= item.value;
                         return;
                     }
                 }
-            }
+                
+                if (surplus <= 0)
+                {
+                    Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
+                }
+                else
+                {
+                    foreach (Building item in priorityList)
+                    {
+                        if (!item.IsDisabled)
+                        {
+                            item.IsDisabled = true;
+                            disabledBuildings.Push(item);
+                            neededResourceValue += surplus;
+                            if (neededResourceValue >= 0)
+                            {
+                                return;
+                            }
+                        }
+                    }
+                }
 
-            if (neededResourceValue >= 0)
-            {
-                return;
+                if (neededResourceValue >= 0)
+                {
+                    return;
+                }
             }
         }
     }
@@ -214,16 +220,15 @@ public class GameManager : MonoBehaviour
         }
 
         int surplus = 0;
-        Building building;
 
         for (int i = 0; i < disabledBuildings.Count; i++)
         {
-            building = disabledBuildings.Peek();
+            Building building = disabledBuildings.Peek();
             foreach (Resource item in building.BuildingResources.Consumption)
             {
                 if (item.resource == type)
                 {
-                    surplus -= item.value;
+                    surplus += item.value;
                 }
             }
 
@@ -231,14 +236,14 @@ public class GameManager : MonoBehaviour
             {
                 if (item.resource == type)
                 {
-                    surplus += item.value;
-                    return;
+                    surplus -= item.value;
                 }
             }
 
-            if (surplus <= givenResourceValue)
+            if (surplus <= givenResourceValue && surplus > 0)
             {
-                givenResourceValue += surplus;
+                givenResourceValue -= surplus;
+                Debug.Log(disabledBuildings.Peek() + " is Enabled");
                 disabledBuildings.Pop().IsDisabled = false;
             }
             else

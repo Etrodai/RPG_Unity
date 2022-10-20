@@ -133,14 +133,14 @@ namespace ResourceManagement.Manager
             waterManager.CurrentResourceDemand += waterConsumptionPerCitizen * value;
             surplusText.text = $"{value}";
             CalculateJoblessCitizen();
-            if (value > 0)
-            {
-                gameManager.EnableBuildings(joblessCitizen, resourceType);
-            }
-            else
-            {
-                gameManager.DisableBuildings(joblessCitizen, resourceType);
-            }
+            // if (value > 0)
+            // {
+            //     gameManager.EnableBuildings(joblessCitizen, resourceType);
+            // }
+            // else
+            // {
+            //     gameManager.DisableBuildings(joblessCitizen, resourceType);
+            // }
         }
 
         private void CalculateJoblessCitizen()

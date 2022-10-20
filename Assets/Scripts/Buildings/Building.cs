@@ -19,6 +19,8 @@ namespace Buildings
         private CitizenManager citizenManager;
         private GameManager gameManager;
         private Building NULLBuilding;
+
+        private bool lastIsDisabled;
         
         #endregion
 
@@ -57,17 +59,21 @@ namespace Buildings
         }
 
         #region Unused Code
-        // private void Update() // Can be solved as usual Method via UI                    TODO
-        // {
-        //     if (isDisabled)
-        //     {
-        //         DisableModule();
-        //     }
-        //     else
-        //     {
-        //         EnableModule();
-        //     }
-        // }
+        private void Update() // Can be solved as usual Method via UI                    TODO
+        {
+            if (isDisabled == lastIsDisabled) return;
+            
+            if (isDisabled)
+            {
+                DisableModule();
+            }
+            else
+            {
+                EnableModule();
+            }
+
+            lastIsDisabled = isDisabled;
+        }
         #endregion
         
         /// <summary>
@@ -276,6 +282,8 @@ namespace Buildings
                         break;
                 }
             }
+            
+            Debug.Log(BuildingType + " is Disabled");
         }
         
         #endregion
