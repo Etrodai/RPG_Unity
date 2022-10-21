@@ -30,6 +30,7 @@ namespace ResourceManagement.Manager
         public override float CurrentResourceDemand { get; set; }
         public override float SavedResourceValue { get; set; }
         public override float SaveSpace { get; set; }
+        public override ResourceTypes ResourceType { get => resourceType; set => resourceType = value; }
 
         #endregion
 
@@ -98,12 +99,13 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(SavedResourceValue, resourceType);
+                gameManager.DisableBuildings(CurrentResourceSurplus, resourceType);
                 SavedResourceValue = 0;
             }
             else
             {
-                gameManager.EnableBuildings(SavedResourceValue, resourceType);
+                // gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
+                gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
             }
 
             savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";

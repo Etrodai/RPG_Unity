@@ -4,6 +4,18 @@ using PriorityListSystem;
 using ResourceManagement;
 using UnityEngine;
 
+public struct DisabledBuilding
+{
+    public Building building;
+    public ResourceTypes type;
+
+    public DisabledBuilding(Building building, ResourceTypes type)
+    {
+        this.building = building;
+        this.type = type;
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     #region Variables
@@ -11,8 +23,9 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     [SerializeField] private List<Building> allBuildings = new List<Building>();
     [SerializeField] private PriorityListItem[] priorityListItems;
-    private Stack<Building> disabledBuildings = new Stack<Building>();
-    [SerializeField] private Building NULLBuilding;
+    [SerializeField] private Stack<DisabledBuilding> disabledBuildings = new Stack<DisabledBuilding>();
+    [SerializeField] private Building nullBuilding;
+
 
     #endregion
 
@@ -28,11 +41,13 @@ public class GameManager : MonoBehaviour
     
     public PriorityListItem[] PriorityListItems => priorityListItems;
 
-    public Stack<Building> DisabledBuildings
+    public Stack<DisabledBuilding> DisabledBuildings
     {
         get => disabledBuildings;
         set => disabledBuildings = value;
     }
+
+    public Building NullBuilding => nullBuilding;
 
     #endregion
 
@@ -52,12 +67,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
 
-        Instantiate(NULLBuilding);
-    }
-
-    private void Start()
-    {
-        NULLBuilding = GameObject.FindGameObjectWithTag("NULLBuilding").GetComponent<Building>();
+        Instantiate(nullBuilding);
     }
 
     #endregion
@@ -70,7 +80,7 @@ public class GameManager : MonoBehaviour
     /// <returns>Index of first empty in allBuildings</returns>
     public int GetIndexOfFirstEmpty()
     {
-        return allBuildings.IndexOf(NULLBuilding);
+        return allBuildings.IndexOf(nullBuilding);
     }
     
     /// <summary>
@@ -96,7 +106,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="priority">Priority</param>
     /// <returns>type of given Priority, if no Type has given Priority it returns All</returns>
-    public BuildingTypes GetBuildingTypeOnPriority(int priority)
+    private BuildingTypes GetBuildingTypeOnPriority(int priority)
     {
         BuildingTypes type = BuildingTypes.All;
         foreach (PriorityListItem item in priorityListItems)
@@ -120,9 +130,9 @@ public class GameManager : MonoBehaviour
         int count = 0;
         if (type == BuildingTypes.All)
         {
-            foreach (Building item in allBuildings)
+            foreach (Building building in allBuildings)
             {
-                if (item != NULLBuilding)
+                if (building != nullBuilding)
                 {
                     count++;
                 }
@@ -131,22 +141,22 @@ public class GameManager : MonoBehaviour
             return count;
         }
     
-        foreach (Building item in allBuildings)
+        foreach (Building building in allBuildings)
         {
-            if (item.BuildingType == type) count++;
+            if (building.BuildingType == type) count++;
         }
     
         return count;
     }
 
-    public List<Building> GetAllBuildingsOfType(BuildingTypes type)
+    private List<Building> GetAllBuildingsOfType(BuildingTypes type)
     {
         List<Building> buildings = new List<Building>();
-        foreach (Building item in allBuildings)
+        foreach (Building building in allBuildings)
         {
-            if (item.BuildingType == type)
+            if (building.BuildingType == type)
             {
-                buildings.Add(item);
+                buildings.Add(building);
             }
         }
 
@@ -155,53 +165,58 @@ public class GameManager : MonoBehaviour
 
     public void DisableBuildings(float neededResourceValue, ResourceTypes type)
     {
-        List<Building> priorityList = new List<Building>();
-        BuildingTypes priorityBuildingType;
-        int surplus = 0;
-
         for (int i = priorityListItems.Length - 1; i > 0; i--)
         {
-            priorityBuildingType = GetBuildingTypeOnPriority(i);
-            priorityList = GetAllBuildingsOfType(priorityBuildingType);
+            int surplus = 0;
+            BuildingTypes priorityBuildingType = GetBuildingTypeOnPriority(i);
+            List<Building> priorityList = GetAllBuildingsOfType(priorityBuildingType);
 
-            foreach (Resource item in priorityList[0].BuildingResources.Consumption)
+            if (priorityList.Count > 0)
             {
-                if (item.resource == type)
+                foreach (Resource consumption in priorityList[0].BuildingResources.Consumption)
                 {
-                    surplus += item.value;
-                }
-            }
-
-            foreach (Resource item in priorityList[0].BuildingResources.Production)
-            {
-                if (item.resource == type)
-                {
-                    surplus -= item.value;
-                    return;
-                }
-            }
-
-            if (surplus <= 0)
-            {
-                Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
-            }
-            else
-            {
-                foreach (Building item in priorityList)
-                {
-                    item.IsDisabled = true;
-                    disabledBuildings.Push(item);
-                    neededResourceValue += surplus;
-                    if (neededResourceValue >= 0)
+                    if (consumption.resource == type)
                     {
+                        surplus += consumption.value;
+                    }
+                }
+
+                foreach (Resource production in priorityList[0].BuildingResources.Production)
+                {
+                    if (production.resource == type)
+                    {
+                        surplus -= production.value;
                         return;
                     }
                 }
-            }
+                
+                if (surplus <= 0)
+                {
+                    Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
+                }
+                else
+                {
+                    foreach (Building building in priorityList)
+                    {
+                        if (!building.IsDisabled)
+                        {
+                            building.IsDisabled = true;
+                            
+                            
+                            disabledBuildings.Push(new DisabledBuilding(building, type));
+                            neededResourceValue += surplus;
+                            if (neededResourceValue >= 0)
+                            {
+                                return;
+                            }
+                        }
+                    }
+                }
 
-            if (neededResourceValue >= 0)
-            {
-                return;
+                if (neededResourceValue >= 0)
+                {
+                    return;
+                }
             }
         }
     }
@@ -214,34 +229,70 @@ public class GameManager : MonoBehaviour
         }
 
         int surplus = 0;
-        Building building;
 
         for (int i = 0; i < disabledBuildings.Count; i++)
         {
-            building = disabledBuildings.Peek();
-            foreach (Resource item in building.BuildingResources.Consumption)
+            if (disabledBuildings.Peek().type != type)
             {
-                if (item.resource == type)
+                return;
+            }
+            
+            Building building = disabledBuildings.Peek().building;
+            foreach (Resource consumption in building.BuildingResources.Consumption)
+            {
+                if (consumption.resource == type)
                 {
-                    surplus -= item.value;
+                    surplus += consumption.value;
                 }
             }
 
-            foreach (Resource item in building.BuildingResources.Production)
+            foreach (Resource production in building.BuildingResources.Production)
             {
-                if (item.resource == type)
+                if (production.resource == type)
                 {
-                    surplus += item.value;
-                    return;
+                    surplus -= production.value;
                 }
             }
 
-            if (surplus <= givenResourceValue)
+            if (surplus > 0 && surplus <= givenResourceValue)
             {
-                givenResourceValue += surplus;
-                disabledBuildings.Pop().IsDisabled = false;
+                givenResourceValue -= surplus;
+                Debug.Log(disabledBuildings.Peek().building.BuildingType + " is Enabled");
+                disabledBuildings.Pop().building.IsDisabled = false;
             }
             else
+            {
+                return;
+            }
+        }
+    }
+
+    public void OnChangePriority()
+    {
+        if (disabledBuildings.Count == 0)
+        {
+            return;
+        }
+
+        DisabledBuilding[] buildings = new DisabledBuilding[disabledBuildings.Count];
+        int count = disabledBuildings.Count;
+        for (int i = 0; i < count; i++)
+        {
+            buildings[i] = disabledBuildings.Pop();
+        }
+        
+        for (int i = priorityListItems.Length - 1; i > 0; i--)
+        {
+            BuildingTypes type = GetBuildingTypeOnPriority(i);
+            foreach (DisabledBuilding item in buildings)
+            {
+                if (type == item.building.BuildingType)
+                {
+                    disabledBuildings.Push(item);
+                }
+            }
+
+            if (disabledBuildings.Count == buildings.Length)
             {
                 return;
             }

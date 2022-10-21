@@ -20,7 +20,7 @@ namespace ResourceManagement.Manager
         private float dividendFor10Seconds;
         private ResourceTypes resourceType = ResourceTypes.Water;
 
-        private const float waterScalingFactor = 1.6f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
+        // private const float waterScalingFactor = 1.6f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
 
         #endregion
 
@@ -37,6 +37,7 @@ namespace ResourceManagement.Manager
         public override float CurrentResourceDemand { get; set; }
         public override float SavedResourceValue { get; set; }
         public override float SaveSpace { get; set; }
+        public override ResourceTypes ResourceType { get => resourceType; set => resourceType = value; }
 
         #endregion
 

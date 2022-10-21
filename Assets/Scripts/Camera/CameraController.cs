@@ -102,7 +102,7 @@ public class CameraController : MonoBehaviour
                 return;
             case float movementDirection:
                 moveDirection = movementDirection;
-                Debug.Log(moveDirection);
+                // Debug.Log(moveDirection);
                 break;
         }
     }
@@ -131,7 +131,7 @@ public class CameraController : MonoBehaviour
                 return;
             case float zoomDirection:
                 zoom = zoomDirection;
-                Debug.Log(zoom);
+                // Debug.Log(zoom);
                 break;
         }
     }

@@ -21,7 +21,7 @@ namespace ResourceManagement.Manager
         private ResourceTypes resourceType = ResourceTypes.Food;
 
 
-        private const float foodScalingFactor = 1.25f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
+        // private const float foodScalingFactor = 1.25f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
 
         #endregion
 
@@ -38,6 +38,7 @@ namespace ResourceManagement.Manager
         public override float CurrentResourceDemand { get; set; }
         public override float SavedResourceValue { get; set; }
         public override float SaveSpace { get; set; }
+        public override ResourceTypes ResourceType { get => resourceType; set => resourceType = value; }
 
         #endregion
 
