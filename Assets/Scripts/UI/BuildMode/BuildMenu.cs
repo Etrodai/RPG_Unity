@@ -61,12 +61,15 @@ public class BuildMenu : MonoBehaviour
 
             if (blueprint.IsLockedIn)
             {
-                GameObject module = Instantiate(moduleToBuild, blueprint.transform.position, quaternion.identity);
-                blueprint.gridTileHit.HasModule = true;
-                module.transform.parent = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Redo
-
-                blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
+                if (blueprint.gridTileHit.SetModuleOnUsed())
+                {
+                    Debug.Log(blueprint.gridTileHit.name);
+                    GameObject module = Instantiate(moduleToBuild, blueprint.transform.position, quaternion.identity);
+                    module.transform.parent = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Redo
+                    blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
+                }
             }
+
             buildmenuLayout.SetActive(false);
         }
 
