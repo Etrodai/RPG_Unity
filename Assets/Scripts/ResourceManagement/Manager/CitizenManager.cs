@@ -64,6 +64,7 @@ namespace ResourceManagement.Manager
         /// </summary>
         void Start()
         {
+            CurrentResourceProduction = 10;
             foodManager = FoodManager.Instance;
             waterManager = WaterManager.Instance;
             gameManager = GameManager.Instance;
