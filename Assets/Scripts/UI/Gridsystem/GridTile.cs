@@ -14,11 +14,18 @@ public class GridTile : MonoBehaviour
 
 
     private bool isLocked;
+    private bool hasModule;
 
     public bool IsLocked
     {
         get => isLocked;
         set => isLocked = value;
+    }
+
+    public bool HasModule
+    {
+        get => hasModule;
+        set => hasModule = value;
     }
 
 
@@ -46,12 +53,18 @@ public class GridTile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!meshRenderer.isVisible)
+            return;
+
         IsLocked = true;
         meshRenderer.sharedMaterial = prefabGridTileLocked.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (!meshRenderer.isVisible)
+            return;
+        
         IsLocked = false;
         meshRenderer.sharedMaterial = prefabGridTileAvailable.GetComponent<MeshRenderer>().sharedMaterial;
     }
@@ -68,6 +81,7 @@ public class GridTile : MonoBehaviour
         {
             int layerIgnoreRayCast = LayerMask.NameToLayer("Ignore Raycast");
             this.gameObject.layer = layerIgnoreRayCast;
+            meshRenderer.sharedMaterial = prefabGridTileAvailable.GetComponent<MeshRenderer>().sharedMaterial;
         }
         else
         {
@@ -85,6 +99,4 @@ public class GridTile : MonoBehaviour
         int layerIgnoreRayCast = LayerMask.NameToLayer("Ignore Raycast");
         this.gameObject.layer = layerIgnoreRayCast;
     }
-
-    
 }

@@ -8,6 +8,7 @@ TagManager:
   - Gridtile
   - Gridmanager
   - NULLBuilding
+  - Spaceship
   layers:
   - Default
   - TransparentFX
