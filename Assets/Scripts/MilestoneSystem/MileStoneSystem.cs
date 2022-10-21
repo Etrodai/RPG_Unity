@@ -55,6 +55,7 @@ namespace MilestoneSystem
         /// </summary>
         private void Start()
         {
+            managers = new List<ResourceManager>();
             materialManager = MaterialManager.Instance;
             managers.Add(materialManager);
             energyManager = EnergyManager.Instance;

@@ -17,6 +17,7 @@ public class BuildMenuScript : MonoBehaviour
 
     private void Initialize()
     {
+        managers = new List<ResourceManager>();
         materialManager = MaterialManager.Instance;
         managers.Add(materialManager);
         energyManager = EnergyManager.Instance;

@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a0cdd3bc-3f30-4750-97f0-1104b7d7d534" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RPG_Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RPG_Unity/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prototype/BuildMenuScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prototype/BuildMenuScript.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Buildings/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Buildings/Building.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MilestoneSystem/MileStoneSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MilestoneSystem/MileStoneSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/CitizenManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ResourceManagement/Manager/CitizenManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +113,10 @@
       <workItem from="1666293064941" duration="9626000" />
       <workItem from="1666341556610" duration="6298000" />
       <workItem from="1666351876122" duration="1984000" />
+<<<<<<< HEAD
+>>>>>>> RobinMergeBranch
+=======
+      <workItem from="1666354536978" duration="305000" />
 >>>>>>> RobinMergeBranch
     </task>
     <servers />

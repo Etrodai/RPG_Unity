@@ -20,7 +20,7 @@ MonoBehaviour:
     height: 1349.3334
   m_ShowMode: 4
   m_Title: Hierarchy
-  m_RootView: {fileID: 6}
+  m_RootView: {fileID: 4}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
@@ -40,14 +40,14 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 1090
-    width: 298.66675
-    height: 209.33337
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 16}
+    y: 866.6667
+    width: 506.00012
+    height: 432.6667
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 13}
   m_Panes:
-  - {fileID: 16}
+  - {fileID: 13}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &3
@@ -63,70 +63,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 11}
+  - {fileID: 8}
   - {fileID: 2}
   m_Position:
     serializedVersion: 2
-    x: 1918
+    x: 1662.6666
     y: 0
-    width: 298.66675
+    width: 506.00012
     height: 1299.3334
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 294
+  controlID: 2309
 --- !u!114 &4
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: GameView
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 1090.6666
-    width: 328
-    height: 208.66675
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 21}
-  m_Panes:
-  - {fileID: 21}
-  m_Selected: 0
-  m_LastSelected: 0
---- !u!114 &5
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 10}
-  - {fileID: 4}
-  m_Position:
-    serializedVersion: 2
-    x: 1590
-    y: 0
-    width: 328
-    height: 1299.3334
-  m_MinSize: {x: 100, y: 200}
-  m_MaxSize: {x: 8096, y: 16192}
-  vertical: 1
-  controlID: 388
---- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,9 +88,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
+  - {fileID: 5}
+  - {fileID: 6}
   - {fileID: 7}
-  - {fileID: 8}
-  - {fileID: 9}
   m_Position:
     serializedVersion: 2
     x: 0
@@ -154,7 +103,7 @@ MonoBehaviour:
   m_TopViewHeight: 30
   m_UseBottomView: 1
   m_BottomViewHeight: 20
---- !u!114 &7
+--- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,8 +124,8 @@ MonoBehaviour:
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
-  m_LastLoadedLayoutName: Robin
---- !u!114 &8
+  m_LastLoadedLayoutName: RobinDebug
+--- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,25 +138,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 13}
-  - {fileID: 5}
+  - {fileID: 10}
   - {fileID: 3}
-  - {fileID: 12}
+  - {fileID: 9}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 30
     width: 2560
     height: 1299.3334
-  m_MinSize: {x: 400, y: 200}
-  m_MaxSize: {x: 32384, y: 16192}
+  m_MinSize: {x: 300, y: 200}
+  m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
+<<<<<<< HEAD
 <<<<<<< HEAD
   controlID: 142
 --- !u!114 &5
 =======
   controlID: 387
 --- !u!114 &9
+>>>>>>> RobinMergeBranch
+=======
+  controlID: 2363
+--- !u!114 &7
 >>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -229,6 +182,7 @@ MonoBehaviour:
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
+<<<<<<< HEAD
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -266,6 +220,9 @@ MonoBehaviour:
   m_LastSelected: 0
 --- !u!114 &11
 >>>>>>> RobinMergeBranch
+=======
+--- !u!114 &8
+>>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,7 +232,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
+  m_Name: SceneHierarchyWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -293,17 +250,22 @@ MonoBehaviour:
 =======
     x: 0
     y: 0
-    width: 298.66675
-    height: 1090
-  m_MinSize: {x: 232, y: 271}
-  m_MaxSize: {x: 10002, y: 10021}
-  m_ActualView: {fileID: 20}
+    width: 506.00012
+    height: 866.6667
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 15}
   m_Panes:
+<<<<<<< HEAD
   - {fileID: 20}
 >>>>>>> RobinMergeBranch
+=======
+  - {fileID: 15}
+  - {fileID: 17}
+>>>>>>> RobinMergeBranch
   m_Selected: 0
-  m_LastSelected: 0
---- !u!114 &12
+  m_LastSelected: 1
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,6 +280,7 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
+<<<<<<< HEAD
 <<<<<<< HEAD
     x: 1772
     y: 0
@@ -330,20 +293,26 @@ MonoBehaviour:
   - {fileID: 16}
 =======
     x: 2216.6667
+=======
+    x: 2168.6667
+>>>>>>> RobinMergeBranch
     y: 0
-    width: 343.33325
+    width: 391.33325
     height: 1299.3334
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 19}
+  m_ActualView: {fileID: 16}
   m_Panes:
-  - {fileID: 19}
-  - {fileID: 17}
+  - {fileID: 16}
   - {fileID: 14}
+<<<<<<< HEAD
+>>>>>>> RobinMergeBranch
+=======
+  - {fileID: 11}
 >>>>>>> RobinMergeBranch
   m_Selected: 0
   m_LastSelected: 2
---- !u!114 &13
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -354,9 +323,13 @@ MonoBehaviour:
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: InspectorWindow
 =======
   m_Name: SceneView
+>>>>>>> RobinMergeBranch
+=======
+  m_Name: GameView
 >>>>>>> RobinMergeBranch
   m_EditorClassIdentifier: 
   m_Children: []
@@ -364,6 +337,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
 <<<<<<< HEAD
     width: 413
     height: 1307
@@ -378,16 +352,28 @@ MonoBehaviour:
 --- !u!114 &10
 =======
     width: 1590
+=======
+    width: 1662.6666
+>>>>>>> RobinMergeBranch
     height: 1299.3334
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 22}
+  m_ActualView: {fileID: 18}
   m_Panes:
+<<<<<<< HEAD
   - {fileID: 22}
   - {fileID: 15}
   m_Selected: 0
   m_LastSelected: 1
 --- !u!114 &14
+>>>>>>> RobinMergeBranch
+=======
+  - {fileID: 19}
+  - {fileID: 18}
+  - {fileID: 12}
+  m_Selected: 1
+  m_LastSelected: 0
+--- !u!114 &11
 >>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -437,7 +423,11 @@ MonoBehaviour:
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
+<<<<<<< HEAD
 --- !u!114 &15
+>>>>>>> RobinMergeBranch
+=======
+--- !u!114 &12
 >>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -487,7 +477,7 @@ MonoBehaviour:
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
---- !u!114 &16
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -508,15 +498,15 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1918
-    y: 1162.6667
-    width: 296.66675
-    height: 188.33337
+    x: 1662.6667
+    y: 939.3334
+    width: 504.00012
+    height: 411.6667
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
---- !u!114 &17
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -545,6 +535,7 @@ MonoBehaviour:
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
+<<<<<<< HEAD
 --- !u!114 &18
 >>>>>>> RobinMergeBranch
 MonoBehaviour:
@@ -608,6 +599,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_LastSelectedObjectID: -85366
 --- !u!114 &14
+=======
+--- !u!114 &15
+>>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -629,6 +623,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 1367
     y: 73
     width: 403
@@ -638,6 +633,12 @@ MonoBehaviour:
     y: 72.66667
     width: 326
     height: 1069.6666
+>>>>>>> RobinMergeBranch
+=======
+    x: 1662.6667
+    y: 72.66667
+    width: 504.00012
+    height: 845.6667
 >>>>>>> RobinMergeBranch
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -653,7 +654,11 @@ MonoBehaviour:
 =======
       m_SelectedIDs: 
       m_LastClickedID: 0
+<<<<<<< HEAD
       m_ExpandedIDs: 
+>>>>>>> RobinMergeBranch
+=======
+      m_ExpandedIDs: 20f9ffff
 >>>>>>> RobinMergeBranch
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -682,7 +687,11 @@ MonoBehaviour:
 --- !u!114 &15
 =======
   m_WindowGUID: 78145eea3956e2b4880ade1aed327347
+<<<<<<< HEAD
 --- !u!114 &19
+>>>>>>> RobinMergeBranch
+=======
+--- !u!114 &16
 >>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -698,15 +707,15 @@ MonoBehaviour:
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
-    m_Text: Inspector
+    m_Text: Debug
     m_Image: {fileID: -440750813802333266, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 2216.6667
+    x: 2168.6667
     y: 72.66667
-    width: 342.33325
+    width: 390.33325
     height: 1278.3334
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -721,14 +730,18 @@ MonoBehaviour:
   m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
-  m_InspectorMode: 0
+  m_InspectorMode: 1
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!114 &16
 =======
 --- !u!114 &20
+>>>>>>> RobinMergeBranch
+=======
+--- !u!114 &17
 >>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -751,6 +764,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 1772
     y: 73
     width: 373
@@ -760,6 +774,12 @@ MonoBehaviour:
     y: 72.66667
     width: 296.66675
     height: 1069
+>>>>>>> RobinMergeBranch
+=======
+    x: 1662.6667
+    y: 72.66667
+    width: 504.00012
+    height: 845.6667
 >>>>>>> RobinMergeBranch
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -779,9 +799,13 @@ MonoBehaviour:
     m_SearchArea: 1
     m_Folders:
 <<<<<<< HEAD
+<<<<<<< HEAD
     - Assets/Prefabs/Grid
 =======
     - Assets/Scripts/Buildings
+>>>>>>> RobinMergeBranch
+=======
+    - Assets
 >>>>>>> RobinMergeBranch
     m_Globs: []
     m_OriginalText: 
@@ -802,7 +826,11 @@ MonoBehaviour:
 =======
     m_SelectedIDs: d4760000
     m_LastClickedID: 30420
+<<<<<<< HEAD
     m_ExpandedIDs: ffffffff00000000dc790000de790000e0790000e2790000e4790000e6790000e8790000ea790000ec790000ee790000f0790000
+>>>>>>> RobinMergeBranch
+=======
+    m_ExpandedIDs: ffffffff00000000ba760000bc760000be760000c0760000c2760000c4760000c6760000c87600000a7700002a770000
 >>>>>>> RobinMergeBranch
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -832,6 +860,7 @@ MonoBehaviour:
     m_SelectedIDs: 
     m_LastClickedID: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_ExpandedIDs: ffffffff00000000d4770000d6770000d8770000da770000dc770000de770000e2770000e4770000e6770000e8770000ea770000ec770000f0770000f2770000f4770000f6770000f8770000567800007a7800007c780000807800009a7800009c780000d0870000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -839,6 +868,9 @@ MonoBehaviour:
       m_OriginalName: prefab_GridTile
 =======
     m_ExpandedIDs: ffffffff00000000dc790000de790000e0790000e2790000e4790000e6790000e8790000ea790000ec790000ee790000f0790000
+=======
+    m_ExpandedIDs: ffffffff00000000ba760000bc760000be760000c0760000c2760000c4760000c6760000c87600000a7700002a770000
+>>>>>>> RobinMergeBranch
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -903,7 +935,11 @@ MonoBehaviour:
 --- !u!114 &17
 =======
   m_DirectoriesAreaWidth: 109
+<<<<<<< HEAD
 --- !u!114 &21
+>>>>>>> RobinMergeBranch
+=======
+--- !u!114 &18
 >>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -926,6 +962,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
     x: 0
     y: 897
     width: 1366
@@ -935,6 +972,12 @@ MonoBehaviour:
     y: 1163.3334
     width: 326
     height: 187.66675
+>>>>>>> RobinMergeBranch
+=======
+    x: 0
+    y: 72.66667
+    width: 1661.6666
+    height: 1278.3334
 >>>>>>> RobinMergeBranch
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -947,9 +990,13 @@ MonoBehaviour:
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_TargetSize: {x: 1366, y: 441}
 =======
   m_TargetSize: {x: 489, y: 250.00012}
+>>>>>>> RobinMergeBranch
+=======
+  m_TargetSize: {x: 2492.5, y: 1886}
 >>>>>>> RobinMergeBranch
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
@@ -966,6 +1013,7 @@ MonoBehaviour:
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_HBaseRangeMin: -683
     m_HBaseRangeMax: 683
     m_VBaseRangeMin: -220.5
@@ -975,6 +1023,12 @@ MonoBehaviour:
     m_HBaseRangeMax: 163
     m_VBaseRangeMin: -83.333374
     m_VBaseRangeMax: 83.333374
+>>>>>>> RobinMergeBranch
+=======
+    m_HBaseRangeMin: -830.8334
+    m_HBaseRangeMax: 830.8334
+    m_VBaseRangeMin: -628.6667
+    m_VBaseRangeMax: 628.6667
 >>>>>>> RobinMergeBranch
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
@@ -994,6 +1048,7 @@ MonoBehaviour:
       x: 0
       y: 21
 <<<<<<< HEAD
+<<<<<<< HEAD
       width: 1366
       height: 441
     m_Scale: {x: 1, y: 1}
@@ -1004,12 +1059,19 @@ MonoBehaviour:
     m_Scale: {x: 1, y: 1}
     m_Translation: {x: 163, y: 83.333374}
 >>>>>>> RobinMergeBranch
+=======
+      width: 1661.6666
+      height: 1257.3334
+    m_Scale: {x: 0.99999994, y: 0.9999999}
+    m_Translation: {x: 830.8333, y: 628.6667}
+>>>>>>> RobinMergeBranch
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
+<<<<<<< HEAD
 <<<<<<< HEAD
       x: -683
       y: -220.5
@@ -1027,15 +1089,28 @@ MonoBehaviour:
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 489, y: 281.50012}
 >>>>>>> RobinMergeBranch
+=======
+      x: -830.8334
+      y: -628.66675
+      width: 1661.6667
+      height: 1257.3335
+    m_MinimalGUI: 1
+  m_defaultScale: 0.99999994
+  m_LastWindowPixelSize: {x: 2492.5, y: 1917.5}
+>>>>>>> RobinMergeBranch
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!114 &18
 =======
 --- !u!114 &22
+>>>>>>> RobinMergeBranch
+=======
+--- !u!114 &19
 >>>>>>> RobinMergeBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1059,11 +1134,15 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
     y: 73
     width: 1366
     height: 803
 =======
     y: 72.66667
+=======
+    y: 19
+>>>>>>> RobinMergeBranch
     width: 1589
     height: 1278.3334
 >>>>>>> RobinMergeBranch
