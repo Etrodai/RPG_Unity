@@ -37,23 +37,23 @@ public class BuildMenuScript : MonoBehaviour
             isInitialized = true;
         }
         
-        foreach (Buttons jtem in buttons)
+        foreach (Buttons button in buttons)
         {
             bool activate = true;
-            foreach (Resource item in jtem.ModuleToBuild.Costs)
+            foreach (Resource cost in button.ModuleToBuild.Costs)
             {
-                foreach (ResourceManager ktem in managers)
+                foreach (ResourceManager manager in managers)
                 {
-                    if (ktem.ResourceType == item.resource)
+                    if (manager.ResourceType == cost.resource)
                     {
-                        if (ktem.SavedResourceValue < item.value)
+                        if (manager.SavedResourceValue < cost.value)
                         {
                             activate = false;
                         }
                     }
                 }
             }
-            jtem.Button.SetActive(activate);
+            button.Button.SetActive(activate);
         }
     }
 }

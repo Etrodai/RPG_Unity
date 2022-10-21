@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="priority">Priority</param>
     /// <returns>type of given Priority, if no Type has given Priority it returns All</returns>
-    public BuildingTypes GetBuildingTypeOnPriority(int priority)
+    private BuildingTypes GetBuildingTypeOnPriority(int priority)
     {
         BuildingTypes type = BuildingTypes.All;
         foreach (PriorityListItem item in priorityListItems)
@@ -130,9 +130,9 @@ public class GameManager : MonoBehaviour
         int count = 0;
         if (type == BuildingTypes.All)
         {
-            foreach (Building item in allBuildings)
+            foreach (Building building in allBuildings)
             {
-                if (item != nullBuilding)
+                if (building != nullBuilding)
                 {
                     count++;
                 }
@@ -141,22 +141,22 @@ public class GameManager : MonoBehaviour
             return count;
         }
     
-        foreach (Building item in allBuildings)
+        foreach (Building building in allBuildings)
         {
-            if (item.BuildingType == type) count++;
+            if (building.BuildingType == type) count++;
         }
     
         return count;
     }
 
-    public List<Building> GetAllBuildingsOfType(BuildingTypes type)
+    private List<Building> GetAllBuildingsOfType(BuildingTypes type)
     {
         List<Building> buildings = new List<Building>();
-        foreach (Building item in allBuildings)
+        foreach (Building building in allBuildings)
         {
-            if (item.BuildingType == type)
+            if (building.BuildingType == type)
             {
-                buildings.Add(item);
+                buildings.Add(building);
             }
         }
 
@@ -173,19 +173,19 @@ public class GameManager : MonoBehaviour
 
             if (priorityList.Count > 0)
             {
-                foreach (Resource item in priorityList[0].BuildingResources.Consumption)
+                foreach (Resource consumption in priorityList[0].BuildingResources.Consumption)
                 {
-                    if (item.resource == type)
+                    if (consumption.resource == type)
                     {
-                        surplus += item.value;
+                        surplus += consumption.value;
                     }
                 }
 
-                foreach (Resource item in priorityList[0].BuildingResources.Production)
+                foreach (Resource production in priorityList[0].BuildingResources.Production)
                 {
-                    if (item.resource == type)
+                    if (production.resource == type)
                     {
-                        surplus -= item.value;
+                        surplus -= production.value;
                         return;
                     }
                 }
@@ -196,14 +196,14 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    foreach (Building item in priorityList)
+                    foreach (Building building in priorityList)
                     {
-                        if (!item.IsDisabled)
+                        if (!building.IsDisabled)
                         {
-                            item.IsDisabled = true;
+                            building.IsDisabled = true;
                             
                             
-                            disabledBuildings.Push(new DisabledBuilding(item, type));
+                            disabledBuildings.Push(new DisabledBuilding(building, type));
                             neededResourceValue += surplus;
                             if (neededResourceValue >= 0)
                             {
@@ -238,19 +238,19 @@ public class GameManager : MonoBehaviour
             }
             
             Building building = disabledBuildings.Peek().building;
-            foreach (Resource item in building.BuildingResources.Consumption)
+            foreach (Resource consumption in building.BuildingResources.Consumption)
             {
-                if (item.resource == type)
+                if (consumption.resource == type)
                 {
-                    surplus += item.value;
+                    surplus += consumption.value;
                 }
             }
 
-            foreach (Resource item in building.BuildingResources.Production)
+            foreach (Resource production in building.BuildingResources.Production)
             {
-                if (item.resource == type)
+                if (production.resource == type)
                 {
-                    surplus -= item.value;
+                    surplus -= production.value;
                 }
             }
 
