@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d5802053f27044487803778aa1f0d5, type: 3}
+  m_Name: Meteoric Rain
+  m_EditorClassIdentifier: 
+  eventTitle: Meteoric Rain
+  eventText:
+  - As everybody continues their lives on Station Icarus, one of your citizens notices
+    a few astroids moving faster than they should.
+  - Some of the astroids are hitting the station, damaging it.
+  - Will you use some materials to repair the damage or ignore it?
+  decisions:
+  - decisionButtonText: Use materials
+    consequenceEvent: {fileID: 0}
+    consequenceOnResources: []
+    consequenceOnBuildings: []
+    consequenceText: You used 25% of your maxium material capacity to fix the damaged
+      parts!
+  - decisionButtonText: Ignore
+    consequenceEvent: {fileID: 0}
+    consequenceOnResources: []
+    consequenceOnBuildings: []
+    consequenceText: You ignored the damaged. By doing so a hole tore open and took
+      away 30% of your maximum food capacity. Also, you still had to fix the damage
+      for 10% of your materials.

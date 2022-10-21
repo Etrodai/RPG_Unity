@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   costs:
   - resource: 0
-    value: -5
+    value: -20
   - resource: 2
     value: -10
   - resource: 3
@@ -25,19 +25,19 @@ MonoBehaviour:
   consumption: []
   production:
   - resource: 1
-    value: 100
+    value: 60
   - resource: 3
-    value: 15
+    value: 10
   - resource: 4
-    value: 15
+    value: 10
   saveSpace:
   - resource: 0
-    value: 75
+    value: 50
   - resource: 1
-    value: 100
+    value: 75
   - resource: 2
     value: 10
   - resource: 3
-    value: 50
+    value: 30
   - resource: 4
-    value: 50
+    value: 30

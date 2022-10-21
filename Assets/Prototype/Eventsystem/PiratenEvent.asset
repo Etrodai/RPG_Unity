@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94d5802053f27044487803778aa1f0d5, type: 3}
   m_Name: PiratenEvent
   m_EditorClassIdentifier: 
-  eventText: "Piraten kommen auf dich zu, wie verh\xE4ltst du dich?"
+  eventText:
+  - 
   decisions:
   - decisions: 
     consequenceEvent: {fileID: 0}
