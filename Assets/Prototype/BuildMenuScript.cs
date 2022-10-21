@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Buildings;
 using ResourceManagement;
 using ResourceManagement.Manager;
@@ -11,15 +12,21 @@ public class BuildMenuScript : MonoBehaviour
     private FoodManager foodManager;
     private WaterManager waterManager;
     private CitizenManager citizenManager;
+    private List<ResourceManager> managers;
     private bool isInitialized;
 
     private void Initialize()
     {
         materialManager = MaterialManager.Instance;
+        managers.Add(materialManager);
         energyManager = EnergyManager.Instance;
+        managers.Add(energyManager);
         foodManager = FoodManager.Instance;
+        managers.Add(foodManager);
         waterManager = WaterManager.Instance;
+        managers.Add(waterManager);
         citizenManager = CitizenManager.Instance;
+        managers.Add(citizenManager);
     }
 
     private void OnEnable()
@@ -35,38 +42,15 @@ public class BuildMenuScript : MonoBehaviour
             bool activate = true;
             foreach (Resource item in jtem.ModuleToBuild.Costs)
             {
-                switch (item.resource)
+                foreach (ResourceManager ktem in managers)
                 {
-                    case ResourceTypes.Material:
-                        if (materialManager.SavedResourceValue < item.value)
+                    if (ktem.ResourceType == item.resource)
+                    {
+                        if (ktem.SavedResourceValue < item.value)
                         {
                             activate = false;
                         }
-                        break;
-                    case ResourceTypes.Energy:
-                        if (energyManager.SavedResourceValue < item.value)
-                        {
-                            activate = false;
-                        }
-                        break;
-                    case ResourceTypes.Citizen:
-                        if (citizenManager.Citizen < item.value)
-                        {
-                            activate = false;
-                        }
-                        break;
-                    case ResourceTypes.Food:
-                        if (foodManager.SavedResourceValue < item.value)
-                        {
-                            activate = false;
-                        }
-                        break;
-                    case ResourceTypes.Water:
-                        if (waterManager.SavedResourceValue < item.value)
-                        {
-                            activate = false;
-                        }
-                        break;
+                    }
                 }
             }
             jtem.Button.SetActive(activate);

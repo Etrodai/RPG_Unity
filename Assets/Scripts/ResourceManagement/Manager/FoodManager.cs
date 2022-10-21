@@ -38,6 +38,7 @@ namespace ResourceManagement.Manager
         public override float CurrentResourceDemand { get; set; }
         public override float SavedResourceValue { get; set; }
         public override float SaveSpace { get; set; }
+        public override ResourceTypes ResourceType { get => resourceType; set => resourceType = value; }
 
         #endregion
 

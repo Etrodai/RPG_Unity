@@ -9,12 +9,6 @@ namespace MilestoneSystem
 {
     public class MileStoneSystem : MonoBehaviour
     {
-        #region TODOS
-        
-        // Text springt weg, ohne auf OK zu drücken
-        
-        #endregion
-
         #region Variables
 
         [SerializeField] private List<MileStoneEvent> events;
@@ -153,45 +147,19 @@ namespace MilestoneSystem
         /// </summary>
         private void BuildMenu()
         {
+            requiredStuffText.text = "";
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
                 foreach (MileStoneEventNames item in mileStones[mileStonesDone].RequiredEvent)
                 {
-                    switch (item)
+                    foreach (MileStoneEvent jtem in events)
                     {
-                        case MileStoneEventNames.CameraMovement:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.CameraMovement)
-                                {
-                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
-                                    jtem.enabled = true;
-                                    jtem.ResetAll();
-                                }
-                            }
-                            break;
-                        case MileStoneEventNames.ShowPrioritySystem:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
-                                {
-                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
-                                    jtem.enabled = true;
-                                    jtem.ResetAll();
-                                }
-                            }
-                            break;
-                        case MileStoneEventNames.WaitForSeconds:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.WaitForSeconds)
-                                {
-                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
-                                    jtem.enabled = true;
-                                    jtem.ResetAll();
-                                }
-                            }
-                            break;
+                        if (jtem.Name == item)
+                        {
+                            requiredStuffText.text += $"{jtem.MenuText}\n\n";
+                            jtem.enabled = true;
+                            jtem.ResetAll();
+                        }
                     }
                 }
             }
@@ -253,44 +221,15 @@ namespace MilestoneSystem
             {
                 foreach (MileStoneEventNames item in mileStones[mileStonesDone].RequiredEvent)
                 {
-                    switch (item)
+                    foreach (MileStoneEvent jtem in events)
                     {
-                        case MileStoneEventNames.CameraMovement:
-                            foreach (MileStoneEvent jtem in events)
+                        if (jtem.Name == item)
+                        {
+                            if (!jtem.CheckAchieved())
                             {
-                                if (jtem.Name == MileStoneEventNames.CameraMovement)
-                                {
-                                    if (!jtem.CheckAchieved())
-                                    {
-                                        hasAllRequiredStuff = false;
-                                    }
-                                }
+                                hasAllRequiredStuff = false;
                             }
-                            break;
-                        case MileStoneEventNames.ShowPrioritySystem:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
-                                {
-                                    if (!jtem.CheckAchieved())
-                                    {
-                                        hasAllRequiredStuff = false;
-                                    }
-                                }
-                            }
-                            break;
-                        case MileStoneEventNames.WaitForSeconds:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.WaitForSeconds)
-                                {
-                                    if (!jtem.CheckAchieved())
-                                    {
-                                        hasAllRequiredStuff = false;
-                                    }
-                                }
-                            }
-                            break;
+                        }
                     }
                 }
             }
@@ -306,7 +245,7 @@ namespace MilestoneSystem
                         if (EnergyManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
                         break;
                     case ResourceTypes.Citizen:
-                        if (CitizenManager.Instance.Citizen < item.value) hasAllRequiredStuff = false;
+                        if (CitizenManager.Instance.CurrentResourceProduction < item.value) hasAllRequiredStuff = false;
                         break;
                     case ResourceTypes.Food:
                         if (FoodManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;

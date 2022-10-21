@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ResourceManagement.Manager
 {
-    public class CitizenManager : MonoBehaviour
+    public class CitizenManager : ResourceManager
     {
         #region TODOS
         
@@ -14,7 +15,6 @@ namespace ResourceManagement.Manager
         #region Variables
 
         private static CitizenManager instance;
-        private int citizen;
         [SerializeField] private TextMeshProUGUI savedResourceText;
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private int growTime;
@@ -23,9 +23,6 @@ namespace ResourceManagement.Manager
         [SerializeField] private float repeatRate = 0.5f;
         private FoodManager foodManager;
         private WaterManager waterManager;
-        private int housing;
-        private int neededCitizen;
-        private int joblessCitizen;
         private GameManager gameManager;
         private ResourceTypes resourceType = ResourceTypes.Citizen;
 
@@ -34,29 +31,12 @@ namespace ResourceManagement.Manager
         #region Properties
 
         public static CitizenManager Instance => instance;
-
-        public int Citizen //Needed in PirateAttack Event
-        {
-            get => citizen;
-            set { citizen = value; }
-        }
-
-        public int Housing
-        {
-            get => housing;
-            set => housing = value;
-        }
-        
-        public int NeededCitizen
-        {
-            get => neededCitizen;
-            set => neededCitizen = value;
-        }
-        
-        public int JoblessCitizen
-        {
-            get => joblessCitizen;
-        }
+        public override float CurrentResourceSurplus { get; set; } // GrowthValue
+        public override float CurrentResourceProduction { get; set; } // Citizen
+        public override float CurrentResourceDemand { get; set; } // neededCitizen
+        public override float SavedResourceValue { get; set; } // Jobless
+        public override float SaveSpace { get; set; } // Housing
+        public override ResourceTypes ResourceType { get => resourceType; set => resourceType = value; } // resourceType
 
         #endregion
 
@@ -87,68 +67,81 @@ namespace ResourceManagement.Manager
             foodManager = FoodManager.Instance;
             waterManager = WaterManager.Instance;
             gameManager = GameManager.Instance;
-            InvokeRepeating(nameof(Growth), 0, growTime);
-            InvokeRepeating(nameof(CalculateJoblessCitizen), 0, repeatRate);
-            foodManager.CurrentResourceDemand = citizen * foodConsumptionPerCitizen;
-            waterManager.CurrentResourceDemand = citizen * waterConsumptionPerCitizen;
+            InvokeCalculation();
         }
 
         #endregion
 
         #region Methods
         
+        protected override void InvokeCalculation()
+        {
+            InvokeRepeating(nameof(CalculateCurrentResourceSurplus), 0, growTime);
+            InvokeRepeating(nameof(CalculateSavedResourceValue), 0, repeatRate);
+            foodManager.CurrentResourceDemand = CurrentResourceProduction * foodConsumptionPerCitizen;
+            waterManager.CurrentResourceDemand = CurrentResourceProduction * waterConsumptionPerCitizen;
+        }
+
         /// <summary>
         /// reduces citizen, if there are too few housings, food or water
         /// adds citizen, if there are more than needed housings, food and water
         /// has no surplus, if there are nothing is too few or not all variables are more than needed
         /// </summary>
-        private void Growth()
+        protected override void CalculateCurrentResourceSurplus() // Growth
         {
-            if (housing < citizen || foodManager.CurrentResourceSurplus < 0 || waterManager.CurrentResourceSurplus < 0)
+            if (SaveSpace < CurrentResourceProduction || foodManager.CurrentResourceSurplus < 0 || waterManager.CurrentResourceSurplus < 0)
             {
-                ChangeCitizen(-1);
+                CurrentResourceSurplus = -1;
             }
-            else if (housing > citizen && foodManager.CurrentResourceSurplus > 0 &&
+            else if (SaveSpace > CurrentResourceProduction && foodManager.CurrentResourceSurplus > 0 &&
                      waterManager.CurrentResourceSurplus > 0)
             {
-                ChangeCitizen(1);
+                CurrentResourceSurplus = 1;
             }
             else
             {
-                surplusText.text = $"0";
+                CurrentResourceSurplus = 0;
             }
-
-            savedResourceText.text = $"{citizen}/{Housing}";
+            
+            ChangeCitizen(CurrentResourceSurplus);
+            savedResourceText.text = $"{CurrentResourceProduction}/{SaveSpace}";
         }
-
+        
         /// <summary>
         /// adds or reduces citizen
         /// changes food and water demand
         /// </summary>
         /// <param name="value">value of citizens to be added or reduced </param>
-        private void ChangeCitizen(int value)
+        private void ChangeCitizen(float value)
         {
-            citizen += value;
+            surplusText.text = $"{value}";
+            if (value == 0)
+            {
+                return;
+            }
+            CurrentResourceProduction += value;
             foodManager.CurrentResourceDemand += foodConsumptionPerCitizen * value;
             waterManager.CurrentResourceDemand += waterConsumptionPerCitizen * value;
-            surplusText.text = $"{value}";
         }
 
-        private void CalculateJoblessCitizen()
+        protected override void CalculateSavedResourceValue() // CalculateJoblessCitizen
         {
-            joblessCitizen = citizen - neededCitizen;
-            if (joblessCitizen < 0)
+            SavedResourceValue = CurrentResourceProduction - CurrentResourceDemand;
+            if (SavedResourceValue < 0)
             {
-                // gameManager.DisableBuildings(joblessCitizen, resourceType);
+                gameManager.DisableBuildings(SavedResourceValue, resourceType);
             }
             else
             {
-                // gameManager.EnableBuildings(joblessCitizen, resourceType);
+                gameManager.EnableBuildings(SavedResourceValue, resourceType);
             }
 
             // Debug.Log("Jobless " + joblessCitizen + "\nNeeded " + neededCitizen);
         }
-        
+
         #endregion
+
+
+       
     }
 }

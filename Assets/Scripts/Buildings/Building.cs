@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace Buildings
         private WaterManager waterManager;
         private CitizenManager citizenManager;
         private GameManager gameManager;
+        private List<ResourceManager> managers;
         private Building nullBuilding;
 
         private bool lastIsDisabled;
@@ -48,10 +50,15 @@ namespace Buildings
         private void Start()
         {
             materialManager = MaterialManager.Instance;
+            managers.Add(materialManager);
             energyManager = EnergyManager.Instance;
+            managers.Add(energyManager);
             foodManager = FoodManager.Instance;
+            managers.Add(foodManager);
             waterManager = WaterManager.Instance;
+            managers.Add(waterManager);
             citizenManager = CitizenManager.Instance;
+            managers.Add(citizenManager);
             gameManager = GameManager.Instance;
             nullBuilding = gameManager.NullBuilding;
             BuildModule();
@@ -95,33 +102,47 @@ namespace Buildings
         {
             foreach (Resource item in buildingResources.Costs)
             {
-                switch (item.resource)
+                foreach (ResourceManager jtem in managers)
                 {
-                    case ResourceTypes.Material:
-                        if (materialManager.SavedResourceValue < item.value)
-                            Debug.LogError("Not enough Material to build this Module.");
-                        else materialManager.SavedResourceValue -= item.value;
-                        break;
-                    case ResourceTypes.Energy:
-                        if (energyManager.SavedResourceValue < item.value)
-                            Debug.LogError("Not enough Energy to build this Module.");
-                        else energyManager.SavedResourceValue -= item.value;
-                        break;
-                    case ResourceTypes.Citizen:
-                        if (citizenManager.Citizen < item.value) Debug.LogError("Not enough Citizen to build this Module.");
-                        else citizenManager.Citizen -= item.value;      // TODO nur kontrollieren, ob genug Citizen vorhanden sind???, außer wert ist negativ wegen startmodul
-                        break;
-                    case ResourceTypes.Food:
-                        if (foodManager.SavedResourceValue < item.value)
-                            Debug.LogError("Not enough Food to build this Module.");
-                        else foodManager.SavedResourceValue -= item.value;
-                        break;
-                    case ResourceTypes.Water:
-                        if (waterManager.SavedResourceValue < item.value)
-                            Debug.LogError("Not enough Water to build this Module.");
-                        else waterManager.SavedResourceValue -= item.value;
-                        break;
+                    if (item.resource == jtem.ResourceType)
+                    {
+                        if (jtem.SavedResourceValue < item.value)
+                        {
+                            Debug.LogError($"Not enough {item.resource} to build this Module.");
+                        }
+                        else
+                        {
+                            jtem.SavedResourceValue -= item.value;                      // TODO nur kontrollieren, ob genug Citizen vorhanden sind???, außer wert ist negativ wegen startmodul
+                        }
+                    }
                 }
+                // switch (item.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         if (materialManager.SavedResourceValue < item.value)
+                //             Debug.LogError("Not enough Material to build this Module.");
+                //         else materialManager.SavedResourceValue -= item.value;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         if (energyManager.SavedResourceValue < item.value)
+                //             Debug.LogError("Not enough Energy to build this Module.");
+                //         else energyManager.SavedResourceValue -= item.value;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         if (citizenManager.CurrentResourceProduction < item.value) Debug.LogError("Not enough Citizen to build this Module.");
+                //         else citizenManager.CurrentResourceProduction -= item.value;
+                //         break;
+                //     case ResourceTypes.Food:
+                //         if (foodManager.SavedResourceValue < item.value)
+                //             Debug.LogError("Not enough Food to build this Module.");
+                //         else foodManager.SavedResourceValue -= item.value;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         if (waterManager.SavedResourceValue < item.value)
+                //             Debug.LogError("Not enough Water to build this Module.");
+                //         else waterManager.SavedResourceValue -= item.value;
+                //         break;
+                // }
             }
 
             int empty = gameManager.GetIndexOfFirstEmpty();
@@ -154,7 +175,7 @@ namespace Buildings
                         energyManager.CurrentResourceProduction += item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen -= item.value;
+                        citizenManager.CurrentResourceDemand -= item.value;
                         break;
                     case ResourceTypes.Food:
                         foodManager.CurrentResourceProduction += item.value;
@@ -176,7 +197,7 @@ namespace Buildings
                         energyManager.CurrentResourceDemand += item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen += item.value; 
+                        citizenManager.CurrentResourceDemand += item.value; 
                         break;
                     case ResourceTypes.Food:
                         foodManager.CurrentResourceDemand += item.value;
@@ -198,7 +219,7 @@ namespace Buildings
                         energyManager.SaveSpace += item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.Housing += item.value;
+                        citizenManager.SaveSpace += item.value;
                         break;
                     case ResourceTypes.Food:
                         foodManager.SaveSpace += item.value;
@@ -226,7 +247,7 @@ namespace Buildings
                         energyManager.CurrentResourceProduction -= item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen += item.value;
+                        citizenManager.CurrentResourceDemand += item.value;
                         break;
                     case ResourceTypes.Food:
                         foodManager.CurrentResourceProduction -= item.value;
@@ -248,7 +269,7 @@ namespace Buildings
                         energyManager.CurrentResourceDemand -= item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen -= item.value; 
+                        citizenManager.CurrentResourceDemand -= item.value; 
                         break;
                     case ResourceTypes.Food:
                         foodManager.CurrentResourceDemand -= item.value;
@@ -270,7 +291,7 @@ namespace Buildings
                         energyManager.SaveSpace -= item.value;
                         break;
                     case ResourceTypes.Citizen:
-                        citizenManager.Housing -= item.value;
+                        citizenManager.SaveSpace -= item.value;
                         break;
                     case ResourceTypes.Food:
                         foodManager.SaveSpace -= item.value;
