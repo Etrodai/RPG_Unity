@@ -13,8 +13,8 @@ public class GridTile : MonoBehaviour
     private MeshFilter meshFilter;
 
 
-    private bool isLocked;
-    private bool hasModule;
+    private bool isLocked = false;
+    private bool hasModule = false;
 
     public bool IsLocked
     {
@@ -64,7 +64,7 @@ public class GridTile : MonoBehaviour
     {
         if (!meshRenderer.isVisible)
             return;
-        
+
         IsLocked = false;
         meshRenderer.sharedMaterial = prefabGridTileAvailable.GetComponent<MeshRenderer>().sharedMaterial;
     }
@@ -89,6 +89,17 @@ public class GridTile : MonoBehaviour
         }
     }
 
+    public bool SetModuleOnUsed()
+    {
+        HasModule = true;
+        if (HasModule)
+            return HasModule;
+        else
+        {
+            Debug.Log("Error: No Module could be set");
+            return false;
+        }
+    }
 
     /// <summary>
     /// Activate Ignore Raycast by Showing Grid

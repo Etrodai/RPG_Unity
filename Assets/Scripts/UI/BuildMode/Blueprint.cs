@@ -44,16 +44,12 @@ public class Blueprint : MonoBehaviour
         mouseRay = mainCam.ScreenPointToRay(mousePos);
         if (Physics.Raycast(mouseRay, out RaycastHit hit, RAYRANGE))
         {
-            if (gridTileHit == null)
-                gridTileHit = hit.transform.gameObject.GetComponent<GridTile>(); //VERY Expensive
+            gridTileHit = hit.transform.gameObject.GetComponent<GridTile>(); //TODO: (Ben) VERY Expensive
             this.transform.position = hit.transform.position;
             IsLockedIn = true;
         }
         else
         {
-            if (gridTileHit != null)
-                gridTileHit = null;
-
             this.transform.position = posInWorld;
             IsLockedIn = false;
         }
