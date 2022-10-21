@@ -162,7 +162,9 @@ public class Gridsystem : MonoBehaviour
 
                     GridTile gridTileScript = gridTile.GetComponent<GridTile>();
                     TextMeshPro gridText = gridTile.transform.GetChild(0).GetComponent<TextMeshPro>();
-                    gridText.text = $"Tile_{spawnPos.x}.{spawnPos.y}.{spawnPos.z}";
+                    // gridText.text = $"Tile_{spawnPos.x}.{spawnPos.y}.{spawnPos.z}";
+                    gridText.text = "";
+                    
                     
 
                     if (spawnPos.x == 0 && spawnPos.y == 0 && spawnPos.z == 0)
