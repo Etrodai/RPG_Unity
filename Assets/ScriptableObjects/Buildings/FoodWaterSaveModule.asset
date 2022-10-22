@@ -17,10 +17,8 @@ MonoBehaviour:
     value: 10
   requiredSpace: {x: 0, y: 0, z: 0}
   consumption:
-  - resource: 3
-    value: 5
-  - resource: 4
-    value: 5
+  - resource: 2
+    value: 1
   production: []
   saveSpace:
   - resource: 3

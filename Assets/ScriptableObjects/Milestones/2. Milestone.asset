@@ -13,11 +13,23 @@ MonoBehaviour:
   m_Name: 2
   m_EditorClassIdentifier: 
   mileStoneText:
-  - 2. MilestoneText, Element 0
+  - "Die Drohne bietet Ihnen zus\xE4tzlich die M\xF6glichkeit die Icarus zu erweitern.\r\nUnsere
+    Sensoren ermitteln eine mineralreiche Gesteinswolke welche sich nah an Ihrem
+    Orbit befindet.\vDies ist die Gelegenheit um die neuen Abbaudrohnen im Einsatz
+    zu testen.\v"
+  - Erweitern Sie die Station um eine Erzraffinerie. Dieses Modul sendet Drohnen
+    an nahe Gesteinsbrocken aus und verarbeitet diese gleichzeitig in brauchbare
+    Rohstoffe.
+  - "Ihre Au\xDFenh\xFCllen-Drohne bietet die einfache M\xF6glichkeit zur Planung
+    und Ausbau der Station:\r\n- \xD6ffnen Sie das Bau-Overlay (rechte Maustaste)\r\n-
+    W\xE4hlen Sie die Erzraffinerie aus\r\n- Platzieren Sie mit Linksklick das Modul
+    an einen freien Bauslot"
   requiredEvent: 
   requiredResources: []
   requiredModules:
   - buildingTypes: 3
     value: 1
   mileStoneAchievedText:
-  - 2. MilestoneAchievedText, Element 0
+  - "Ihre Station bietet genug Energie und Sauerstoff f\xFCr den Betrieb von grundlegenden
+    Modulen.\vJetzt wo Ihre erste Raffinerie in Betrieb ist, wird diese nahe Asteroiden
+    nutzen um daraus wichtige Erze zu gewinnen und diese zu verarbeiten.\r\n"

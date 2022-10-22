@@ -10,20 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 786e8237bfe69b94d83e8a51da9a03cf, type: 3}
-  m_Name: FoodWaterModule
+  m_Name: EnergySaveModule
   m_EditorClassIdentifier: 
   costs:
   - resource: 0
-    value: 10
+    value: 50
   requiredSpace: {x: 1, y: 1, z: 1}
   consumption:
+  - resource: 0
+    value: 0
+  production: []
+  saveSpace:
   - resource: 1
-    value: 25
-  - resource: 2
-    value: 5
-  production:
-  - resource: 3
-    value: 20
-  - resource: 4
-    value: 20
-  saveSpace: []
+    value: 100

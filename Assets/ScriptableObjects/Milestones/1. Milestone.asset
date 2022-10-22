@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: 1
   m_EditorClassIdentifier: 
   mileStoneText:
-  - 1. MilestoneText, Element 0
-  - 1. MilestoneText, Element 1
+  - "Sie haben das Standardtraining f\xFCr Eins\xE4tze im Weltraum erhalten. \r\nUm
+    eine bessere administrative \xDCbersicht zu geben, haben Sie Zugriff auf die
+    Steuerung einer Au\xDFenh\xFCllen-Drohne. Diese bietet Ihnen die Ansicht von
+    au\xDFerhalb der Station zur einfachen \xDCbersicht."
+  - "Machen Sie sich erstmal mit der Steuerung vertraut:\r\n- Bewegen Sie die Drohne
+    nach links und rechts (A/D oder Maustaste links gedr\xFCckt halten)\r\n- Bewegen
+    Sie die Drohne nach oben und unten (W/S)\r\n- Zoomen Sie mit der integrierten
+    Kamera n\xE4her heran (Mausrad)"
   requiredEvent: 00000000
   requiredResources: []
   requiredModules: []

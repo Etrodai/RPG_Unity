@@ -10,36 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 786e8237bfe69b94d83e8a51da9a03cf, type: 3}
-  m_Name: StartModule
+  m_Name: WorkSaveModule
   m_EditorClassIdentifier: 
   costs:
   - resource: 0
-    value: -50
-  - resource: 2
-    value: -10
-  - resource: 3
-    value: -10
-  - resource: 4
-    value: -10
-  requiredSpace: {x: 2, y: 2, z: 2}
-  consumption: []
-  production:
+    value: 5
+  requiredSpace: {x: 1, y: 1, z: 1}
+  consumption:
   - resource: 1
-    value: 20
-  - resource: 3
-    value: 15
-  - resource: 4
-    value: 15
+    value: 5
+  - resource: 2
+    value: 1
+  production:
   - resource: 0
-    value: 2
+    value: 0
   saveSpace:
   - resource: 0
-    value: 75
-  - resource: 1
-    value: 100
-  - resource: 2
-    value: 10
-  - resource: 3
-    value: 50
-  - resource: 4
-    value: 50
+    value: 150

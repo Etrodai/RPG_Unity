@@ -1857,7 +1857,7 @@ GameObject:
   - component: {fileID: 7350642702987167781}
   - component: {fileID: 919132148564920187}
   m_Layer: 2
-  m_Name: Cargoship
+  m_Name: pref_Cargoship
   m_TagString: Spaceship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

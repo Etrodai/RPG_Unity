@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8814598076140169004}
   - component: {fileID: 8814598076140169003}
   m_Layer: 0
-  m_Name: NULLBuilding
+  m_Name: pref_NULLBuilding
   m_TagString: NULLBuilding
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

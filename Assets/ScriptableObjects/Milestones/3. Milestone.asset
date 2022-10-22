@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: 3
   m_EditorClassIdentifier: 
   mileStoneText:
-  - 3. MilestoneText, Element 0
+  - "F\xFCr den Betrieb von Icarus sind gut ausgebildete Arbeitskr\xE4fte n\xF6tig.
+    Aufgrund der \xDCberbev\xF6lkerung unseres Heimatplaneten sind viele Menschen
+    bereit den Schritt in den Weltall zu tun.\v"
+  - "Ihre n\xE4chste Aufgabe ist es gen\xFCgend Wohnraum zu bieten um weiteren Arbeitskr\xE4ften
+    das Leben auf der Station zu erm\xF6glichen:\r\n\r\n- \xD6ffnen Sie das Baumen\xFC\r\n-
+    W\xE4hlen Sie das Modul Wohneinheit aus\r\n- Platzieren Sie das Modul an einen
+    freien Slot an Ihrer Station"
   requiredEvent: 
   requiredResources:
   - resource: 0
@@ -22,4 +28,5 @@ MonoBehaviour:
   - buildingTypes: 7
     value: 1
   mileStoneAchievedText:
-  - 3. MilestoneAchievedText, Element 0
+  - "Mit der Zeit werden Arbeiter auf freie Stellen in Ihrer Station aufmerksam und
+    werden mit der n\xE4chsten F\xE4hre zu ihrer Station reisen."

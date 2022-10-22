@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 6742884353743928171}
   - component: {fileID: 6742884353743928170}
   m_Layer: 0
-  m_Name: CameraSpot
+  m_Name: pref_CameraSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
