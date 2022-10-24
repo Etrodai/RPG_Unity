@@ -112,7 +112,7 @@ public class PirateAttack : BaseEvent
     {
         //25% citizen loss
 
-        citizenManager.Citizen -= (int)(citizenManager.Citizen * 0.25f);
+        citizenManager.CurrentResourceProduction -= (int)(citizenManager.CurrentResourceProduction * 0.25f);
         dialogCaseIndex++;
         dialogTextIndex += 2;
         EventBehaviour();

@@ -13,12 +13,19 @@ public class GridTile : MonoBehaviour
     private MeshFilter meshFilter;
 
 
-    private bool isLocked;
+    private bool isLocked = false;
+    private bool hasModule = false;
 
     public bool IsLocked
     {
         get => isLocked;
         set => isLocked = value;
+    }
+
+    public bool HasModule
+    {
+        get => hasModule;
+        set => hasModule = value;
     }
 
 
@@ -46,12 +53,18 @@ public class GridTile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!meshRenderer.isVisible)
+            return;
+
         IsLocked = true;
         meshRenderer.sharedMaterial = prefabGridTileLocked.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (!meshRenderer.isVisible)
+            return;
+
         IsLocked = false;
         meshRenderer.sharedMaterial = prefabGridTileAvailable.GetComponent<MeshRenderer>().sharedMaterial;
     }
@@ -68,6 +81,7 @@ public class GridTile : MonoBehaviour
         {
             int layerIgnoreRayCast = LayerMask.NameToLayer("Ignore Raycast");
             this.gameObject.layer = layerIgnoreRayCast;
+            meshRenderer.sharedMaterial = prefabGridTileAvailable.GetComponent<MeshRenderer>().sharedMaterial;
         }
         else
         {
@@ -75,6 +89,17 @@ public class GridTile : MonoBehaviour
         }
     }
 
+    public bool SetModuleOnUsed()
+    {
+        HasModule = true;
+        if (HasModule)
+            return HasModule;
+        else
+        {
+            Debug.Log("Error: No Module could be set");
+            return false;
+        }
+    }
 
     /// <summary>
     /// Activate Ignore Raycast by Showing Grid
@@ -85,6 +110,4 @@ public class GridTile : MonoBehaviour
         int layerIgnoreRayCast = LayerMask.NameToLayer("Ignore Raycast");
         this.gameObject.layer = layerIgnoreRayCast;
     }
-
-    
 }

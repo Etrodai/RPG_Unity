@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Buildings;
 using ResourceManagement;
 using ResourceManagement.Manager;
@@ -12,63 +12,49 @@ public class BuildMenuScript : MonoBehaviour
     private FoodManager foodManager;
     private WaterManager waterManager;
     private CitizenManager citizenManager;
+    private List<ResourceManager> managers;
+    private bool isInitialized;
 
-    private void Start()
+    private void Initialize()
     {
+        managers = new List<ResourceManager>();
         materialManager = MaterialManager.Instance;
+        managers.Add(materialManager);
         energyManager = EnergyManager.Instance;
+        managers.Add(energyManager);
         foodManager = FoodManager.Instance;
+        managers.Add(foodManager);
         waterManager = WaterManager.Instance;
+        managers.Add(waterManager);
         citizenManager = CitizenManager.Instance;
+        managers.Add(citizenManager);
     }
 
     private void OnEnable()
     {
-        foreach (Buttons jtem in buttons)
+        if (!isInitialized)
         {
-            foreach (Resource item in jtem.ModuleToBuild.Costs)
+            Initialize();
+            isInitialized = true;
+        }
+        
+        foreach (Buttons button in buttons)
+        {
+            bool activate = true;
+            foreach (Resource cost in button.ModuleToBuild.Costs)
             {
-                jtem.Button.SetActive(true);
-                
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        if (materialManager.SavedResourceValue < item.value)
+                    if (manager.ResourceType == cost.resource)
+                    {
+                        if (manager.SavedResourceValue < cost.value)
                         {
-                            jtem.Button.SetActive(false);
-                            return; 
+                            activate = false;
                         }
-                        break;
-                    case ResourceTypes.Energy:
-                        if (energyManager.SavedResourceValue < item.value)
-                        {
-                            jtem.Button.SetActive(false);
-                            return; 
-                        }
-                        break;
-                    case ResourceTypes.Citizen:
-                        if (citizenManager.Citizen < item.value)
-                        {
-                            jtem.Button.SetActive(false);
-                            return; 
-                        }
-                        break;
-                    case ResourceTypes.Food:
-                        if (foodManager.SavedResourceValue < item.value)
-                        {
-                            jtem.Button.SetActive(false);
-                            return; 
-                        }
-                        break;
-                    case ResourceTypes.Water:
-                        if (waterManager.SavedResourceValue < item.value)
-                        {
-                            jtem.Button.SetActive(false);
-                            return; 
-                        }
-                        break;
+                    }
                 }
             }
+            button.Button.SetActive(activate);
         }
     }
 }

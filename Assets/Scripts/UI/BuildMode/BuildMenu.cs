@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -12,7 +13,7 @@ public class BuildMenu : MonoBehaviour
     [SerializeField] private GameObject prefab_blueprintObject;
     private GameObject blueprintObject;
     private GameObject moduleToBuild;
-    
+
     Vector3 mousePos;
 
     private void Start()
@@ -25,12 +26,13 @@ public class BuildMenu : MonoBehaviour
     /// </summary>
     public void RightMouseButtonPressed()
     {
+        CheckIfBlueprintObjectExists();
         buildmenuLayout.SetActive(!buildmenuLayout.activeSelf);
 
         if (buildmenuLayout.activeSelf)
         {
-        mousePos = Input.mousePosition;
-        buildmenuLayout.transform.position = mousePos;
+            mousePos = Input.mousePosition;
+            buildmenuLayout.transform.position = mousePos;
         }
         else
         {
@@ -39,27 +41,42 @@ public class BuildMenu : MonoBehaviour
         }
     }
 
-    public void LeftMouseButtonPressed()
+    private void CheckIfBlueprintObjectExists()
     {
-        if (!buildmenuLayout.activeSelf || blueprintObject == null)
+        if (blueprintObject != null)
         {
-            return;
-        }
-        
-        Blueprint blueprint = blueprintObject.GetComponent<Blueprint>();
-        if (blueprint.IsLockedIn)
-        {
-            UnCheckAvailableGridTiles(true);
-            buildmenuLayout.SetActive(false);
-
-            GameObject module = Instantiate(moduleToBuild, blueprint.transform.position, quaternion.identity);
-            module.transform.parent = GameObject.FindGameObjectWithTag("Station").transform; //Redo
-
-            blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
             Destroy(blueprintObject);
         }
     }
-    
+
+    public void LeftMouseButtonPressed()
+    {
+        if (!buildmenuLayout.activeSelf)
+            return;
+
+
+        if (blueprintObject != null)
+        {
+            Blueprint blueprint = blueprintObject.GetComponent<Blueprint>();
+
+            if (blueprint.IsLockedIn)
+            {
+                if (blueprint.gridTileHit.SetModuleOnUsed())
+                {
+                    Debug.Log(blueprint.gridTileHit.name);
+                    GameObject module = Instantiate(moduleToBuild, blueprint.transform.position, quaternion.identity);
+                    module.transform.parent = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Redo
+                    blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
+                }
+            }
+
+            buildmenuLayout.SetActive(false);
+        }
+
+        CheckIfBlueprintObjectExists();
+        UnCheckAvailableGridTiles(true);
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -71,13 +88,14 @@ public class BuildMenu : MonoBehaviour
         CheckAvailableGridTiles();
 
         moduleToBuild = _moduleToBuild;
-        blueprintObject = Instantiate(prefab_blueprintObject, spawnPos,Quaternion.identity);
+        blueprintObject = Instantiate(prefab_blueprintObject, spawnPos, Quaternion.identity);
     }
 
     private void CheckAvailableGridTiles()
     {
         Gridsystem.Instance.CheckAvailableGridTilesAroundStation();
     }
+
     private void UnCheckAvailableGridTiles(bool isBuilded)
     {
         Gridsystem.Instance.UnCheckAvailableGridTilesAroundStation(isBuilded);

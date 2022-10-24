@@ -25,14 +25,14 @@ public class Blueprint : MonoBehaviour
     }
 
     private Ray mouseRay;
-    private float rayRange = 100;
+    private const float RAYRANGE = 100;
 
     public GridTile gridTileHit;
 
     private void Awake()
     {
         mainCam = Camera.main;
-        station = GameObject.FindGameObjectWithTag("Station").transform; //Need Rework
+        station = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Need Rework
     }
 
     private void Update()
@@ -41,19 +41,15 @@ public class Blueprint : MonoBehaviour
         mousePos = Input.mousePosition;
         posInWorld = mainCam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, distance));
 
-        mouseRay = mainCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(mouseRay, out RaycastHit hit, rayRange))
+        mouseRay = mainCam.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(mouseRay, out RaycastHit hit, RAYRANGE))
         {
-            if (gridTileHit == null)
-                gridTileHit = hit.transform.gameObject.GetComponent<GridTile>(); //VERY Expensive
+            gridTileHit = hit.transform.gameObject.GetComponent<GridTile>(); //TODO: (Ben) VERY Expensive
             this.transform.position = hit.transform.position;
             IsLockedIn = true;
         }
         else
         {
-            if (gridTileHit != null)
-                gridTileHit = null;
-
             this.transform.position = posInWorld;
             IsLockedIn = false;
         }

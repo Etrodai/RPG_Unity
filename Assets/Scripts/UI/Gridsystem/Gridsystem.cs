@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
@@ -32,7 +33,13 @@ public class Gridsystem : MonoBehaviour
     public bool gridIsVisible = true;
 
     //Workaround in static or Singleton?
-    public GridTile[,,] tileArray;
+    private GridTile[,,] tileArray;
+
+    public GridTile[,,] TileArray
+    {
+        get => tileArray;
+        set => tileArray = value;
+    }
 
     public List<GridTile> currentVisibleTileList = new List<GridTile>();
 
@@ -42,7 +49,13 @@ public class Gridsystem : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        //Singleton
+        SingletonGridsystem();
+        CheckGridSize();
+        InitGrid();
+    }
+
+    private void SingletonGridsystem()
+    {
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -51,17 +64,9 @@ public class Gridsystem : MonoBehaviour
         {
             instance = this;
         }
-
-        //Initializing
-        CheckGridSize();
-        tileArray = new GridTile[(int)GridSizeXYZ.x, (int)GridSizeXYZ.y, (int)GridSizeXYZ.z];
-        InitGrid();
     }
 
 
-    /// <summary>
-    /// 
-    /// </summary>
     public void CheckAvailableGridTilesAroundStation()
     {
         for (int z = 0; z < GridSizeXYZ.z; z++)
@@ -71,86 +76,50 @@ public class Gridsystem : MonoBehaviour
                 for (int x = 0; x < GridSizeXYZ.x; x++)
                 {
                     //Check only when Tile is locked
-                    if (!tileArray[x, y, z].IsLocked)
+                    if (!TileArray[x, y, z].HasModule)
                     {
                         continue;
                     }
 
-
                     //X-Axis
-
-                    if ((x + 1) < tileArray.GetLength(0))
-                    {
-                        tileArray[x + 1, y, z].ChangeActiveState(true);
-                        currentVisibleTileList.Add(tileArray[x + 1, y, z]);
-                    }
-
+                    if ((x + 1) < TileArray.GetLength(0))
+                        SelectNearGridTile(x + 1, y, z);
                     if (x != 0)
-                    {
-                        tileArray[x - 1, y, z].ChangeActiveState(true);
-                        currentVisibleTileList.Add(tileArray[x - 1, y, z]);
-                    }
-
+                        SelectNearGridTile(x - 1, y, z);
                     //Y-Axis
-                    if ( (y + 1) < tileArray.GetLength(1))
-                    {
-                        tileArray[x, y + 1, z].ChangeActiveState(true);
-                        currentVisibleTileList.Add(tileArray[x, y + 1, z]);
-                    }
-
+                    if ((y + 1) < TileArray.GetLength(1))
+                        SelectNearGridTile(x, y + 1, z);
                     if (y != 0)
-                    {
-                        tileArray[x, y - 1, z].ChangeActiveState(true);
-                        currentVisibleTileList.Add(tileArray[x, y - 1, z]);
-                    }
-
+                        SelectNearGridTile(x, y - 1, z);
                     //Z-Axis
-                    if ( (z + 1) < tileArray.GetLength(2))
-                    {
-                        tileArray[x, y, z + 1].ChangeActiveState(true);
-                        currentVisibleTileList.Add(tileArray[x, y, z + 1]);
-                    }
-
+                    if ((z + 1) < TileArray.GetLength(2))
+                        SelectNearGridTile(x, y, z + 1);
                     if (z != 0)
-                    {
-                        tileArray[x, y, z - 1].ChangeActiveState(true);
-                        currentVisibleTileList.Add(tileArray[x, y, z - 1]);
-                    }
+                        SelectNearGridTile(x, y, z - 1);
                 }
             }
         }
     }
 
-    public void UnCheckAvailableGridTilesAroundStation()
+    private void SelectNearGridTile(int xValue, int yValue, int zValue)
     {
-        if (currentVisibleTileList.Count == 0)
-        {
+        if (TileArray[xValue, yValue, zValue].HasModule)
             return;
-        }
-
-        for (int i = 0; i < currentVisibleTileList.Count; i++)
-        {
-            currentVisibleTileList[i].ChangeActiveState(false);
-            currentVisibleTileList[i].IsLocked = false;
-        }
-
-        currentVisibleTileList.Clear();
+        TileArray[xValue, yValue, zValue].ChangeActiveState(true);
+        currentVisibleTileList.Add(TileArray[xValue, yValue, zValue]);
     }
 
     public void UnCheckAvailableGridTilesAroundStation(bool isBuilded)
     {
         if (currentVisibleTileList.Count == 0)
-        {
             return;
-        }
+
 
         for (int i = 0; i < currentVisibleTileList.Count; i++)
         {
             currentVisibleTileList[i].ChangeActiveState(false);
             if (!isBuilded)
-            {
                 currentVisibleTileList[i].IsLocked = false;
-            }
         }
 
         currentVisibleTileList.Clear();
@@ -161,11 +130,19 @@ public class Gridsystem : MonoBehaviour
 
     private void InitGrid()
     {
-        //Parent Object as Container
+        TileArray = new GridTile[(int)GridSizeXYZ.x, (int)GridSizeXYZ.y, (int)GridSizeXYZ.z];
+
+        //Parent Objects as Container
         GameObject gridContainer = new GameObject { name = "GridBox", transform = { position = spawnPos } };
+        GameObject stationContainer = new GameObject { name = "StationBox", transform = { position = spawnPos } };
+        GameObject grid = new GameObject { name = "Grid", transform = { position = spawnPos } };
+        stationContainer.transform.parent = gridContainer.transform;
+        grid.transform.parent = gridContainer.transform;
 
         int arrayIndex = 0;
-
+        Vector3 offSetVector = new Vector3(Mathf.Floor(GridSizeXYZ.x / 2), Mathf.Floor(GridSizeXYZ.y / 2),
+            Mathf.Floor(GridSizeXYZ.z / 2));
+        
         //Setting Tiles in Grid
         //Z-Axis
         for (int z = 0; z < GridSizeXYZ.z; z++)
@@ -176,25 +153,29 @@ public class Gridsystem : MonoBehaviour
                 //X-Axis
                 for (int x = 0; x < GridSizeXYZ.x; x++)
                 {
-                    //Instantiate 1 GridTile
-                    //spawnPos = new Vector3(x - (gridSizeXYZ.x / 2), y, z - (gridSizeXYZ.z / 2));
-                    spawnPos = new Vector3(x - Mathf.Floor(GridSizeXYZ.x / 2), y - Mathf.Floor(GridSizeXYZ.y / 2),
-                        z - Mathf.Floor(GridSizeXYZ.z / 2));
+                    spawnPos = new Vector3(x - offSetVector.x, y - offSetVector.y, z - offSetVector.z);
                     GameObject gridTile = Instantiate(prefabGridTile, spawnPos, Quaternion.identity);
 
                     //Putting in Container
-                    gridTile.transform.parent = gridContainer.transform;
+                    gridTile.transform.parent = grid.transform;
                     gridTile.name = $"Tile_{spawnPos.x}.{spawnPos.y}.{spawnPos.z}";
 
                     GridTile gridTileScript = gridTile.GetComponent<GridTile>();
+                    TextMeshPro gridText = gridTile.transform.GetChild(0).GetComponent<TextMeshPro>();
+                    // gridText.text = $"Tile_{spawnPos.x}.{spawnPos.y}.{spawnPos.z}";
+                    gridText.text = "";
+                    
+                    
 
-                    if (gridIsVisible)
+                    if (spawnPos.x == 0 && spawnPos.y == 0 && spawnPos.z == 0)
                     {
+                        gridTileScript.HasModule = true;
+                    } //TODO: Better Method to Init startgridTile
+                    
+                    if (gridIsVisible)
                         gridTileScript.InitActiveState();
-                    }
-
                     //Save GridFile in Array
-                    tileArray[x, y, z] = gridTileScript;
+                    TileArray[x, y, z] = gridTileScript;
                 }
             }
         }
@@ -206,7 +187,7 @@ public class Gridsystem : MonoBehaviour
 
         centerTile.name = "Station";
         centerTile.tag = "Station";
-        centerTile.transform.parent = gridContainer.transform;
+        centerTile.transform.parent = stationContainer.transform;
     }
 
     /// <summary>
@@ -240,7 +221,7 @@ public class Gridsystem : MonoBehaviour
     {
         spawnPos = Vector3.zero;
         CheckGridSize();
-        tileArray = new GridTile[(int)GridSizeXYZ.x, (int)GridSizeXYZ.y, (int)GridSizeXYZ.z];
+        TileArray = new GridTile[(int)GridSizeXYZ.x, (int)GridSizeXYZ.y, (int)GridSizeXYZ.z];
         InitGrid();
     }
 

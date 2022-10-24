@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
@@ -18,7 +19,10 @@ namespace Buildings
         private WaterManager waterManager;
         private CitizenManager citizenManager;
         private GameManager gameManager;
-        private Building NULLBuilding;
+        private List<ResourceManager> managers;
+        private Building nullBuilding;
+
+        private bool lastIsDisabled;
         
         #endregion
 
@@ -45,31 +49,38 @@ namespace Buildings
         /// </summary>
         private void Start()
         {
+            managers = new List<ResourceManager>();
             materialManager = MaterialManager.Instance;
+            managers.Add(materialManager);
             energyManager = EnergyManager.Instance;
+            managers.Add(energyManager);
             foodManager = FoodManager.Instance;
+            managers.Add(foodManager);
             waterManager = WaterManager.Instance;
+            managers.Add(waterManager);
             citizenManager = CitizenManager.Instance;
+            managers.Add(citizenManager);
             gameManager = GameManager.Instance;
-            NULLBuilding = GameObject.FindGameObjectWithTag("NULLBuilding").GetComponent<Building>();
+            nullBuilding = gameManager.NullBuilding;
             BuildModule();
             EnableModule();
         }
+        private void Update() // Can be solved as usual Method via UI                    TODO
+        {
+            if (isDisabled == lastIsDisabled) return;
+            
+            if (isDisabled)
+            {
+                DisableModule();
+            }
+            else
+            {
+                EnableModule();
+            }
 
-        #region Unused Code
-        // private void Update() // Can be solved as usual Method via UI                    TODO
-        // {
-        //     if (isDisabled)
-        //     {
-        //         DisableModule();
-        //     }
-        //     else
-        //     {
-        //         EnableModule();
-        //     }
-        // }
-        #endregion
-        
+            lastIsDisabled = isDisabled;
+        }
+
         /// <summary>
         /// disables function of building when it gets deleted
         /// unsubscribes building from gameManagerList
@@ -81,7 +92,7 @@ namespace Buildings
                 DisableModule();
             }
 
-            gameManager.AllBuildings[indexOfAllBuildings] = NULLBuilding;
+            gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
         }
         
         #endregion
@@ -90,34 +101,48 @@ namespace Buildings
 
         private void BuildModule()
         {
-            foreach (Resource item in buildingResources.Costs)
+            foreach (Resource cost in buildingResources.Costs)
             {
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        if (materialManager.SavedResourceValue < item.value)
-                            Debug.LogError("Not enough Material to build this Module.");
-                        else materialManager.SavedResourceValue -= item.value;
-                        break;
-                    case ResourceTypes.Energy:
-                        if (energyManager.SavedResourceValue < item.value)
-                            Debug.LogError("Not enough Energy to build this Module.");
-                        else energyManager.SavedResourceValue -= item.value;
-                        break;
-                    case ResourceTypes.Citizen:
-                        if (citizenManager.Citizen < item.value) Debug.LogError("Not enough Citizen to build this Module.");
-                        break;
-                    case ResourceTypes.Food:
-                        if (foodManager.SavedResourceValue < item.value)
-                            Debug.LogError("Not enough Food to build this Module.");
-                        else foodManager.SavedResourceValue -= item.value;
-                        break;
-                    case ResourceTypes.Water:
-                        if (waterManager.SavedResourceValue < item.value)
-                            Debug.LogError("Not enough Water to build this Module.");
-                        else waterManager.SavedResourceValue -= item.value;
-                        break;
+                    if (cost.resource == manager.ResourceType)
+                    {
+                        if (manager.SavedResourceValue < cost.value)
+                        {
+                            Debug.LogError($"Not enough {cost.resource} to build this Module.");
+                        }
+                        else
+                        {
+                            manager.SavedResourceValue -= cost.value;                         }
+                    }
                 }
+                // switch (item.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         if (materialManager.SavedResourceValue < item.value)
+                //             Debug.LogError("Not enough Material to build this Module.");
+                //         else materialManager.SavedResourceValue -= item.value;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         if (energyManager.SavedResourceValue < item.value)
+                //             Debug.LogError("Not enough Energy to build this Module.");
+                //         else energyManager.SavedResourceValue -= item.value;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         if (citizenManager.CurrentResourceProduction < item.value) Debug.LogError("Not enough Citizen to build this Module.");
+                //         else citizenManager.CurrentResourceProduction -= item.value;
+                //         break;
+                //     case ResourceTypes.Food:
+                //         if (foodManager.SavedResourceValue < item.value)
+                //             Debug.LogError("Not enough Food to build this Module.");
+                //         else foodManager.SavedResourceValue -= item.value;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         if (waterManager.SavedResourceValue < item.value)
+                //             Debug.LogError("Not enough Water to build this Module.");
+                //         else waterManager.SavedResourceValue -= item.value;
+                //         break;
+                // }
             }
 
             int empty = gameManager.GetIndexOfFirstEmpty();
@@ -139,70 +164,94 @@ namespace Buildings
         /// </summary>
         private void EnableModule()
         {
-            foreach (Resource item in buildingResources.Production)
+            foreach (Resource production in buildingResources.Production)
             {
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        materialManager.CurrentResourceProduction += item.value;
-                        break;
-                    case ResourceTypes.Energy:
-                        energyManager.CurrentResourceProduction += item.value;
-                        break;
-                    case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen += item.value;
-                        break;
-                    case ResourceTypes.Food:
-                        foodManager.CurrentResourceProduction += item.value;
-                        break;
-                    case ResourceTypes.Water:
-                        waterManager.CurrentResourceProduction += item.value;
-                        break;
+                    if (production.resource == manager.ResourceType)
+                    {
+                        manager.CurrentResourceProduction += production.value;
+                    }
                 }
+                
+                // switch (item.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         materialManager.CurrentResourceProduction += item.value;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         energyManager.CurrentResourceProduction += item.value;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         citizenManager.CurrentResourceDemand -= item.value; // gibt es eine Produktion???
+                //         break;
+                //     case ResourceTypes.Food:
+                //         foodManager.CurrentResourceProduction += item.value;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         waterManager.CurrentResourceProduction += item.value;
+                //         break;
+                // }
             }
 
-            foreach (Resource item in buildingResources.Consumption)
+            foreach (Resource consumption in buildingResources.Consumption)
             {
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        materialManager.CurrentResourceDemand += item.value;
-                        break;
-                    case ResourceTypes.Energy:
-                        energyManager.CurrentResourceDemand += item.value;
-                        break;
-                    case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen -= item.value; 
-                        break;
-                    case ResourceTypes.Food:
-                        foodManager.CurrentResourceDemand += item.value;
-                        break;
-                    case ResourceTypes.Water:
-                        waterManager.CurrentResourceDemand += item.value;
-                        break;
+                    if (consumption.resource == manager.ResourceType)
+                    {
+                        manager.CurrentResourceDemand += consumption.value;
+                    }
                 }
+                
+                // switch (item.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         materialManager.CurrentResourceDemand += item.value;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         energyManager.CurrentResourceDemand += item.value;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         citizenManager.CurrentResourceDemand += item.value; 
+                //         break;
+                //     case ResourceTypes.Food:
+                //         foodManager.CurrentResourceDemand += item.value;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         waterManager.CurrentResourceDemand += item.value;
+                //         break;
+                // }
             }
 
-            foreach (Resource item in buildingResources.SaveSpace)
+            foreach (Resource space in buildingResources.SaveSpace)
             {
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        materialManager.SaveSpace += item.value;
-                        break;
-                    case ResourceTypes.Energy:
-                        energyManager.SaveSpace += item.value;
-                        break;
-                    case ResourceTypes.Citizen:
-                        citizenManager.Housing += item.value;
-                        break;
-                    case ResourceTypes.Food:
-                        foodManager.SaveSpace += item.value;
-                        break;
-                    case ResourceTypes.Water:
-                        waterManager.SaveSpace += item.value;
-                        break;
+                    if (space.resource == manager.ResourceType)
+                    {
+                        manager.SaveSpace += space.value;
+                    }
                 }
+                
+                // switch (item.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         materialManager.SaveSpace += item.value;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         energyManager.SaveSpace += item.value;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         citizenManager.SaveSpace += item.value;
+                //         break;
+                //     case ResourceTypes.Food:
+                //         foodManager.SaveSpace += item.value;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         waterManager.SaveSpace += item.value;
+                //         break;
+                // }
             }
         }
 
@@ -211,71 +260,97 @@ namespace Buildings
         /// </summary>
         private void DisableModule()
         {
-            foreach (Resource item in buildingResources.Production)
+            foreach (Resource production in buildingResources.Production)
             {
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        materialManager.CurrentResourceProduction -= item.value;
-                        break;
-                    case ResourceTypes.Energy:
-                        energyManager.CurrentResourceProduction -= item.value;
-                        break;
-                    case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen -= item.value;
-                        break;
-                    case ResourceTypes.Food:
-                        foodManager.CurrentResourceProduction -= item.value;
-                        break;
-                    case ResourceTypes.Water:
-                        waterManager.CurrentResourceProduction -= item.value;
-                        break;
+                    if (production.resource == manager.ResourceType)
+                    {
+                        manager.CurrentResourceProduction -= production.value;
+                    }
                 }
+                
+                // switch (item.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         materialManager.CurrentResourceProduction -= item.value;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         energyManager.CurrentResourceProduction -= item.value;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         citizenManager.CurrentResourceDemand += item.value;
+                //         break;
+                //     case ResourceTypes.Food:
+                //         foodManager.CurrentResourceProduction -= item.value;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         waterManager.CurrentResourceProduction -= item.value;
+                //         break;
+                // }
             }
 
-            foreach (Resource item in buildingResources.Consumption)
+            foreach (Resource consumption in buildingResources.Consumption)
             {
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        materialManager.CurrentResourceDemand -= item.value;
-                        break;
-                    case ResourceTypes.Energy:
-                        energyManager.CurrentResourceDemand -= item.value;
-                        break;
-                    case ResourceTypes.Citizen:
-                        citizenManager.NeededCitizen += item.value; 
-                        break;
-                    case ResourceTypes.Food:
-                        foodManager.CurrentResourceDemand -= item.value;
-                        break;
-                    case ResourceTypes.Water:
-                        waterManager.CurrentResourceDemand -= item.value;
-                        break;
+                    if (consumption.resource == manager.ResourceType)
+                    {
+                        manager.CurrentResourceDemand -= consumption.value;
+                    }
                 }
+                
+                // switch (item.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         materialManager.CurrentResourceDemand -= item.value;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         energyManager.CurrentResourceDemand -= item.value;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         citizenManager.CurrentResourceDemand -= item.value; 
+                //         break;
+                //     case ResourceTypes.Food:
+                //         foodManager.CurrentResourceDemand -= item.value;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         waterManager.CurrentResourceDemand -= item.value;
+                //         break;
+                // }
             }
 
-            foreach (Resource item in buildingResources.SaveSpace)
+            foreach (Resource space in buildingResources.SaveSpace)
             {
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        materialManager.SaveSpace -= item.value;
-                        break;
-                    case ResourceTypes.Energy:
-                        energyManager.SaveSpace -= item.value;
-                        break;
-                    case ResourceTypes.Citizen:
-                        citizenManager.Housing -= item.value;
-                        break;
-                    case ResourceTypes.Food:
-                        foodManager.SaveSpace -= item.value;
-                        break;
-                    case ResourceTypes.Water:
-                        waterManager.SaveSpace -= item.value;
-                        break;
+                    if (space.resource == manager.ResourceType)
+                    {
+                        manager.SaveSpace -= space.value;
+                    }
                 }
+                
+                // switch (item.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         materialManager.SaveSpace -= item.value;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         energyManager.SaveSpace -= item.value;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         citizenManager.SaveSpace -= item.value;
+                //         break;
+                //     case ResourceTypes.Food:
+                //         foodManager.SaveSpace -= item.value;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         waterManager.SaveSpace -= item.value;
+                //         break;
+                // }
             }
+            
+            // Debug.Log(BuildingType + " is Disabled cause of ");
         }
         
         #endregion

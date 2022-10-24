@@ -14,7 +14,7 @@ public class CustomInspectorGrid : Editor
         if (GUILayout.Button("Create new Grid"))
         {
             //Delete actual Gridbox
-            foreach (var tile in gridsystem.tileArray)
+            foreach (var tile in Gridsystem.Instance.TileArray)
             {
                 Destroy(tile.transform.parent.gameObject);
             }

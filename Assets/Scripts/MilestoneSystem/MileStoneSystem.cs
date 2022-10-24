@@ -9,12 +9,6 @@ namespace MilestoneSystem
 {
     public class MileStoneSystem : MonoBehaviour
     {
-        #region TODOS
-        
-        // Text springt weg, ohne auf OK zu drücken
-        
-        #endregion
-
         #region Variables
 
         [SerializeField] private List<MileStoneEvent> events;
@@ -28,6 +22,14 @@ namespace MilestoneSystem
         private TextMeshProUGUI requiredStuffText; // TextField of Menu
         bool isMinimized; // shows if the SideMenu is mini or maximized
         [SerializeField] private Canvas canvas;
+        private MaterialManager materialManager;
+        private EnergyManager energyManager;
+        private FoodManager foodManager;
+        private WaterManager waterManager;
+        private CitizenManager citizenManager;
+        private GameManager gameManager;
+        private List<ResourceManager> managers;
+        
     
         #endregion
 
@@ -53,6 +55,20 @@ namespace MilestoneSystem
         /// </summary>
         private void Start()
         {
+            managers = new List<ResourceManager>();
+            materialManager = MaterialManager.Instance;
+            managers.Add(materialManager);
+            energyManager = EnergyManager.Instance;
+            managers.Add(energyManager);
+            foodManager = FoodManager.Instance;
+            managers.Add(foodManager);
+            waterManager = WaterManager.Instance;
+            managers.Add(waterManager);
+            citizenManager = CitizenManager.Instance;
+            managers.Add(citizenManager);
+            
+            gameManager = GameManager.Instance;
+
             BuildPreMainText();
         }
 
@@ -153,45 +169,19 @@ namespace MilestoneSystem
         /// </summary>
         private void BuildMenu()
         {
+            requiredStuffText.text = "";
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
-                foreach (MileStoneEventNames item in mileStones[mileStonesDone].RequiredEvent)
+                foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
                 {
-                    switch (item)
+                    foreach (MileStoneEvent mileStoneEvent in events)
                     {
-                        case MileStoneEventNames.CameraMovement:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.CameraMovement)
-                                {
-                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
-                                    jtem.enabled = true;
-                                    jtem.ResetAll();
-                                }
-                            }
-                            break;
-                        case MileStoneEventNames.ShowPrioritySystem:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
-                                {
-                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
-                                    jtem.enabled = true;
-                                    jtem.ResetAll();
-                                }
-                            }
-                            break;
-                        case MileStoneEventNames.WaitForSeconds:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.WaitForSeconds)
-                                {
-                                    requiredStuffText.text += $"{jtem.MenuText}\n\n";
-                                    jtem.enabled = true;
-                                    jtem.ResetAll();
-                                }
-                            }
-                            break;
+                        if (mileStoneEvent.Name == requiredEvent)
+                        {
+                            requiredStuffText.text += $"{mileStoneEvent.MenuText}\n\n";
+                            mileStoneEvent.enabled = true;
+                            mileStoneEvent.ResetAll();
+                        }
                     }
                 }
             }
@@ -199,18 +189,18 @@ namespace MilestoneSystem
             if (mileStones[mileStonesDone].RequiredResources.Length != 0)
             {
                 requiredStuffText.text += "\nRequired resources:";
-                foreach (Resource item in mileStones[mileStonesDone].RequiredResources)
+                foreach (Resource requiredResource in mileStones[mileStonesDone].RequiredResources)
                 {
-                    requiredStuffText.text += $"\n{item.value} {item.resource}\n";
+                    requiredStuffText.text += $"\n{requiredResource.value} {requiredResource.resource}\n";
                 }
             }
 
             if (mileStones[mileStonesDone].RequiredModules.Length != 0)
             {
                 requiredStuffText.text += "\nRequired modules:";
-                foreach (MileStoneModules item in mileStones[mileStonesDone].RequiredModules)
+                foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
                 {
-                    requiredStuffText.text += $"\n{item.value} {item.buildingTypes}\n";
+                    requiredStuffText.text += $"\n{requiredModule.value} {requiredModule.buildingTypes}\n";
                 }
             }
         }
@@ -251,145 +241,135 @@ namespace MilestoneSystem
 
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
-                foreach (MileStoneEventNames item in mileStones[mileStonesDone].RequiredEvent)
+                foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
                 {
-                    switch (item)
+                    foreach (MileStoneEvent mileStoneEvent in events)
                     {
-                        case MileStoneEventNames.CameraMovement:
-                            foreach (MileStoneEvent jtem in events)
+                        if (mileStoneEvent.Name == requiredEvent)
+                        {
+                            if (!mileStoneEvent.CheckAchieved())
                             {
-                                if (jtem.Name == MileStoneEventNames.CameraMovement)
-                                {
-                                    if (!jtem.CheckAchieved())
-                                    {
-                                        hasAllRequiredStuff = false;
-                                    }
-                                }
+                                hasAllRequiredStuff = false;
                             }
-                            break;
-                        case MileStoneEventNames.ShowPrioritySystem:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
-                                {
-                                    if (!jtem.CheckAchieved())
-                                    {
-                                        hasAllRequiredStuff = false;
-                                    }
-                                }
-                            }
-                            break;
-                        case MileStoneEventNames.WaitForSeconds:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.WaitForSeconds)
-                                {
-                                    if (!jtem.CheckAchieved())
-                                    {
-                                        hasAllRequiredStuff = false;
-                                    }
-                                }
-                            }
-                            break;
+                        }
                     }
                 }
             }
 
-            foreach (Resource item in mileStones[mileStonesDone].RequiredResources)
+            foreach (Resource requiredResource in mileStones[mileStonesDone].RequiredResources)
             {
-                switch (item.resource)
+                foreach (ResourceManager manager in managers)
                 {
-                    case ResourceTypes.Material:
-                        if (MaterialManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
-                        break;
-                    case ResourceTypes.Energy:
-                        if (EnergyManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
-                        break;
-                    case ResourceTypes.Citizen:
-                        if (CitizenManager.Instance.Citizen < item.value) hasAllRequiredStuff = false;
-                        break;
-                    case ResourceTypes.Food:
-                        if (FoodManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
-                        break;
-                    case ResourceTypes.Water:
-                        if (WaterManager.Instance.SavedResourceValue < item.value) hasAllRequiredStuff = false;
-                        break;
+                    if (requiredResource.resource == manager.ResourceType)
+                    {
+                        if (manager.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
+                    }
                 }
+                
+                // switch (requiredResource.resource)
+                // {
+                //     case ResourceTypes.Material:
+                //         if (MaterialManager.Instance.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
+                //         break;
+                //     case ResourceTypes.Energy:
+                //         if (EnergyManager.Instance.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
+                //         break;
+                //     case ResourceTypes.Citizen:
+                //         if (CitizenManager.Instance.CurrentResourceProduction < requiredResource.value) hasAllRequiredStuff = false;
+                //         break;
+                //     case ResourceTypes.Food:
+                //         if (FoodManager.Instance.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
+                //         break;
+                //     case ResourceTypes.Water:
+                //         if (WaterManager.Instance.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
+                //         break;
+                // }
             }
 
-            foreach (MileStoneModules item in mileStones[mileStonesDone].RequiredModules)
+            foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
             {
-                switch (item.buildingTypes)
-                {
-                    case BuildingTypes.All:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value) 
-                            hasAllRequiredStuff = false;
-                        break;
-                    case BuildingTypes.CitizenSave:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
-                            hasAllRequiredStuff = false;
-                        break;
-                    case BuildingTypes.EnergyGain:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
-                            hasAllRequiredStuff = false;
-                        break;
-                    case BuildingTypes.EnergySave:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
-                            hasAllRequiredStuff = false;
-                        break;
-                    case BuildingTypes.MaterialGain:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
-                            hasAllRequiredStuff = false;
-                        break;
-                    case BuildingTypes.MaterialSave:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
-                            hasAllRequiredStuff = false;
-                        break;
-                    case BuildingTypes.LifeSupportGain:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
-                            hasAllRequiredStuff = false;
-                        break;
-                    case BuildingTypes.LifeSupportSave:
-                        if (GameManager.Instance.GetBuildingCount(item.buildingTypes) < item.value)
-                            hasAllRequiredStuff = false;
-                        break;
-                }
+                if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value) 
+                    hasAllRequiredStuff = false;
+
+                // switch (requiredModule.buildingTypes)
+                // {
+                //     case BuildingTypes.All:
+                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value) 
+                //             hasAllRequiredStuff = false;
+                //         break;
+                //     case BuildingTypes.CitizenSave:
+                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                //             hasAllRequiredStuff = false;
+                //         break;
+                //     case BuildingTypes.EnergyGain:
+                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                //             hasAllRequiredStuff = false;
+                //         break;
+                //     case BuildingTypes.EnergySave:
+                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                //             hasAllRequiredStuff = false;
+                //         break;
+                //     case BuildingTypes.MaterialGain:
+                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                //             hasAllRequiredStuff = false;
+                //         break;
+                //     case BuildingTypes.MaterialSave:
+                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                //             hasAllRequiredStuff = false;
+                //         break;
+                //     case BuildingTypes.LifeSupportGain:
+                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                //             hasAllRequiredStuff = false;
+                //         break;
+                //     case BuildingTypes.LifeSupportSave:
+                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                //             hasAllRequiredStuff = false;
+                //         break;
+                // }
             }
 
             if (hasAllRequiredStuff)
             {
-                foreach (MileStoneEventNames item in mileStones[mileStonesDone].RequiredEvent)
+                foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
                 {
-                    switch (item)
+                    foreach (MileStoneEvent mileStoneEvent in events)
                     {
-                        case MileStoneEventNames.CameraMovement:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.CameraMovement)
-                                {
-                                    jtem.enabled = false;
-                                }
-                            }
-                            break;
-                        case MileStoneEventNames.ShowPrioritySystem:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
-                                {
-                                    jtem.enabled = false;
-                                }
-                            }
-                            break;
-                        case MileStoneEventNames.WaitForSeconds:
-                            foreach (MileStoneEvent jtem in events)
-                            {
-                                if (jtem.Name == MileStoneEventNames.WaitForSeconds)
-                                {
-                                    jtem.enabled = false;
-                                }
-                            }
-                            break;
+                        if (mileStoneEvent.Name == requiredEvent)
+                        {
+                            mileStoneEvent.enabled = false;
+                        }
                     }
+                    
+                    // switch (requiredEvent)
+                    // {
+                    //     case MileStoneEventNames.CameraMovement:
+                    //         foreach (MileStoneEvent jtem in events)
+                    //         {
+                    //             if (jtem.Name == MileStoneEventNames.CameraMovement)
+                    //             {
+                    //                 jtem.enabled = false;
+                    //             }
+                    //         }
+                    //         break;
+                    //     case MileStoneEventNames.ShowPrioritySystem:
+                    //         foreach (MileStoneEvent jtem in events)
+                    //         {
+                    //             if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
+                    //             {
+                    //                 jtem.enabled = false;
+                    //             }
+                    //         }
+                    //         break;
+                    //     case MileStoneEventNames.WaitForSeconds:
+                    //         foreach (MileStoneEvent jtem in events)
+                    //         {
+                    //             if (jtem.Name == MileStoneEventNames.WaitForSeconds)
+                    //             {
+                    //                 jtem.enabled = false;
+                    //             }
+                    //         }
+                    //         break;
+                    // }
                 }
             }
 
