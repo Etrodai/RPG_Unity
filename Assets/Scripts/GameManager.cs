@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
                         if (!building.IsDisabled)
                         {
                             building.IsDisabled = true;
-                            
+                            Debug.Log($"{building.BuildingType} is disabled cause of {type}");
                             
                             disabledBuildings.Push(new DisabledBuilding(building, type));
                             neededResourceValue += surplus;

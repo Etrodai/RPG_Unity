@@ -105,7 +105,7 @@ namespace ResourceManagement.Manager
             }
             
             ChangeCitizen(CurrentResourceSurplus);
-            savedResourceText.text = $"{CurrentResourceProduction}/{SaveSpace}";
+            savedResourceText.text = $"{CurrentResourceProduction}/{SaveSpace} \nJobless: {SavedResourceValue}/{CurrentResourceProduction}";
         }
         
         /// <summary>
@@ -141,8 +141,5 @@ namespace ResourceManagement.Manager
         }
 
         #endregion
-
-
-       
     }
 }
