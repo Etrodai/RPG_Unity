@@ -1,12 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using TMPro;
 using UnityEngine;
 
 
 public class Gridsystem : MonoBehaviour
 {
+    [SerializeField] private Transform solarCenterPoint; //TODO: Init with Vector directly
+
+    //Prefabs
+    [SerializeField] private GameObject prefabGridTile;
+    [SerializeField] private GameObject prefabStation;
+
     //Singleton
     private static Gridsystem instance;
 
@@ -15,9 +22,14 @@ public class Gridsystem : MonoBehaviour
         get => instance;
     }
 
-    //Prefabs
-    [SerializeField] private GameObject prefabGridTile;
-    [SerializeField] private GameObject prefabStation;
+    private GameObject centerTile;
+    private GameObject gridContainer;
+
+    public GameObject CenterTile
+    {
+        get => centerTile;
+        set => centerTile = value;
+    }
 
     //Grid
     [SerializeField, Tooltip("Use value above Zero")]
@@ -31,6 +43,7 @@ public class Gridsystem : MonoBehaviour
 
     private Vector3 spawnPos = Vector3.zero;
     public bool gridIsVisible = true;
+    public bool isTextVisible;
 
     //Workaround in static or Singleton?
     private GridTile[,,] tileArray;
@@ -42,7 +55,6 @@ public class Gridsystem : MonoBehaviour
     }
 
     public List<GridTile> currentVisibleTileList = new List<GridTile>();
-
 
     /// <summary>
     /// Create Instance and Initialing Grid
@@ -57,15 +69,10 @@ public class Gridsystem : MonoBehaviour
     private void SingletonGridsystem()
     {
         if (instance != null && instance != this)
-        {
             Destroy(this.gameObject);
-        }
         else
-        {
             instance = this;
-        }
     }
-
 
     public void CheckAvailableGridTilesAroundStation()
     {
@@ -133,16 +140,14 @@ public class Gridsystem : MonoBehaviour
         TileArray = new GridTile[(int)GridSizeXYZ.x, (int)GridSizeXYZ.y, (int)GridSizeXYZ.z];
 
         //Parent Objects as Container
-        GameObject gridContainer = new GameObject { name = "GridBox", transform = { position = spawnPos } };
-        GameObject stationContainer = new GameObject { name = "StationBox", transform = { position = spawnPos } };
+        gridContainer = new GameObject { name = "GridBox", transform = { position = spawnPos } };
         GameObject grid = new GameObject { name = "Grid", transform = { position = spawnPos } };
-        stationContainer.transform.parent = gridContainer.transform;
         grid.transform.parent = gridContainer.transform;
 
         int arrayIndex = 0;
         Vector3 offSetVector = new Vector3(Mathf.Floor(GridSizeXYZ.x / 2), Mathf.Floor(GridSizeXYZ.y / 2),
             Mathf.Floor(GridSizeXYZ.z / 2));
-        
+
         //Setting Tiles in Grid
         //Z-Axis
         for (int z = 0; z < GridSizeXYZ.z; z++)
@@ -162,14 +167,20 @@ public class Gridsystem : MonoBehaviour
 
                     GridTile gridTileScript = gridTile.GetComponent<GridTile>();
                     TextMeshPro gridText = gridTile.transform.GetChild(0).GetComponent<TextMeshPro>();
-                    gridText.text = $"Tile_{spawnPos.x}.{spawnPos.y}.{spawnPos.z}";
-                    
+                    if (isTextVisible) //TODO: As Ternary Operator
+                    {
+                        gridText.enabled = isTextVisible;
+                        gridText.text = $"Tile_{spawnPos.x}.{spawnPos.y}.{spawnPos.z}";
+                    }
+                    else
+                        gridText.enabled = isTextVisible;
+
 
                     if (spawnPos.x == 0 && spawnPos.y == 0 && spawnPos.z == 0)
                     {
                         gridTileScript.HasModule = true;
                     } //TODO: Better Method to Init startgridTile
-                    
+
                     if (gridIsVisible)
                         gridTileScript.InitActiveState();
                     //Save GridFile in Array
@@ -178,14 +189,27 @@ public class Gridsystem : MonoBehaviour
             }
         }
 
-        //Initial Station Spawn
-        //spawnPos = new Vector3(-0.5f, (gridSizeXYZ.y - 1) / 2, -0.5f); //System with predefined Grid
+        InitStation(gridContainer.transform);
+    }
 
-        GameObject centerTile = Instantiate(prefabStation, Vector3.zero, Quaternion.identity);
+    private void SetOrbiting(GameObject gridContainer)
+    {
+        Orbiting orbit = gridContainer.AddComponent<Orbiting>();
+        orbit.centerPoint = solarCenterPoint;
+        orbit.xSpread = 750;
+        orbit.zSpread = 750;
+        orbit.rotSpeed = 0.2f;
+    }
 
-        centerTile.name = "Station";
-        centerTile.tag = "Station";
-        centerTile.transform.parent = stationContainer.transform;
+    private void InitStation(Transform gridContainer)
+    {
+        GameObject stationContainer = new GameObject { name = "StationBox", transform = { position = spawnPos } };
+        stationContainer.transform.parent = gridContainer.transform;
+        CenterTile = Instantiate(prefabStation, Vector3.zero, Quaternion.identity);
+
+        CenterTile.name = "Station";
+        CenterTile.tag = "Station";
+        CenterTile.transform.parent = stationContainer.transform;
     }
 
     /// <summary>
@@ -218,7 +242,8 @@ public class Gridsystem : MonoBehaviour
     public void ReInitialize()
     {
         spawnPos = Vector3.zero;
-        CheckGridSize();
+        //TODO: Ben: Access Camera to new Gridtiles
+        CheckGridSize(); 
         TileArray = new GridTile[(int)GridSizeXYZ.x, (int)GridSizeXYZ.y, (int)GridSizeXYZ.z];
         InitGrid();
     }

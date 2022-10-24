@@ -11,4 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Full Merge Scene.unity
     guid: 5d5e31c13f0cf6d46ab126066e9d54ab
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: e3b7782d138a90144913e54e7d35b28e,
+      type: 2}
