@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Prototype.Eventsystem;
+using System;
 
 public class EventmanagerScriptable : MonoBehaviour
 {
@@ -10,7 +11,18 @@ public class EventmanagerScriptable : MonoBehaviour
     [SerializeField] private List<EventScriptableObject> availableEvents = new List<EventScriptableObject>();
     private Queue<EventScriptableObject> usedEvents = new Queue<EventScriptableObject>();
     private EventScriptableObject activeEvent;
+    public EventScriptableObject ActiveEvent
+    {
+        get => activeEvent;
+    }
+    [SerializeField] private EventBehaviourScriptable eventBehaviour;
     private const int resetEvents = 0;
+    private Action resetEventTimer;
+    public Action ResetEventTimer
+    {
+        get => resetEventTimer;
+        private set { resetEventTimer = value; }
+    }
 
     //Timer related variables
     private float timer;
@@ -21,22 +33,6 @@ public class EventmanagerScriptable : MonoBehaviour
     private const float stopTime = 0f;
     private const float startTime = 1f;
 
-    //EventBehaviour related variables
-    private bool textIsActive;
-    [SerializeField] private GameObject eventUI;
-    [SerializeField] private TextMeshProUGUI eventTitle;
-    [SerializeField] private TextMeshProUGUI eventText;
-    [SerializeField] private GameObject decision1Button;
-    [SerializeField] private GameObject decision2Button;
-    [SerializeField] private TextMeshProUGUI decision1ButtonText;
-    [SerializeField] private TextMeshProUGUI decision2ButtonText;
-    private int textIndex;
-    private const int resetTextIndex = 0;
-    private bool endofEvent;
-    private const int decision1Index = 0;
-    private const int decision2Index = 1;
-    private bool buttonIsActive;
-
     private int debugIndex = 0;
     private void Awake()
     {
@@ -45,8 +41,9 @@ public class EventmanagerScriptable : MonoBehaviour
 
     private void Start()
     {
-        eventUI.SetActive(false);
-        StartCoroutine(NextEventTimer());
+        StartTimer();
+        resetEventTimer += ResetTimer;
+        resetEventTimer += StartTimer;
     }
 
     private IEnumerator NextEventTimer()
@@ -54,9 +51,6 @@ public class EventmanagerScriptable : MonoBehaviour
         timer -= updateTimerRate;
         if (timer <= endTimer)
         {
-            textIsActive = true;            //All have to go to the end logic of eventBehaviour
-            textIndex = resetTextIndex;
-
             NextEvent();
             StopAllCoroutines();
         }
@@ -77,20 +71,16 @@ public class EventmanagerScriptable : MonoBehaviour
 
         Debug.Log(debugIndex);
 
-        eventUI.SetActive(true);
-
-        Time.timeScale = 0f;
+        Time.timeScale = stopTime;
         System.Random random = new System.Random();
         int nextEventIndex = random.Next(0, availableEvents.Count - 1);
 
         activeEvent = availableEvents[nextEventIndex];
-        eventTitle.text = activeEvent.EventTitle;
 
         usedEvents.Enqueue(availableEvents[nextEventIndex]);
         availableEvents.RemoveAt(nextEventIndex);
 
-        textIsActive = true;
-        EventBehaviour(); //EventBehaviour enablen
+        eventBehaviour.enabled = true;
 
         debugIndex++;
     }
@@ -98,6 +88,11 @@ public class EventmanagerScriptable : MonoBehaviour
     private void ResetTimer()
     {
         timer = setTimer;
-        Time.timeScale = 1f;
+        Time.timeScale = startTime;
+    }
+
+    private void StartTimer()
+    {
+        StartCoroutine(NextEventTimer());
     }
 }

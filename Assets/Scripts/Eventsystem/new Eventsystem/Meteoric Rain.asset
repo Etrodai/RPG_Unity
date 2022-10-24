@@ -21,7 +21,9 @@ MonoBehaviour:
   decisions:
   - decisionButtonText: Use materials
     consequenceEvent: {fileID: 0}
-    consequenceOnResources: []
+    consequenceOnResources:
+    - resource: 0
+      value: 0
     consequenceOnBuildings: []
     consequenceText: You used 25% of your maxium material capacity to fix the damaged
       parts!
