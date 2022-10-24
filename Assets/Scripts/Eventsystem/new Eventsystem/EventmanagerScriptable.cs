@@ -33,7 +33,6 @@ public class EventmanagerScriptable : MonoBehaviour
     private const float stopTime = 0f;
     private const float startTime = 1f;
 
-    private int debugIndex = 0;
     private void Awake()
     {
         timer = setTimer;
@@ -43,21 +42,28 @@ public class EventmanagerScriptable : MonoBehaviour
     {
         StartTimer();
         resetEventTimer += ResetTimer;
-        resetEventTimer += StartTimer;
+        resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
     }
 
+    /// <summary>
+    /// Works as timer to start the next event when the time runs out
+    /// </summary>
+    /// <returns>Restarts the coroutine to continue reducing the timer if it didn't run out</returns>
     private IEnumerator NextEventTimer()
     {
         timer -= updateTimerRate;
         if (timer <= endTimer)
         {
-            NextEvent();
-            StopAllCoroutines();
+            NextEvent();                                                    //calls NextEvent() to choose the next event to be played
+            StopAllCoroutines();                                            //Stops the timer
         }
         yield return new WaitForSeconds(updateTimerRate);
         StartCoroutine(NextEventTimer());
     }
 
+    /// <summary>
+    /// Randomly determines which event will be played next and empties and refills a list and a queue to ensure that every event will be played at least once
+    /// </summary>
     private void NextEvent()
     {
         if (availableEvents.Count == resetEvents)                           //Refills the availableEvents list when empty
@@ -69,28 +75,30 @@ public class EventmanagerScriptable : MonoBehaviour
             }
         }
 
-        Debug.Log(debugIndex);
-
         Time.timeScale = stopTime;
         System.Random random = new System.Random();
         int nextEventIndex = random.Next(0, availableEvents.Count - 1);
 
-        activeEvent = availableEvents[nextEventIndex];
+        activeEvent = availableEvents[nextEventIndex];                      //Acts as placeholder to give necessary information to EventBehaviourScriptable
 
         usedEvents.Enqueue(availableEvents[nextEventIndex]);
         availableEvents.RemoveAt(nextEventIndex);
 
-        eventBehaviour.enabled = true;
-
-        debugIndex++;
+        eventBehaviour.enabled = true;                                      //Acts as event behaviour start, since EventBehaviourScriptable has starting logic in OnEnable()
     }
 
+    /// <summary>
+    /// Resets the timer for the next event
+    /// </summary>
     private void ResetTimer()
     {
         timer = setTimer;
         Time.timeScale = startTime;
     }
 
+    /// <summary>
+    /// Starts the timer for the next event
+    /// </summary>
     private void StartTimer()
     {
         StartCoroutine(NextEventTimer());

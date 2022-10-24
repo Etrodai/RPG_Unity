@@ -9,7 +9,7 @@ public class EventBehaviourScriptable : MonoBehaviour
 {
     //EventBehaviour related variables
     private EventmanagerScriptable eventManager;
-    private MonoBehaviour multiResourceManager;
+    private ResourceManager multiResourceManager;
     private bool textIsActive;
     [SerializeField] private GameObject eventUI;
     [SerializeField] private TextMeshProUGUI eventTitle;
@@ -49,12 +49,15 @@ public class EventBehaviourScriptable : MonoBehaviour
         if (eventManager.ActiveEvent != null)
         {
             eventTitle.text = eventManager.ActiveEvent.EventTitle;  
+            EventBehaviour();                                           //calls EventBehaviour to start the interactive text
         }
 
-        EventBehaviour();                                               //calls EventBehaviour to start the interactive text
     }
 
-    public void EventBehaviour() //Method to be called in Player Input Component, must be new script in order to only use it when an event was chosen and activated
+    /// <summary>
+    /// Method to be called in Player Input Component, must be new script in order to only use it when an event was chosen and activated
+    /// </summary>
+    public void EventBehaviour()
     {
         //Texts for duration of length of each text array
         if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length)
@@ -64,6 +67,7 @@ public class EventBehaviourScriptable : MonoBehaviour
             buttonIsActive = true;
         }
 
+        //Activation of the decision buttons and disabling the ability to continue the event texts by clicking
         if (buttonIsActive && textIndex >= eventManager.ActiveEvent.EventText.Length)
         {
             decision1Button.SetActive(true);
@@ -74,6 +78,7 @@ public class EventBehaviourScriptable : MonoBehaviour
             buttonIsActive = false;
         }
 
+        //Ends the event by disabling the script, thus triggering the end logic in OnDisable()
         if (endofEvent)
         {
             eventUI.SetActive(false);
@@ -82,6 +87,9 @@ public class EventBehaviourScriptable : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Transfers all information of the scriptable object to the UI elemnts and adds or removes resources based on those information
+    /// </summary>
     public void Decision1()
     {
         decision1Button.SetActive(false);
@@ -97,9 +105,9 @@ public class EventBehaviourScriptable : MonoBehaviour
                 case ResourceTypes.Energy:
                     multiResourceManager = MainManagerSingleton.Instance.GetComponent<EnergyManager>();
                     break;
-                //case ResourceTypes.Citizen:
-                //    multiResourceManager = MainManagerSingleton.Instance.GetComponent<CitizenManager>();
-                //    break;
+                case ResourceTypes.Citizen:
+                    multiResourceManager = MainManagerSingleton.Instance.GetComponent<CitizenManager>();
+                    break;
                 case ResourceTypes.Food:
                     multiResourceManager = MainManagerSingleton.Instance.GetComponent<FoodManager>();
                     break;
@@ -109,15 +117,45 @@ public class EventBehaviourScriptable : MonoBehaviour
                 default:
                     break;
             }
+
+            multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision1Index].consequenceOnResources[i].value;
         }
         endofEvent = true;
     }
 
+    /// <summary>
+    /// Transfers all information of the scriptable object to the UI elemnts and adds or removes resources based on those information
+    /// </summary>
     public void Decision2()
     {
         decision1Button.SetActive(false);
         decision2Button.SetActive(false);
         eventText.text = eventManager.ActiveEvent.Decisions[decision2Index].consequenceText;
+        for (int i = 0; i < eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources.Length; i++)
+        {
+            switch (eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources[i].resource)
+            {
+                case ResourceTypes.Material:
+                    multiResourceManager = MainManagerSingleton.Instance.GetComponent<MaterialManager>();
+                    break;
+                case ResourceTypes.Energy:
+                    multiResourceManager = MainManagerSingleton.Instance.GetComponent<EnergyManager>();
+                    break;
+                case ResourceTypes.Citizen:
+                    multiResourceManager = MainManagerSingleton.Instance.GetComponent<CitizenManager>();
+                    break;
+                case ResourceTypes.Food:
+                    multiResourceManager = MainManagerSingleton.Instance.GetComponent<FoodManager>();
+                    break;
+                case ResourceTypes.Water:
+                    multiResourceManager = MainManagerSingleton.Instance.GetComponent<WaterManager>();
+                    break;
+                default:
+                    break;
+            }
+
+            multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources[i].value;
+        }
         endofEvent = true;
     }
 }

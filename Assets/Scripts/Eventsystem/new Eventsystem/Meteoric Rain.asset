@@ -23,13 +23,17 @@ MonoBehaviour:
     consequenceEvent: {fileID: 0}
     consequenceOnResources:
     - resource: 0
-      value: 0
+      value: -25
     consequenceOnBuildings: []
     consequenceText: You used 25% of your maxium material capacity to fix the damaged
       parts!
   - decisionButtonText: Ignore
     consequenceEvent: {fileID: 0}
-    consequenceOnResources: []
+    consequenceOnResources:
+    - resource: 3
+      value: -30
+    - resource: 0
+      value: -10
     consequenceOnBuildings: []
     consequenceText: You ignored the damaged. By doing so a hole tore open and took
       away 30% of your maximum food capacity. Also, you still had to fix the damage
