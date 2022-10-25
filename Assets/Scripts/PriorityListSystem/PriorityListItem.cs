@@ -29,7 +29,7 @@ namespace PriorityListSystem
         
         private void Start()
         {
-            gameManager = GameManager.Instance;
+            gameManager = MainManagerSingleton.Instance.GameManager;
             priority = transform.GetSiblingIndex();
             buildingGroup.text = type.ToString();
             workingBuildings.text = $"{gameManager.GetBuildingCount(type)}";

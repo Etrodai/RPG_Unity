@@ -18,15 +18,15 @@ public class BuildMenuScript : MonoBehaviour
     private void Initialize()
     {
         managers = new List<ResourceManager>();
-        materialManager = MaterialManager.Instance;
+        materialManager = MainManagerSingleton.Instance.MaterialManager;
         managers.Add(materialManager);
-        energyManager = EnergyManager.Instance;
+        energyManager = MainManagerSingleton.Instance.EnergyManager;
         managers.Add(energyManager);
-        foodManager = FoodManager.Instance;
+        foodManager = MainManagerSingleton.Instance.FoodManager;
         managers.Add(foodManager);
-        waterManager = WaterManager.Instance;
+        waterManager = MainManagerSingleton.Instance.WaterManager;
         managers.Add(waterManager);
-        citizenManager = CitizenManager.Instance;
+        citizenManager = MainManagerSingleton.Instance.CitizenManager;
         managers.Add(citizenManager);
     }
 

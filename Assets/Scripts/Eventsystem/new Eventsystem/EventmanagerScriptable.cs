@@ -5,7 +5,7 @@ using TMPro;
 using Prototype.Eventsystem;
 using System;
 
-public class EventmanagerScriptable : MonoBehaviour
+public class EventManagerScriptable : MonoBehaviour
 {
     //Event determination variables
     [SerializeField] private List<EventScriptableObject> availableEvents = new List<EventScriptableObject>();

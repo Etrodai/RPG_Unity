@@ -6,22 +6,22 @@ namespace DebugMenus
     {
         public void EnergyPlus100()
         {
-            EnergyManager.Instance.SavedResourceValue += 100;
+            MainManagerSingleton.Instance.EnergyManager.SavedResourceValue += 100;
         }
 
         public void FoodPlus100()
         {
-            FoodManager.Instance.SavedResourceValue += 100;
+            MainManagerSingleton.Instance.FoodManager.SavedResourceValue += 100;
         }
 
         public void WaterPlus100()
         {
-            WaterManager.Instance.SavedResourceValue += 100;
+            MainManagerSingleton.Instance.WaterManager.SavedResourceValue += 100;
         }
 
         public void MaterialPlus100()
         {
-            MaterialManager.Instance.SavedResourceValue += 100;
+            MainManagerSingleton.Instance.MaterialManager.SavedResourceValue += 100;
         }
     }
 }

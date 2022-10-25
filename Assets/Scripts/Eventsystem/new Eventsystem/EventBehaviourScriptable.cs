@@ -8,7 +8,7 @@ using UnityEngine;
 public class EventBehaviourScriptable : MonoBehaviour
 {
     //EventBehaviour related variables
-    private EventmanagerScriptable eventManager;
+    private EventManagerScriptable eventManager;
     private ResourceManager multiResourceManager;
     private bool textIsActive;
     [SerializeField] private GameObject eventUI;
@@ -27,7 +27,7 @@ public class EventBehaviourScriptable : MonoBehaviour
 
     private void Start()
     {
-        eventManager = MainManagerSingleton.Instance.GetComponent<EventmanagerScriptable>();
+        eventManager = MainManagerSingleton.Instance.EventManager;
         eventUI.SetActive(false);
         textIsActive = true;
         textIndex = resetTextIndex;
@@ -36,7 +36,7 @@ public class EventBehaviourScriptable : MonoBehaviour
 
     private void OnDisable()
     {
-        eventManager.ResetEventTimer?.Invoke();                         //calls an Action in EventmanagerScriptable to reset and start the event timer there
+        eventManager.ResetEventTimer?.Invoke();                         //calls an Action in EventManagerScriptable to reset and start the event timer there
     }
 
     private void OnEnable()
@@ -46,7 +46,7 @@ public class EventBehaviourScriptable : MonoBehaviour
 
         eventUI.SetActive(true);
 
-        if (eventManager.ActiveEvent != null)
+        if (eventManager != null && eventManager.ActiveEvent != null)
         {
             eventTitle.text = eventManager.ActiveEvent.EventTitle;  
             EventBehaviour();                                           //calls EventBehaviour to start the interactive text
