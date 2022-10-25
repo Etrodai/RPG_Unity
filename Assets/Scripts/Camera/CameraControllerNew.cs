@@ -14,12 +14,13 @@ public class CameraControllerNew : MonoBehaviour
 
     //Constants
     private const float FREELOOKDISTANCE = 1000f;
-    private const float MINZOOMLEVEL = 3f;
+    private const float MINZOOMLEVEL = 2f;
     private const float MAXZOOMLEVEL = 45f;
-    private const float MINHEIGHTLEVEL = 4.5f;
-    private const float MAXHEIGHTLEVEL = 47f;
+    private const float MINHEIGHTLEVEL = 1f;
+    private const float MAXHEIGHTLEVEL = 45f;
     private const float MINSENSIVITY = .01f;
-    private const float MAXSENSIVITY = 2f;
+    private const float MAXSENSIVITY = 10f;
+    private const float RADIUSOFFSET = 1f;
 
     //Axisnames
     private string XAxisName = "Mouse X";
@@ -31,18 +32,28 @@ public class CameraControllerNew : MonoBehaviour
 
     //Cam
     private Camera cam;
+
     private bool isFreeLookActive = false;
     private bool isPaused;
+    private bool yInverted;
+
+    private Vector3 camResetPos;
+
+    private Vector3 moveVector;
+    private bool isHeldDownX;
+    private bool isHeldDownY;
+    private float moveX;
+    private float moveY;
+    private Vector3 actualXAxis;
 
     //Sensivity
-    [SerializeField, Range(0f, 1f)] private float rotationSensivity = 0.5f;
-    private float radiusOffset = -2f;
-    private float heightSensivity = 0.5f;
+    [SerializeField, Range(0f, 10f)] private float rotationSensivity = 0.5f;
+    [SerializeField, Range(0f, 10f)] private float moveSensivity = 0.5f;
+    [SerializeField, Range(0f, 2f)] private float zoomSensivity = 0.5f;
 
     #endregion
 
     #region Properties
-
     public float RotationSensivity
     {
         get => rotationSensivity;
@@ -60,6 +71,45 @@ public class CameraControllerNew : MonoBehaviour
             }
 
             rotationSensivity = value;
+        }
+    }
+    public float MoveSensivity
+    {
+        get => moveSensivity;
+        set
+        {
+            if (value > MAXSENSIVITY)
+            {
+                moveSensivity = MAXSENSIVITY;
+                return;
+            }
+            else if (value < MINSENSIVITY)
+            {
+                moveSensivity = MINSENSIVITY;
+                return;
+            }
+
+            moveSensivity = value;
+        }
+    }
+
+    public float ZoomSensivity
+    {
+        get => zoomSensivity;
+        set
+        {
+            if (value > MAXSENSIVITY)
+            {
+                zoomSensivity = MAXSENSIVITY;
+                return;
+            }
+            else if (value < MINSENSIVITY)
+            {
+                zoomSensivity = MINSENSIVITY;
+                return;
+            }
+
+            zoomSensivity = value;
         }
     }
 
@@ -87,11 +137,14 @@ public class CameraControllerNew : MonoBehaviour
         freeLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(1);
         cmFreeLook.Follow = cameraLookPoint;
         cmFreeLook.LookAt = cameraLookPoint;
+
+        camResetPos = cameraLookPoint.localPosition;
     }
 
     private void Update()
     {
         FreeLook();
+        MoveXY();
     }
 
     #endregion
@@ -103,10 +156,10 @@ public class CameraControllerNew : MonoBehaviour
     /// Rotating Camera around Object
     /// </summary>
     /// <param name="context"></param>
-    public void Rotate(InputAction.CallbackContext context)
+    public void RotateXAxis(InputAction.CallbackContext context)
     {
         float input = context.ReadValue<float>();
-        while (input != 0)
+        while (input != 0) //TODO: Maybe Change to something better, while isnt needed
         {
             cmFreeLook.m_XAxis.m_InputAxisValue = input * RotationSensivity;
             return;
@@ -120,7 +173,7 @@ public class CameraControllerNew : MonoBehaviour
     /// Move Camera on Y Axis around Object
     /// </summary>
     /// <param name="context"></param>
-    public void Move(InputAction.CallbackContext context)
+    public void RotateYAxis(InputAction.CallbackContext context)
     {
         float input = context.ReadValue<float>();
         while (input != 0)
@@ -131,6 +184,88 @@ public class CameraControllerNew : MonoBehaviour
 
         //For Resetting Momentum
         cmFreeLook.m_YAxis.m_InputAxisValue = 0;
+    }
+
+    /// <summary>
+    /// Input for XAxis
+    /// </summary>
+    /// <param name="context"></param>
+    public void MoveCameraXAxis(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isHeldDownX = true;
+            actualXAxis = cam.transform.right;
+        }
+
+        if (context.canceled)
+        {
+            isHeldDownX = false;
+            moveX = 0;
+            actualXAxis = Vector3.zero;
+        }
+
+        moveX = context.ReadValue<float>();
+    }
+
+    /// <summary>
+    /// Input for Y Axis
+    /// </summary>
+    /// <param name="context"></param>
+    public void MoveCameraYAxis(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            isHeldDownY = true;
+        if (context.canceled)
+        {
+            isHeldDownY = false;
+            moveY = 0;
+        }
+
+        moveY = context.ReadValue<float>();
+    }
+
+    /// <summary>
+    /// Move Cameratarget depended on MoveX and MoveY
+    /// </summary>
+    private void MoveXY()
+    {
+        if (isHeldDownX || isHeldDownY)
+        {
+            moveVector =
+                ((actualXAxis * moveX) + (Vector3.up * moveY)) * MoveSensivity * Time.deltaTime; //TODO: Reorder
+            cameraLookPoint.localPosition += moveVector;
+        }
+
+        if (isHeldDownX && isHeldDownY)
+        {
+            moveVector = Vector3.zero;
+        }
+    }
+
+    /// <summary>
+    /// Resetting Camera to Central Point
+    /// </summary>
+    /// <param name="context"></param>
+    public void ResetCamera(InputAction.CallbackContext context)
+    {
+        cameraLookPoint.localPosition = camResetPos;
+    }
+
+    /// <summary>
+    /// Active when FreeView is toggled
+    /// </summary>
+    private void FreeLook()
+    {
+        if (isPaused)
+            return;
+
+        if (isFreeLookActive && Input.GetMouseButton(0))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            freeLookPoint.transform.position =
+                cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FREELOOKDISTANCE));
+        }
     }
 
     //Mouse Movement
@@ -167,19 +302,35 @@ public class CameraControllerNew : MonoBehaviour
         if (isPaused)
             return;
 
-        float mousewheelInput = Mathf.Clamp(context.ReadValue<float>(), -1, 1);
+        float mousewheelInput = Mathf.Clamp(context.ReadValue<float>(), -1, 1) * zoomSensivity;
+
 
         cmFreeLook.m_Orbits[1].m_Radius += mousewheelInput;
 
         cmFreeLook.m_Orbits[0].m_Height += mousewheelInput;
         cmFreeLook.m_Orbits[2].m_Height -= mousewheelInput;
-
+        cmFreeLook.m_Orbits[0].m_Radius += mousewheelInput;
+        cmFreeLook.m_Orbits[2].m_Radius += mousewheelInput;
+        
         //Zoom Restriction
+        float lowRadius = MINZOOMLEVEL - RADIUSOFFSET;
+        float upRadius = MAXZOOMLEVEL - RADIUSOFFSET;
+        
         if (cmFreeLook.m_Orbits[1].m_Radius < MINZOOMLEVEL)
             cmFreeLook.m_Orbits[1].m_Radius = MINZOOMLEVEL;
         else if (cmFreeLook.m_Orbits[1].m_Radius > MAXZOOMLEVEL)
             cmFreeLook.m_Orbits[1].m_Radius = MAXZOOMLEVEL;
-
+        
+        if (cmFreeLook.m_Orbits[0].m_Radius < lowRadius)
+            cmFreeLook.m_Orbits[0].m_Radius = lowRadius;
+        else if (cmFreeLook.m_Orbits[0].m_Radius > upRadius)
+            cmFreeLook.m_Orbits[0].m_Radius = upRadius;
+        
+        if (cmFreeLook.m_Orbits[2].m_Radius < lowRadius)
+            cmFreeLook.m_Orbits[2].m_Radius = lowRadius;
+        else if (cmFreeLook.m_Orbits[2].m_Radius > upRadius)
+            cmFreeLook.m_Orbits[2].m_Radius = upRadius;
+        
         if (cmFreeLook.m_Orbits[0].m_Height < MINHEIGHTLEVEL)
             cmFreeLook.m_Orbits[0].m_Height = MINHEIGHTLEVEL;
         else if (cmFreeLook.m_Orbits[0].m_Height > MAXHEIGHTLEVEL)
@@ -208,24 +359,7 @@ public class CameraControllerNew : MonoBehaviour
             cmFreeLook.LookAt = cameraLookPoint;
     }
 
-    /// <summary>
-    /// Active when FreeView is toggled
-    /// </summary>
-    private void FreeLook()
-    {
-        if (isPaused)
-            return;
-
-        if (isFreeLookActive && Input.GetMouseButton(0))
-        {
-            Vector3 mousePos = Input.mousePosition;
-            freeLookPoint.transform.position =
-                cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FREELOOKDISTANCE));
-        }
-    }
-
-    
-    //Extern Usage
+//Extern Usage
     /// <summary>
     /// Option for enable Camera Movement
     /// </summary>
