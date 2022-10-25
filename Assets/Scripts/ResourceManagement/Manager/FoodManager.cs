@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ResourceManagement.Manager
 {
@@ -13,32 +14,55 @@ namespace ResourceManagement.Manager
 
         #region Variables
 
-        private static FoodManager instance;
         [SerializeField] private TextMeshProUGUI savedResourceText;
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private float repeatRate = 0.5f;
         private float dividendFor10Seconds;
-        private ResourceTypes resourceType = ResourceTypes.Food;
-
+        private float currentResourceSurplus;
+        private float savedResourceValue;
+        private float saveSpace;
 
         // private const float foodScalingFactor = 1.25f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
 
         #endregion
 
+        private UnityEvent onFoodSurplusChanged;
+        private UnityEvent onFoodSavedValueChanged;
+        private UnityEvent onFoodSaveSpaceChanged;
+        
         #region Properties
 
-        public static FoodManager Instance
-        {
-            get => instance;
-            set { instance = value; }
+        public static FoodManager Instance { get; private set; }
+        public override float CurrentResourceSurplus
+        {        
+            get => currentResourceSurplus;
+            set
+            {
+                currentResourceSurplus = value;
+                onFoodSurplusChanged?.Invoke();
+            } 
         }
-
-        public override float CurrentResourceSurplus { get; set; }
         public override float CurrentResourceProduction { get; set; }
         public override float CurrentResourceDemand { get; set; }
-        public override float SavedResourceValue { get; set; }
-        public override float SaveSpace { get; set; }
-        public override ResourceTypes ResourceType { get => resourceType; set => resourceType = value; }
+        public override float SavedResourceValue
+        {        
+            get => savedResourceValue;
+            set
+            {
+                savedResourceValue = value;
+                onFoodSavedValueChanged?.Invoke();
+            } 
+        }
+        public override float SaveSpace
+        {        
+            get => saveSpace;
+            set
+            {
+                saveSpace = value;
+                onFoodSaveSpaceChanged?.Invoke();
+            } 
+        }
+        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Food;
 
         #endregion
 
@@ -76,13 +100,13 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void Awake()
         {
-            if (instance != null && instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(this);
             }
             else
             {
-                instance = this;
+                Instance = this;
             }
         }
 
@@ -91,6 +115,12 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void Start()
         {
+            onFoodSurplusChanged = new UnityEvent();
+            onFoodSurplusChanged.AddListener(ChangeUIText);
+            onFoodSavedValueChanged = new UnityEvent();
+            onFoodSavedValueChanged.AddListener(ChangeUIText);
+            onFoodSaveSpaceChanged = new UnityEvent();
+            onFoodSaveSpaceChanged.AddListener(ChangeUIText);
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
         }
@@ -125,7 +155,6 @@ namespace ResourceManagement.Manager
         protected override void CalculateCurrentResourceSurplus()
         {
             CurrentResourceSurplus = CurrentResourceProduction - CurrentResourceDemand;
-            surplusText.text = $"{CurrentResourceSurplus}";
         }
 
         /// <summary>
@@ -147,10 +176,14 @@ namespace ResourceManagement.Manager
                 SavedResourceValue = 0;
                 // Kill People???
             }
-
-            savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";
         }
 
+        private void ChangeUIText()
+        {
+            surplusText.text = $"{CurrentResourceSurplus}";
+            savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";
+        }
+        
         #endregion
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour, IDropHandler
 {
+    // Was set on PriorityList/List
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData.pointerDrag != null)

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Buildings
 {
@@ -13,6 +14,7 @@ namespace Buildings
         [SerializeField] private BuildingTypes buildingType; // ENUM
         private int indexOfAllBuildings; // index of the building in allBuildingsList of gameManager
         [SerializeField] private bool isDisabled; // does the Building work?
+        private float currentProductivity = 1.0f;
         private MaterialManager materialManager;
         private EnergyManager energyManager;
         private FoodManager foodManager;
@@ -21,11 +23,24 @@ namespace Buildings
         private GameManager gameManager;
         private List<ResourceManager> managers;
         private Building nullBuilding;
-
-        private bool lastIsDisabled;
         
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// 0: shows, if it was disabled
+        /// </summary>
+        private UnityEvent<bool> onBuildingWasDisabled;
+        
+        /// <summary>
+        /// 0: old productivity
+        /// 1: new productivity
+        /// </summary>
+        private UnityEvent<float, float> onBuildingProductivityChanged;
+
+        #endregion
+        
         #region Properties
 
         public BuildingResourcesScriptableObject BuildingResources => buildingResources;
@@ -35,7 +50,21 @@ namespace Buildings
         public bool IsDisabled
         {
             get => isDisabled;
-            set => isDisabled = value;
+            set
+            {
+                isDisabled = value;
+                onBuildingWasDisabled?.Invoke(isDisabled);
+            }
+        }
+
+        public float CurrentProductivity
+        {
+            get => currentProductivity;
+            set
+            {
+                onBuildingProductivityChanged?.Invoke(currentProductivity, value);
+                currentProductivity = value;
+            }
         }
         
         #endregion
@@ -49,6 +78,10 @@ namespace Buildings
         /// </summary>
         private void Start()
         {
+            onBuildingWasDisabled = new UnityEvent<bool>();
+            onBuildingWasDisabled.AddListener(ChangeIsDisabled);
+            onBuildingProductivityChanged = new UnityEvent<float, float>();
+            onBuildingProductivityChanged.AddListener(ChangeProductivity);
             managers = new List<ResourceManager>();
             materialManager = MaterialManager.Instance;
             managers.Add(materialManager);
@@ -63,22 +96,7 @@ namespace Buildings
             gameManager = GameManager.Instance;
             nullBuilding = gameManager.NullBuilding;
             BuildModule();
-            EnableModule();
-        }
-        private void Update() // Can be solved as usual Method via UI                    TODO
-        {
-            if (isDisabled == lastIsDisabled) return;
-            
-            if (isDisabled)
-            {
-                DisableModule();
-            }
-            else
-            {
-                EnableModule();
-            }
-
-            lastIsDisabled = isDisabled;
+            EnableModule(CurrentProductivity);
         }
 
         /// <summary>
@@ -87,9 +105,9 @@ namespace Buildings
         /// </summary>
         private void OnDestroy()
         {
-            if (!isDisabled)
+            if (!IsDisabled)
             {
-                DisableModule();
+                DisableModule(CurrentProductivity);
             }
 
             gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
@@ -99,6 +117,18 @@ namespace Buildings
 
         #region Methods
 
+        private void ChangeIsDisabled(bool disabled)
+        {
+            if (disabled) DisableModule(CurrentProductivity);
+            else EnableModule(CurrentProductivity);
+        }
+
+        private void ChangeProductivity(float oldProductivity, float newProductivity)
+        {
+            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity);
+            else EnableModule(newProductivity - oldProductivity);
+        }
+        
         private void BuildModule()
         {
             foreach (Resource cost in buildingResources.Costs)
@@ -162,7 +192,7 @@ namespace Buildings
         /// <summary>
         /// adds production, consumption and saveSpace
         /// </summary>
-        private void EnableModule()
+        private void EnableModule(float productivity)
         {
             foreach (Resource production in buildingResources.Production)
             {
@@ -170,7 +200,7 @@ namespace Buildings
                 {
                     if (production.resource == manager.ResourceType)
                     {
-                        manager.CurrentResourceProduction += production.value;
+                        manager.CurrentResourceProduction += production.value * productivity;
                     }
                 }
                 
@@ -200,7 +230,7 @@ namespace Buildings
                 {
                     if (consumption.resource == manager.ResourceType)
                     {
-                        manager.CurrentResourceDemand += consumption.value;
+                        manager.CurrentResourceDemand += consumption.value * productivity;
                     }
                 }
                 
@@ -230,7 +260,7 @@ namespace Buildings
                 {
                     if (space.resource == manager.ResourceType)
                     {
-                        manager.SaveSpace += space.value;
+                        manager.SaveSpace += space.value * productivity;
                     }
                 }
                 
@@ -258,7 +288,7 @@ namespace Buildings
         /// <summary>
         /// reduces production, consumption and saveSpace
         /// </summary>
-        private void DisableModule()
+        private void DisableModule(float productivity)
         {
             foreach (Resource production in buildingResources.Production)
             {
@@ -266,7 +296,7 @@ namespace Buildings
                 {
                     if (production.resource == manager.ResourceType)
                     {
-                        manager.CurrentResourceProduction -= production.value;
+                        manager.CurrentResourceProduction -= production.value * productivity;
                     }
                 }
                 
@@ -296,7 +326,7 @@ namespace Buildings
                 {
                     if (consumption.resource == manager.ResourceType)
                     {
-                        manager.CurrentResourceDemand -= consumption.value;
+                        manager.CurrentResourceDemand -= consumption.value * productivity;
                     }
                 }
                 
@@ -326,7 +356,7 @@ namespace Buildings
                 {
                     if (space.resource == manager.ResourceType)
                     {
-                        manager.SaveSpace -= space.value;
+                        manager.SaveSpace -= space.value * productivity;
                     }
                 }
                 
@@ -349,8 +379,6 @@ namespace Buildings
                 //         break;
                 // }
             }
-            
-            // Debug.Log(BuildingType + " is Disabled cause of ");
         }
         
         #endregion

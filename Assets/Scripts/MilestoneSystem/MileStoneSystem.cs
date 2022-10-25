@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Buildings;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace MilestoneSystem
 {
@@ -33,11 +33,11 @@ namespace MilestoneSystem
     
         #endregion
 
-        public List<MileStoneEvent> Events
-        {
-            get => events;
-            set => events = value;
-        }
+        #region Events
+
+        public UnityEvent onSideMenuShouldClose;
+
+        #endregion
         
         #region UnityEvents
         
@@ -97,15 +97,6 @@ namespace MilestoneSystem
             if (isDone) BuildPostMainText();
             else BuildPreMainText();
         }
-
-        /// <summary>
-        /// mini- or maximizes MileStoneMenu
-        /// </summary>
-        public void OnClickMenuButton()
-        {
-            if (isMinimized) OpenMenu();
-            else CloseMenu();
-        }
         
         #endregion
 
@@ -121,7 +112,7 @@ namespace MilestoneSystem
         {
             if (textIndex < mileStones[mileStonesDone].MileStoneText.Length)
             {
-                if (!isMinimized) CloseMenu();
+                onSideMenuShouldClose.Invoke();
                 mainText.SetActive(true);
                 Time.timeScale = 0;
                 mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
@@ -131,7 +122,6 @@ namespace MilestoneSystem
             {
                 mainText.SetActive(false);
                 BuildMenu();
-                if (isMinimized) OpenMenu();
                 Time.timeScale = 1;
                 textIndex = 0;
             }
@@ -145,7 +135,7 @@ namespace MilestoneSystem
         {
             if (textIndex < mileStones[mileStonesDone].MileStoneAchievedText.Length)
             {
-                if (!isMinimized) CloseMenu();
+                onSideMenuShouldClose.Invoke();
                 mainText.SetActive(true);
                 Time.timeScale = 0;
                 mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
@@ -205,27 +195,27 @@ namespace MilestoneSystem
             }
         }
 
-        /// <summary>
-        /// maximizes menu by moving it to the left side
-        /// </summary>
-        private void OpenMenu()
-        {
-            var transformPosition = menu.transform.position;
-            transformPosition.x -= 300 * canvas.scaleFactor;
-            menu.transform.position = transformPosition;
-            isMinimized = false;
-        }
-
-        /// <summary>
-        /// minimizes menu by moving it to the right side
-        /// </summary>
-        private void CloseMenu()
-        {
-            var transformPosition = menu.transform.position;
-            transformPosition.x += 300 * canvas.scaleFactor;
-            menu.transform.position = transformPosition;
-            isMinimized = true;
-        }
+        // /// <summary>
+        // /// maximizes menu by moving it to the left side
+        // /// </summary>
+        // private void OpenMenu()
+        // {
+        //     var transformPosition = menu.transform.position;
+        //     transformPosition.x -= 300 * canvas.scaleFactor;
+        //     menu.transform.position = transformPosition;
+        //     isMinimized = false;
+        // }
+        //
+        // /// <summary>
+        // /// minimizes menu by moving it to the right side
+        // /// </summary>
+        // private void CloseMenu()
+        // {
+        //     var transformPosition = menu.transform.position;
+        //     transformPosition.x += 300 * canvas.scaleFactor;
+        //     menu.transform.position = transformPosition;
+        //     isMinimized = true;
+        // }
         
         #endregion
 
@@ -288,7 +278,7 @@ namespace MilestoneSystem
 
             foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
             {
-                if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value) 
+                if (gameManager.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value) 
                     hasAllRequiredStuff = false;
 
                 // switch (requiredModule.buildingTypes)

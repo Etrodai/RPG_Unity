@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ResourceManagement.Manager
 {
@@ -7,30 +8,54 @@ namespace ResourceManagement.Manager
     {
         #region Variables
 
-        private static MaterialManager instance;
         [SerializeField] private TextMeshProUGUI savedResourceText;
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private float repeatRate = 0.5f;
         private float dividendFor10Seconds;
         private GameManager gameManager;
-        private ResourceTypes resourceType = ResourceTypes.Material;
-        
+        private float currentResourceSurplus;
+        private float savedResourceValue;
+        private float saveSpace;
+
         #endregion
+
+        private UnityEvent onMaterialSurplusChanged;
+        private UnityEvent onMaterialSavedValueChanged;
+        private UnityEvent onMaterialSaveSpaceChanged;
 
         #region Properties
 
-        public static MaterialManager Instance
-        {
-            get => instance;
-            set { instance = value; }
+        public static MaterialManager Instance { get; private set; }
+        public override float CurrentResourceSurplus 
+        {        
+            get => currentResourceSurplus;
+            set
+            {
+                currentResourceSurplus = value;
+                onMaterialSurplusChanged?.Invoke();
+            } 
         }
-
-        public override float CurrentResourceSurplus { get; set; }
         public override float CurrentResourceProduction { get; set; }
         public override float CurrentResourceDemand { get; set; }
-        public override float SavedResourceValue { get; set; }
-        public override float SaveSpace { get; set; }
-        public override ResourceTypes ResourceType { get => resourceType; set => resourceType = value; }
+        public override float SavedResourceValue
+        {        
+            get => savedResourceValue;
+            set
+            {
+                savedResourceValue = value;
+                onMaterialSavedValueChanged?.Invoke();
+            } 
+        }
+        public override float SaveSpace
+        {        
+            get => saveSpace;
+            set
+            {
+                saveSpace = value;
+                onMaterialSaveSpaceChanged?.Invoke();
+            } 
+        }
+        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Material;
 
         #endregion
 
@@ -41,13 +66,13 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void Awake()
         {
-            if (instance != null && instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(this);
             }
             else
             {
-                instance = this;
+                Instance = this;
             }
         }
 
@@ -56,6 +81,12 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void Start()
         {
+            onMaterialSurplusChanged = new UnityEvent();
+            onMaterialSurplusChanged.AddListener(ChangeUIText);
+            onMaterialSavedValueChanged = new UnityEvent();
+            onMaterialSavedValueChanged.AddListener(ChangeUIText);
+            onMaterialSaveSpaceChanged = new UnityEvent();
+            onMaterialSaveSpaceChanged.AddListener(ChangeUIText);
             gameManager = GameManager.Instance;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
@@ -80,7 +111,6 @@ namespace ResourceManagement.Manager
         protected override void CalculateCurrentResourceSurplus()
         {
             CurrentResourceSurplus = CurrentResourceProduction - CurrentResourceDemand;
-            surplusText.text = $"{CurrentResourceSurplus}";
         }
 
         /// <summary>
@@ -99,18 +129,23 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(CurrentResourceSurplus, resourceType);
+                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType);
                 SavedResourceValue = 0;
             }
             else
             {
                 // gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
-                gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
+                gameManager.EnableBuildings(CurrentResourceSurplus, ResourceType);
             }
 
+        }
+        
+        private void ChangeUIText()
+        {
+            surplusText.text = $"{CurrentResourceSurplus}";
             savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";
         }
-
+        
         #endregion
     }
 }
