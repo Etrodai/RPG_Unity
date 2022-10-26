@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EventBehaviourScriptable : MonoBehaviour
 {
@@ -48,8 +49,8 @@ public class EventBehaviourScriptable : MonoBehaviour
 
         if (eventManager != null && eventManager.ActiveEvent != null)
         {
-            eventTitle.text = eventManager.ActiveEvent.EventTitle;  
-            EventBehaviour();                                           //calls EventBehaviour to start the interactive text
+            eventTitle.text = eventManager.ActiveEvent.EventTitle;
+            eventText.text = eventManager.ActiveEvent.FirstText;        //sets the first displayed text becuase Eventbehaviour will only be called upon clicking after the event has started
         }
 
     }
@@ -57,33 +58,36 @@ public class EventBehaviourScriptable : MonoBehaviour
     /// <summary>
     /// Method to be called in Player Input Component, must be new script in order to only use it when an event was chosen and activated
     /// </summary>
-    public void EventBehaviour()
+    public void EventBehaviour(InputAction.CallbackContext context)
     {
-        //Texts for duration of length of each text array
-        if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length)
+        if (context.performed)
         {
-            eventText.text = eventManager.ActiveEvent.EventText[textIndex];
-            textIndex++;
-            buttonIsActive = true;
-        }
+            //Texts for duration of length of each text array
+            if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length && enabled == true)
+            {
+                eventText.text = eventManager.ActiveEvent.EventText[textIndex];
+                textIndex++;
+                buttonIsActive = true;
+            }
 
-        //Activation of the decision buttons and disabling the ability to continue the event texts by clicking
-        if (buttonIsActive && textIndex >= eventManager.ActiveEvent.EventText.Length)
-        {
-            decision1Button.SetActive(true);
-            decision2Button.SetActive(true);
-            decision1ButtonText.text = eventManager.ActiveEvent.Decisions[decision1Index].decisionButtonText;
-            decision2ButtonText.text = eventManager.ActiveEvent.Decisions[decision2Index].decisionButtonText;
-            textIsActive = false;
-            buttonIsActive = false;
-        }
+            //Activation of the decision buttons and disabling the ability to continue the event texts by clicking
+            if (buttonIsActive && textIndex >= eventManager.ActiveEvent.EventText.Length)
+            {
+                decision1Button.SetActive(true);
+                decision2Button.SetActive(true);
+                decision1ButtonText.text = eventManager.ActiveEvent.Decisions[decision1Index].decisionButtonText;
+                decision2ButtonText.text = eventManager.ActiveEvent.Decisions[decision2Index].decisionButtonText;
+                textIsActive = false;
+                buttonIsActive = false;
+            }
 
-        //Ends the event by disabling the script, thus triggering the end logic in OnDisable()
-        if (endofEvent)
-        {
-            eventUI.SetActive(false);
-            endofEvent = false;
-            enabled = false;
+            //Ends the event by disabling the script, thus triggering the end logic in OnDisable()
+            if (endofEvent)
+            {
+                eventUI.SetActive(false);
+                endofEvent = false;
+                enabled = false;
+            } 
         }
     }
 
@@ -118,7 +122,7 @@ public class EventBehaviourScriptable : MonoBehaviour
                     break;
             }
 
-            multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision1Index].consequenceOnResources[i].value;
+            multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision1Index].consequenceOnResources[i].eventResourceDemandValue;
         }
         endofEvent = true;
     }
@@ -154,7 +158,7 @@ public class EventBehaviourScriptable : MonoBehaviour
                     break;
             }
 
-            multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources[i].value;
+            multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources[i].eventResourceDemandValue;
         }
         endofEvent = true;
     }

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d5802053f27044487803778aa1f0d5, type: 3}
+  m_Name: Meteoric Rain
+  m_EditorClassIdentifier: 
+  eventTitle: Asteroiden Regen
+  firstText: "W\xE4hrend jeder seinem Leben auf Station Icarus nachgeht, bemerkt
+    einer der Bewohner, dass manche Asteroiden sich schneller bewegen als sie sollten."
+  eventText:
+  - "Manche der Asteroiden treffen die Station und besch\xE4digen sie."
+  - Wirst du den Schaden reparieren oder ignorieren?
+  decisions:
+  - decisionButtonText: Nutze Materialien
+    consequenceEvent: {fileID: 0}
+    consequenceOnResources:
+    - resource: 0
+      value: 0
+      eventResourceDemandValue: -0.25
+    consequenceOnBuildings: []
+    consequenceText: "Du hast 25% deiner Materialien benutzt und die Sch\xE4den repariert."
+  - decisionButtonText: Ignorieren
+    consequenceEvent: {fileID: 0}
+    consequenceOnResources:
+    - resource: 3
+      value: 0
+      eventResourceDemandValue: -0.3
+    - resource: 0
+      value: 0
+      eventResourceDemandValue: -0.1
+    consequenceOnBuildings: []
+    consequenceText: "Du hast die Sch\xE4den ignoriert. Dadurch ist ein Loch im Lagerraum
+      aufgebrochen und hat 30% deiner Nahrung ins All bef\xF6rdert. Au\xDFerdem musste
+      das Loch mit 10% deiner Materialien repariert werden."

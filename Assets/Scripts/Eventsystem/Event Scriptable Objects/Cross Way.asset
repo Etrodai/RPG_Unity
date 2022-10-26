@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d5802053f27044487803778aa1f0d5, type: 3}
+  m_Name: Cross Way
+  m_EditorClassIdentifier: 
+  eventTitle: Kreuzende Wege
+  firstText: Manchmal ist aus dem Fenster gucken das einzige was man auf Station
+    Icarus tun kann.
+  eventText:
+  - "W\xE4hrend so manch einer dem nachgeht, berichtet ein Bewohner von einem riesigen
+    Asteroiden."
+  - Genauere Untersuchungen zeigen, dass der Asteroid die Umlaufbahn der Station
+    kreuzen wird.
+  - "Dies k\xF6nnte die Chance sein zus\xE4tzliches Material zu erbeuten."
+  decisions:
+  - decisionButtonText: "Sich dem Asteroiden n\xE4hern"
+    consequenceEvent: {fileID: 0}
+    consequenceOnResources:
+    - resource: 0
+      value: 0
+      eventResourceDemandValue: 0.25
+    consequenceOnBuildings: []
+    consequenceText: "Der Asteroid war sehr rohstoffreich und hat deine Lager um
+      25% aufgef\xFCllt."
+  - decisionButtonText: Dem Asteroiden fernbleiben
+    consequenceEvent: {fileID: 0}
+    consequenceOnResources: []
+    consequenceOnBuildings: []
+    consequenceText: "Du hast jeden m\xF6glichen Schaden der Station abgewendet.
+      Leider hast du dadurch auch nichts dazu gewonnen."
