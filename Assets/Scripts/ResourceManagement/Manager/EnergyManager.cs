@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ResourceManagement.Manager
 {
@@ -12,19 +13,49 @@ namespace ResourceManagement.Manager
         [SerializeField] private float repeatRate = 0.5f;
         private float dividendFor10Seconds;
         private GameManager gameManager;
-        private ResourceTypes resourceType = ResourceTypes.Energy;
-
+        private float currentResourceSurplus;
+        private float savedResourceValue;
+        private float saveSpace;
         #endregion
 
+        private UnityEvent onEnergySurplusChanged;
+        private UnityEvent onEnergySavedValueChanged;
+        private UnityEvent onEnergySaveSpaceChanged;
+        
         #region Properties
 
-
-        public override float CurrentResourceSurplus { get; set; }
+        public static EnergyManager Instance { get; private set; }
+        public override float CurrentResourceSurplus 
+        {        
+            get => currentResourceSurplus;
+            set
+            {
+                currentResourceSurplus = value;
+                onEnergySurplusChanged?.Invoke();
+            } 
+        }
         public override float CurrentResourceProduction { get; set; }
         public override float CurrentResourceDemand { get; set; }
-        public override float SavedResourceValue { get; set; }
-        public override float SaveSpace { get; set; }
-        public override ResourceTypes ResourceType { get => resourceType; set => resourceType = value; }
+        public override float SavedResourceValue
+        {        
+            get => savedResourceValue;
+            set
+            {
+                savedResourceValue = value;
+                onEnergySavedValueChanged?.Invoke();
+            } 
+        }
+        public override float SaveSpace        
+        {        
+            get => saveSpace;
+            set
+            {
+                saveSpace = value;
+                onEnergySaveSpaceChanged?.Invoke();
+            } 
+        }
+        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Energy;
+
 
         #endregion
 
@@ -58,11 +89,32 @@ namespace ResourceManagement.Manager
         #region UnityEvents
 
         /// <summary>
+        /// Singleton
+        /// </summary>
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
+
+        /// <summary>
         /// Starts Calculation
         /// </summary>
         private void Start()
         {
-            gameManager = MainManagerSingleton.Instance.GameManager;
+            onEnergySurplusChanged = new UnityEvent();
+            onEnergySurplusChanged.AddListener(ChangeUIText);
+            onEnergySavedValueChanged = new UnityEvent();
+            onEnergySavedValueChanged.AddListener(ChangeUIText);
+            onEnergySaveSpaceChanged = new UnityEvent();
+            onEnergySaveSpaceChanged.AddListener(ChangeUIText);
+            gameManager = GameManager.Instance;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0, repeatRate); 
         }
@@ -97,7 +149,6 @@ namespace ResourceManagement.Manager
         protected override void CalculateCurrentResourceSurplus()
         {
             CurrentResourceSurplus = CurrentResourceProduction - CurrentResourceDemand;
-            surplusText.text = $"{CurrentResourceSurplus}";
         }
 
         /// <summary>
@@ -116,18 +167,22 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(CurrentResourceSurplus, resourceType);
+                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType);
                 SavedResourceValue = 0;
             }
             else
             {
                 // gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
-                gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
+                gameManager.EnableBuildings(CurrentResourceSurplus, ResourceType);
             }
-
-            savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";
         }
 
+        private void ChangeUIText()
+        {
+            surplusText.text = $"{CurrentResourceSurplus}";
+            savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";
+        }
+            
         #endregion
     }
 }

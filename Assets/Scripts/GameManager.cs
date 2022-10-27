@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Buildings;
 using PriorityListSystem;
 using ResourceManagement;
+using ResourceManagement.Manager;
 using UnityEngine;
 
 public struct DisabledBuilding
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Building> allBuildings = new List<Building>();
     [SerializeField] private PriorityListItem[] priorityListItems;
     [SerializeField] private Stack<DisabledBuilding> disabledBuildings = new Stack<DisabledBuilding>();
+    [SerializeField] private Stack<Building> changedProductivityBuildings = new Stack<Building>();
     [SerializeField] private Building nullBuilding;
 
 
@@ -146,6 +148,82 @@ public class GameManager : MonoBehaviour
 
         return buildings;
     }
+    
+    private float ChangeProductivityNegative(float surplus, float neededResourceValue, List<Building> priorityList)
+    {
+        foreach (Building building in priorityList)
+        {
+            if (!building.IsDisabled)
+            {
+                if (neededResourceValue + surplus < 0) building.CurrentProductivity = 0f;
+                else building.CurrentProductivity = (surplus + neededResourceValue) / surplus;
+
+                neededResourceValue += surplus;
+                changedProductivityBuildings.Push(building);
+
+                if (neededResourceValue >= 0) return neededResourceValue;
+            }
+        }
+
+        return neededResourceValue;
+    }
+    
+        public void ChangeProductivityPositive(float givenResourceValue)
+    {
+        int surplus = 0;
+
+        for (int i = 0; i < changedProductivityBuildings.Count; i++)
+        {
+            Building building = changedProductivityBuildings.Peek();
+            foreach (Resource consumption in building.BuildingResources.Consumption)
+            {
+                if (consumption.resource == ResourceTypes.Citizen)
+                {
+                    surplus += consumption.value;
+                }
+            }
+
+            foreach (Resource production in building.BuildingResources.Production)
+            {
+                if (production.resource == ResourceTypes.Citizen)
+                {
+                    surplus -= production.value;
+                }
+            }
+
+            if (building.CurrentProductivity == 0f)
+            {
+                if (surplus > 0 && surplus <= givenResourceValue)
+                {
+                    givenResourceValue -= surplus;
+                    changedProductivityBuildings.Pop().CurrentProductivity = 1f;
+                                
+                    Debug.Log($"{building.BuildingType}'s new Productivity cause of workers: {building.CurrentProductivity}");
+                }
+                else
+                {
+                    building.CurrentProductivity = givenResourceValue / surplus;
+                    Debug.Log($"{building.BuildingType}'s new Productivity cause of workers: {building.CurrentProductivity}");
+                    return;
+                }
+            }
+            else
+            {
+                if (surplus > 0 && 1 - building.CurrentProductivity * surplus <= givenResourceValue)
+                {
+                    givenResourceValue -= surplus;
+                    changedProductivityBuildings.Pop().CurrentProductivity = 1f;
+                    Debug.Log($"{building.BuildingType}'s new Productivity cause of workers: {building.CurrentProductivity}");
+                }
+                else
+                {
+                    building.CurrentProductivity += givenResourceValue / surplus;
+                    Debug.Log($"{building.BuildingType}'s new Productivity cause of workers: {building.CurrentProductivity}");
+                    return;
+                }
+            }
+        }
+    }
 
     public void DisableBuildings(float neededResourceValue, ResourceTypes type)
     {
@@ -180,18 +258,25 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    foreach (Building building in priorityList)
+                    if (type == ResourceTypes.Citizen)
                     {
-                        if (!building.IsDisabled)
+                        neededResourceValue = ChangeProductivityNegative(surplus, neededResourceValue, priorityList);
+                    }
+                    else
+                    {
+                        foreach (Building building in priorityList)
                         {
-                            building.IsDisabled = true;
-                            Debug.Log($"{building.BuildingType} is disabled cause of {type}");
-                            
-                            disabledBuildings.Push(new DisabledBuilding(building, type));
-                            neededResourceValue += surplus;
-                            if (neededResourceValue >= 0)
+                            if (!building.IsDisabled)
                             {
-                                return;
+                                building.IsDisabled = true;
+                                Debug.Log($"{building.BuildingType} is disabled cause of {type}");
+                            
+                                disabledBuildings.Push(new DisabledBuilding(building, type));
+                                neededResourceValue += surplus;
+                                if (neededResourceValue >= 0)
+                                {
+                                    return;
+                                }
                             }
                         }
                     }
@@ -253,11 +338,12 @@ public class GameManager : MonoBehaviour
 
     public void OnChangePriority()
     {
-        if (disabledBuildings.Count == 0)
-        {
-            return;
-        }
+        if (changedProductivityBuildings.Count != 0) ChangePriorityOfProductivityBuildings();
+        if (disabledBuildings.Count != 0) ChangePriorityOfDisabledBuildings();
+    }
 
+    private void ChangePriorityOfDisabledBuildings()
+    {
         DisabledBuilding[] buildings = new DisabledBuilding[disabledBuildings.Count];
         int count = disabledBuildings.Count;
         for (int i = 0; i < count; i++)
@@ -275,8 +361,34 @@ public class GameManager : MonoBehaviour
                     disabledBuildings.Push(item);
                 }
             }
-
+        
             if (disabledBuildings.Count == buildings.Length)
+            {
+                return;
+            }
+        }
+    }
+    
+    private void ChangePriorityOfProductivityBuildings()
+    {
+        Building[] priorityBuildings = new Building[changedProductivityBuildings.Count];
+        int count = changedProductivityBuildings.Count;
+        for (int i = 0; i < count; i++)
+        {
+            priorityBuildings[i] = changedProductivityBuildings.Pop();
+        }
+        for (int i = priorityListItems.Length - 1; i > 0; i--)
+        {
+            BuildingTypes type = GetBuildingTypeOnPriority(i);
+            foreach (Building item in priorityBuildings)
+            {
+                if (type == item.BuildingType)
+                {
+                    changedProductivityBuildings.Push(item);
+                }
+            }
+        
+            if (changedProductivityBuildings.Count == priorityBuildings.Length)
             {
                 return;
             }

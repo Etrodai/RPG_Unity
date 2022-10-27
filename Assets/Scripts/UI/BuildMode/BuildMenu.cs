@@ -63,7 +63,7 @@ public class BuildMenu : MonoBehaviour
             {
                 if (blueprint.gridTileHit.SetModuleOnUsed())
                 {
-                    Debug.Log(blueprint.gridTileHit.name);
+                    // Debug.Log(blueprint.gridTileHit.name);
                     GameObject module = Instantiate(moduleToBuild, blueprint.transform.position, quaternion.identity);
                     module.transform.parent = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Redo
                     blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
