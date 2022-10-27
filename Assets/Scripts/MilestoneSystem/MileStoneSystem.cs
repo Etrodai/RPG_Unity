@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using TMPro;

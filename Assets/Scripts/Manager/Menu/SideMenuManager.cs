@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MenuManager
+namespace Manager.Menu
 {
     [System.Serializable]
     public struct Panel

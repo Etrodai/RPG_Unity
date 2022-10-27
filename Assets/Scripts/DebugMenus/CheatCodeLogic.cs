@@ -1,3 +1,4 @@
+using Manager;
 using ResourceManagement.Manager;
 
 namespace DebugMenus

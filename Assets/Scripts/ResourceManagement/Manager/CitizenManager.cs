@@ -1,3 +1,4 @@
+using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,14 +28,18 @@ namespace ResourceManagement.Manager
 
         #endregion
 
-        private UnityEvent onCitizenSurplusChanged;
-        private UnityEvent onCitizenProductionChanged;
-        private UnityEvent onCitizenSavedValueChanged;
-        private UnityEvent onCitizenSaveSpaceChanged;
+        #region Events
+
+                private UnityEvent onCitizenSurplusChanged;
+                private UnityEvent onCitizenProductionChanged;
+                private UnityEvent onCitizenSavedValueChanged;
+                private UnityEvent onCitizenSaveSpaceChanged;
+
+        #endregion
         
         #region Properties
 
-        public static CitizenManager Instance { get; private set; }
+        private static CitizenManager Instance { get; set; }
         public override float CurrentResourceSurplus // GrowthValue
         {        
             get => currentResourceSurplus;
@@ -164,12 +169,11 @@ namespace ResourceManagement.Manager
                 }
             }
         }
-        
+
         /// <summary>
         /// adds or reduces citizen
         /// changes food and water demand
         /// </summary>
-        /// <param name="value">value of citizens to be added or reduced </param>
         private void ChangeCitizen()
         {
             if (CurrentResourceSurplus == 0)
@@ -193,7 +197,7 @@ namespace ResourceManagement.Manager
             {
                 gameManager.DisableBuildings(SavedResourceValue, ResourceType);
             }
-            else
+            else if (gameManager.ChangedProductivityBuildings.Count != 0)
             {
                 gameManager.ChangeProductivityPositive(SavedResourceValue);
             }

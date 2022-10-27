@@ -1,8 +1,9 @@
 using Cinemachine;
+using UI.Gridsystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Camera
+namespace Cameras
 {
     /// <summary>
     /// Script for Camera Control via Cinemachine Free View Cam

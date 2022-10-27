@@ -1,3 +1,4 @@
+using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,13 +20,17 @@ namespace ResourceManagement.Manager
 
         #endregion
 
-        private UnityEvent onMaterialSurplusChanged;
-        private UnityEvent onMaterialSavedValueChanged;
-        private UnityEvent onMaterialSaveSpaceChanged;
+        #region Events
 
+                private UnityEvent onMaterialSurplusChanged;
+                private UnityEvent onMaterialSavedValueChanged;
+                private UnityEvent onMaterialSaveSpaceChanged;
+
+        #endregion
+        
         #region Properties
 
-        public static MaterialManager Instance { get; private set; }
+        private static MaterialManager Instance { get; set; }
         public override float CurrentResourceSurplus 
         {        
             get => currentResourceSurplus;
@@ -132,12 +137,10 @@ namespace ResourceManagement.Manager
                 gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType);
                 SavedResourceValue = 0;
             }
-            else
+            else if (gameManager.DisabledBuildings.Count != 0)
             {
-                // gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
                 gameManager.EnableBuildings(CurrentResourceSurplus, ResourceType);
             }
-
         }
         
         private void ChangeUIText()

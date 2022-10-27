@@ -1,4 +1,5 @@
 using Buildings;
+using Manager;
 using TMPro;
 using UnityEngine;
 
@@ -8,21 +9,19 @@ namespace PriorityListSystem
     {
         #region Variables
         
-        [SerializeField] private BuildingTypes type;
         [SerializeField] private TextMeshProUGUI buildingGroup;
         [SerializeField] private TextMeshProUGUI workingBuildings;
         [SerializeField] private GameObject upButton;
         [SerializeField] private GameObject downButton;
         private GameManager gameManager;
-        private int priority;
-        
+
         #endregion
     
         #region Properties
         
-        public int Priority => priority;
-        public BuildingTypes Type => type;
-        
+        public int Priority { get; set; }
+        public BuildingTypes Type { get; set; }
+
         #endregion
     
         #region UnityEvents
@@ -30,10 +29,10 @@ namespace PriorityListSystem
         private void Start()
         {
             gameManager = MainManagerSingleton.Instance.GameManager;
-            priority = transform.GetSiblingIndex();
-            buildingGroup.text = type.ToString();
-            workingBuildings.text = $"{gameManager.GetBuildingCount(type)}";
-            ChangePriority(priority);
+            Priority = transform.GetSiblingIndex();
+            buildingGroup.text = Type.ToString();
+            workingBuildings.text = $"{gameManager.GetBuildingCount(Type)}";
+            ChangePriority(Priority);
         }
         
         #endregion
@@ -42,38 +41,38 @@ namespace PriorityListSystem
         
         public void OnClickPlusButton()
         {
-            if (priority == 0) return;
+            if (Priority == 0) return;
             foreach (PriorityListItem item in gameManager.PriorityListItems)
             {
-                if (item.transform.GetSiblingIndex() == priority - 1)
+                if (item.transform.GetSiblingIndex() == Priority - 1)
                 {
-                    item.transform.SetSiblingIndex(priority);
-                    item.ChangePriority(priority);
+                    item.transform.SetSiblingIndex(Priority);
+                    item.ChangePriority(Priority);
                 }
             }
 
-            priority--;
-            transform.SetSiblingIndex(priority);
-            ChangePriority(priority);
+            Priority--;
+            transform.SetSiblingIndex(Priority);
+            ChangePriority(Priority);
             gameManager.OnChangePriority();
         }
 
         public void OnClickMinusButton()
         {
-            if (priority != gameManager.PriorityListItems.Length - 1)
+            if (Priority != gameManager.PriorityListItems.Count - 1)
             {
                 foreach (PriorityListItem item in gameManager.PriorityListItems)
                 {
-                    if (item.transform.GetSiblingIndex() == priority + 1)
+                    if (item.transform.GetSiblingIndex() == Priority + 1)
                     {
-                        item.transform.SetSiblingIndex(priority);
-                        item.ChangePriority(priority);
+                        item.transform.SetSiblingIndex(Priority);
+                        item.ChangePriority(Priority);
                     }
                 }
 
-                priority++;
-                transform.SetSiblingIndex(priority);
-                ChangePriority(priority);
+                Priority++;
+                transform.SetSiblingIndex(Priority);
+                ChangePriority(Priority);
                 gameManager.OnChangePriority();
             }
         }
@@ -84,12 +83,12 @@ namespace PriorityListSystem
 
         private void ChangePriority(int index)
         {
-            priority = index;
-            if (priority == 0)
+            Priority = index;
+            if (Priority == 0)
             {
                 upButton.SetActive(false);
             }
-            else if (priority == gameManager.PriorityListItems.Length - 1)
+            else if (Priority == gameManager.PriorityListItems.Count - 1)
             {
                 downButton.SetActive(false);
             }
