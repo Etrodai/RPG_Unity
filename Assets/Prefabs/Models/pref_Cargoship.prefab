@@ -1885,8 +1885,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8045138500522052562}
-  - component: {fileID: 7350642702987167781}
-  - component: {fileID: 919132148564920187}
   m_Layer: 2
   m_Name: pref_Cargoship
   m_TagString: Spaceship
@@ -1915,42 +1913,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.058, y: -84.083, z: -0.101}
---- !u!195 &7350642702987167781
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7272682810146541928}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 1
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 7
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &919132148564920187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7272682810146541928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d28550858d4ee441bda46df7d2bd7aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  target: {fileID: 0}
 --- !u!1 &7506563426410530934
 GameObject:
   m_ObjectHideFlags: 0

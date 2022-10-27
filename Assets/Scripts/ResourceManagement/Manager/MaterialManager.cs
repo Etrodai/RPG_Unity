@@ -87,7 +87,7 @@ namespace ResourceManagement.Manager
             onMaterialSavedValueChanged.AddListener(ChangeUIText);
             onMaterialSaveSpaceChanged = new UnityEvent();
             onMaterialSaveSpaceChanged.AddListener(ChangeUIText);
-            gameManager = GameManager.Instance;
+            gameManager = MainManagerSingleton.Instance.GameManager;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
         }

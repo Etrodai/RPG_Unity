@@ -114,7 +114,7 @@ namespace ResourceManagement.Manager
             onEnergySavedValueChanged.AddListener(ChangeUIText);
             onEnergySaveSpaceChanged = new UnityEvent();
             onEnergySaveSpaceChanged.AddListener(ChangeUIText);
-            gameManager = GameManager.Instance;
+            gameManager = MainManagerSingleton.Instance.GameManager;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0, repeatRate); 
         }

@@ -27,7 +27,7 @@ public class EventManagerScriptable : MonoBehaviour
     //Timer related variables
     private float timer;
     private float totalTime;
-    private const float setTimer = 5f;
+    [SerializeField, Tooltip("Timer in seconds")] private float setTimer = 5f;
     private const float updateTimerRate = 0.5f;
     private const float endTimer = 0f;
     private const float stopTime = 0f;
