@@ -1,26 +1,30 @@
-using UnityEngine;
+using UI.Gridsystem;
 using UnityEditor;
+using UnityEngine;
 
-[CustomEditor((typeof(Gridsystem)))]
-public class CustomInspectorGrid : Editor
+namespace Editor
 {
-    public override void OnInspectorGUI()
+    [CustomEditor((typeof(Gridsystem)))]
+    public class CustomInspectorGrid : UnityEditor.Editor
     {
-        int spaceBetween = 25;
-        DrawDefaultInspector();
-        GUILayout.Space(25);
-        
-        Gridsystem gridsystem = (Gridsystem)target;
-        if (GUILayout.Button("Create new Grid"))
+        public override void OnInspectorGUI()
         {
-            //Delete actual Gridbox
-            foreach (var tile in Gridsystem.Instance.TileArray)
+            int spaceBetween = 25;
+            DrawDefaultInspector();
+            GUILayout.Space(25);
+        
+            Gridsystem gridsystem = (Gridsystem)target;
+            if (GUILayout.Button("Create new Grid"))
             {
-                Destroy(tile.transform.parent.gameObject);
-            }
+                //Delete actual Gridbox
+                foreach (var tile in Gridsystem.Instance.TileArray)
+                {
+                    Destroy(tile.transform.parent.gameObject);
+                }
             
-            //Init new
-            gridsystem.ReInitialize();
+                //Init new
+                gridsystem.ReInitialize();
+            }
         }
     }
 }

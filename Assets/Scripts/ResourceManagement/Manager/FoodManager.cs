@@ -26,13 +26,17 @@ namespace ResourceManagement.Manager
 
         #endregion
 
+        #region Events
+
         private UnityEvent onFoodSurplusChanged;
         private UnityEvent onFoodSavedValueChanged;
         private UnityEvent onFoodSaveSpaceChanged;
-        
+
+        #endregion
+
         #region Properties
 
-        public static FoodManager Instance { get; private set; }
+        private static FoodManager Instance { get; set; }
         public override float CurrentResourceSurplus
         {        
             get => currentResourceSurplus;
@@ -63,33 +67,6 @@ namespace ResourceManagement.Manager
             } 
         }
         public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Food;
-
-        #endregion
-
-        #region OldCode
-
-        // private float currentFoodValue; //Calculated food production
-        // public float CurrentFoodValue
-        // {
-        //     get => currentFoodValue;
-        //     set { currentFoodValue = value; }
-        // }
-        //
-        // private float currentFoodDemand; //combined food consumption of all Citizens
-        // public float CurrentFoodDemand
-        // {
-        //     get => currentFoodDemand;
-        //     set { currentFoodDemand = value; }
-        // }
-        //
-        // private float currentFoodProduction; //Food production of every food source combined
-        // public float CurrentFoodProduction
-        // {
-        //     get => currentFoodProduction;
-        //     set { currentFoodProduction = value; }
-        // }
-        //
-        // private float savedFoodValue; //No use for now
 
         #endregion
 
@@ -137,18 +114,7 @@ namespace ResourceManagement.Manager
             CalculateCurrentResourceSurplus();
             CalculateSavedResourceValue();
         }
-
-        #region OldSummary
-
-        /// <summary>
-        /// Calculation of currentFoodValue
-        /// </summary>
-        /// <param name="currentProduction">Combined value of all food production sources</param>
-        /// <param name="savedValue">Won't be used since there won't be any saving Options like silos</param>
-        /// <param name="currentDemand">Combined value of all food consuming sources like modules</param>
-
-        #endregion
-
+        
         /// <summary>
         /// Calculation of currentMaterialSurplus
         /// </summary>
@@ -174,7 +140,6 @@ namespace ResourceManagement.Manager
             if (SavedResourceValue < 0)
             {
                 SavedResourceValue = 0;
-                // Kill People???
             }
         }
 

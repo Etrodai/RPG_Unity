@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using DebugMenus;
 using UnityEditor;
 using UnityEngine;
-using System.Reflection;
-using System.Linq;
-using DebugMenus;
 
-namespace RPG_Unity.DebugMenus
+namespace Editor
 {
     [CustomPropertyDrawer(typeof(Cheat))]
     public class CheatEditor : PropertyDrawer

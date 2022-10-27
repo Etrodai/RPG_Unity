@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Prototype.Eventsystem
+namespace Eventsystem
 {
     [CreateAssetMenu(fileName = "new Event", menuName = "Events")]
     public class EventScriptableObject : ScriptableObject

@@ -1,5 +1,3 @@
-using Unity.VisualScripting;
-
 namespace MilestoneSystem.Events
 {
     public class CameraMovementMileStoneEvent : MileStoneEvent

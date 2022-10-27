@@ -2,7 +2,7 @@ using Buildings;
 using ResourceManagement;
 using UnityEngine;
 
-namespace Prototype.Eventsystem
+namespace Eventsystem
 {
     [System.Serializable]
     public struct DecisionsAndConsequences

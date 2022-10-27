@@ -1,3 +1,4 @@
+using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,15 +17,20 @@ namespace ResourceManagement.Manager
         private float currentResourceSurplus;
         private float savedResourceValue;
         private float saveSpace;
+        
         #endregion
+
+        #region Events
 
         private UnityEvent onEnergySurplusChanged;
         private UnityEvent onEnergySavedValueChanged;
         private UnityEvent onEnergySaveSpaceChanged;
-        
+
+        #endregion
+
         #region Properties
 
-        public static EnergyManager Instance { get; private set; }
+        private static EnergyManager Instance { get; set; }
         public override float CurrentResourceSurplus 
         {        
             get => currentResourceSurplus;
@@ -56,36 +62,8 @@ namespace ResourceManagement.Manager
         }
         public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Energy;
 
-
         #endregion
-
-        #region OldCode
-
-        // private float currentEnergyValue; //Calculated Energy production
-        // public float CurrentEnergyValue
-        // {
-        //     get => currentEnergyValue;
-        //     set { currentEnergyValue = value; }
-        // }
-
-        // private float currentEnergyDemand; //Energy consumption of every module combined
-        // public float CurrentEnergyDemand
-        // {
-        //     get => currentEnergyDemand;
-        //     set { currentEnergyDemand = value; }
-        // }
-        //
-        // private float currentEnergyProduction; //Energy production of every Energy source combined
-        // public float CurrentEnergyProduction
-        // {
-        //     get => currentEnergyProduction;
-        //     set { currentEnergyProduction = value; }
-        // }
-        //
-        // private float savedEnergyValue; //No use for now
-
-        #endregion
-
+        
         #region UnityEvents
 
         /// <summary>
@@ -132,17 +110,6 @@ namespace ResourceManagement.Manager
             CalculateSavedResourceValue();
         }
 
-        #region OldSummary
-
-        /// <summary>
-        /// Calculation of currentEnergyValue
-        /// </summary>
-        /// <param name="currentProduction">Combined value of all energy production sources</param>
-        /// <param name="savedValue">Combined value of all (when needed) active saved energy sources like batteries</param>
-        /// <param name="currentDemand">Combined value of all energy consuming sources like modules</param>
-
-        #endregion
-
         /// <summary>
         /// Calculation of currentMaterialSurplus
         /// </summary>
@@ -170,9 +137,8 @@ namespace ResourceManagement.Manager
                 gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType);
                 SavedResourceValue = 0;
             }
-            else
+            else if (gameManager.DisabledBuildings.Count != 0)
             {
-                // gameManager.EnableBuildings(CurrentResourceSurplus, resourceType);
                 gameManager.EnableBuildings(CurrentResourceSurplus, ResourceType);
             }
         }
