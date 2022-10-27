@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
 {
     #region Variables
 
-    private static GameManager instance;
     [SerializeField] private List<Building> allBuildings = new List<Building>();
     [SerializeField] private PriorityListItem[] priorityListItems;
     [SerializeField] private Stack<DisabledBuilding> disabledBuildings = new Stack<DisabledBuilding>();
@@ -30,12 +29,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Properties
-
-    public static GameManager Instance
-    {
-        get => instance;
-        set => instance = value;
-    }
 
     public List<Building> AllBuildings => allBuildings;
     
@@ -58,15 +51,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            instance = this;
-        }
-
         Instantiate(nullBuilding);
     }
 
@@ -201,7 +185,7 @@ public class GameManager : MonoBehaviour
                         if (!building.IsDisabled)
                         {
                             building.IsDisabled = true;
-                            
+                            Debug.Log($"{building.BuildingType} is disabled cause of {type}");
                             
                             disabledBuildings.Push(new DisabledBuilding(building, type));
                             neededResourceValue += surplus;

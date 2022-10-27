@@ -7,6 +7,7 @@ namespace ResourceManagement
 
         public ResourceTypes resource;
         public int value;
+        public float eventResourceDemandValue;
 
         #endregion
     }

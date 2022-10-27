@@ -14,7 +14,6 @@ namespace ResourceManagement.Manager
 
         #region Variables
 
-        private static CitizenManager instance;
         [SerializeField] private TextMeshProUGUI savedResourceText;
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private int growTime;
@@ -30,7 +29,6 @@ namespace ResourceManagement.Manager
 
         #region Properties
 
-        public static CitizenManager Instance => instance;
         public override float CurrentResourceSurplus { get; set; } // GrowthValue
         public override float CurrentResourceProduction { get; set; } // Citizen
         public override float CurrentResourceDemand { get; set; } // neededCitizen
@@ -43,21 +41,6 @@ namespace ResourceManagement.Manager
         #region UnityEvents
 
         /// <summary>
-        /// Singleton
-        /// </summary>
-        private void Awake()
-        {
-            if (instance != null && instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                instance = this;
-            }
-        }
-
-        /// <summary>
         /// sets variables
         /// starts growing
         /// sets food and water demand
@@ -65,9 +48,9 @@ namespace ResourceManagement.Manager
         void Start()
         {
             CurrentResourceProduction = 10;
-            foodManager = FoodManager.Instance;
-            waterManager = WaterManager.Instance;
-            gameManager = GameManager.Instance;
+            foodManager = MainManagerSingleton.Instance.FoodManager;
+            waterManager = MainManagerSingleton.Instance.WaterManager;
+            gameManager = MainManagerSingleton.Instance.GameManager;
             InvokeCalculation();
         }
 
@@ -105,7 +88,7 @@ namespace ResourceManagement.Manager
             }
             
             ChangeCitizen(CurrentResourceSurplus);
-            savedResourceText.text = $"{CurrentResourceProduction}/{SaveSpace}";
+            savedResourceText.text = $"{CurrentResourceProduction}/{SaveSpace} \nJobless: {SavedResourceValue}/{CurrentResourceProduction}";
         }
         
         /// <summary>
@@ -141,8 +124,5 @@ namespace ResourceManagement.Manager
         }
 
         #endregion
-
-
-       
     }
 }

@@ -23,7 +23,7 @@ MonoBehaviour:
     value: 2
   production:
   - resource: 1
-    value: 50
+    value: 40
   saveSpace:
   - resource: 1
     value: 100

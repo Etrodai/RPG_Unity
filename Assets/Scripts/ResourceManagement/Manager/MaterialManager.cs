@@ -7,7 +7,6 @@ namespace ResourceManagement.Manager
     {
         #region Variables
 
-        private static MaterialManager instance;
         [SerializeField] private TextMeshProUGUI savedResourceText;
         [SerializeField] private TextMeshProUGUI surplusText;
         [SerializeField] private float repeatRate = 0.5f;
@@ -18,12 +17,6 @@ namespace ResourceManagement.Manager
         #endregion
 
         #region Properties
-
-        public static MaterialManager Instance
-        {
-            get => instance;
-            set { instance = value; }
-        }
 
         public override float CurrentResourceSurplus { get; set; }
         public override float CurrentResourceProduction { get; set; }
@@ -37,26 +30,11 @@ namespace ResourceManagement.Manager
         #region UnityEvents
 
         /// <summary>
-        /// Singleton
-        /// </summary>
-        private void Awake()
-        {
-            if (instance != null && instance != this)
-            {
-                Destroy(this);
-            }
-            else
-            {
-                instance = this;
-            }
-        }
-
-        /// <summary>
         /// Starts Calculation
         /// </summary>
         private void Start()
         {
-            gameManager = GameManager.Instance;
+            gameManager = MainManagerSingleton.Instance.GameManager;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
         }

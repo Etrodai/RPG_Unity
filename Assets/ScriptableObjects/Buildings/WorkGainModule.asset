@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   costs:
   - resource: 0
-    value: 5
+    value: 20
   requiredSpace: {x: 1, y: 1, z: 1}
   consumption:
   - resource: 1
-    value: 10
+    value: 15
   - resource: 2
     value: 4
   production:

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   costs:
   - resource: 0
-    value: 10
+    value: 15
   requiredSpace: {x: 0, y: 0, z: 0}
   consumption:
   - resource: 2
