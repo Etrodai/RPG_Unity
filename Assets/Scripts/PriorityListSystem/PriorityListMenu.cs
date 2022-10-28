@@ -12,7 +12,7 @@ namespace PriorityListSystem
         [SerializeField] private GameObject itemPrefab;
         private GameManager gameManager;
 
-        private void Start()
+        public void Instantiate()
         {
             gameManager = MainManagerSingleton.Instance.GameManager;
             
@@ -23,18 +23,26 @@ namespace PriorityListSystem
                 if (!(type == BuildingTypes.All || type == BuildingTypes.StartModule || type == BuildingTypes.EnergySave))
                 {
                     GameObject priorityLabel = Instantiate (labelPrefab, gameObject.transform, true);
+                    priorityLabel.transform.localScale = Vector3.one;
                     TextMeshProUGUI labelText = priorityLabel.GetComponent<TextMeshProUGUI>();
                     labelText.text = $"Priority {priority}";
 
                     GameObject itemObject = Instantiate(itemPrefab, gameObject.transform, true);
+                    itemObject.transform.localScale = Vector3.one;
                     PriorityListItem item = itemObject.GetComponent<PriorityListItem>();
                     item.Priority = priority;
                     item.Type = type;
-                    
+
                     gameManager.PriorityListItems.Add(item);
 
                     priority++;
                 }
+            }
+
+            foreach (PriorityListItem item in gameManager.PriorityListItems)
+            {
+                item.Instantiate();
+                item.ChangePriority(item.Priority);
             }
         }
     }
