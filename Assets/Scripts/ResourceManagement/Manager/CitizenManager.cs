@@ -1,4 +1,6 @@
+using System.IO;
 using Manager;
+using SaveSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -105,12 +107,16 @@ namespace ResourceManagement.Manager
         /// </summary>
         void Start()
         {
+            Save.onSaveButtonClick.AddListener(SaveData);
+            Save.onSaveAsButtonClick.AddListener(SaveDataAs);
+            Load.onLoadButtonClick.AddListener(LoadData);
             onCitizenSurplusChanged = new UnityEvent();
             onCitizenSurplusChanged.AddListener(ChangeUIText);
             onCitizenProductionChanged = new UnityEvent();
             onCitizenProductionChanged.AddListener(ChangeUIText);
             onCitizenSavedValueChanged = new UnityEvent();
             onCitizenSavedValueChanged.AddListener(ChangeUIText);
+            onCitizenSavedValueChanged.AddListener(CalculateProductivity);
             onCitizenSaveSpaceChanged = new UnityEvent();
             onCitizenSaveSpaceChanged.AddListener(ChangeUIText);
             CurrentResourceProduction = 10;
@@ -122,6 +128,26 @@ namespace ResourceManagement.Manager
 
         #endregion
 
+        #region Save and Load
+
+        private void SaveData()
+        {
+            Save.AutoSaveData(SavedResourceValue, "citizenManager");
+        }
+
+        private void SaveDataAs(string savePlace)
+        {
+            Save.SaveDataAs(savePlace, SavedResourceValue, "citizenManager.dat");
+        }
+
+        private void LoadData(string path)
+        {
+            path = Path.Combine(path, "citizenManager.dat");
+            SavedResourceValue = Load.LoadFloatData(path);
+        }
+
+        #endregion
+        
         #region Methods
         
         protected override void InvokeCalculation()
@@ -193,6 +219,15 @@ namespace ResourceManagement.Manager
                 savedResourceText.text = $"{SavedResourceValue}/{CurrentResourceProduction}";
                 return;
             }
+            CalculateProductivity();
+        }
+
+        private void CalculateProductivity()
+        {
+            if (SavedResourceValue == 0)
+            {
+                return;
+            }
             if (SavedResourceValue < 0)
             {
                 gameManager.DisableBuildings(SavedResourceValue, ResourceType);
@@ -202,7 +237,7 @@ namespace ResourceManagement.Manager
                 gameManager.ChangeProductivityPositive(SavedResourceValue);
             }
         }
-
+        
         private void ChangeUIText()
         {
             surplusText.text = $"{CurrentResourceSurplus}";

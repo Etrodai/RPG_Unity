@@ -63,7 +63,7 @@ namespace Buildings
             get => currentProductivity;
             set
             {
-                onBuildingProductivityChanged?.Invoke(currentProductivity, value);
+                onBuildingProductivityChanged.Invoke(currentProductivity, value);
                 currentProductivity = value;
             }
         }
@@ -126,6 +126,10 @@ namespace Buildings
 
         private void ChangeProductivity(float oldProductivity, float newProductivity)
         {
+            if (oldProductivity == newProductivity)
+            {
+                return;
+            }
             if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity);
             else EnableModule(newProductivity - oldProductivity);
         }

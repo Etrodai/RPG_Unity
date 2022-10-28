@@ -16,6 +16,7 @@ namespace Manager
 
         #region Properties
 
+        private static GameManager Instance { get; set; }
         public List<Building> AllBuildings { get; } = new();
         public List<PriorityListItem> PriorityListItems { get; } = new();
         public Stack<DisabledBuilding> DisabledBuildings { get; } = new();
@@ -31,6 +32,14 @@ namespace Manager
         /// </summary>
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
             Instantiate(nullBuilding);
         }
 
@@ -136,9 +145,10 @@ namespace Manager
                     if (neededResourceValue + surplus < 0) building.CurrentProductivity = 0f;
                     else building.CurrentProductivity = (surplus + neededResourceValue) / surplus;
 
+                    
                     neededResourceValue += surplus;
                     ChangedProductivityBuildings.Push(building);
-
+                    Debug.Log($"{building}'s new Productivity cause of workers: {building.CurrentProductivity}");
                     if (neededResourceValue >= 0) return neededResourceValue;
                 }
             }
@@ -349,28 +359,44 @@ namespace Manager
     
         private void ChangePriorityOfProductivityBuildings()
         {
-            Building[] priorityBuildings = new Building[ChangedProductivityBuildings.Count];
+            float surplus = 0f;
             int count = ChangedProductivityBuildings.Count;
             for (int i = 0; i < count; i++)
             {
-                priorityBuildings[i] = ChangedProductivityBuildings.Pop();
-            }
-            for (int i = PriorityListItems.Count - 1; i > 0; i--)
-            {
-                BuildingTypes type = GetBuildingTypeOnPriority(i);
-                foreach (Building item in priorityBuildings)
+                var building = ChangedProductivityBuildings.Pop();
+                foreach (Resource resource in building.BuildingResources.Consumption)
                 {
-                    if (type == item.BuildingType)
+                    if (resource.resource == ResourceTypes.Citizen)
                     {
-                        ChangedProductivityBuildings.Push(item);
+                        surplus += resource.value - building.CurrentProductivity * resource.value;
                     }
                 }
-        
-                if (ChangedProductivityBuildings.Count == priorityBuildings.Length)
-                {
-                    return;
-                }
             }
+            
+            DisableBuildings(surplus, ResourceTypes.Citizen);
+            
+            //     Building[] priorityBuildings = new Building[ChangedProductivityBuildings.Count];
+            //     int count = ChangedProductivityBuildings.Count;
+            //     for (int i = 0; i < count; i++)
+            //     {
+            //         priorityBuildings[i] = ChangedProductivityBuildings.Pop();
+            //     }
+            //     for (int i = PriorityListItems.Count - 1; i > 0; i--)
+            //     {
+            //         BuildingTypes type = GetBuildingTypeOnPriority(i);
+            //         foreach (Building item in priorityBuildings)
+            //         {
+            //             if (type == item.BuildingType)
+            //             {
+            //                 ChangedProductivityBuildings.Push(item);
+            //             }
+            //         }
+            //     
+            //         if (ChangedProductivityBuildings.Count == priorityBuildings.Length)
+            //         {
+            //             return;
+            //         }
+            //     }
         }
 
         #endregion

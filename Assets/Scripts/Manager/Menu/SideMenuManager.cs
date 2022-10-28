@@ -1,3 +1,4 @@
+using PriorityListSystem;
 using UnityEngine;
 
 namespace Manager.Menu
@@ -16,16 +17,19 @@ namespace Manager.Menu
         [SerializeField] private Canvas canvas;
         [SerializeField] private Panel priorityListPanel;
         [SerializeField] private Panel mileStoneSystemPanel;
+        private PriorityListMenu priorityListMenu;
 
         #endregion
         
         #region UnityEvents
-
+        
         private void Start()
         {
+            priorityListMenu = GetComponentInChildren<PriorityListMenu>(true);
+            priorityListMenu.Instantiate();
             CloseMenu();
         }
-
+        
         #endregion
         
         #region OnClickEvents

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Eventsystem
 {
@@ -32,6 +33,9 @@ namespace Eventsystem
         private const float endTimer = 0f;
         private const float stopTime = 0f;
         private const float startTime = 1f;
+        
+        [SerializeField] private Button sideMenuMileStoneButton;
+        [SerializeField] private Button sideMenuPriorityButton;
 
         private void Awake()
         {
@@ -75,6 +79,8 @@ namespace Eventsystem
                 }
             }
 
+            sideMenuMileStoneButton.interactable = false;
+            sideMenuPriorityButton.interactable = false;
             Time.timeScale = stopTime;
             System.Random random = new System.Random();
             int nextEventIndex = random.Next(0, availableEvents.Count - 1);
@@ -93,6 +99,8 @@ namespace Eventsystem
         private void ResetTimer()
         {
             timer = setTimer;
+            sideMenuMileStoneButton.interactable = true;
+            sideMenuPriorityButton.interactable = true;
             Time.timeScale = startTime;
         }
 

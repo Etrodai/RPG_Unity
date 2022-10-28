@@ -18,7 +18,7 @@ namespace PriorityListSystem
         #endregion
     
         #region Properties
-        
+
         public int Priority { get; set; }
         public BuildingTypes Type { get; set; }
 
@@ -26,13 +26,11 @@ namespace PriorityListSystem
     
         #region UnityEvents
         
-        private void Start()
+        public void Instantiate()
         {
             gameManager = MainManagerSingleton.Instance.GameManager;
-            Priority = transform.GetSiblingIndex();
             buildingGroup.text = Type.ToString();
             workingBuildings.text = $"{gameManager.GetBuildingCount(Type)}";
-            ChangePriority(Priority);
         }
         
         #endregion
@@ -44,15 +42,15 @@ namespace PriorityListSystem
             if (Priority == 0) return;
             foreach (PriorityListItem item in gameManager.PriorityListItems)
             {
-                if (item.transform.GetSiblingIndex() == Priority - 1)
+                if (item.transform.GetSiblingIndex() == (Priority - 1) * 2 + 1)
                 {
-                    item.transform.SetSiblingIndex(Priority);
+                    item.transform.SetSiblingIndex(Priority * 2 + 1);
                     item.ChangePriority(Priority);
                 }
             }
 
             Priority--;
-            transform.SetSiblingIndex(Priority);
+            transform.SetSiblingIndex(Priority * 2 + 1);
             ChangePriority(Priority);
             gameManager.OnChangePriority();
         }
@@ -63,15 +61,15 @@ namespace PriorityListSystem
             {
                 foreach (PriorityListItem item in gameManager.PriorityListItems)
                 {
-                    if (item.transform.GetSiblingIndex() == Priority + 1)
+                    if (item.transform.GetSiblingIndex() == (Priority + 1) * 2 + 1)
                     {
-                        item.transform.SetSiblingIndex(Priority);
+                        item.transform.SetSiblingIndex(Priority * 2 + 1);
                         item.ChangePriority(Priority);
                     }
                 }
 
                 Priority++;
-                transform.SetSiblingIndex(Priority);
+                transform.SetSiblingIndex(Priority * 2 + 1);
                 ChangePriority(Priority);
                 gameManager.OnChangePriority();
             }
@@ -81,7 +79,7 @@ namespace PriorityListSystem
 
         #region Methods
 
-        private void ChangePriority(int index)
+        public void ChangePriority(int index)
         {
             Priority = index;
             if (Priority == 0)
