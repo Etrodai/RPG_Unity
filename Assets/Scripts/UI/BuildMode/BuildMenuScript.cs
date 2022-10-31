@@ -4,7 +4,6 @@ using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.BuildMode
