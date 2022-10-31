@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Sound
@@ -19,6 +20,17 @@ namespace Sound
             }
 
             SoundManager.Initialize();
+        }
+
+        public void WaitForEndOfClip(AudioSource changeAudioSource, SoundManager.Sound sound)
+        {
+            StartCoroutine(ChangeClip(changeAudioSource.clip.length, sound));
+        }
+        
+        private IEnumerator ChangeClip(float t, SoundManager.Sound sound)
+        {
+            yield return new WaitForSeconds(t);
+            SoundManager.PlaySound(sound, false);
         }
     }
 }
