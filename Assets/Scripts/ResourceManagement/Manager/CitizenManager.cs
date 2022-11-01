@@ -1,3 +1,6 @@
+using System.IO;
+using Manager;
+using SaveSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,14 +30,18 @@ namespace ResourceManagement.Manager
 
         #endregion
 
-        private UnityEvent onCitizenSurplusChanged;
-        private UnityEvent onCitizenProductionChanged;
-        private UnityEvent onCitizenSavedValueChanged;
-        private UnityEvent onCitizenSaveSpaceChanged;
+        #region Events
+
+                private UnityEvent onCitizenSurplusChanged;
+                private UnityEvent onCitizenProductionChanged;
+                private UnityEvent onCitizenSavedValueChanged;
+                private UnityEvent onCitizenSaveSpaceChanged;
+
+        #endregion
         
         #region Properties
 
-        public static CitizenManager Instance { get; private set; }
+        private static CitizenManager Instance { get; set; }
         public override float CurrentResourceSurplus // GrowthValue
         {        
             get => currentResourceSurplus;
@@ -100,12 +107,16 @@ namespace ResourceManagement.Manager
         /// </summary>
         void Start()
         {
+            Save.onSaveButtonClick.AddListener(SaveData);
+            Save.onSaveAsButtonClick.AddListener(SaveDataAs);
+            Load.onLoadButtonClick.AddListener(LoadData);
             onCitizenSurplusChanged = new UnityEvent();
             onCitizenSurplusChanged.AddListener(ChangeUIText);
             onCitizenProductionChanged = new UnityEvent();
             onCitizenProductionChanged.AddListener(ChangeUIText);
             onCitizenSavedValueChanged = new UnityEvent();
             onCitizenSavedValueChanged.AddListener(ChangeUIText);
+            onCitizenSavedValueChanged.AddListener(CalculateProductivity);
             onCitizenSaveSpaceChanged = new UnityEvent();
             onCitizenSaveSpaceChanged.AddListener(ChangeUIText);
             CurrentResourceProduction = 10;
@@ -117,6 +128,26 @@ namespace ResourceManagement.Manager
 
         #endregion
 
+        #region Save and Load
+
+        private void SaveData()
+        {
+            Save.AutoSaveData(SavedResourceValue, "citizenManager");
+        }
+
+        private void SaveDataAs(string savePlace)
+        {
+            Save.SaveDataAs(savePlace, SavedResourceValue, "citizenManager.dat");
+        }
+
+        private void LoadData(string path)
+        {
+            path = Path.Combine(path, "citizenManager.dat");
+            SavedResourceValue = Load.LoadFloatData(path);
+        }
+
+        #endregion
+        
         #region Methods
         
         protected override void InvokeCalculation()
@@ -164,12 +195,11 @@ namespace ResourceManagement.Manager
                 }
             }
         }
-        
+
         /// <summary>
         /// adds or reduces citizen
         /// changes food and water demand
         /// </summary>
-        /// <param name="value">value of citizens to be added or reduced </param>
         private void ChangeCitizen()
         {
             if (CurrentResourceSurplus == 0)
@@ -189,16 +219,25 @@ namespace ResourceManagement.Manager
                 savedResourceText.text = $"{SavedResourceValue}/{CurrentResourceProduction}";
                 return;
             }
+            CalculateProductivity();
+        }
+
+        private void CalculateProductivity()
+        {
+            if (SavedResourceValue == 0)
+            {
+                return;
+            }
             if (SavedResourceValue < 0)
             {
                 gameManager.DisableBuildings(SavedResourceValue, ResourceType);
             }
-            else
+            else if (gameManager.ChangedProductivityBuildings.Count != 0)
             {
                 gameManager.ChangeProductivityPositive(SavedResourceValue);
             }
         }
-
+        
         private void ChangeUIText()
         {
             surplusText.text = $"{CurrentResourceSurplus}";

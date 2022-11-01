@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace MilestoneSystem
 {
@@ -20,8 +22,6 @@ namespace MilestoneSystem
         private TextMeshProUGUI mileStoneText; // TextField of MainText
         [SerializeField] private GameObject menu; // SideMenu which always is there and can be mini and maximized
         private TextMeshProUGUI requiredStuffText; // TextField of Menu
-        bool isMinimized; // shows if the SideMenu is mini or maximized
-        [SerializeField] private Canvas canvas;
         private MaterialManager materialManager;
         private EnergyManager energyManager;
         private FoodManager foodManager;
@@ -29,8 +29,9 @@ namespace MilestoneSystem
         private CitizenManager citizenManager;
         private GameManager gameManager;
         private List<ResourceManager> managers;
-        
-    
+        [SerializeField] private Button sideMenuMileStoneButton;
+        [SerializeField] private Button sideMenuPriorityButton;
+
         #endregion
 
         #region Events
@@ -114,6 +115,8 @@ namespace MilestoneSystem
             {
                 onSideMenuShouldClose.Invoke();
                 mainText.SetActive(true);
+                sideMenuMileStoneButton.interactable = false;
+                sideMenuPriorityButton.interactable = false;
                 Time.timeScale = 0;
                 mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
                 textIndex++;
@@ -121,6 +124,8 @@ namespace MilestoneSystem
             else
             {
                 mainText.SetActive(false);
+                sideMenuMileStoneButton.interactable = true;
+                sideMenuPriorityButton.interactable = true;
                 BuildMenu();
                 Time.timeScale = 1;
                 textIndex = 0;
@@ -137,6 +142,8 @@ namespace MilestoneSystem
             {
                 onSideMenuShouldClose.Invoke();
                 mainText.SetActive(true);
+                sideMenuMileStoneButton.interactable = false;
+                sideMenuPriorityButton.interactable = false;
                 Time.timeScale = 0;
                 mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
                 textIndex++;
@@ -195,28 +202,6 @@ namespace MilestoneSystem
             }
         }
 
-        // /// <summary>
-        // /// maximizes menu by moving it to the left side
-        // /// </summary>
-        // private void OpenMenu()
-        // {
-        //     var transformPosition = menu.transform.position;
-        //     transformPosition.x -= 300 * canvas.scaleFactor;
-        //     menu.transform.position = transformPosition;
-        //     isMinimized = false;
-        // }
-        //
-        // /// <summary>
-        // /// minimizes menu by moving it to the right side
-        // /// </summary>
-        // private void CloseMenu()
-        // {
-        //     var transformPosition = menu.transform.position;
-        //     transformPosition.x += 300 * canvas.scaleFactor;
-        //     menu.transform.position = transformPosition;
-        //     isMinimized = true;
-        // }
-        
         #endregion
 
         #region CheckIfAchieved

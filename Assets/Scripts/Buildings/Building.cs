@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
@@ -62,7 +64,7 @@ namespace Buildings
             get => currentProductivity;
             set
             {
-                onBuildingProductivityChanged?.Invoke(currentProductivity, value);
+                onBuildingProductivityChanged.Invoke(currentProductivity, value);
                 currentProductivity = value;
             }
         }
@@ -117,18 +119,34 @@ namespace Buildings
 
         #region Methods
 
+        /// <summary>
+        /// Disables or Enables Modules, when onBuildingWasDisabled event triggers
+        /// </summary>
+        /// <param name="disabled">shows, if it gets disabled or enabled</param>
         private void ChangeIsDisabled(bool disabled)
         {
             if (disabled) DisableModule(CurrentProductivity);
             else EnableModule(CurrentProductivity);
         }
 
+        /// <summary>
+        /// Changes Productivity by the given values, when onBuildingProductivity event triggers
+        /// </summary>
+        /// <param name="oldProductivity">old Value</param>
+        /// <param name="newProductivity">new Value</param>
         private void ChangeProductivity(float oldProductivity, float newProductivity)
         {
+            if (Math.Abs(oldProductivity - newProductivity) < 0.1f)
+            {
+                return;
+            }
             if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity);
             else EnableModule(newProductivity - oldProductivity);
         }
         
+        /// <summary>
+        /// takes all Resources of building's costs
+        /// </summary>
         private void BuildModule()
         {
             foreach (Resource cost in buildingResources.Costs)
@@ -187,7 +205,6 @@ namespace Buildings
                 indexOfAllBuildings = empty;
             }
         }
-        
         
         /// <summary>
         /// adds production, consumption and saveSpace

@@ -1,57 +1,58 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UI.Gridsystem;
 using UnityEngine;
 
-/// <summary>
-/// Script for Handling Module before Placement
-/// </summary>
-public class Blueprint : MonoBehaviour
+namespace UI.BuildMode
 {
-    //Mouse and Positions
-    private Vector3 mousePos;
-    private Vector3 posInWorld;
-    private float distance;
-
-    private Camera mainCam;
-    private Transform station;
-
-    private bool isLockedIn;
-
-    public bool IsLockedIn
+    /// <summary>
+    /// Script for Handling Module before Placement
+    /// </summary>
+    public class Blueprint : MonoBehaviour
     {
-        get => isLockedIn;
-        set => isLockedIn = value;
-    }
+        //Mouse and Positions
+        private Vector3 mousePos;
+        private Vector3 posInWorld;
+        private float distance;
 
-    private Ray mouseRay;
-    private const float RAYRANGE = 100;
+        private Camera mainCam;
+        private Transform station;
 
-    public GridTile gridTileHit;
+        private bool isLockedIn;
 
-    private void Awake()
-    {
-        mainCam = Camera.main;
-        station = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Need Rework
-    }
-
-    private void Update()
-    {
-        distance = Vector3.Distance(mainCam.transform.position, station.position);
-        mousePos = Input.mousePosition;
-        posInWorld = mainCam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, distance));
-
-        mouseRay = mainCam.ScreenPointToRay(mousePos);
-        if (Physics.Raycast(mouseRay, out RaycastHit hit, RAYRANGE))
+        public bool IsLockedIn
         {
-            gridTileHit = hit.transform.gameObject.GetComponent<GridTile>(); //TODO: (Ben) VERY Expensive
-            this.transform.position = hit.transform.position;
-            IsLockedIn = true;
+            get => isLockedIn;
+            set => isLockedIn = value;
         }
-        else
+
+        private Ray mouseRay;
+        private const float RAYRANGE = 100;
+
+        public GridTile gridTileHit;
+
+        private void Awake()
         {
-            this.transform.position = posInWorld;
-            IsLockedIn = false;
+            mainCam = Camera.main;
+            station = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Need Rework
+        }
+
+        private void Update()
+        {
+            distance = Vector3.Distance(mainCam.transform.position, station.position);
+            mousePos = Input.mousePosition;
+            posInWorld = mainCam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, distance));
+
+            mouseRay = mainCam.ScreenPointToRay(mousePos);
+            if (Physics.Raycast(mouseRay, out RaycastHit hit, RAYRANGE))
+            {
+                gridTileHit = hit.transform.gameObject.GetComponent<GridTile>(); //TODO: (Ben) VERY Expensive
+                this.transform.position = hit.transform.position;
+                IsLockedIn = true;
+            }
+            else
+            {
+                this.transform.position = posInWorld;
+                IsLockedIn = false;
+            }
         }
     }
 }
