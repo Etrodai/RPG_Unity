@@ -76,7 +76,7 @@ namespace PriorityListSystem
         }
         
         #endregion
-
+        
         #region Methods
 
         public void ChangePriority(int index)

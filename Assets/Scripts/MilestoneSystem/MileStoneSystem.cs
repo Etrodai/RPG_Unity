@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
 using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
+using SaveSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +11,13 @@ using UnityEngine.UI;
 
 namespace MilestoneSystem
 {
+    [System.Serializable]
+    public struct MileStoneSystemSave
+    {
+        public int mileStonesDone;
+        public bool isDone;
+    }
+    
     public class MileStoneSystem : MonoBehaviour
     {
         #region Variables
@@ -69,7 +78,11 @@ namespace MilestoneSystem
             managers.Add(citizenManager);
             
             gameManager = MainManagerSingleton.Instance.GameManager;
-
+            
+            Save.OnSaveButtonClick.AddListener(SaveData);
+            Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
+            Load.OnLoadButtonClick.AddListener(LoadData);
+            
             BuildPreMainText();
         }
 
@@ -101,6 +114,38 @@ namespace MilestoneSystem
         
         #endregion
 
+        #region Save Load
+
+        private void SaveData()
+        {
+            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
+            data[0].isDone = isDone;
+            data[0].mileStonesDone = mileStonesDone;
+
+            Save.AutoSaveData(data, "MileStoneSystem");
+        }
+    
+        private void SaveDataAs(string savePlace)
+        {
+            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
+            data[0].isDone = isDone;
+            data[0].mileStonesDone = mileStonesDone;
+        
+            Save.SaveDataAs(savePlace, data, "MileStoneSystem");
+        }
+    
+        private void LoadData(string path)
+        {
+            path = Path.Combine(path, "MileStoneSystem");
+
+            MileStoneSystemSave[] data = Load.LoadData(path);
+
+            isDone = data[0].isDone;
+            mileStonesDone = data[0].mileStonesDone;
+        }
+
+        #endregion
+        
         #region Methods
         
         #region MainText

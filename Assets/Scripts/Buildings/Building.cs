@@ -8,6 +8,14 @@ using UnityEngine.Events;
 
 namespace Buildings
 {
+    [System.Serializable]
+    public struct BuildingData
+    {
+        public bool isDisabled;
+        public float currentProductivity;
+        public BuildingTypes buildingType;
+    }
+    
     public class Building : MonoBehaviour
     {
         #region Variables
@@ -117,6 +125,27 @@ namespace Buildings
         
         #endregion
 
+        #region Save Load
+
+        public BuildingData SaveBuildingData()
+        {
+            BuildingData data = new BuildingData();
+            data.isDisabled = isDisabled;
+            data.currentProductivity = currentProductivity;
+            data.buildingType = buildingType;
+            
+            return data;
+        }
+        
+        public void LoadBuildingData(BuildingData data)
+        {
+            isDisabled = data.isDisabled;
+            currentProductivity = data.currentProductivity;
+            buildingType = data.buildingType;
+        }
+        
+        #endregion
+        
         #region Methods
 
         /// <summary>

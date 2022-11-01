@@ -13,24 +13,24 @@ namespace SaveSystem
     
         public void OnSaveButtonClick()
         {
-            Save.onSaveButtonClick?.Invoke();
+            Save.OnSaveButtonClick?.Invoke();
         }
 
         public void OnSaveAsButtonClick()
         {
-            Save.onSaveAsButtonClick?.Invoke(saveName.text);
+            Save.OnSaveAsButtonClick?.Invoke(saveName.text);
         }
 
         public void OnResumeButtonClick()
         {
             string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\Autosafe");
-            Load.onLoadButtonClick?.Invoke(loadName);
+            Load.OnLoadButtonClick?.Invoke(loadName);
         }
     
         public void OnLoadButtonClick(string name)
         {
             string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\{name}");
-            Load.onLoadButtonClick?.Invoke(loadName);
+            Load.OnLoadButtonClick?.Invoke(loadName);
         }
 
         public string[] LoadSaveNames()

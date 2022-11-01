@@ -1117,8 +1117,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f1dc6ffbcfcc86499b2fbfe2eb71e10, type: 2}
   mainText: {fileID: 7417362338882113111}
   menu: {fileID: 6461077066352826112}
-  sideMenuMileStoneButton: {fileID: 0}
-  sideMenuPriorityButton: {fileID: 0}
+  sideMenuMileStoneButton: {fileID: 3355369193672666703}
+  sideMenuPriorityButton: {fileID: 9058890457045367579}
   onSideMenuShouldClose:
     m_PersistentCalls:
       m_Calls:
@@ -9671,14 +9671,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttons:
-  - Button: {fileID: 8939557471441289720}
-    ModuleToBuild: {fileID: 11400000, guid: 172b2e0b1b5a63345a10c16c076651cc, type: 2}
-  - Button: {fileID: 8939557473097213292}
-    ModuleToBuild: {fileID: 11400000, guid: e35849435eeb1fe479ebd83215a0fef2, type: 2}
-  - Button: {fileID: 8939557472038349420}
-    ModuleToBuild: {fileID: 11400000, guid: d7b5a3c6a202cfb459863b7b7b98e412, type: 2}
-  - Button: {fileID: 8939557471355651454}
-    ModuleToBuild: {fileID: 11400000, guid: 9e3cc1d344f2a1d4e859cdb04b7002bd, type: 2}
+  - button: {fileID: 0}
+    moduleToBuild: {fileID: 0}
+  - button: {fileID: 0}
+    moduleToBuild: {fileID: 0}
+  - button: {fileID: 0}
+    moduleToBuild: {fileID: 0}
+  - button: {fileID: 0}
+    moduleToBuild: {fileID: 0}
 --- !u!1 &8939557472025678442
 GameObject:
   m_ObjectHideFlags: 0

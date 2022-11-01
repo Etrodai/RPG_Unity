@@ -1,11 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Eventsystem
 {
+    [System.Serializable]
+    public struct EventManagerSave
+    {
+        public float timer;
+        public EventScriptableObject[] availableEvents;
+        public EventScriptableObject[] usedEvents;
+    }
+    
     public class EventManagerScriptable : MonoBehaviour
     {
         //Event determination variables
@@ -47,7 +57,59 @@ namespace Eventsystem
             StartTimer();
             resetEventTimer += ResetTimer;
             resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
+            Save.OnSaveButtonClick.AddListener(SaveData);
+            Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
+            Load.OnLoadButtonClick.AddListener(LoadData);
         }
+        
+        #region Save Load
+
+        private void SaveData()
+        {
+            EventManagerSave[] data = new EventManagerSave[1];
+            data[0] = new EventManagerSave
+            {
+                timer = this.timer,
+                availableEvents = this.availableEvents.ToArray(),
+                usedEvents = this.usedEvents.ToArray()
+            };
+
+            Save.AutoSaveData(data, "EventManager");
+        }
+    
+        private void SaveDataAs(string savePlace)
+        {
+            EventManagerSave[] data = new EventManagerSave[1];
+            data[0] = new EventManagerSave
+            {
+                timer = this.timer,
+                availableEvents = this.availableEvents.ToArray(),
+                usedEvents = this.usedEvents.ToArray()
+            };
+
+            Save.SaveDataAs(savePlace, data, "EventManager");
+        }
+    
+        private void LoadData(string path)
+        {
+            path = Path.Combine(path, "EventManager");
+
+            EventManagerSave[] data = Load.LoadData(path);
+
+            timer = data[0].timer;
+
+            for (int i = 0; i < data[0].availableEvents.Length; i++)
+            {
+                availableEvents.Add(data[0].availableEvents[i]);
+            }
+
+            for (int i = 0; i < data[0].usedEvents.Length; i++)
+            {
+                usedEvents.Enqueue(data[0].usedEvents[i]);      // does it work the right way? Or should it be from Length to 0??
+            }
+        }
+        
+        #endregion
 
         /// <summary>
         /// Works as timer to start the next event when the time runs out

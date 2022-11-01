@@ -107,9 +107,6 @@ namespace ResourceManagement.Manager
         /// </summary>
         void Start()
         {
-            Save.onSaveButtonClick.AddListener(SaveData);
-            Save.onSaveAsButtonClick.AddListener(SaveDataAs);
-            Load.onLoadButtonClick.AddListener(LoadData);
             onCitizenSurplusChanged = new UnityEvent();
             onCitizenSurplusChanged.AddListener(ChangeUIText);
             onCitizenProductionChanged = new UnityEvent();
@@ -128,26 +125,6 @@ namespace ResourceManagement.Manager
 
         #endregion
 
-        #region Save and Load
-
-        private void SaveData()
-        {
-            Save.AutoSaveData(SavedResourceValue, "citizenManager");
-        }
-
-        private void SaveDataAs(string savePlace)
-        {
-            Save.SaveDataAs(savePlace, SavedResourceValue, "citizenManager.dat");
-        }
-
-        private void LoadData(string path)
-        {
-            path = Path.Combine(path, "citizenManager.dat");
-            SavedResourceValue = Load.LoadFloatData(path);
-        }
-
-        #endregion
-        
         #region Methods
         
         protected override void InvokeCalculation()
