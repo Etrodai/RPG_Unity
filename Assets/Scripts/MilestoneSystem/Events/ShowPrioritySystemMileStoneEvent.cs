@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
 namespace MilestoneSystem.Events
 {
     public class ShowPrioritySystemMileStoneEvent : MileStoneEvent
     {
         public override MileStoneEventNames Name { get; set; }
-        public override string MenuText { get; set; }
+        public override List<string> MenuText { get; set; } = new();
         private bool clickedPriority;
         private bool clickedPlus;
         private bool clickedMinus;
@@ -12,7 +14,8 @@ namespace MilestoneSystem.Events
         private void Awake()
         {
             Name = MileStoneEventNames.ShowPrioritySystem;
-            MenuText = "Click on the PrioritySystemButton.\nChange the Priority up and down.";
+            MenuText.Add("Click on the Priority-System-Button");
+            MenuText.Add("Change the Priority up and down");
         }
 
         public override bool CheckAchieved()

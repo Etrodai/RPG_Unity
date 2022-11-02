@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MilestoneSystem.Events
@@ -5,7 +6,7 @@ namespace MilestoneSystem.Events
     public class WaitForSecondsMileStoneEvent : MileStoneEvent
     {
         public override MileStoneEventNames Name { get; set; }
-        public override string MenuText { get; set; }
+        public override List<string> MenuText { get; set; } = new();
         private bool isAchieved;
         private float timer = 10f;
 

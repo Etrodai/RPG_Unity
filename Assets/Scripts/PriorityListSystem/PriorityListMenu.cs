@@ -21,7 +21,8 @@ namespace PriorityListSystem
         [SerializeField] private GameObject labelPrefab;
         [SerializeField] private GameObject itemPrefab;
         private GameManager gameManager;
-        private List<PriorityListItem> items = new();
+        private readonly List<PriorityListItem> items = new();
+        private const string saveName = "PriorityListMenu";
 
         public void Instantiate()
         {
@@ -36,7 +37,7 @@ namespace PriorityListSystem
                     GameObject priorityLabel = Instantiate (labelPrefab, gameObject.transform, true);
                     priorityLabel.transform.localScale = Vector3.one;
                     TextMeshProUGUI labelText = priorityLabel.GetComponent<TextMeshProUGUI>();
-                    labelText.text = $"Priority {priority}";
+                    labelText.text = $"Priority {priority + 1}";
 
                     GameObject itemObject = Instantiate(itemPrefab, gameObject.transform, true);
                     itemObject.transform.localScale = Vector3.one;
@@ -73,7 +74,7 @@ namespace PriorityListSystem
                 data[i].type = items[i].Type;
             }
         
-            Save.AutoSaveData(data, "PriorityListMenu");
+            Save.AutoSaveData(data, saveName);
         }
     
         private void SaveDataAs(string savePlace)
@@ -86,15 +87,14 @@ namespace PriorityListSystem
                 data[i].type = items[i].Type;
             }
         
-            Save.SaveDataAs(savePlace, data, "PriorityListMenu");
+            Save.SaveDataAs(savePlace, data, saveName);
         }
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, "PriorityListMenu");
+            path = Path.Combine(path, saveName);
 
-            //TODO: (Robin) PriorityListItemSave[] data = Load.LoadData(path);
-            PriorityListItemSave[] data = new PriorityListItemSave[1];
+            PriorityListItemSave[] data = Load.LoadData(path) as PriorityListItemSave[];
 
             for (int i = 0; i < data.Length; i++)
             {

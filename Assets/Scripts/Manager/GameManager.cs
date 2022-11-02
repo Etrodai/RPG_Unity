@@ -3,6 +3,7 @@ using Buildings;
 using PriorityListSystem;
 using ResourceManagement;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Manager
 {
@@ -11,7 +12,7 @@ namespace Manager
         #region Variables
 
         [SerializeField] private Building nullBuilding;
-    
+
         #endregion
 
         #region Properties
@@ -121,6 +122,20 @@ namespace Manager
     
             return count;
         }
+        
+        public int GetWorkingBuildingCount(BuildingTypes type)
+        {
+            int count = GetBuildingCount(type);
+            foreach (DisabledBuilding disabledBuilding in DisabledBuildings)
+            {
+                if (disabledBuilding.building.BuildingType == type)
+                {
+                    count--;
+                }
+            }
+            
+            return count;
+        }
 
         private List<Building> GetAllBuildingsOfType(BuildingTypes type)
         {
@@ -135,7 +150,7 @@ namespace Manager
 
             return buildings;
         }
-    
+        
         private float ChangeProductivityNegative(float surplus, float neededResourceValue, List<Building> priorityList)
         {
             foreach (Building building in priorityList)
@@ -263,6 +278,10 @@ namespace Manager
                                     neededResourceValue += surplus;
                                     if (neededResourceValue >= 0)
                                     {
+                                        foreach (PriorityListItem item in PriorityListItems)
+                                        {
+                                            item.onChangePriorityUI.Invoke();
+                                        }
                                         return;
                                     }
                                 }

@@ -18,6 +18,7 @@ namespace SaveSystem
     {
         private static List<GridSystemData> data { get; set; }
         private Gridsystem gridsystem;
+        private const string saveName = "GridSystem";
 
         private void Start()
         {
@@ -48,7 +49,7 @@ namespace SaveSystem
                 }
             }
 
-            Save.AutoSaveData(data, "GridSystem");
+            Save.AutoSaveData(data, saveName);
         }
     
         private void SaveDataAs(string savePlace)
@@ -72,14 +73,14 @@ namespace SaveSystem
                 }
             }
         
-            Save.SaveDataAs(savePlace, data, "GridSystem");
+            Save.SaveDataAs(savePlace, data, saveName);
         }
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, "GridSystem");
+            path = Path.Combine(path, saveName);
 
-            //TODO: (Robin) GridSystemData[] gridData = Load.LoadData(path);
+            GridSystemData[] gridData = Load.LoadData(path) as GridSystemData[];
         
             // TODO: (Robin) über ResourceOrdner die Buildings wieder hinzufügen
         }

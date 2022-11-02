@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace MilestoneSystem.Events
 {
     public class CameraMovementMileStoneEvent : MileStoneEvent
@@ -9,7 +11,7 @@ namespace MilestoneSystem.Events
         #endregion
         
         public override MileStoneEventNames Name { get; set; }
-        public override string MenuText { get; set; }
+        public override List<string> MenuText { get; set; } = new();
         private bool hasMoved;
         private bool hasRotated;
         private bool hasZoomed;
@@ -18,7 +20,9 @@ namespace MilestoneSystem.Events
         private void Awake()
         {
             Name = MileStoneEventNames.CameraMovement;
-            MenuText = "Move, Rotate and Zoom.";
+            MenuText.Add("Move");
+            MenuText.Add("Rotate");
+            MenuText.Add("Zoom");
         }
 
         public override bool CheckAchieved()

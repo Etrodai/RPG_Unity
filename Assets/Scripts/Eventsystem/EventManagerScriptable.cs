@@ -47,6 +47,8 @@ namespace Eventsystem
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
 
+        private const string saveName = "EventManager";
+        
         private void Awake()
         {
             timer = setTimer;
@@ -74,7 +76,7 @@ namespace Eventsystem
                 usedEvents = this.usedEvents.ToArray()
             };
 
-            Save.AutoSaveData(data, "EventManager");
+            Save.AutoSaveData(data, saveName);
         }
     
         private void SaveDataAs(string savePlace)
@@ -87,15 +89,14 @@ namespace Eventsystem
                 usedEvents = this.usedEvents.ToArray()
             };
 
-            Save.SaveDataAs(savePlace, data, "EventManager");
+            Save.SaveDataAs(savePlace, data, saveName);
         }
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, "EventManager");
+            path = Path.Combine(path, saveName);
 
-            //TODO: (Robin) EventManagerSave[] data = Load.LoadData(path);
-            EventManagerSave[] data = new EventManagerSave[1];
+            EventManagerSave[] data = Load.LoadData(path) as EventManagerSave[];
             timer = data[0].timer;
 
             for (int i = 0; i < data[0].availableEvents.Length; i++)

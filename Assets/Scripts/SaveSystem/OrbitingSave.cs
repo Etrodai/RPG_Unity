@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class OrbitingSave : MonoBehaviour
 {
-    public static List<GameObject> Planets { get; set; }
+    public static List<GameObject> Planets { get; } = new();
+    private const string saveName = "PlanetOrbiting";
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class OrbitingSave : MonoBehaviour
             position[i] = Planets[i].transform.position;
         }
         
-        Save.AutoSaveData(position, "PlanetOrbiting");
+        Save.AutoSaveData(position, saveName);
     }
     
     private void SaveDataAs(string savePlace)
@@ -35,15 +36,14 @@ public class OrbitingSave : MonoBehaviour
             position[i] = Planets[i].transform.position;
         }
         
-        Save.SaveDataAs(savePlace, position, "PlanetOrbiting");
+        Save.SaveDataAs(savePlace, position, saveName);
     }
     
     private void LoadData(string path)
     {
-        path = Path.Combine(path, "PlanetOrbiting");
+        path = Path.Combine(path, saveName);
 
-        //TODO: (Robin) Vector3[] position = Load.LoadData(path);
-        Vector3[] position = new Vector3[1];
+        Vector3[] position = Load.LoadData(path) as Vector3[];
         
         for (int i = 0; i < Planets.Count; i++)
         {

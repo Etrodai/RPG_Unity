@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Manager;
+using PriorityListSystem;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
@@ -92,6 +93,7 @@ namespace Buildings
             onBuildingWasDisabled.AddListener(ChangeIsDisabled);
             onBuildingProductivityChanged = new UnityEvent<float, float>();
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
+            
             managers = new List<ResourceManager>();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
@@ -105,8 +107,14 @@ namespace Buildings
             managers.Add(citizenManager);
             gameManager = MainManagerSingleton.Instance.GameManager;
             nullBuilding = gameManager.NullBuilding;
+            
             BuildModule();
             EnableModule(CurrentProductivity);
+            
+            foreach (PriorityListItem item in gameManager.PriorityListItems)
+            {
+                item.onChangePriorityUI.Invoke();
+            }
         }
 
         /// <summary>

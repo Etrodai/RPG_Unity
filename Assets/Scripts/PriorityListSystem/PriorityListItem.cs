@@ -2,6 +2,7 @@ using Buildings;
 using Manager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace PriorityListSystem
 {
@@ -16,7 +17,13 @@ namespace PriorityListSystem
         private GameManager gameManager;
 
         #endregion
-    
+
+        #region Events
+
+        public UnityEvent onChangePriorityUI;
+
+        #endregion
+        
         #region Properties
 
         public int Priority { get; set; }
@@ -28,9 +35,12 @@ namespace PriorityListSystem
         
         public void Instantiate()
         {
+            onChangePriorityUI.AddListener(ChangeUIText);
             gameManager = MainManagerSingleton.Instance.GameManager;
             buildingGroup.text = Type.ToString();
-            workingBuildings.text = $"{gameManager.GetBuildingCount(Type)}";
+            int allBuildingsCount = gameManager.GetBuildingCount(Type);
+            int workingBuildingsCount = gameManager.GetWorkingBuildingCount(Type);
+            workingBuildings.text = $"{workingBuildingsCount}/{allBuildingsCount}";
         }
         
         #endregion
@@ -79,6 +89,13 @@ namespace PriorityListSystem
         
         #region Methods
 
+        private void ChangeUIText() //always, when + building or enabled/disabled as Event
+        {
+            int allBuildingsCount = gameManager.GetBuildingCount(Type);
+            int workingBuildingsCount = gameManager.GetWorkingBuildingCount(Type);
+            workingBuildings.text = $"{workingBuildingsCount}/{allBuildingsCount}";
+        }
+        
         public void ChangePriority(int index)
         {
             Priority = index;

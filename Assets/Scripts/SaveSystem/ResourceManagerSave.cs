@@ -9,6 +9,7 @@ namespace SaveSystem
     {
         private float[] managerData;
         private ResourceManager[] managers;
+        private const string saveName = "ResourceManager";
 
         private void Start()
         {
@@ -30,7 +31,7 @@ namespace SaveSystem
             {
                 managerData[i] = managers[i].SavedResourceValue;
             }
-            Save.AutoSaveData(managerData, "ResourceManager");
+            Save.AutoSaveData(managerData, saveName);
         }
         
         private void SaveDataAs(string savePlace)
@@ -40,14 +41,14 @@ namespace SaveSystem
             {
                 managerData[i] = managers[i].SavedResourceValue;
             }
-            Save.SaveDataAs(savePlace, managerData, "ResourceManager");
+            Save.SaveDataAs(savePlace, managerData, saveName);
         }
 
         private void LoadData(string path)
         {
             
-            path = Path.Combine(path, "ResourceManager");
-            //TODO: (Robin) managerData = Load.LoadData(path);
+            path = Path.Combine(path, saveName);
+            managerData = Load.LoadData(path) as float[];
 
             for (int i = 0; i < managerData.Length; i++)
             {
