@@ -79,9 +79,9 @@ namespace SaveSystem
         {
             path = Path.Combine(path, "GridSystem");
 
-            GridSystemData[] gridData = Load.LoadData(path);
+            //TODO: (Robin) GridSystemData[] gridData = Load.LoadData(path);
         
-            // TODO über ResourceOrdner die Buildings wieder hinzufügen
+            // TODO: (Robin) über ResourceOrdner die Buildings wieder hinzufügen
         }
     }
 }

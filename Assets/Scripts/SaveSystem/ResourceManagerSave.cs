@@ -47,7 +47,7 @@ namespace SaveSystem
         {
             
             path = Path.Combine(path, "ResourceManager");
-            managerData = Load.LoadData(path);
+            //TODO: (Robin) managerData = Load.LoadData(path);
 
             for (int i = 0; i < managerData.Length; i++)
             {

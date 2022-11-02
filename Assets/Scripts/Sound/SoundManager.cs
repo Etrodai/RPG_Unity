@@ -117,7 +117,7 @@ namespace Sound
             audioSource.dopplerLevel = 0f;
             audioSource.Play();
             
-            //TODO use ObjectPool
+            //TODO: (Robin) use ObjectPool
             Object.Destroy(soundGameObject, audioSource.clip.length);
         }
         
@@ -139,7 +139,7 @@ namespace Sound
             audioSource.dopplerLevel = 0f;
             audioSource.Play();
             
-            //TODO use ObjectPool
+            //TODO: (Robin) use ObjectPool
             Object.Destroy(soundGameObject, audioSource.clip.length);
         }
 

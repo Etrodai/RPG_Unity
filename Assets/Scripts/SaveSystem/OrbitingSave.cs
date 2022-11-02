@@ -42,7 +42,8 @@ public class OrbitingSave : MonoBehaviour
     {
         path = Path.Combine(path, "PlanetOrbiting");
 
-        Vector3[] position = Load.LoadData(path);
+        //TODO: (Robin) Vector3[] position = Load.LoadData(path);
+        Vector3[] position = new Vector3[1];
         
         for (int i = 0; i < Planets.Count; i++)
         {

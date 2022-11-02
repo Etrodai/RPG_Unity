@@ -138,8 +138,9 @@ namespace MilestoneSystem
         {
             path = Path.Combine(path, "MileStoneSystem");
 
-            MileStoneSystemSave[] data = Load.LoadData(path);
-
+            //TODO: (Robin) MileStoneSystemSave[] data = Load.LoadData(path);
+            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
+            
             isDone = data[0].isDone;
             mileStonesDone = data[0].mileStonesDone;
         }

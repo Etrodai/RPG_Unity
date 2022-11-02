@@ -136,7 +136,7 @@ namespace Cameras
         /// </summary>
         private void Start()
         {
-            cameraLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(0); //TODO: Variable for Index
+            cameraLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(0); //TODO: (Ben) Variable for Index
             freeLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(1);
             cmFreeLook.Follow = cameraLookPoint;
             cmFreeLook.LookAt = cameraLookPoint;
@@ -162,7 +162,7 @@ namespace Cameras
         public void RotateXAxis(InputAction.CallbackContext context)
         {
             float input = context.ReadValue<float>();
-            while (input != 0) //TODO: Maybe Change to something better, while isnt needed
+            while (input != 0) //TODO: (Ben) Maybe Change to something better, while isnt needed
             {
                 cmFreeLook.m_XAxis.m_InputAxisValue = input * RotationSensivity;
                 return;
@@ -236,7 +236,7 @@ namespace Cameras
             if (isHeldDownX || isHeldDownY)
             {
                 moveVector =
-                    ((actualXAxis * moveX) + (Vector3.up * moveY)) * MoveSensivity * Time.deltaTime; //TODO: Reorder
+                    ((actualXAxis * moveX) + (Vector3.up * moveY)) * MoveSensivity * Time.deltaTime; //TODO: (Ben) Reorder
                 cameraLookPoint.localPosition += moveVector;
             }
 

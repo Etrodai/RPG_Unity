@@ -94,8 +94,8 @@ namespace Eventsystem
         {
             path = Path.Combine(path, "EventManager");
 
-            EventManagerSave[] data = Load.LoadData(path);
-
+            //TODO: (Robin) EventManagerSave[] data = Load.LoadData(path);
+            EventManagerSave[] data = new EventManagerSave[1];
             timer = data[0].timer;
 
             for (int i = 0; i < data[0].availableEvents.Length; i++)

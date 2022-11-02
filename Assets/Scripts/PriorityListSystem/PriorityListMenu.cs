@@ -93,18 +93,19 @@ namespace PriorityListSystem
         {
             path = Path.Combine(path, "PriorityListMenu");
 
-            PriorityListItemSave[] data = Load.LoadData(path);
+            //TODO: (Robin) PriorityListItemSave[] data = Load.LoadData(path);
+            PriorityListItemSave[] data = new PriorityListItemSave[1];
 
             for (int i = 0; i < data.Length; i++)
             {
                 items[i].Type = data[i].type;
                 
-                while (items[i].Priority < data[i].priority) //TODO Attention!!! whileLoop
+                while (items[i].Priority < data[i].priority) //TODO: (Robin) Attention!!! whileLoop
                 {
                     items[i].OnClickPlusButton();
                 }
 
-                while (items[i].Priority > data[i].priority) //TODO Attention!!! whileLoop
+                while (items[i].Priority > data[i].priority) //TODO: (Robin) Attention!!! whileLoop
                 {
                     items[i].OnClickMinusButton();
                 }
