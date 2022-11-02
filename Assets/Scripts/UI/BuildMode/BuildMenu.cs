@@ -65,6 +65,7 @@ namespace UI.BuildMode
                         GameObject module = Instantiate(moduleToBuild, blueprint.transform.position, quaternion.identity);
                         module.transform.parent = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Redo
                         blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
+                        blueprint.gridTileHit.Module = module;
                     }
                 }
 

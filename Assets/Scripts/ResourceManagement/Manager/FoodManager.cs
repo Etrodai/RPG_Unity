@@ -6,12 +6,6 @@ namespace ResourceManagement.Manager
 {
     public class FoodManager : ResourceManager
     {
-        #region TODOS
-
-        // use foodScalingFactor
-
-        #endregion
-
         #region Variables
 
         [SerializeField] private TextMeshProUGUI savedResourceText;
@@ -21,8 +15,6 @@ namespace ResourceManagement.Manager
         private float currentResourceSurplus;
         private float savedResourceValue;
         private float saveSpace;
-
-        // private const float foodScalingFactor = 1.25f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
 
         #endregion
 

@@ -4,6 +4,7 @@ using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.BuildMode
 {
@@ -40,11 +41,21 @@ namespace UI.BuildMode
                 Initialize();
                 isInitialized = true;
             }
-        
+            
+            UpdateButtons();
+        }
+
+        private void Update()
+        {
+            UpdateButtons();
+        }
+
+        private void UpdateButtons()
+        {
             foreach (Buttons button in buttons)
             {
                 bool activate = true;
-                foreach (Resource cost in button.ModuleToBuild.Costs)
+                foreach (Resource cost in button.moduleToBuild.Costs)
                 {
                     foreach (ResourceManager manager in managers)
                     {
@@ -57,7 +68,7 @@ namespace UI.BuildMode
                         }
                     }
                 }
-                button.Button.SetActive(activate);
+                button.button.interactable = activate;
             }
         }
     }
@@ -65,7 +76,7 @@ namespace UI.BuildMode
     [System.Serializable]
     public struct Buttons
     {
-        public GameObject Button;
-        public BuildingResourcesScriptableObject ModuleToBuild;
+        public Button button;
+        public BuildingResourcesScriptableObject moduleToBuild;
     }
 }

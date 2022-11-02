@@ -7,6 +7,8 @@ namespace UI.Gridsystem
         [SerializeField] private GameObject prefabGridTileAvailable;
         [SerializeField] private GameObject prefabGridTileLocked;
 
+        public GameObject Module { get; set; }
+
         private MeshRenderer meshRenderer;
         private MeshFilter meshFilter;
 
