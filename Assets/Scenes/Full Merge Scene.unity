@@ -2416,22 +2416,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9746264
+      value: 0.9748918
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.17687705
+      value: 0.1754039
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.1356418
+      value: 0.1357049
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.02047751
+      value: -0.020089852
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -5636,6 +5636,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -35
       objectReference: {fileID: 0}
+    - target: {fileID: 3291796180176346367, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: input
+      value: 
+      objectReference: {fileID: 912021417}
     - target: {fileID: 3466654161254336840, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -5723,21 +5728,9 @@ PrefabInstance:
       objectReference: {fileID: 1573660567}
     - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
-      propertyPath: itemPrefab
-      value: 
-      objectReference: {fileID: 6872808568210063698, guid: 0344a6e79619ecb47adea0e509866779,
-        type: 3}
-    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
-        type: 3}
-      propertyPath: labelPrefab
-      value: 
-      objectReference: {fileID: 3648738827136920099, guid: cde805d82a996454ebc94c949729a479,
-        type: 3}
-    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
-        type: 3}
-      propertyPath: mileStonePanel
-      value: 
-      objectReference: {fileID: 1596840960}
+      propertyPath: events.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4376101565574613785, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -7457,12 +7450,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
---- !u!1 &1596840960 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6461077066352826112, guid: c4184ba17d8be0846903de10bea1f884,
-    type: 3}
-  m_PrefabInstance: {fileID: 1473481242}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1615602854
 GameObject:
   m_ObjectHideFlags: 0

@@ -58,22 +58,30 @@ namespace Buildings
         
         public BuildingTypes BuildingType => buildingType;
 
+        //OnValueChangedEvent
         public bool IsDisabled
         {
             get => isDisabled;
             set
             {
+                if (isDisabled == value) return;
+
                 isDisabled = value;
                 onBuildingWasDisabled?.Invoke(isDisabled);
+                Debug.Log("onBuildingWasDisabled?.Invoke(isDisabled)");
             }
         }
 
+        //OnValueChangedEvent
         public float CurrentProductivity
         {
             get => currentProductivity;
             set
             {
+                if (currentProductivity == value) return;
+                
                 onBuildingProductivityChanged.Invoke(currentProductivity, value);
+                Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
                 currentProductivity = value;
             }
         }
@@ -83,9 +91,11 @@ namespace Buildings
         #region UnityEvents
         
         /// <summary>
+        /// adds Listener
         /// sets all Variables
         /// reduces needed resources when build the building
         /// adds building to gameManager building count
+        /// actualizes PriorityUI
         /// </summary>
         private void Start()
         {
@@ -114,12 +124,14 @@ namespace Buildings
             foreach (PriorityListItem item in gameManager.PriorityListItems)
             {
                 item.onChangePriorityUI.Invoke();
+                Debug.Log("item.onChangePriorityUI.Invoke()");
             }
         }
 
         /// <summary>
         /// disables function of building when it gets deleted
         /// unsubscribes building from gameManagerList
+        /// removes Listener
         /// </summary>
         private void OnDestroy()
         {
@@ -127,6 +139,8 @@ namespace Buildings
             {
                 DisableModule(CurrentProductivity);
             }
+            onBuildingWasDisabled.RemoveListener(ChangeIsDisabled);
+            onBuildingProductivityChanged.RemoveListener(ChangeProductivity);
 
             gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
         }
@@ -135,6 +149,10 @@ namespace Buildings
 
         #region Save Load
 
+        /// <summary>
+        /// saves building data
+        /// </summary>
+        /// <returns></returns>
         public BuildingData SaveBuildingData()
         {
             BuildingData data = new BuildingData();
@@ -145,6 +163,11 @@ namespace Buildings
             return data;
         }
         
+        
+        /// <summary>
+        /// loads building data
+        /// </summary>
+        /// <param name="data">data of loaded building</param>
         public void LoadBuildingData(BuildingData data)
         {
             isDisabled = data.isDisabled;
@@ -173,16 +196,13 @@ namespace Buildings
         /// <param name="newProductivity">new Value</param>
         private void ChangeProductivity(float oldProductivity, float newProductivity)
         {
-            if (Math.Abs(oldProductivity - newProductivity) < 0.1f)
-            {
-                return;
-            }
             if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity);
             else EnableModule(newProductivity - oldProductivity);
         }
         
         /// <summary>
         /// takes all Resources of building's costs
+        /// adds building to gameManager building count
         /// </summary>
         private void BuildModule()
         {

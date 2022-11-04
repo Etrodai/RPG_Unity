@@ -28,42 +28,65 @@ namespace ResourceManagement.Manager
 
         #region Events
 
-        private UnityEvent onWaterSurplusChanged;
-        private UnityEvent onWaterSavedValueChanged;
-        private UnityEvent onWaterSaveSpaceChanged;
+        private readonly UnityEvent onWaterSurplusChanged = new();
+        private readonly UnityEvent onWaterSavedValueChanged = new();
+        private readonly UnityEvent onWaterSaveSpaceChanged = new();
 
         #endregion
 
         #region Properties
 
         private static WaterManager Instance { get; set; }
+        
+        /// <summary>
+        /// OnValueChangedEvent
+        /// </summary>
         public override float CurrentResourceSurplus
         {
             get => currentResourceSurplus;
             set
             {
-                currentResourceSurplus = value;
+                if (currentResourceSurplus == value) return;
+
                 onWaterSurplusChanged?.Invoke();
+                // Debug.Log("onWaterSurplusChanged?.Invoke()");
+                currentResourceSurplus = value;
             }
         }
+        
         public override float CurrentResourceProduction { get; set; }
+        
         public override float CurrentResourceDemand { get; set; }
+        
+        /// <summary>
+        /// OnValueChangedEvent
+        /// </summary>
         public override float SavedResourceValue
         {
             get => savedResourceValue;
             set
             {
-                savedResourceValue = value;
+                if (savedResourceValue == value) return;
+
                 onWaterSavedValueChanged?.Invoke();
+                // Debug.Log("onWaterSavedValueChanged?.Invoke()");
+                savedResourceValue = value;
             }
         }
+        
+        /// <summary>
+        /// OnValueChangedEvent
+        /// </summary>
         public override float SaveSpace
         {
             get => saveSpace;
             set
             {
-                saveSpace = value;
+                if (saveSpace == value) return;
+
                 onWaterSaveSpaceChanged?.Invoke();
+                // Debug.Log("onWaterSaveSpaceChanged?.Invoke()");
+                saveSpace = value;
             }
         }
         public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Water;
@@ -88,15 +111,13 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
+        /// adds Listener
         /// Starts Calculation
         /// </summary>
         private void Start()
         {
-            onWaterSurplusChanged = new UnityEvent();
             onWaterSurplusChanged.AddListener(ChangeUIText);
-            onWaterSavedValueChanged = new UnityEvent();
             onWaterSavedValueChanged.AddListener(ChangeUIText);
-            onWaterSaveSpaceChanged = new UnityEvent();
             onWaterSaveSpaceChanged.AddListener(ChangeUIText);
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
@@ -124,7 +145,7 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
-        /// Calculation of SavedWaterValue every 0.5 seconds
+        /// Calculation of SavedWaterValue
         /// </summary>
         protected override void CalculateSavedResourceValue()
         {
@@ -144,11 +165,15 @@ namespace ResourceManagement.Manager
 
         }
 
+        /// <summary>
+        /// changes UIText (surplus, savedResource and saveSpace)
+        /// </summary>
         private void ChangeUIText()
         {
             surplusText.text = $"{CurrentResourceSurplus}";
             savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";
         }
+        
         #endregion
     }
 }

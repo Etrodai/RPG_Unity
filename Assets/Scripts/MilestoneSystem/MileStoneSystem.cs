@@ -23,7 +23,7 @@ namespace MilestoneSystem
     {
         #region Variables
 
-        [SerializeField] private List<MileStoneEvent> events;
+        private MileStoneEvent[] events;
         [SerializeField] private MileStonesScriptableObject[] mileStones;
         private int mileStonesDone; // Counter of Milestones Done
         [SerializeField] private GameObject mainText; // Full Screen Text what's happening
@@ -33,7 +33,7 @@ namespace MilestoneSystem
         [SerializeField] private GameObject mileStonePanel; // SideMenu which always is there and can be mini and maximized
         [SerializeField] private GameObject itemPrefab;
         [SerializeField] private GameObject labelPrefab;
-        private readonly List<GameObject> allILabels = new();
+        private readonly List<GameObject> allLabels = new();
         private readonly List<GameObject> allItems = new();
         private MaterialManager materialManager;
         private EnergyManager energyManager;
@@ -64,6 +64,7 @@ namespace MilestoneSystem
         private void Awake()
         {
             mileStoneText = mainText.GetComponentInChildren<TextMeshProUGUI>();
+            events = GetComponents<MileStoneEvent>();
         }
 
         /// <summary>
@@ -106,11 +107,11 @@ namespace MilestoneSystem
                     Destroy(item);
                 }
                 allItems.Clear();
-                foreach (GameObject item in allILabels)
+                foreach (GameObject item in allLabels)
                 {
                     Destroy(item);
                 }
-                allILabels.Clear();
+                allLabels.Clear();
                 if (textIndex == 0) BuildPostMainText();
             }
         }
@@ -175,6 +176,7 @@ namespace MilestoneSystem
             if (textIndex < mileStones[mileStonesDone].MileStoneText.Length)
             {
                 onSideMenuShouldClose.Invoke();
+                // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
                 sideMenuPriorityButton.interactable = false;
@@ -202,6 +204,7 @@ namespace MilestoneSystem
             if (textIndex < mileStones[mileStonesDone].MileStoneAchievedText.Length)
             {
                 onSideMenuShouldClose.Invoke();
+                // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
                 sideMenuPriorityButton.interactable = false;
@@ -230,7 +233,7 @@ namespace MilestoneSystem
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
                 GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
-                allILabels.Add(item);
+                allLabels.Add(item);
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "ToDos";
@@ -240,13 +243,13 @@ namespace MilestoneSystem
                     {
                         if (mileStoneEvent.Name == requiredEvent)
                         {
-                            foreach (string menuText in mileStoneEvent.MenuText)
+                            foreach (MileStoneEventItems eventItems in mileStoneEvent.Events)
                             {
                                 item = Instantiate(itemPrefab, mileStonePanel.transform, true);
                                 allItems.Add(item);
                                 item.transform.localScale = Vector3.one;
                                 text = item.GetComponentInChildren<TextMeshProUGUI>();
-                                text.text = menuText;
+                                text.text = eventItems.text;
                             }
                             mileStoneEvent.enabled = true;
                             mileStoneEvent.ResetAll();
@@ -260,7 +263,7 @@ namespace MilestoneSystem
             if (mileStones[mileStonesDone].RequiredResources.Length != 0)
             {
                 GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
-                allILabels.Add(item);
+                allLabels.Add(item);
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "Required resources";
@@ -277,7 +280,7 @@ namespace MilestoneSystem
             if (mileStones[mileStonesDone].RequiredModules.Length != 0)
             {
                 GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
-                allILabels.Add(item);
+                allLabels.Add(item);
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "Required modules";
@@ -317,7 +320,7 @@ namespace MilestoneSystem
                     {
                         if (mileStoneEvent.Name == requiredEvent)
                         {
-                            if (!mileStoneEvent.CheckAchieved())
+                            if (!mileStoneEvent.CheckAchieved(index))
                             {
                                 hasAllRequiredStuff = false;
                             }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 namespace MilestoneSystem.Events
 {
@@ -9,61 +9,75 @@ namespace MilestoneSystem.Events
         // Anzahl, wie oft/lange bewegt werden muss hinzufügen?
         
         #endregion
-        
-        public override MileStoneEventNames Name { get; set; }
-        public override List<string> MenuText { get; set; } = new();
-        private bool hasMoved;
-        private bool hasRotated;
-        private bool hasZoomed;
-        private bool isAchieved;
 
+        #region Variables & Properties
+
+        public override MileStoneEventNames Name { get; set; }
+        public override MileStoneEventItems[] Events { get; set; }
+
+        #endregion
+
+        #region UnityEvents
+
+        /// <summary>
+        /// sets variables
+        /// </summary>
         private void Awake()
         {
             Name = MileStoneEventNames.CameraMovement;
-            MenuText.Add("Move");
-            MenuText.Add("Rotate");
-            MenuText.Add("Zoom");
+            Events = new MileStoneEventItems[3];
+            Events[0].text = "Move";
+            Events[1].text = "Rotate";
+            Events[2].text = "Zoom";
+            for (int i = 0; i < Events.Length; i++)
+            {
+                Events[i].isAchieved = false;
+            }
         }
 
-        public override bool CheckAchieved()
-        {
-            return isAchieved;
-        }
-
-        public override void ResetAll()
-        {
-            hasMoved = false;
-            hasRotated = false;
-            hasZoomed = false;
-            isAchieved = false;
-        }
+        #endregion
 
         #region Events
 
+        // TODO: (Robin) add these events to InputSystem
+        
         public void Move()
         {
-            hasMoved = true;
-            if (hasMoved && hasRotated && hasZoomed)
-            {
-                isAchieved = true;
-            }
+            Events[0].isAchieved = true;
         }
 
         public void Rotate()
         {
-            hasRotated = true;
-            if (hasMoved && hasRotated && hasZoomed)
-            {
-                isAchieved = true;
-            }
+            Events[1].isAchieved = true;
         }
 
         public void Zoom()
         {
-            hasZoomed = true;
-            if (hasMoved && hasRotated && hasZoomed)
+            Events[2].isAchieved = true;
+        }
+
+        #endregion
+        
+        #region Methods
+
+        /// <summary>
+        /// Checks if the given Event is achieved
+        /// </summary>
+        /// <param name="index">index of the event to check</param>
+        /// <returns>if given event is achieved</returns>
+        public override bool CheckAchieved(int index)
+        {
+            return Events[index].isAchieved;
+        }
+
+        /// <summary>
+        /// sets all events to is not achieved
+        /// </summary>
+        public override void ResetAll()
+        {
+            for (int i = 0; i < Events.Length; i++)
             {
-                isAchieved = true;
+                Events[i].isAchieved = false;
             }
         }
 

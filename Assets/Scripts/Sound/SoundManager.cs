@@ -40,6 +40,10 @@ namespace Sound
         
         #endregion
 
+        #region Methods
+
+        #region Initialize
+        
         /// <summary>
         /// sets timer of sounds, which only should be played every t seconds (when called in Update)
         /// you also have to add it in CanPlaySound()
@@ -51,7 +55,11 @@ namespace Sound
                 // [Sound.BuildModule] = 0f
             };
         }
-        
+
+        #endregion
+
+        #region 2D Sounds
+
         /// <summary>
         /// plays a sound only one time in 2D
         /// </summary>
@@ -99,6 +107,10 @@ namespace Sound
             }
         }
 
+        #endregion
+
+        #region 3D Sounds
+
         /// <summary>
         /// plays a sound one time at a given position in 3D. It doesn't move.
         /// </summary>
@@ -142,6 +154,10 @@ namespace Sound
             //TODO: (Robin) use ObjectPool
             Object.Destroy(soundGameObject, audioSource.clip.length);
         }
+
+        #endregion
+
+        #region Help Methods
 
         /// <summary>
         /// checks, if a sound could play again after its cooling time
@@ -192,6 +208,12 @@ namespace Sound
             return null;
         }
 
+        #endregion
+
+        #endregion
+        
+        #region Extension Methods
+       
         /// <summary>
         /// adds sounds of every button in scene by adding it as listener to the events
         /// </summary>
@@ -220,5 +242,9 @@ namespace Sound
             entry.callback.AddListener(data => listener.Invoke((PointerEventData)data));
             trigger.triggers.Add(entry);
         }
+       
+        #endregion
     }
+
+
 }

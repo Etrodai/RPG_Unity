@@ -3,7 +3,6 @@ using Buildings;
 using PriorityListSystem;
 using ResourceManagement;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Manager
 {
@@ -281,6 +280,7 @@ namespace Manager
                                         foreach (PriorityListItem item in PriorityListItems)
                                         {
                                             item.onChangePriorityUI.Invoke();
+                                            Debug.Log("item.onChangePriorityUI.Invoke()");
                                         }
                                         return;
                                     }
@@ -305,7 +305,8 @@ namespace Manager
             }
 
             int surplus = 0;
-
+            bool somethingChanged = false;
+            
             for (int i = 0; i < DisabledBuildings.Count; i++)
             {
                 if (DisabledBuildings.Peek().type != type)
@@ -329,15 +330,35 @@ namespace Manager
                         surplus -= production.value;
                     }
                 }
-
+                
                 if (surplus > 0 && surplus <= givenResourceValue)
                 {
                     givenResourceValue -= surplus;
                     Debug.Log(DisabledBuildings.Peek().building.BuildingType + " is Enabled");
                     DisabledBuildings.Pop().building.IsDisabled = false;
+                    somethingChanged = true;
+                    if (DisabledBuildings.Count == 0)
+                    {
+                        if (somethingChanged)
+                        {
+                            foreach (PriorityListItem item in PriorityListItems)
+                            {
+                                item.onChangePriorityUI.Invoke();
+                                Debug.Log("item.onChangePriorityUI.Invoke()");
+                            }
+                        }
+                    }
                 }
                 else
                 {
+                    if (somethingChanged)
+                    {
+                        foreach (PriorityListItem item in PriorityListItems)
+                        {
+                            item.onChangePriorityUI.Invoke();
+                            Debug.Log("item.onChangePriorityUI.Invoke()");
+                        }
+                    }
                     return;
                 }
             }

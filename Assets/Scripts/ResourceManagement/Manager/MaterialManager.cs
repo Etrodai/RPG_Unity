@@ -22,44 +22,69 @@ namespace ResourceManagement.Manager
 
         #region Events
 
-                private UnityEvent onMaterialSurplusChanged;
-                private UnityEvent onMaterialSavedValueChanged;
-                private UnityEvent onMaterialSaveSpaceChanged;
+                private readonly UnityEvent onMaterialSurplusChanged = new();
+                private readonly UnityEvent onMaterialSavedValueChanged = new();
+                private readonly UnityEvent onMaterialSaveSpaceChanged = new();
 
         #endregion
         
         #region Properties
 
         private static MaterialManager Instance { get; set; }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float CurrentResourceSurplus 
         {        
             get => currentResourceSurplus;
             set
             {
-                currentResourceSurplus = value;
+                if (currentResourceSurplus == value) return;
+                
                 onMaterialSurplusChanged?.Invoke();
+                // Debug.Log("onMaterialSurplusChanged?.Invoke()");
+                currentResourceSurplus = value;
+
             } 
         }
+        
         public override float CurrentResourceProduction { get; set; }
+        
         public override float CurrentResourceDemand { get; set; }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float SavedResourceValue
         {        
             get => savedResourceValue;
             set
             {
-                savedResourceValue = value;
+                if (savedResourceValue == value) return;
+                
                 onMaterialSavedValueChanged?.Invoke();
+                // Debug.Log("onMaterialSavedValueChanged?.Invoke()"); 
+                savedResourceValue = value;
             } 
         }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float SaveSpace
         {        
             get => saveSpace;
             set
             {
+                if (saveSpace == value) return;
+                
                 saveSpace = value;
                 onMaterialSaveSpaceChanged?.Invoke();
+                // Debug.Log("onMaterialSaveSpaceChanged?.Invoke()");
             } 
         }
+        
         public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Material;
 
         #endregion
@@ -82,15 +107,13 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
-        /// Starts Calculation
+        /// adds listener
+        /// starts Calculation
         /// </summary>
         private void Start()
         {
-            onMaterialSurplusChanged = new UnityEvent();
             onMaterialSurplusChanged.AddListener(ChangeUIText);
-            onMaterialSavedValueChanged = new UnityEvent();
             onMaterialSavedValueChanged.AddListener(ChangeUIText);
-            onMaterialSaveSpaceChanged = new UnityEvent();
             onMaterialSaveSpaceChanged.AddListener(ChangeUIText);
             gameManager = MainManagerSingleton.Instance.GameManager;
             dividendFor10Seconds = 10 / repeatRate;
@@ -119,7 +142,7 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
-        /// Calculation of SavedMaterialValue every 0.5 seconds
+        /// Calculation of SavedMaterialValue
         /// </summary>
         protected override void CalculateSavedResourceValue()
         {
@@ -142,7 +165,9 @@ namespace ResourceManagement.Manager
                 gameManager.EnableBuildings(CurrentResourceSurplus, ResourceType);
             }
         }
-        
+        /// <summary>
+        /// changes UIText (surplus, savedResource and saveSpace)
+        /// </summary>
         private void ChangeUIText()
         {
             surplusText.text = $"{CurrentResourceSurplus}";

@@ -32,53 +32,90 @@ namespace ResourceManagement.Manager
 
         #region Events
 
-                private UnityEvent onCitizenSurplusChanged;
-                private UnityEvent onCitizenProductionChanged;
-                private UnityEvent onCitizenSavedValueChanged;
-                private UnityEvent onCitizenSaveSpaceChanged;
+                private UnityEvent onCitizenSurplusChanged = new();
+                private UnityEvent onCitizenProductionChanged = new();
+                private UnityEvent onCitizenSavedValueChanged = new();
+                private UnityEvent onCitizenSaveSpaceChanged = new();
 
         #endregion
         
         #region Properties
 
         private static CitizenManager Instance { get; set; }
-        public override float CurrentResourceSurplus // GrowthValue
+        
+        /// <summary>
+        /// GrowthValue
+        /// OnPropertyChangedEvent
+        /// </summary>
+        public override float CurrentResourceSurplus
         {        
             get => currentResourceSurplus;
             set
             {
+                if (currentResourceSurplus == value) return;
+
                 currentResourceSurplus = value;
                 onCitizenSurplusChanged?.Invoke();
+                // Debug.Log("onCitizenSurplusChanged?.Invoke()");
             } 
         }
-        public override float CurrentResourceProduction // Citizen
+        
+        /// <summary>
+        /// Citizen
+        /// OnPropertyChangedEvent
+        /// </summary>
+        public override float CurrentResourceProduction
         {        
             get => currentResourceProduction;
             set
             {
+                if (currentResourceProduction == value) return;
+
                 currentResourceProduction = value;
                 onCitizenProductionChanged?.Invoke();
+                // Debug.Log("onCitizenProductionChanged?.Invoke()");
             } 
         }
-        public override float CurrentResourceDemand { get; set; } // neededCitizen
-        public override float SavedResourceValue // Jobless
+        
+        /// <summary>
+        /// NeededCitizen
+        /// </summary>
+        public override float CurrentResourceDemand { get; set; }
+        
+        /// <summary>
+        /// JoblessCitizen
+        /// OnPropertyChangedEvent
+        /// </summary>
+        public override float SavedResourceValue
         {        
             get => savedResourceValue;
             set
             {
+                if (savedResourceValue == value) return;
+
                 savedResourceValue = value;
                 onCitizenSavedValueChanged?.Invoke();
+                // Debug.Log("onCitizenSavedValueChanged?.Invoke()");
             } 
         }
+        
+        /// <summary>
+        /// Housing
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float SaveSpace // Housing
         {        
             get => saveSpace;
             set
             {
+                if (saveSpace == value) return;
+
                 saveSpace = value;
                 onCitizenSaveSpaceChanged?.Invoke();
+                // Debug.Log("onCitizenSaveSpaceChanged?.Invoke()");
             } 
         }
+        
         public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Citizen; // resourceType
 
         #endregion
@@ -101,20 +138,17 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
+        /// adds Listener
         /// sets variables
         /// starts growing
         /// sets food and water demand
         /// </summary>
         void Start()
         {
-            onCitizenSurplusChanged = new UnityEvent();
             onCitizenSurplusChanged.AddListener(ChangeUIText);
-            onCitizenProductionChanged = new UnityEvent();
             onCitizenProductionChanged.AddListener(ChangeUIText);
-            onCitizenSavedValueChanged = new UnityEvent();
             onCitizenSavedValueChanged.AddListener(ChangeUIText);
             onCitizenSavedValueChanged.AddListener(CalculateProductivity);
-            onCitizenSaveSpaceChanged = new UnityEvent();
             onCitizenSaveSpaceChanged.AddListener(ChangeUIText);
             CurrentResourceProduction = 10;
             foodManager = MainManagerSingleton.Instance.FoodManager;
@@ -127,6 +161,9 @@ namespace ResourceManagement.Manager
 
         #region Methods
         
+        /// <summary>
+        /// calls the Calculations
+        /// </summary>
         protected override void InvokeCalculation()
         {
             InvokeRepeating(nameof(CalculateCurrentResourceSurplus), 0, repeatRate);
@@ -188,7 +225,10 @@ namespace ResourceManagement.Manager
             waterManager.CurrentResourceDemand += waterConsumptionPerCitizen * CurrentResourceSurplus;
         }
 
-        protected override void CalculateSavedResourceValue() // CalculateJoblessCitizen
+        /// <summary>
+        /// Calculates JoblessCitizen
+        /// </summary>
+        protected override void CalculateSavedResourceValue()
         {
             SavedResourceValue = CurrentResourceProduction - CurrentResourceDemand;
             if (SavedResourceValue == 0)
@@ -199,6 +239,9 @@ namespace ResourceManagement.Manager
             CalculateProductivity();
         }
 
+        /// <summary>
+        /// Calculates Productivity of all Buildings in List
+        /// </summary>
         private void CalculateProductivity()
         {
             if (SavedResourceValue == 0)
@@ -215,6 +258,9 @@ namespace ResourceManagement.Manager
             }
         }
         
+        /// <summary>
+        /// changes UIText (surplus, savedResource and saveSpace)
+        /// </summary>
         private void ChangeUIText()
         {
             surplusText.text = $"{CurrentResourceSurplus}";

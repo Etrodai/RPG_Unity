@@ -4,62 +4,76 @@ namespace MilestoneSystem.Events
 {
     public class ShowPrioritySystemMileStoneEvent : MileStoneEvent
     {
-        public override MileStoneEventNames Name { get; set; }
-        public override List<string> MenuText { get; set; } = new();
-        private bool clickedPriority;
-        private bool clickedPlus;
-        private bool clickedMinus;
-        private bool isAchieved;
+        #region Variables & Properties
 
+        public override MileStoneEventNames Name { get; set; }
+        public override MileStoneEventItems[] Events { get; set; }
+
+        #endregion
+
+        #region UnityEvents
+
+        /// <summary>
+        /// sets variables
+        /// </summary>
         private void Awake()
         {
             Name = MileStoneEventNames.ShowPrioritySystem;
-            MenuText.Add("Click on the Priority-System-Button");
-            MenuText.Add("Change the Priority up and down");
+            Events = new MileStoneEventItems[3];
+            Events[0].text = "Click on the Priority-System-Button";
+            Events[1].text = "Change the Priority up";
+            Events[2].text = "Change the Priority down";
+            Events[0].isAchieved = false;
+            Events[1].isAchieved = false;
+            Events[2].isAchieved = false;
         }
 
-        public override bool CheckAchieved()
-        {
-            return isAchieved;
-        }
-        
-        public override void ResetAll()
-        {
-            clickedPriority = false;
-            clickedPlus = false;
-            clickedMinus = false;
-            isAchieved = false;
-        }
+        #endregion
 
         #region Events
 
+        // TODO: (Robin) add these events to InputSystem
+
         public void ClickPriorityButton()
         {
-            clickedPriority = true;
-            if (clickedPriority && clickedPlus && clickedMinus)
-            {
-                isAchieved = true;
-            }
+            Events[0].isAchieved = true;
         }
 
         public void ClickPlusButton()
         {
-            clickedPlus = true;
-            if (clickedPriority && clickedPlus && clickedMinus)
-            {
-                isAchieved = true;
-            }
+            Events[1].isAchieved = true;
         }
 
         public void ClickMinusButton()
         {
-            clickedMinus = true;
-            if (clickedPriority && clickedPlus && clickedMinus)
-            {
-                isAchieved = true;
-            }
+            Events[2].isAchieved = true;
         }
         
+        #endregion
+        
+        #region Methods
+
+        /// <summary>
+        /// Checks if the given Event is achieved
+        /// </summary>
+        /// <param name="index">index of the event to check</param>
+        /// <returns>if given event is achieved</returns>
+        public override bool CheckAchieved(int index)
+        {
+            return Events[index].isAchieved;
+        }
+        
+        /// <summary>
+        /// sets all events to is not achieved
+        /// </summary>
+        public override void ResetAll()
+        {
+            for (int i = 0; i < Events.Length; i++)
+            {
+                Events[i].isAchieved = false;
+            }
+        }
+
         #endregion
     }
 }

@@ -5,9 +5,15 @@ namespace Sound
 {
     public class SoundStorage : MonoBehaviour
     {
-        public static SoundStorage Instance { get; private set; }
+        #region Variables
 
+        public static SoundStorage Instance { get; private set; }
         public SoundAudioClip[] soundAudioClips;
+
+        #endregion
+
+        #region UnityEvents
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -22,6 +28,10 @@ namespace Sound
             SoundManager.Initialize();
         }
 
+        #endregion
+
+        #region Methods for SoundManager
+
         public void WaitForEndOfClip(AudioSource changeAudioSource, SoundManager.Sound sound)
         {
             StartCoroutine(ChangeClip(changeAudioSource.clip.length, sound));
@@ -32,5 +42,8 @@ namespace Sound
             yield return new WaitForSeconds(t);
             SoundManager.PlaySound(sound, false);
         }
+
+        #endregion
+
     }
 }

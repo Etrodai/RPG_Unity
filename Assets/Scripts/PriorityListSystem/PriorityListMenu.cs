@@ -18,12 +18,24 @@ namespace PriorityListSystem
     
     public class PriorityListMenu : MonoBehaviour
     {
+        #region Variables
+
         [SerializeField] private GameObject labelPrefab;
         [SerializeField] private GameObject itemPrefab;
         private GameManager gameManager;
         private readonly List<PriorityListItem> items = new();
-        private const string saveName = "PriorityListMenu";
+        private const string SaveName = "PriorityListMenu";
 
+        #endregion
+        
+        #region Methods
+        
+        /// <summary>
+        /// builds PriorityListMenu:
+        /// adds heading and item
+        ///
+        /// adds Listener
+        /// </summary>
         public void Instantiate()
         {
             gameManager = MainManagerSingleton.Instance.GameManager;
@@ -62,6 +74,8 @@ namespace PriorityListSystem
             Load.OnLoadButtonClick.AddListener(LoadData);
         }
         
+        #endregion
+        
         #region Save Load
 
         private void SaveData()
@@ -74,7 +88,7 @@ namespace PriorityListSystem
                 data[i].type = items[i].Type;
             }
         
-            Save.AutoSaveData(data, saveName);
+            Save.AutoSaveData(data, SaveName);
         }
     
         private void SaveDataAs(string savePlace)
@@ -87,12 +101,12 @@ namespace PriorityListSystem
                 data[i].type = items[i].Type;
             }
         
-            Save.SaveDataAs(savePlace, data, saveName);
+            Save.SaveDataAs(savePlace, data, SaveName);
         }
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, saveName);
+            path = Path.Combine(path, SaveName);
 
             PriorityListItemSave[] data = Load.LoadData(path) as PriorityListItemSave[];
 
@@ -113,6 +127,5 @@ namespace PriorityListSystem
         }
 
         #endregion
-
     }
 }

@@ -1051,9 +1051,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2e0a608542e27aa469273f4e1c6deec6, type: 2}
   - {fileID: 11400000, guid: 5f1dc6ffbcfcc86499b2fbfe2eb71e10, type: 2}
   mainText: {fileID: 7417362338882113111}
-  mileStonePanel: {fileID: 0}
-  itemPrefab: {fileID: 0}
-  labelPrefab: {fileID: 0}
+  mileStonePanel: {fileID: 6461077066352826112}
+  itemPrefab: {fileID: 6872808568210063698, guid: 0344a6e79619ecb47adea0e509866779,
+    type: 3}
+  labelPrefab: {fileID: 3648738827136920099, guid: cde805d82a996454ebc94c949729a479,
+    type: 3}
   sideMenuMileStoneButton: {fileID: 3355369193672666703}
   sideMenuPriorityButton: {fileID: 9058890457045367579}
   onSideMenuShouldClose:
