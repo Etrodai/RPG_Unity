@@ -1,6 +1,7 @@
 using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,6 +28,19 @@ namespace Eventsystem
         private const int decision2Index = 1;
         private bool buttonIsActive;
 
+        //Text animation related variables used mostly in Update()
+        private float charTitlePlacingTime;
+        private float charTextPlacingTime;
+        private const float resetTitlePlacingTime = 0.1f;
+        private const float resetTextPlacingTime = 0.03f;
+        private const float endPlacingTime = 0f;
+        private int charTitleIndex;
+        private int charTextIndex;
+        private bool decision1Active;
+        private bool decision2Active;
+        private int charDecision1Index;
+        private int charDecision2Index;
+
         private void Start()
         {
             eventManager = MainManagerSingleton.Instance.EventManager;
@@ -47,13 +61,56 @@ namespace Eventsystem
             textIndex = resetTextIndex;
 
             eventUI.SetActive(true);
+            
+            decision1Active = false;
+            decision2Active = false;
 
-            if (eventManager != null && eventManager.ActiveEvent != null)
+            charDecision1Index = 0;
+            charDecision2Index = 0;
+
+            eventTitle.text = "";
+            eventText.text = "";
+
+            charTitleIndex = resetTextIndex;
+            charTextIndex = resetTextIndex;
+        }
+
+        private void Update()
+        {
+            charTitlePlacingTime -= Time.unscaledDeltaTime;
+            charTextPlacingTime -= Time.unscaledDeltaTime;
+
+            //Fades in one char after another for the title
+            if (eventTitle.text.Length < eventManager.ActiveEvent.EventTitle.Length && charTitlePlacingTime <= endPlacingTime)
             {
-                eventTitle.text = eventManager.ActiveEvent.EventTitle;
-                eventText.text = eventManager.ActiveEvent.FirstText;        //sets the first displayed text becuase Eventbehaviour will only be called upon clicking after the event has started
+                eventTitle.text += eventManager.ActiveEvent.EventTitle[charTitleIndex];
+                charTitleIndex++;
+                charTitlePlacingTime = resetTitlePlacingTime;
             }
 
+            //Fades in one char after another for each event texts of the active event
+            if (eventText.text.Length < eventManager.ActiveEvent.EventText[textIndex].Length && charTextPlacingTime <= endPlacingTime && !decision1Active && !decision2Active)
+            {
+                eventText.text += eventManager.ActiveEvent.EventText[textIndex][charTextIndex];
+                charTextIndex++;
+                charTextPlacingTime = resetTextPlacingTime;
+            }
+
+            //Fades in one char after another for each decision text of the first decision
+            if (eventText.text.Length < eventManager.ActiveEvent.Decisions[decision1Index].consequenceText.Length && charTextPlacingTime <= endPlacingTime && decision1Active)
+            {
+                eventText.text += eventManager.ActiveEvent.Decisions[decision1Index].consequenceText[charDecision1Index];
+                charDecision1Index++;
+                charTextPlacingTime = resetTextPlacingTime;
+            }
+
+            //Fades in one char after another for each decision text of the second decision
+            if (eventText.text.Length < eventManager.ActiveEvent.Decisions[decision2Index].consequenceText.Length && charTextPlacingTime <= endPlacingTime && decision2Active)
+            {
+                eventText.text += eventManager.ActiveEvent.Decisions[decision2Index].consequenceText[charDecision2Index];
+                charDecision2Index++;
+                charTextPlacingTime = resetTextPlacingTime;
+            }
         }
 
         /// <summary>
@@ -63,16 +120,17 @@ namespace Eventsystem
         {
             if (context.performed && enabled == true)
             {
-                //Texts for duration of length of each text array
+                //Select next text of each text array
                 if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length)
                 {
-                    eventText.text = eventManager.ActiveEvent.EventText[textIndex];
+                    eventText.text = "";
+                    charTextIndex = resetTextIndex;
                     textIndex++;
                     buttonIsActive = true;
                 }
 
                 //Activation of the decision buttons and disabling the ability to continue the event texts by clicking
-                if (buttonIsActive && textIndex >= eventManager.ActiveEvent.EventText.Length)
+                if (buttonIsActive && textIndex >= eventManager.ActiveEvent.EventText.Length - 1)
                 {
                     decision1Button.SetActive(true);
                     decision2Button.SetActive(true);
@@ -99,7 +157,8 @@ namespace Eventsystem
         {
             decision1Button.SetActive(false);
             decision2Button.SetActive(false);
-            eventText.text = eventManager.ActiveEvent.Decisions[decision1Index].consequenceText;
+            decision1Active = true;
+            eventText.text = "";
             for (int i = 0; i < eventManager.ActiveEvent.Decisions[decision1Index].consequenceOnResources.Length; i++)
             {
                 switch (eventManager.ActiveEvent.Decisions[decision1Index].consequenceOnResources[i].resource)
@@ -135,7 +194,8 @@ namespace Eventsystem
         {
             decision1Button.SetActive(false);
             decision2Button.SetActive(false);
-            eventText.text = eventManager.ActiveEvent.Decisions[decision2Index].consequenceText;
+            decision2Active = true;
+            eventText.text = "";
             for (int i = 0; i < eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources.Length; i++)
             {
                 switch (eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources[i].resource)
@@ -163,5 +223,6 @@ namespace Eventsystem
             }
             endofEvent = true;
         }
+
     }
 }
