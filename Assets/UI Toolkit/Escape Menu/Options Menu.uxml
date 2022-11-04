@@ -1,0 +1,42 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="options-menu-background" style="flex-grow: 1; background-image: none; -unity-font-definition: url(&apos;project://database/Assets/Material/Font/zekton%20free%20SDF%20Toolkit%20Asset.asset?fileID=11400000&amp;guid=54420c9778f38ad4d9d53d277bb94563&amp;type=2#zekton free SDF Toolkit Asset&apos;); -unity-font: url(&apos;project://database/Assets/ThirdParty/Sci-Fi%20UI/_SciFi_GUISkin_/Skin_Assets/font/zekton%20free.ttf?fileID=12800000&amp;guid=8297a2bf97dbbba468bd2518d003a876&amp;type=3#zekton free&apos;);">
+        <ui:VisualElement name="options-menu-image" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/ThirdParty/Sci-Fi%20UI/_SciFi_GUISkin_/Skin_Assets/buttons/button_pushed.png?fileID=2800000&amp;guid=03cbfa7fbded80a479f24add4a997757&amp;type=3#button_pushed&apos;); justify-content: center; flex-direction: column; -unity-text-align: upper-left; align-items: center;">
+            <ui:Label text="Options" display-tooltip-when-elided="true" style="bottom: 3%; font-size: 40%; -unity-text-align: upper-left; -unity-font: url(&apos;project://database/Assets/ThirdParty/Sci-Fi%20UI/_SciFi_GUISkin_/Skin_Assets/font/zekton%20free.ttf?fileID=12800000&amp;guid=8297a2bf97dbbba468bd2518d003a876&amp;type=3#zekton free&apos;); color: rgb(255, 255, 255); -unity-font-style: normal; -unity-font-definition: url(&apos;project://database/Assets/Material/Font/zekton%20free%20SDF%20Toolkit%20Asset.asset?fileID=11400000&amp;guid=54420c9778f38ad4d9d53d277bb94563&amp;type=2#zekton free SDF Toolkit Asset&apos;);" />
+            <ui:VisualElement name="options-scrollview-positioner" style="width: 50%; height: 40%;">
+                <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
+                    <ui:Label text="Grafik" display-tooltip-when-elided="true" name="options-graphics-label" style="font-size: 35%; margin-bottom: 15px;" />
+                    <ui:VisualElement name="options-resolution-container" style="height: auto; margin-left: 15px; flex-direction: row; margin-bottom: 11px;">
+                        <ui:Label text="Auflösung:" display-tooltip-when-elided="true" name="options-resolution-label" style="font-size: 20px; margin-right: 10px;" />
+                        <ui:DropdownField index="-1" name="options-resolution-dropdown" style="width: 35%;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="options-screen-type-container" style="height: auto; margin-left: 15px; flex-direction: row; margin-bottom: 11px;">
+                        <ui:Label text="Fenstermodus:" display-tooltip-when-elided="true" name="options-screen-type-label" style="font-size: 20px; margin-right: 10px;" />
+                        <ui:DropdownField index="-1" choices="System.Collections.Generic.List`1[System.String]" name="options-screen-type-dropdown" style="width: 35%;" />
+                    </ui:VisualElement>
+                    <ui:Label text="Audio" display-tooltip-when-elided="true" name="options-audio-title-label" style="font-size: 35%; margin-bottom: 15px;" />
+                    <ui:VisualElement name="options-mastervolume-container" style="height: auto; margin-left: 15px; flex-direction: row; margin-bottom: 11px;">
+                        <ui:Label text="Gesamtlautstärke:" display-tooltip-when-elided="true" name="options-mastervolume-label" style="font-size: 20px; margin-right: 10px;" />
+                        <ui:Slider picking-mode="Ignore" value="50" high-value="100" name="options-mastervolume-slider" show-input-field="true" style="width: 50%; justify-content: flex-start; align-items: flex-end;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="options-musicvolume-container" style="height: auto; margin-left: 15px; flex-direction: row; margin-bottom: 11px;">
+                        <ui:Label text="Musik:" display-tooltip-when-elided="true" name="options-musicvolume-label" style="font-size: 20px; margin-right: 10px;" />
+                        <ui:Slider picking-mode="Ignore" value="50" high-value="100" name="options-musicvolume-slider" show-input-field="true" style="width: 50%; justify-content: flex-start; align-items: flex-end;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="options-sfxvolume-container" style="height: auto; margin-left: 15px; flex-direction: row; margin-bottom: 11px;">
+                        <ui:Label text="SFX:" display-tooltip-when-elided="true" name="options-sfxvolume-label" style="font-size: 20px; margin-right: 10px;" />
+                        <ui:Slider picking-mode="Ignore" value="50" high-value="100" name="options-sfxvolume-slider" show-input-field="true" style="width: 50%; justify-content: flex-start; align-items: flex-end;" />
+                    </ui:VisualElement>
+                    <ui:Label text="Steuerung" display-tooltip-when-elided="true" name="options-input-label" style="font-size: 35%; margin-bottom: 15px;" />
+                    <ui:VisualElement name="options-sensitivity-container" style="height: auto; margin-left: 15px; flex-direction: row; margin-bottom: 11px;">
+                        <ui:Label text="Bewegungsempfindlichkeit:" display-tooltip-when-elided="true" name="options-sensitivity-label" style="font-size: 20px; margin-right: 10px;" />
+                        <ui:Slider picking-mode="Ignore" value="50" high-value="100" name="options-sensitivity-slider" show-input-field="true" style="width: 50%; justify-content: flex-start; align-items: flex-end;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="options-invert-control-container" style="height: auto; margin-left: 15px; flex-direction: row; margin-bottom: 11px;">
+                        <ui:Label text="Invertierte Steuerung:" display-tooltip-when-elided="true" name="options-invert-control-label" style="font-size: 20px; margin-right: 10px;" />
+                        <ui:Toggle name="options-invert-control-toggle" style="justify-content: center; align-items: flex-end; height: 100%;" />
+                    </ui:VisualElement>
+                </ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -28,7 +28,7 @@ namespace Eventsystem
         //Timer related variables
         private float timer;
         private float totalTime;
-        [SerializeField, Tooltip("Timer in seconds")] private float setTimer = 5f;
+        [SerializeField, Tooltip("Timer in seconds")] private float setTimer;
         private const float updateTimerRate = 0.5f;
         private const float endTimer = 0f;
         private const float stopTime = 0f;
@@ -44,7 +44,6 @@ namespace Eventsystem
 
         private void Start()
         {
-            StartTimer();
             resetEventTimer += ResetTimer;
             resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
         }
