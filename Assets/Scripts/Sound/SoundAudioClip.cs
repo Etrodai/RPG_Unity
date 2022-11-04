@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Sound
 {
@@ -6,6 +7,7 @@ namespace Sound
     public struct SoundAudioClip
     {
         public SoundManager.Sound sound;
+        public AudioMixerGroup group;
         public AudioClip[] clips;
     }
 }
