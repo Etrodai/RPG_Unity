@@ -44,7 +44,7 @@ namespace MilestoneSystem
         private List<ResourceManager> managers;
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
-        private const string saveName = "MileStoneSystem";
+        private const string SaveName = "MileStoneSystem";
 
         private bool menuWasBuild;
 
@@ -139,7 +139,7 @@ namespace MilestoneSystem
             data[0].isDone = isDone;
             data[0].mileStonesDone = mileStonesDone;
 
-            Save.AutoSaveData(data, saveName);
+            Save.AutoSaveData(data, SaveName);
         }
     
         private void SaveDataAs(string savePlace)
@@ -148,12 +148,12 @@ namespace MilestoneSystem
             data[0].isDone = isDone;
             data[0].mileStonesDone = mileStonesDone;
         
-            Save.SaveDataAs(savePlace, data, saveName);
+            Save.SaveDataAs(savePlace, data, SaveName);
         }
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, saveName);
+            path = Path.Combine(path, SaveName);
 
             MileStoneSystemSave[] data = Load.LoadData(path) as MileStoneSystemSave[];
             

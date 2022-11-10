@@ -43,13 +43,13 @@ namespace Buildings
         /// <summary>
         /// 0: shows, if it was disabled
         /// </summary>
-        private UnityEvent<bool> onBuildingWasDisabled;
+        private UnityEvent<bool> onBuildingWasDisabled = new();
         
         /// <summary>
         /// 0: old productivity
         /// 1: new productivity
         /// </summary>
-        private UnityEvent<float, float> onBuildingProductivityChanged;
+        private UnityEvent<float, float> onBuildingProductivityChanged = new();
 
         #endregion
         
@@ -100,9 +100,7 @@ namespace Buildings
         /// </summary>
         private void Start()
         {
-            onBuildingWasDisabled = new UnityEvent<bool>();
             onBuildingWasDisabled.AddListener(ChangeIsDisabled);
-            onBuildingProductivityChanged = new UnityEvent<float, float>();
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
             
             managers = new List<ResourceManager>();
@@ -125,7 +123,6 @@ namespace Buildings
             foreach (PriorityListItem item in gameManager.PriorityListItems)
             {
                 item.onChangePriorityUI.Invoke();
-                Debug.Log("item.onChangePriorityUI.Invoke()");
             }
         }
 
@@ -219,7 +216,8 @@ namespace Buildings
                         }
                         else
                         {
-                            manager.SavedResourceValue -= cost.value;                         }
+                            manager.SavedResourceValue -= cost.value;
+                        }
                     }
                 }
                 // switch (item.resource)

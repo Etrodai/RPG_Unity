@@ -2093,22 +2093,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9740849
+      value: 0.97444385
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.17984049
+      value: 0.17788233
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13551325
+      value: 0.13559842
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.021263566
+      value: -0.020743463
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -2531,8 +2531,8 @@ MonoBehaviour:
   waterConsumptionPerCitizen: 1
   foodConsumptionPerCitizen: 1
   repeatRate: 0.5
-  stepsToGrow: 0
-  sizeOfStepsToGrow: 0
+  stepsToGrow: 5
+  sizeOfStepsToGrow: 5
 --- !u!114 &829820940
 MonoBehaviour:
   m_ObjectHideFlags: 0
