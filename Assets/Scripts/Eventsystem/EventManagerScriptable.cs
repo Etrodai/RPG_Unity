@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sound;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -90,6 +91,7 @@ namespace Eventsystem
             availableEvents.RemoveAt(nextEventIndex);
 
             eventBehaviour.enabled = true;                                      //Acts as event behaviour start, since EventBehaviourScriptable has starting logic in OnEnable()
+            SoundManager.PlaySound(SoundManager.Sound.EventEnters);
         }
 
         /// <summary>

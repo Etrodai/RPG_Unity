@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace Sound
 {
@@ -18,13 +17,15 @@ namespace Sound
             {
                 Instance = this;
             }
+            
+            DontDestroyOnLoad(Instance);
 
             SoundManager.Initialize();
         }
 
-        public void WaitForEndOfClip(AudioSource changeAudioSource, SoundManager.Sound sound)
+        public void WaitForEndOfClip(float clipLength, SoundManager.Sound sound)
         {
-            StartCoroutine(ChangeClip(changeAudioSource.clip.length, sound));
+            StartCoroutine(ChangeClip(clipLength, sound));
         }
         
         private IEnumerator ChangeClip(float t, SoundManager.Sound sound)

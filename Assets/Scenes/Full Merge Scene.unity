@@ -766,18 +766,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundAudioClips:
-  - sound: 1
-    group: {fileID: 0}
+  - sound: 5
+    group: {fileID: 8532633447065897843, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1, type: 2}
     clips:
     - {fileID: 8300000, guid: 86d2c99924dd50242b3b7f6f3663dadc, type: 3}
-  - sound: 2
-    group: {fileID: 0}
+  - sound: 6
+    group: {fileID: 8532633447065897843, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1, type: 2}
     clips:
     - {fileID: 8300000, guid: 943300a9d7018144fa401e911ff06315, type: 3}
-  - sound: 2
-    group: {fileID: 0}
+  - sound: 0
+    group: {fileID: 8532633447065897843, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1, type: 2}
     clips:
-    - {fileID: 8300000, guid: 943300a9d7018144fa401e911ff06315, type: 3}
+    - {fileID: 8300000, guid: 6a5ed8a76d61ef04e8da438db1e3f824, type: 3}
+    - {fileID: 8300000, guid: 130818938f4876948b64cc3fe1d70a8e, type: 3}
+  - sound: 4
+    group: {fileID: 8532633447065897843, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1, type: 2}
+    clips:
+    - {fileID: 8300000, guid: 6a5ed8a76d61ef04e8da438db1e3f824, type: 3}
+  - sound: 7
+    group: {fileID: -2028692611009314240, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1,
+      type: 2}
+    clips:
+    - {fileID: 8300000, guid: 349f3a24fa632f84295027ee9939f340, type: 3}
+    - {fileID: 8300000, guid: b7dfec918b5297545949df06ec865860, type: 3}
+    - {fileID: 8300000, guid: cbf26607048856643896f4b2cb53c242, type: 3}
+    - {fileID: 8300000, guid: 124be26d02921fc44a3535aea1303612, type: 3}
+    - {fileID: 8300000, guid: 5e66ebec0e98ff04d9bd307210bcbd96, type: 3}
+    - {fileID: 8300000, guid: 9b6fb66c8b04c9a48957377d859b70e3, type: 3}
+    - {fileID: 8300000, guid: 85788ce6e6b51e6488470a2ef4bf6d33, type: 3}
+    - {fileID: 8300000, guid: 8e78d6e656fd2ae44879991cf4508bc6, type: 3}
+    - {fileID: 8300000, guid: 007e9cd9b20a7ec46a67292da2b5220f, type: 3}
+    - {fileID: 8300000, guid: 953acd5292524194b9e4f9a080e15760, type: 3}
+  - sound: 2
+    group: {fileID: 8532633447065897843, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1, type: 2}
+    clips:
+    - {fileID: 8300000, guid: a8748da75915e9d4390ec7e3ea9a21c3, type: 3}
+  - sound: 1
+    group: {fileID: 8532633447065897843, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1, type: 2}
+    clips:
+    - {fileID: 8300000, guid: ba5c27aab2cc69d4ea70246c1af35a80, type: 3}
+    - {fileID: 8300000, guid: 727f3fe7864daac4e87bc98a16bb3d81, type: 3}
+  - sound: 8
+    group: {fileID: -2028692611009314240, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1,
+      type: 2}
+    clips:
+    - {fileID: 8300000, guid: 5e66ebec0e98ff04d9bd307210bcbd96, type: 3}
+  - sound: 3
+    group: {fileID: 8532633447065897843, guid: 0c768e3ef4a0d4146a0395dc2b5b8ff1, type: 2}
+    clips:
+    - {fileID: 8300000, guid: 50baa51d21421c5419097720c4028603, type: 3}
 --- !u!4 &175514445
 Transform:
   m_ObjectHideFlags: 0
@@ -2056,22 +2093,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.97360814
+      value: 0.9740849
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.18240432
+      value: 0.17984049
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.1354012
+      value: 0.13551325
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.021964122
+      value: -0.021263566
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -6053,6 +6090,7 @@ GameObject:
   - component: {fileID: 1573660565}
   - component: {fileID: 1573660569}
   - component: {fileID: 1573660570}
+  - component: {fileID: 1573660571}
   m_Layer: 5
   m_Name: --Canvas--
   m_TagString: Untagged
@@ -6176,6 +6214,18 @@ MonoBehaviour:
   inputField: {fileID: 2022021520}
   cheatConsolePanel: {fileID: 21415421}
   cheatSheet: {fileID: 11400000, guid: 81ff65796a66eec4181168622cd14143, type: 2}
+--- !u!114 &1573660571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573660564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398a4cf36d63aa54d841980694db6c6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1596970874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6766,7 +6816,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0

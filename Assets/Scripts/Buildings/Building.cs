@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
+using Sound;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -98,7 +99,7 @@ namespace Buildings
             gameManager = MainManagerSingleton.Instance.GameManager;
             nullBuilding = gameManager.NullBuilding;
             BuildModule();
-            EnableModule(CurrentProductivity);
+            EnableModule(CurrentProductivity, false);
         }
 
         /// <summary>
@@ -109,7 +110,7 @@ namespace Buildings
         {
             if (!IsDisabled)
             {
-                DisableModule(CurrentProductivity);
+                DisableModule(CurrentProductivity, false);
             }
 
             gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
@@ -125,8 +126,8 @@ namespace Buildings
         /// <param name="disabled">shows, if it gets disabled or enabled</param>
         private void ChangeIsDisabled(bool disabled)
         {
-            if (disabled) DisableModule(CurrentProductivity);
-            else EnableModule(CurrentProductivity);
+            if (disabled) DisableModule(CurrentProductivity, true);
+            else EnableModule(CurrentProductivity, true);
         }
 
         /// <summary>
@@ -140,8 +141,8 @@ namespace Buildings
             {
                 return;
             }
-            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity);
-            else EnableModule(newProductivity - oldProductivity);
+            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity, false);
+            else EnableModule(newProductivity - oldProductivity, false);
         }
         
         /// <summary>
@@ -204,12 +205,14 @@ namespace Buildings
                 gameManager.AllBuildings[empty] = this;
                 indexOfAllBuildings = empty;
             }
+            
+            SoundManager.PlaySound(SoundManager.Sound.BuildModule);
         }
         
         /// <summary>
         /// adds production, consumption and saveSpace
         /// </summary>
-        private void EnableModule(float productivity)
+        private void EnableModule(float productivity, bool playSound)
         {
             foreach (Resource production in buildingResources.Production)
             {
@@ -300,12 +303,17 @@ namespace Buildings
                 //         break;
                 // }
             }
+
+            if (playSound)
+            {
+                SoundManager.PlaySound(SoundManager.Sound.EnableModule);
+            }
         }
 
         /// <summary>
         /// reduces production, consumption and saveSpace
         /// </summary>
-        private void DisableModule(float productivity)
+        private void DisableModule(float productivity, bool playSound)
         {
             foreach (Resource production in buildingResources.Production)
             {
@@ -395,6 +403,11 @@ namespace Buildings
                 //         waterManager.SaveSpace -= item.value;
                 //         break;
                 // }
+            }
+
+            if (playSound)
+            {
+                SoundManager.PlaySound(SoundManager.Sound.DisableModule);
             }
         }
         

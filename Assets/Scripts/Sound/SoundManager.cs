@@ -99,8 +99,9 @@ namespace Sound
                     changeAudioSource = changeGameObject.AddComponent<AudioSource>();
                 }
                 changeAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
-                changeAudioSource.PlayOneShot(GetAudioClip(sound));
-                SoundStorage.Instance.WaitForEndOfClip(changeAudioSource, sound);
+                AudioClip clip = GetAudioClip(sound);
+                changeAudioSource.PlayOneShot(clip);
+                SoundStorage.Instance.WaitForEndOfClip(clip.length, sound);
             }
         }
 
