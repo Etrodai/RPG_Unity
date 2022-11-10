@@ -362,7 +362,7 @@ namespace Cameras
                 cmFreeLook.LookAt = cameraLookPoint;
         }
 
-//Extern Usage
+        //Extern Usage
         /// <summary>
         /// Option for enable Camera Movement
         /// </summary>
@@ -381,6 +381,11 @@ namespace Cameras
             isPaused = true;
         }
 
+        public void InvertYAxis(bool invertState)
+        {
+            cmFreeLook.m_YAxis.m_InvertInput = invertState;
+        }
+        
         #endregion
     }
 }

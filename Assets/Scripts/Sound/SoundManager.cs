@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -72,6 +73,8 @@ namespace Sound
                 oneShotGameObject = new GameObject("One Shot Sound");
                 oneShotAudioSource = oneShotGameObject.AddComponent<AudioSource>();
             }
+
+            oneShotAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
             oneShotAudioSource.PlayOneShot(GetAudioClip(sound));
         }
         
@@ -93,6 +96,7 @@ namespace Sound
 
                 loopAudioSource.clip = GetAudioClip(sound);
                 loopAudioSource.loop = true;
+                loopAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
                 loopAudioSource.Play();
             }
             else
@@ -102,8 +106,10 @@ namespace Sound
                     changeGameObject = new GameObject("Chang Sound");
                     changeAudioSource = changeGameObject.AddComponent<AudioSource>();
                 }
-                changeAudioSource.PlayOneShot(GetAudioClip(sound));
-                SoundStorage.Instance.WaitForEndOfClip(changeAudioSource, sound);
+                changeAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
+                AudioClip clip = GetAudioClip(sound);
+                changeAudioSource.PlayOneShot(clip);
+                SoundStorage.Instance.WaitForEndOfClip(clip.length, sound);
             }
         }
 
@@ -127,6 +133,7 @@ namespace Sound
             audioSource.spatialBlend = 1f;
             audioSource.rolloffMode = AudioRolloffMode.Linear;
             audioSource.dopplerLevel = 0f;
+            audioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
             audioSource.Play();
             
             //TODO: (Robin) use ObjectPool
@@ -149,6 +156,7 @@ namespace Sound
             audioSource.spatialBlend = 1f;
             audioSource.rolloffMode = AudioRolloffMode.Linear;
             audioSource.dopplerLevel = 0f;
+            audioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
             audioSource.Play();
             
             //TODO: (Robin) use ObjectPool
@@ -188,6 +196,20 @@ namespace Sound
                     return true;
             }
         }
+
+        private static AudioMixerGroup GetAudioMixerGroup(Sound sound)
+        {
+            foreach (SoundAudioClip clip in SoundStorage.Instance.soundAudioClips)
+            {
+                if (clip.sound == sound)
+                {
+                    return clip.group;
+                }
+            }
+            
+            Debug.LogError($"Mixer group for {sound} not found!");
+            return null;
+        }
         
         /// <summary>
         /// gets a random sound from sound-group
@@ -204,7 +226,7 @@ namespace Sound
                 }
             }
 
-            Debug.LogError($"Sound {sound} not found!");
+            Debug.LogError($"Clip for {sound} not found!");
             return null;
         }
 

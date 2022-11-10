@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,12 +10,18 @@ namespace Manager.Menu
 
         public void OnStartClick()
         {
-            SceneManager.LoadScene(gameScene);
+            StartCoroutine(nameof(StartGame));
         }
 
         public void OnExitGameClick()
         {
             Application.Quit();
+        }
+
+        IEnumerator StartGame()
+        {
+            yield return new WaitForSeconds(1f);
+            SceneManager.LoadScene(gameScene);
         }
     }
 }

@@ -24,6 +24,8 @@ namespace Sound
             {
                 Instance = this;
             }
+            
+            DontDestroyOnLoad(Instance);
 
             SoundManager.Initialize();
         }
@@ -32,9 +34,9 @@ namespace Sound
 
         #region Methods for SoundManager
 
-        public void WaitForEndOfClip(AudioSource changeAudioSource, SoundManager.Sound sound)
+        public void WaitForEndOfClip(float clipLength, SoundManager.Sound sound)
         {
-            StartCoroutine(ChangeClip(changeAudioSource.clip.length, sound));
+            StartCoroutine(ChangeClip(clipLength, sound));
         }
         
         private IEnumerator ChangeClip(float t, SoundManager.Sound sound)
