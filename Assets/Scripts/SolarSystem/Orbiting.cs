@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace SolarSystem
@@ -11,19 +13,30 @@ namespace SolarSystem
     {
         public float xSpread;
         public float zSpread;
-    
+
         public float yOffset;
         public float timeOffset = 0.2f;
-    
+
         public Transform centerPoint;
 
         public float rotSpeed;
         public bool rotateClockwise;
+        public bool oneTimeRotate = false;
 
         private float timer = 0;
 
+        private void Start()
+        {
+        }
+
         private void Update()
         {
+            if (oneTimeRotate)
+            {
+                OneTimeOrbit();
+                this.enabled = false;
+            }
+
             timer += Time.deltaTime * rotSpeed;
             Rotate();
         }
@@ -46,6 +59,11 @@ namespace SolarSystem
                 Vector3 pos = new Vector3(x, y, z);
                 transform.position = pos + centerPoint.position;
             }
+        }
+
+        private void OneTimeOrbit()
+        {
+            
         }
     }
 }
