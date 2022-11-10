@@ -197,8 +197,8 @@ namespace Buildings
         /// <param name="newProductivity">new Value</param>
         private void ChangeProductivity(float oldProductivity, float newProductivity)
         {
-            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity);
-            else EnableModule(newProductivity - oldProductivity);
+            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity, true);
+            else EnableModule(newProductivity - oldProductivity, true);
         }
         
         /// <summary>
