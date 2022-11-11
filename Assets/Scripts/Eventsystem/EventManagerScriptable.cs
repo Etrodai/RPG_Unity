@@ -13,28 +13,20 @@ namespace Eventsystem
     public struct EventManagerSave
     {
         public float timer;
-        public EventScriptableObject[] availableEvents;
-        public EventScriptableObject[] usedEvents;
+        public string[] usedEventTitles;
     }
     
     public class EventManagerScriptable : MonoBehaviour
     {
+        #region Variables
+
         //Event determination variables
         [SerializeField] private List<EventScriptableObject> availableEvents = new List<EventScriptableObject>();
         private Queue<EventScriptableObject> usedEvents = new Queue<EventScriptableObject>();
         private EventScriptableObject activeEvent;
-        public EventScriptableObject ActiveEvent
-        {
-            get => activeEvent;
-        }
         [SerializeField] private EventBehaviourScriptable eventBehaviour;
         private const int resetEvents = 0;
         private Action resetEventTimer;
-        public Action ResetEventTimer
-        {
-            get => resetEventTimer;
-            private set { resetEventTimer = value; }
-        }
 
         //Timer related variables
         private float timer;
@@ -48,8 +40,27 @@ namespace Eventsystem
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
 
-        private const string saveName = "EventManager";
+        private const string SaveName = "EventManager";
         
+        #endregion
+
+        #region Properties
+
+        public EventScriptableObject ActiveEvent
+        {
+            get => activeEvent;
+        }
+       
+        public Action ResetEventTimer
+        {
+            get => resetEventTimer;
+            private set { resetEventTimer = value; }
+        }
+
+        #endregion
+
+        #region UnityEvents
+
         private void Awake()
         {
             timer = setTimer;
@@ -63,56 +74,60 @@ namespace Eventsystem
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
         }
-        
+
+        #endregion
+
         #region Save Load
 
         private void SaveData()
         {
             EventManagerSave[] data = new EventManagerSave[1];
-            data[0] = new EventManagerSave
-            {
-                timer = this.timer,
-                availableEvents = this.availableEvents.ToArray(),
-                usedEvents = this.usedEvents.ToArray()
-            };
+            data[0] = new EventManagerSave();
+            data[0].timer = timer;
+ 
 
-            Save.AutoSaveData(data, saveName);
+            Save.AutoSaveData(data, SaveName);
         }
     
         private void SaveDataAs(string savePlace)
         {
             EventManagerSave[] data = new EventManagerSave[1];
-            data[0] = new EventManagerSave
+            data[0] = new EventManagerSave();
+            data[0].timer = timer;
+            EventScriptableObject[] usedEventsArray = usedEvents.ToArray();
+            for (int i = 0; i < usedEventsArray.Length; i++)
             {
-                timer = this.timer,
-                availableEvents = this.availableEvents.ToArray(),
-                usedEvents = this.usedEvents.ToArray()
-            };
+                data[0].usedEventTitles[i] = usedEventsArray[i].EventTitle;
+            }
 
-            Save.SaveDataAs(savePlace, data, saveName);
+            Save.SaveDataAs(savePlace, data, SaveName);
         }
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, saveName);
-
+            path = Path.Combine(path, SaveName);
+            if (!File.Exists(path)) return;
+            
             EventManagerSave[] data = Load.LoadData(path) as EventManagerSave[];
             timer = data[0].timer;
 
-            for (int i = 0; i < data[0].availableEvents.Length; i++)
+            for (int i = 0; i < data[0].usedEventTitles.Length; i++)
             {
-                availableEvents.Add(data[0].availableEvents[i]);
-            }
-
-            for (int i = 0; i < data[0].usedEvents.Length; i++)
-            {
-                usedEvents.Enqueue(data[0].usedEvents[i]);      // does it work the right way? Or should it be from Length to 0??
+                for (int j = 0; j < availableEvents.Count; j++)
+                {
+                    if (availableEvents[j].EventTitle == data[0].usedEventTitles[i])
+                    {
+                        usedEvents.Enqueue(availableEvents[j]);             // does it work the right way? Or should it be from Length to 0??
+                    }
+                }
             }
         }
         
         #endregion
 
-        /// <summary>
+        #region Methodes
+
+          /// <summary>
         /// Works as timer to start the next event when the time runs out
         /// </summary>
         /// <returns>Restarts the coroutine to continue reducing the timer if it didn't run out</returns>
@@ -175,5 +190,7 @@ namespace Eventsystem
         {
             StartCoroutine(NextEventTimer());
         }
+
+        #endregion
     }
 }

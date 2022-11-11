@@ -9,8 +9,8 @@ namespace SaveSystem
 {
     public static class Save
     {
-        public static readonly UnityEvent OnSaveButtonClick = new UnityEvent();
-        public static readonly UnityEvent<string> OnSaveAsButtonClick = new UnityEvent<string>();
+        public static readonly UnityEvent OnSaveButtonClick = new();
+        public static readonly UnityEvent<string> OnSaveAsButtonClick = new();
         
         public static void AutoSaveData(IEnumerable data, string name)
         {
@@ -21,16 +21,6 @@ namespace SaveSystem
             string path = Path.Combine(Application.persistentDataPath, $@"Data\\Autosafe\\{name}.dat");
             SaveData(data, path);
         }
-        
-        // public static void AutoSaveData(float data, string name)
-        // {
-        //     if (!Directory.Exists(Path.Combine(Application.persistentDataPath, $@"Data\\Autosafe")))
-        //     {
-        //         Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, $@"Data\\Autosafe"));
-        //     }
-        //     string path = Path.Combine(Application.persistentDataPath, $@"Data\\Autosafe\\{name}.dat");
-        //     SaveData(data, path);
-        // }
 
         public static void SaveDataAs(string savePlace, IEnumerable data, string name)
         {
@@ -38,19 +28,9 @@ namespace SaveSystem
             {
                 Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, $@"Data\\{savePlace}"));
             }
-            string path = Path.Combine(Application.persistentDataPath, $"@Data\\{savePlace}\\{name}.dat");
+            string path = Path.Combine(Application.persistentDataPath, $@"Data\\{savePlace}\\{name}.dat");
             SaveData(data, path);
         }
-        
-        // public static void SaveDataAs(string savePlace, float data, string name)
-        // {
-        //     if (!Directory.Exists(Path.Combine(Application.persistentDataPath, $@"Data\\{savePlace}")))
-        //     {
-        //         Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, $@"Data\\{savePlace}"));
-        //     }
-        //     string path = Path.Combine(Application.persistentDataPath, $"@Data\\{savePlace}\\{name}.dat");
-        //     SaveData(data, path);
-        // }
 
         private static void SaveData(IEnumerable data, string path)
         {

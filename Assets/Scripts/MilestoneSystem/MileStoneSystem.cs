@@ -154,7 +154,8 @@ namespace MilestoneSystem
         private void LoadData(string path)
         {
             path = Path.Combine(path, SaveName);
-
+            if (!File.Exists(path)) return;
+            
             MileStoneSystemSave[] data = Load.LoadData(path) as MileStoneSystemSave[];
             
             isDone = data[0].isDone;

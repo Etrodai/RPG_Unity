@@ -15,7 +15,7 @@ namespace Buildings
     {
         public bool isDisabled;
         public float currentProductivity;
-        public BuildingTypes buildingType;
+        public int buildingType;
     }
     
     public class Building : MonoBehaviour
@@ -156,7 +156,7 @@ namespace Buildings
             BuildingData data = new BuildingData();
             data.isDisabled = isDisabled;
             data.currentProductivity = currentProductivity;
-            data.buildingType = buildingType;
+            data.buildingType = (int)buildingType;
             
             return data;
         }
@@ -170,7 +170,7 @@ namespace Buildings
         {
             isDisabled = data.isDisabled;
             currentProductivity = data.currentProductivity;
-            buildingType = data.buildingType;
+            buildingType = (BuildingTypes)data.buildingType;
         }
         
         #endregion

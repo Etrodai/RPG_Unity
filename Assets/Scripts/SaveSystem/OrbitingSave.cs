@@ -1,53 +1,78 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using SaveSystem;
 using UnityEngine;
 
-public class OrbitingSave : MonoBehaviour
+namespace SaveSystem
 {
-    public static List<GameObject> Planets { get; } = new();
-    private const string saveName = "PlanetOrbiting";
-
-    private void Start()
+    [System.Serializable]
+    public struct OrbitingData
     {
-        Save.OnSaveButtonClick.AddListener(SaveData);
-        Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
-        Load.OnLoadButtonClick.AddListener(LoadData);
-    }
-
-    private void SaveData()
-    {
-        Vector3[] position = new Vector3[Planets.Count];
-        for (int i = 0; i < Planets.Count; i++)
-        {
-            position[i] = Planets[i].transform.position;
-        }
-        
-        Save.AutoSaveData(position, saveName);
+        public float x;
+        public float y;
+        public float z;
     }
     
-    private void SaveDataAs(string savePlace)
+    public class OrbitingSave : MonoBehaviour
     {
-        Vector3[] position = new Vector3[Planets.Count];
-        for (int i = 0; i < Planets.Count; i++)
-        {
-            position[i] = Planets[i].transform.position;
-        }
-        
-        Save.SaveDataAs(savePlace, position, saveName);
-    }
-    
-    private void LoadData(string path)
-    {
-        path = Path.Combine(path, saveName);
+        #region Variables & Properties
 
-        Vector3[] position = Load.LoadData(path) as Vector3[];
-        
-        for (int i = 0; i < Planets.Count; i++)
+        private const string SaveName = "PlanetOrbiting";
+        public static List<GameObject> Planets { get; } = new();
+
+        #endregion
+
+        #region UnityEvents
+
+        private void Start()
         {
-            Planets[i].transform.position = position[i];
+            Save.OnSaveButtonClick.AddListener(SaveData);
+            Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
+            Load.OnLoadButtonClick.AddListener(LoadData);
         }
+
+        #endregion
+
+        #region Save & Load
+
+        private void SaveData()
+        {
+            OrbitingData[] position = new OrbitingData[Planets.Count];
+            for (int i = 0; i < Planets.Count; i++)
+            {
+                position[i].x = Planets[i].transform.position.x;
+                position[i].y = Planets[i].transform.position.y;
+                position[i].z = Planets[i].transform.position.z;
+            }
+
+            Save.AutoSaveData(position, SaveName);
+        }
+
+        private void SaveDataAs(string savePlace)
+        {
+            OrbitingData[] position = new OrbitingData[Planets.Count];
+            for (int i = 0; i < Planets.Count; i++)
+            {
+                position[i].x = Planets[i].transform.position.x;
+                position[i].y = Planets[i].transform.position.y;
+                position[i].z = Planets[i].transform.position.z;
+            }
+
+            Save.SaveDataAs(savePlace, position, SaveName);
+        }
+
+        private void LoadData(string path)
+        {
+            path = Path.Combine(path, SaveName);
+            if (!File.Exists(path)) return;
+            
+            OrbitingData[] position = Load.LoadData(path) as OrbitingData[];
+
+            for (int i = 0; i < Planets.Count; i++)
+            {
+                Planets[i].transform.position = new Vector3(position[i].x, position[i].y, position[i].z);
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -9,8 +10,25 @@ namespace SaveSystem
     public class SaveLoadInvoker : MonoBehaviour
     {
         [SerializeField] private TMP_InputField saveName;
-        private List<Button> loadButton = new();
-    
+        [SerializeField] private Button saveAsButton;
+        [SerializeField] private GameObject loadPanel;
+        [SerializeField] private Transform buttonList;
+        [SerializeField] private GameObject loadButtonPrefab;
+        // private List<Button> loadButton = new();
+
+        //TODO: (Robin) save als event oder nacheinander aufrufen wegen Order of execution, selbe Frage bei load
+
+        private void Start()
+        {
+            OnSaveValueChanged();
+            loadPanel.SetActive(false);
+        }
+
+        public void OnSaveValueChanged()
+        {
+            saveAsButton.interactable = !string.IsNullOrWhiteSpace(saveName.text);
+        }
+        
         public void OnSaveButtonClick()
         {
             Save.OnSaveButtonClick?.Invoke();
@@ -23,28 +41,32 @@ namespace SaveSystem
 
         public void OnResumeButtonClick()
         {
+            //change scene, than wait 1 frame, than load
             string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\Autosafe");
             Load.OnLoadButtonClick?.Invoke(loadName);
         }
-    
-        public void OnLoadButtonClick(string name)
+
+        public void OnLoadAsButtonClick(TextMeshProUGUI buttonName)
         {
-            string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\{name}");
+            //change scene, than wait 1 frame, than load
+            Debug.Log("Load");
+            string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\{buttonName.text}");
             Load.OnLoadButtonClick?.Invoke(loadName);
         }
 
-        public string[] LoadSaveNames()
+        public void OnLoadButtonClick()
         {
-            var directories = Directory.GetDirectories(Path.Combine(Application.persistentDataPath, $@"Data)"));
-            List<string> saveNames = new();
+            string[] directories = Directory.GetDirectories(Path.Combine(Application.persistentDataPath, @"Data"));
             foreach (string directory in directories)
             {
-                saveNames.Add(Path.GetDirectoryName(directory));
+                GameObject loadButton = Instantiate(loadButtonPrefab, buttonList, true);
+                TextMeshProUGUI text = loadButton.GetComponentInChildren<TextMeshProUGUI>();
+                string fileName = Path.GetFileName(directory);
+                text.text = fileName;
+                Button button = loadButton.GetComponent<Button>();
+                button.onClick.AddListener(delegate { OnLoadAsButtonClick(text); });
             }
-
-            return saveNames.ToArray();
-        
-            //TODO: (Robin) add Buttons and add it to loadButtonList
+            loadPanel.SetActive(true);
         }
     }
 }

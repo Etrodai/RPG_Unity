@@ -48,6 +48,8 @@ namespace SaveSystem
         {
             
             path = Path.Combine(path, saveName);
+            if (!File.Exists(path)) return;
+            
             managerData = Load.LoadData(path) as float[];
 
             for (int i = 0; i < managerData.Length; i++)

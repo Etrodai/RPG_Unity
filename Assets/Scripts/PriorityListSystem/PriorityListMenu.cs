@@ -13,7 +13,7 @@ namespace PriorityListSystem
     public struct PriorityListItemSave
     {
         public int priority;
-        public BuildingTypes type;
+        public int type;
     }
     
     public class PriorityListMenu : MonoBehaviour
@@ -85,7 +85,7 @@ namespace PriorityListSystem
             for (int i = 0; i < items.Count; i++)
             {
                 data[i].priority = items[i].Priority;
-                data[i].type = items[i].Type;
+                data[i].type = (int)items[i].Type;
             }
         
             Save.AutoSaveData(data, SaveName);
@@ -98,7 +98,7 @@ namespace PriorityListSystem
             for (int i = 0; i < items.Count; i++)
             {
                 data[i].priority = items[i].Priority;
-                data[i].type = items[i].Type;
+                data[i].type = (int)items[i].Type;
             }
         
             Save.SaveDataAs(savePlace, data, SaveName);
@@ -107,12 +107,13 @@ namespace PriorityListSystem
         private void LoadData(string path)
         {
             path = Path.Combine(path, SaveName);
-
+            if (!File.Exists(path)) return;
+            
             PriorityListItemSave[] data = Load.LoadData(path) as PriorityListItemSave[];
 
             for (int i = 0; i < data.Length; i++)
             {
-                items[i].Type = data[i].type;
+                items[i].Type = (BuildingTypes)data[i].type;
                 
                 while (items[i].Priority < data[i].priority) //TODO: (Robin) Attention!!! whileLoop
                 {
