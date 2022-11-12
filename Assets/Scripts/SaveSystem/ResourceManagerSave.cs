@@ -9,7 +9,7 @@ namespace SaveSystem
     {
         private float[] managerData;
         private ResourceManager[] managers;
-        private const string saveName = "ResourceManager";
+        private const string SaveName = "ResourceManager";
 
         private void Start()
         {
@@ -31,7 +31,7 @@ namespace SaveSystem
             {
                 managerData[i] = managers[i].SavedResourceValue;
             }
-            Save.AutoSaveData(managerData, saveName);
+            Save.AutoSaveData(managerData, SaveName);
         }
         
         private void SaveDataAs(string savePlace)
@@ -41,16 +41,17 @@ namespace SaveSystem
             {
                 managerData[i] = managers[i].SavedResourceValue;
             }
-            Save.SaveDataAs(savePlace, managerData, saveName);
+            Save.SaveDataAs(savePlace, managerData, SaveName);
         }
 
         private void LoadData(string path)
         {
-            
-            path = Path.Combine(path, saveName);
+            path = Path.Combine(path, $"{SaveName}.dat");
             if (!File.Exists(path)) return;
             
             managerData = Load.LoadData(path) as float[];
+
+            // if (managerData == null) return;
 
             for (int i = 0; i < managerData.Length; i++)
             {

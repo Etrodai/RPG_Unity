@@ -106,10 +106,12 @@ namespace PriorityListSystem
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, SaveName);
+            path = Path.Combine(path, $"{SaveName}.dat");
             if (!File.Exists(path)) return;
             
             PriorityListItemSave[] data = Load.LoadData(path) as PriorityListItemSave[];
+
+            // if (data == null) return;
 
             for (int i = 0; i < data.Length; i++)
             {

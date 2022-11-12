@@ -105,10 +105,13 @@ namespace Eventsystem
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, SaveName);
+            path = Path.Combine(path, $"{SaveName}.dat");
             if (!File.Exists(path)) return;
             
             EventManagerSave[] data = Load.LoadData(path) as EventManagerSave[];
+            
+            // if (data == null) return;
+            
             timer = data[0].timer;
 
             for (int i = 0; i < data[0].usedEventTitles.Length; i++)

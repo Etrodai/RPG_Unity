@@ -100,7 +100,7 @@ namespace SaveSystem
     
         private void LoadData(string path)
         {
-            path = Path.Combine(path, SaveName);
+            path = Path.Combine(path, $"{SaveName}.dat");
             if (!File.Exists(path)) return;
             
             GridSystemData[] gridData = Load.LoadData(path) as GridSystemData[];
@@ -108,6 +108,8 @@ namespace SaveSystem
                                                Mathf.Floor(gridsystem.TileArray.GetLength(1) / 2),
                                                Mathf.Floor(gridsystem.TileArray.GetLength(2) / 2));
 
+            // if (gridData == null) return;
+            
             foreach (GridSystemData data in gridData)
             {
                 GameObject buildingGameObject;

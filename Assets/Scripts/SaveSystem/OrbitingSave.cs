@@ -62,11 +62,13 @@ namespace SaveSystem
 
         private void LoadData(string path)
         {
-            path = Path.Combine(path, SaveName);
+            path = Path.Combine(path, $"{SaveName}.dat");
             if (!File.Exists(path)) return;
             
             OrbitingData[] position = Load.LoadData(path) as OrbitingData[];
 
+            // if (position == null) return;
+            
             for (int i = 0; i < Planets.Count; i++)
             {
                 Planets[i].transform.position = new Vector3(position[i].x, position[i].y, position[i].z);

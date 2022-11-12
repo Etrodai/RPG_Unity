@@ -162,16 +162,16 @@ namespace Buildings
         }
         
         
-        /// <summary>
-        /// loads building data
-        /// </summary>
-        /// <param name="data">data of loaded building</param>
-        public void LoadBuildingData(BuildingData data)
-        {
-            isDisabled = data.isDisabled;
-            currentProductivity = data.currentProductivity;
-            buildingType = (BuildingTypes)data.buildingType;
-        }
+        // /// <summary>
+        // /// loads building data
+        // /// </summary>
+        // /// <param name="data">data of loaded building</param>
+        // public void LoadBuildingData(BuildingData data)
+        // {
+        //     isDisabled = data.isDisabled;
+        //     currentProductivity = data.currentProductivity;
+        //     buildingType = (BuildingTypes)data.buildingType;
+        // }
         
         #endregion
         
