@@ -75,7 +75,6 @@ namespace SaveSystem
                 {
                     string json = JsonUtility.ToJson(data);
                     File.WriteAllText(path, json);
-
                 }
                 catch (Exception e)
                 {

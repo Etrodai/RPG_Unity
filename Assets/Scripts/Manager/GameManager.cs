@@ -164,24 +164,27 @@ namespace Manager
         /// <summary>
         /// reduces productivity
         /// </summary>
-        /// <param name="surplus">value of consumption - production per building (always positive)</param>
+        /// <param name="surplusPerBuilding">value of consumption - production per building (always positive)</param>
         /// <param name="neededResourceValue">amount of needed citizen (always negative)</param>
         /// <param name="priorityList">List of buildings of current priority</param>
         /// <returns>amount of still needed citizen</returns>
-        private float ChangeProductivityNegative(float surplus, float neededResourceValue, List<Building> priorityList)
+        private float ChangeProductivityNegative(float surplusPerBuilding, float neededResourceValue, List<Building> priorityList)
         { //TODO: (Robin) why it doesn't work correctly
             foreach (Building building in priorityList)
             {
                 if (building.IsDisabled || building.CurrentProductivity == 0) continue;
 
-                if (neededResourceValue + surplus < 0)
+                if (neededResourceValue + surplusPerBuilding < 0)
                 {
                     building.CurrentProductivity = 0f;
                     DisabledBuildings.Push(new DisabledBuilding(building, ResourceTypes.Citizen));
                 }
-                else building.CurrentProductivity = (surplus + neededResourceValue) / surplus;
+                else
+                {
+                    building.CurrentProductivity = (surplusPerBuilding + neededResourceValue) / surplusPerBuilding;
+                }
                 
-                neededResourceValue += surplus;
+                neededResourceValue += surplusPerBuilding;
                 ChangedProductivityBuildings.Push(building);
                 Debug.Log($"{building}'s new Productivity cause of workers: {building.CurrentProductivity}");
                 if (neededResourceValue >= 0) return neededResourceValue;

@@ -95,7 +95,7 @@ namespace ResourceManagement.Manager
 
                 savedResourceValue = value;
                 onCitizenSavedValueChanged?.Invoke();
-                // Debug.Log("onCitizenSavedValueChanged?.Invoke()");
+                Debug.Log("onCitizenSavedValueChanged?.Invoke()");
             } 
         }
         
@@ -236,7 +236,7 @@ namespace ResourceManagement.Manager
                 savedResourceText.text = $"{SavedResourceValue}/{CurrentResourceProduction}";
                 return;
             }
-            CalculateProductivity();
+            // CalculateProductivity();
         }
 
         /// <summary>
