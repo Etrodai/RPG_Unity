@@ -22,44 +22,68 @@ namespace ResourceManagement.Manager
 
         #region Events
 
-        private UnityEvent onEnergySurplusChanged;
-        private UnityEvent onEnergySavedValueChanged;
-        private UnityEvent onEnergySaveSpaceChanged;
+        private readonly UnityEvent onEnergySurplusChanged = new();
+        private readonly UnityEvent onEnergySavedValueChanged = new();
+        private readonly UnityEvent onEnergySaveSpaceChanged = new();
 
         #endregion
 
         #region Properties
 
         private static EnergyManager Instance { get; set; }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float CurrentResourceSurplus 
         {        
             get => currentResourceSurplus;
             set
             {
+                if (currentResourceSurplus == value) return;
+                
                 currentResourceSurplus = value;
                 onEnergySurplusChanged?.Invoke();
+                // Debug.Log("onEnergySurplusChanged?.Invoke()");
             } 
         }
+        
         public override float CurrentResourceProduction { get; set; }
+        
         public override float CurrentResourceDemand { get; set; }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float SavedResourceValue
         {        
             get => savedResourceValue;
             set
             {
+                if (savedResourceValue == value) return;
+
                 savedResourceValue = value;
                 onEnergySavedValueChanged?.Invoke();
+                // Debug.Log("onEnergySavedValueChanged?.Invoke()");
             } 
         }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float SaveSpace        
         {        
             get => saveSpace;
             set
             {
+                if (saveSpace == value) return;
+
                 saveSpace = value;
                 onEnergySaveSpaceChanged?.Invoke();
+                // Debug.Log("onEnergySaveSpaceChanged?.Invoke()");
             } 
         }
+        
         public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Energy;
 
         #endregion
@@ -82,15 +106,13 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
-        /// Starts Calculation
+        /// adds Listener
+        /// starts Calculation
         /// </summary>
         private void Start()
         {
-            onEnergySurplusChanged = new UnityEvent();
             onEnergySurplusChanged.AddListener(ChangeUIText);
-            onEnergySavedValueChanged = new UnityEvent();
             onEnergySavedValueChanged.AddListener(ChangeUIText);
-            onEnergySaveSpaceChanged = new UnityEvent();
             onEnergySaveSpaceChanged.AddListener(ChangeUIText);
             gameManager = MainManagerSingleton.Instance.GameManager;
             dividendFor10Seconds = 10 / repeatRate;
@@ -119,7 +141,7 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
-        /// Calculation of SavedMaterialValue every 0.5 seconds
+        /// Calculation of SavedMaterialValue
         /// </summary>
         protected override void CalculateSavedResourceValue()
         {
@@ -143,6 +165,9 @@ namespace ResourceManagement.Manager
             }
         }
 
+        /// <summary>
+        /// changes UIText (surplus, savedResource and saveSpace)
+        /// </summary>
         private void ChangeUIText()
         {
             surplusText.text = $"{CurrentResourceSurplus}";

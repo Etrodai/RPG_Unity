@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -40,6 +41,10 @@ namespace Sound
         
         #endregion
 
+        #region Methods
+
+        #region Initialize
+        
         /// <summary>
         /// sets timer of sounds, which only should be played every t seconds (when called in Update)
         /// you also have to add it in CanPlaySound()
@@ -51,7 +56,11 @@ namespace Sound
                 // [Sound.BuildModule] = 0f
             };
         }
-        
+
+        #endregion
+
+        #region 2D Sounds
+
         /// <summary>
         /// plays a sound only one time in 2D
         /// </summary>
@@ -64,6 +73,8 @@ namespace Sound
                 oneShotGameObject = new GameObject("One Shot Sound");
                 oneShotAudioSource = oneShotGameObject.AddComponent<AudioSource>();
             }
+
+            oneShotAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
             oneShotAudioSource.PlayOneShot(GetAudioClip(sound));
         }
         
@@ -85,6 +96,7 @@ namespace Sound
 
                 loopAudioSource.clip = GetAudioClip(sound);
                 loopAudioSource.loop = true;
+                loopAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
                 loopAudioSource.Play();
             }
             else
@@ -94,10 +106,16 @@ namespace Sound
                     changeGameObject = new GameObject("Chang Sound");
                     changeAudioSource = changeGameObject.AddComponent<AudioSource>();
                 }
-                changeAudioSource.PlayOneShot(GetAudioClip(sound));
-                SoundStorage.Instance.WaitForEndOfClip(changeAudioSource, sound);
+                changeAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
+                AudioClip clip = GetAudioClip(sound);
+                changeAudioSource.PlayOneShot(clip);
+                SoundStorage.Instance.WaitForEndOfClip(clip.length, sound);
             }
         }
+
+        #endregion
+
+        #region 3D Sounds
 
         /// <summary>
         /// plays a sound one time at a given position in 3D. It doesn't move.
@@ -115,9 +133,10 @@ namespace Sound
             audioSource.spatialBlend = 1f;
             audioSource.rolloffMode = AudioRolloffMode.Linear;
             audioSource.dopplerLevel = 0f;
+            audioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
             audioSource.Play();
             
-            //TODO use ObjectPool
+            //TODO: (Robin) use ObjectPool
             Object.Destroy(soundGameObject, audioSource.clip.length);
         }
         
@@ -137,11 +156,16 @@ namespace Sound
             audioSource.spatialBlend = 1f;
             audioSource.rolloffMode = AudioRolloffMode.Linear;
             audioSource.dopplerLevel = 0f;
+            audioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
             audioSource.Play();
             
-            //TODO use ObjectPool
+            //TODO: (Robin) use ObjectPool
             Object.Destroy(soundGameObject, audioSource.clip.length);
         }
+
+        #endregion
+
+        #region Help Methods
 
         /// <summary>
         /// checks, if a sound could play again after its cooling time
@@ -172,6 +196,20 @@ namespace Sound
                     return true;
             }
         }
+
+        private static AudioMixerGroup GetAudioMixerGroup(Sound sound)
+        {
+            foreach (SoundAudioClip clip in SoundStorage.Instance.soundAudioClips)
+            {
+                if (clip.sound == sound)
+                {
+                    return clip.group;
+                }
+            }
+            
+            Debug.LogError($"Mixer group for {sound} not found!");
+            return null;
+        }
         
         /// <summary>
         /// gets a random sound from sound-group
@@ -188,10 +226,16 @@ namespace Sound
                 }
             }
 
-            Debug.LogError($"Sound {sound} not found!");
+            Debug.LogError($"Clip for {sound} not found!");
             return null;
         }
 
+        #endregion
+
+        #endregion
+        
+        #region Extension Methods
+       
         /// <summary>
         /// adds sounds of every button in scene by adding it as listener to the events
         /// </summary>
@@ -220,5 +264,9 @@ namespace Sound
             entry.callback.AddListener(data => listener.Invoke((PointerEventData)data));
             trigger.triggers.Add(entry);
         }
+       
+        #endregion
     }
+
+
 }

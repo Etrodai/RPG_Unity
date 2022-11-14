@@ -7,7 +7,7 @@ namespace UI.Gridsystem
 {
     public class Gridsystem : MonoBehaviour
     {
-        [SerializeField] private Transform solarCenterPoint; //TODO: Init with Vector directly
+        [SerializeField] private Transform solarCenterPoint; //TODO: (Ben) Init with Vector directly
 
         //Prefabs
         [SerializeField] private GameObject prefabGridTile;
@@ -166,7 +166,7 @@ namespace UI.Gridsystem
 
                         GridTile gridTileScript = gridTile.GetComponent<GridTile>();
                         TextMeshPro gridText = gridTile.transform.GetChild(0).GetComponent<TextMeshPro>();
-                        if (isTextVisible) //TODO: As Ternary Operator
+                        if (isTextVisible) //TODO: (Ben) As Ternary Operator
                         {
                             gridText.enabled = isTextVisible;
                             gridText.text = $"Tile_{spawnPos.x}.{spawnPos.y}.{spawnPos.z}";
@@ -178,7 +178,7 @@ namespace UI.Gridsystem
                         if (spawnPos.x == 0 && spawnPos.y == 0 && spawnPos.z == 0)
                         {
                             gridTileScript.HasModule = true;
-                        } //TODO: Better Method to Init startgridTile
+                        } //TODO: (Ben) Better Method to Init startgridTile
 
                         if (gridIsVisible)
                             gridTileScript.InitActiveState();
@@ -241,7 +241,7 @@ namespace UI.Gridsystem
         public void ReInitialize()
         {
             spawnPos = Vector3.zero;
-            //TODO: Ben: Access Camera to new Gridtiles
+            //TODO: (Ben) Access Camera to new Gridtiles
             CheckGridSize(); 
             TileArray = new GridTile[(int)GridSizeXYZ.x, (int)GridSizeXYZ.y, (int)GridSizeXYZ.z];
             InitGrid();

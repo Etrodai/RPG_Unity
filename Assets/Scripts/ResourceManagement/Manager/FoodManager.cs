@@ -20,44 +20,68 @@ namespace ResourceManagement.Manager
 
         #region Events
 
-        private UnityEvent onFoodSurplusChanged;
-        private UnityEvent onFoodSavedValueChanged;
-        private UnityEvent onFoodSaveSpaceChanged;
+        private readonly UnityEvent onFoodSurplusChanged = new();
+        private readonly UnityEvent onFoodSavedValueChanged = new();
+        private readonly UnityEvent onFoodSaveSpaceChanged = new();
 
         #endregion
 
         #region Properties
 
         private static FoodManager Instance { get; set; }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float CurrentResourceSurplus
         {        
             get => currentResourceSurplus;
             set
             {
+                if (currentResourceSurplus == value) return;
+                
                 currentResourceSurplus = value;
                 onFoodSurplusChanged?.Invoke();
+                // Debug.Log("onFoodSurplusChanged?.Invoke()");
             } 
         }
+        
         public override float CurrentResourceProduction { get; set; }
+        
         public override float CurrentResourceDemand { get; set; }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float SavedResourceValue
         {        
             get => savedResourceValue;
             set
             {
+                if (savedResourceValue == value) return;
+                
                 savedResourceValue = value;
                 onFoodSavedValueChanged?.Invoke();
+                // Debug.Log("onFoodSavedValueChanged?.Invoke()");
             } 
         }
+        
+        /// <summary>
+        /// OnPropertyChangedEvent
+        /// </summary>
         public override float SaveSpace
         {        
             get => saveSpace;
             set
             {
+                if (SaveSpace == value) return;
+                
                 saveSpace = value;
                 onFoodSaveSpaceChanged?.Invoke();
+                // Debug.Log("onFoodSaveSpaceChanged?.Invoke()");
             } 
         }
+        
         public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Food;
 
         #endregion
@@ -80,15 +104,13 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
-        /// Starts Calculation
+        /// adds Listener
+        /// starts Calculation
         /// </summary>
         private void Start()
         {
-            onFoodSurplusChanged = new UnityEvent();
             onFoodSurplusChanged.AddListener(ChangeUIText);
-            onFoodSavedValueChanged = new UnityEvent();
             onFoodSavedValueChanged.AddListener(ChangeUIText);
-            onFoodSaveSpaceChanged = new UnityEvent();
             onFoodSaveSpaceChanged.AddListener(ChangeUIText);
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
@@ -116,7 +138,7 @@ namespace ResourceManagement.Manager
         }
 
         /// <summary>
-        /// Calculation of SavedMaterialValue every 0.5 seconds
+        /// Calculation of SavedMaterialValue
         /// </summary>
         protected override void CalculateSavedResourceValue()
         {
@@ -135,6 +157,9 @@ namespace ResourceManagement.Manager
             }
         }
 
+        /// <summary>
+        /// changes UIText (surplus, savedResource and saveSpace)
+        /// </summary>
         private void ChangeUIText()
         {
             surplusText.text = $"{CurrentResourceSurplus}";

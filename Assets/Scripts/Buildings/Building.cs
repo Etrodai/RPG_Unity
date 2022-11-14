@@ -1,13 +1,23 @@
 using System;
 using System.Collections.Generic;
 using Manager;
+using PriorityListSystem;
 using ResourceManagement;
 using ResourceManagement.Manager;
+using Sound;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Buildings
 {
+    [System.Serializable]
+    public struct BuildingData
+    {
+        public bool isDisabled;
+        public float currentProductivity;
+        public int buildingType;
+    }
+    
     public class Building : MonoBehaviour
     {
         #region Variables
@@ -33,13 +43,13 @@ namespace Buildings
         /// <summary>
         /// 0: shows, if it was disabled
         /// </summary>
-        private UnityEvent<bool> onBuildingWasDisabled;
+        private UnityEvent<bool> onBuildingWasDisabled = new();
         
         /// <summary>
         /// 0: old productivity
         /// 1: new productivity
         /// </summary>
-        private UnityEvent<float, float> onBuildingProductivityChanged;
+        private UnityEvent<float, float> onBuildingProductivityChanged = new();
 
         #endregion
         
@@ -49,22 +59,30 @@ namespace Buildings
         
         public BuildingTypes BuildingType => buildingType;
 
+        //OnValueChangedEvent
         public bool IsDisabled
         {
             get => isDisabled;
             set
             {
+                if (isDisabled == value) return;
+
                 isDisabled = value;
                 onBuildingWasDisabled?.Invoke(isDisabled);
+                Debug.Log("onBuildingWasDisabled?.Invoke(isDisabled)");
             }
         }
 
+        //OnValueChangedEvent
         public float CurrentProductivity
         {
             get => currentProductivity;
             set
             {
+                if (currentProductivity == value) return;
+                
                 onBuildingProductivityChanged.Invoke(currentProductivity, value);
+                Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
                 currentProductivity = value;
             }
         }
@@ -74,16 +92,17 @@ namespace Buildings
         #region UnityEvents
         
         /// <summary>
+        /// adds Listener
         /// sets all Variables
         /// reduces needed resources when build the building
         /// adds building to gameManager building count
+        /// actualizes PriorityUI
         /// </summary>
         private void Start()
         {
-            onBuildingWasDisabled = new UnityEvent<bool>();
             onBuildingWasDisabled.AddListener(ChangeIsDisabled);
-            onBuildingProductivityChanged = new UnityEvent<float, float>();
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
+            
             managers = new List<ResourceManager>();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
@@ -97,26 +116,65 @@ namespace Buildings
             managers.Add(citizenManager);
             gameManager = MainManagerSingleton.Instance.GameManager;
             nullBuilding = gameManager.NullBuilding;
+            
             BuildModule();
-            EnableModule(CurrentProductivity);
+            
+            EnableModule(CurrentProductivity, false);
+            foreach (PriorityListItem item in gameManager.PriorityListItems)
+            {
+                item.onChangePriorityUI.Invoke();
+            }
         }
 
         /// <summary>
         /// disables function of building when it gets deleted
         /// unsubscribes building from gameManagerList
+        /// removes Listener
         /// </summary>
         private void OnDestroy()
         {
             if (!IsDisabled)
             {
-                DisableModule(CurrentProductivity);
+                DisableModule(CurrentProductivity, false);
             }
+            onBuildingWasDisabled.RemoveListener(ChangeIsDisabled);
+            onBuildingProductivityChanged.RemoveListener(ChangeProductivity);
 
             gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
         }
         
         #endregion
 
+        #region Save Load
+
+        /// <summary>
+        /// saves building data
+        /// </summary>
+        /// <returns></returns>
+        public BuildingData SaveBuildingData()
+        {
+            BuildingData data = new BuildingData();
+            data.isDisabled = isDisabled;
+            data.currentProductivity = currentProductivity;
+            data.buildingType = (int)buildingType;
+            
+            return data;
+        }
+        
+        
+        // /// <summary>
+        // /// loads building data
+        // /// </summary>
+        // /// <param name="data">data of loaded building</param>
+        // public void LoadBuildingData(BuildingData data)
+        // {
+        //     isDisabled = data.isDisabled;
+        //     currentProductivity = data.currentProductivity;
+        //     buildingType = (BuildingTypes)data.buildingType;
+        // }
+        
+        #endregion
+        
         #region Methods
 
         /// <summary>
@@ -125,8 +183,8 @@ namespace Buildings
         /// <param name="disabled">shows, if it gets disabled or enabled</param>
         private void ChangeIsDisabled(bool disabled)
         {
-            if (disabled) DisableModule(CurrentProductivity);
-            else EnableModule(CurrentProductivity);
+            if (disabled) DisableModule(CurrentProductivity, true);
+            else EnableModule(CurrentProductivity, true);
         }
 
         /// <summary>
@@ -136,16 +194,13 @@ namespace Buildings
         /// <param name="newProductivity">new Value</param>
         private void ChangeProductivity(float oldProductivity, float newProductivity)
         {
-            if (Math.Abs(oldProductivity - newProductivity) < 0.1f)
-            {
-                return;
-            }
-            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity);
-            else EnableModule(newProductivity - oldProductivity);
+            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity, true);
+            else EnableModule(newProductivity - oldProductivity, true);
         }
         
         /// <summary>
         /// takes all Resources of building's costs
+        /// adds building to gameManager building count
         /// </summary>
         private void BuildModule()
         {
@@ -161,7 +216,8 @@ namespace Buildings
                         }
                         else
                         {
-                            manager.SavedResourceValue -= cost.value;                         }
+                            manager.SavedResourceValue -= cost.value;
+                        }
                     }
                 }
                 // switch (item.resource)
@@ -204,12 +260,14 @@ namespace Buildings
                 gameManager.AllBuildings[empty] = this;
                 indexOfAllBuildings = empty;
             }
+            
+            SoundManager.PlaySound(SoundManager.Sound.BuildModule);
         }
         
         /// <summary>
         /// adds production, consumption and saveSpace
         /// </summary>
-        private void EnableModule(float productivity)
+        private void EnableModule(float productivity, bool playSound)
         {
             foreach (Resource production in buildingResources.Production)
             {
@@ -300,12 +358,17 @@ namespace Buildings
                 //         break;
                 // }
             }
+
+            if (playSound)
+            {
+                SoundManager.PlaySound(SoundManager.Sound.EnableModule);
+            }
         }
 
         /// <summary>
         /// reduces production, consumption and saveSpace
         /// </summary>
-        private void DisableModule(float productivity)
+        private void DisableModule(float productivity, bool playSound)
         {
             foreach (Resource production in buildingResources.Production)
             {
@@ -395,6 +458,11 @@ namespace Buildings
                 //         waterManager.SaveSpace -= item.value;
                 //         break;
                 // }
+            }
+
+            if (playSound)
+            {
+                SoundManager.PlaySound(SoundManager.Sound.DisableModule);
             }
         }
         

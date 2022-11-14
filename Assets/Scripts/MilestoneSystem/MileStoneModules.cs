@@ -6,8 +6,10 @@ namespace MilestoneSystem
     public struct MileStoneModules
     {
         #region Variables
+        
         public BuildingTypes buildingTypes;
         public int value;
+       
         #endregion
     }
 }

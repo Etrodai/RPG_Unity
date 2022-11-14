@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Manager
 {
+    [RequireComponent(typeof(EnergyManager), typeof(FoodManager), typeof(WaterManager))]
+    [RequireComponent(typeof(MaterialManager), typeof(CitizenManager), typeof(GameManager))]
+    [RequireComponent(typeof(EventManagerScriptable))]
     public class MainManagerSingleton : MonoBehaviour
     {
         public static MainManagerSingleton Instance { get; private set; }

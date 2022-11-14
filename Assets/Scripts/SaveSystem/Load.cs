@@ -9,10 +9,11 @@ namespace SaveSystem
 {
     public static class Load
     {
-        public static UnityEvent<string> onLoadButtonClick = new();
+        public static readonly UnityEvent<string> OnLoadButtonClick = new();
 
-        public static IEnumerable LoadIEnumerableData(string path)
+        public static IEnumerable LoadData(string path)
         {
+            path = $"{path}.dat";
             if (File.Exists(path))
             {
                 try
@@ -30,26 +31,6 @@ namespace SaveSystem
                 }
             }
             return null;
-        }
-        public static float LoadFloatData(string path)
-        {
-            if (File.Exists(path))
-            {
-                try
-                {
-                    BinaryFormatter bf = new BinaryFormatter();
-                    FileStream fs = new FileStream(path, FileMode.Open);
-                    float data = bf.Deserialize(fs) is float ? (float) bf.Deserialize(fs) : 0;
-                    fs.Close();
-                    return data;
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError(e);
-                    throw;
-                }
-            }
-            return 0;
         }
     }
 }

@@ -8,8 +8,17 @@ using UnityEngine.UI;
 
 namespace UI.BuildMode
 {
+    [System.Serializable]
+    public struct Buttons
+    {
+        public Button button;
+        public BuildingResourcesScriptableObject moduleToBuild;
+    }
+    
     public class BuildMenuScript : MonoBehaviour
     {
+        #region Variables
+
         [SerializeField] private Buttons[] buttons;
         private MaterialManager materialManager;
         private EnergyManager energyManager;
@@ -19,6 +28,33 @@ namespace UI.BuildMode
         private List<ResourceManager> managers;
         private bool isInitialized;
 
+        #endregion
+
+        #region UnityEvents
+
+        /// <summary>
+        /// builds BuildMenu
+        /// checks, if buttons should be interactable
+        /// </summary>
+        private void OnEnable()
+        {
+            if (!isInitialized)
+            {
+                Initialize();
+                isInitialized = true;
+            }
+            
+            InvokeRepeating(nameof(UpdateButtons), 0, 0.5f);
+            UpdateButtons();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// sets Variables
+        /// </summary>
         private void Initialize()
         {
             managers = new List<ResourceManager>();
@@ -34,22 +70,9 @@ namespace UI.BuildMode
             managers.Add(citizenManager);
         }
 
-        private void OnEnable()
-        {
-            if (!isInitialized)
-            {
-                Initialize();
-                isInitialized = true;
-            }
-            
-            UpdateButtons();
-        }
-
-        private void Update()
-        {
-            UpdateButtons();
-        }
-
+        /// <summary>
+        /// checks if buttons should be interactable
+        /// </summary>
         private void UpdateButtons()
         {
             foreach (Buttons button in buttons)
@@ -71,12 +94,7 @@ namespace UI.BuildMode
                 button.button.interactable = activate;
             }
         }
-    }
 
-    [System.Serializable]
-    public struct Buttons
-    {
-        public Button button;
-        public BuildingResourcesScriptableObject moduleToBuild;
+        #endregion
     }
 }

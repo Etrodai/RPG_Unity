@@ -61,10 +61,10 @@ namespace Eventsystem
         /// </summary>
         public void EventBehaviour(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.performed && enabled == true)
             {
                 //Texts for duration of length of each text array
-                if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length && enabled == true)
+                if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length)
                 {
                     eventText.text = eventManager.ActiveEvent.EventText[textIndex];
                     textIndex++;

@@ -1,34 +1,37 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using SaveSystem;
+using Sound;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Eventsystem
 {
+    [System.Serializable]
+    public struct EventManagerSave
+    {
+        public float timer;
+        public string[] usedEventTitles;
+    }
+    
     public class EventManagerScriptable : MonoBehaviour
     {
+        #region Variables
+
         //Event determination variables
         [SerializeField] private List<EventScriptableObject> availableEvents = new List<EventScriptableObject>();
         private Queue<EventScriptableObject> usedEvents = new Queue<EventScriptableObject>();
         private EventScriptableObject activeEvent;
-        public EventScriptableObject ActiveEvent
-        {
-            get => activeEvent;
-        }
         [SerializeField] private EventBehaviourScriptable eventBehaviour;
         private const int resetEvents = 0;
         private Action resetEventTimer;
-        public Action ResetEventTimer
-        {
-            get => resetEventTimer;
-            private set { resetEventTimer = value; }
-        }
 
         //Timer related variables
         private float timer;
         private float totalTime;
-        [SerializeField, Tooltip("Timer in seconds")] private float setTimer = 5f;
+        [SerializeField, Tooltip("Timer in seconds")] private float setTimer;
         private const float updateTimerRate = 0.5f;
         private const float endTimer = 0f;
         private const float stopTime = 0f;
@@ -37,6 +40,27 @@ namespace Eventsystem
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
 
+        private const string SaveName = "EventManager";
+        
+        #endregion
+
+        #region Properties
+
+        public EventScriptableObject ActiveEvent
+        {
+            get => activeEvent;
+        }
+       
+        public Action ResetEventTimer
+        {
+            get => resetEventTimer;
+            private set { resetEventTimer = value; }
+        }
+
+        #endregion
+
+        #region UnityEvents
+
         private void Awake()
         {
             timer = setTimer;
@@ -44,12 +68,69 @@ namespace Eventsystem
 
         private void Start()
         {
-            StartTimer();
             resetEventTimer += ResetTimer;
             resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
+            Save.OnSaveButtonClick.AddListener(SaveData);
+            Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
+            Load.OnLoadButtonClick.AddListener(LoadData);
         }
 
-        /// <summary>
+        #endregion
+
+        #region Save Load
+
+        private void SaveData()
+        {
+            EventManagerSave[] data = new EventManagerSave[1];
+            data[0] = new EventManagerSave();
+            data[0].timer = timer;
+ 
+
+            Save.AutoSaveData(data, SaveName);
+        }
+    
+        private void SaveDataAs(string savePlace)
+        {
+            EventManagerSave[] data = new EventManagerSave[1];
+            data[0] = new EventManagerSave();
+            data[0].timer = timer;
+            EventScriptableObject[] usedEventsArray = usedEvents.ToArray();
+            for (int i = 0; i < usedEventsArray.Length; i++)
+            {
+                data[0].usedEventTitles[i] = usedEventsArray[i].EventTitle;
+            }
+
+            Save.SaveDataAs(savePlace, data, SaveName);
+        }
+    
+        private void LoadData(string path)
+        {
+            path = Path.Combine(path, $"{SaveName}.dat");
+            if (!File.Exists(path)) return;
+            
+            EventManagerSave[] data = Load.LoadData(path) as EventManagerSave[];
+            
+            // if (data == null) return;
+            
+            timer = data[0].timer;
+
+            for (int i = 0; i < data[0].usedEventTitles.Length; i++)
+            {
+                for (int j = 0; j < availableEvents.Count; j++)
+                {
+                    if (availableEvents[j].EventTitle == data[0].usedEventTitles[i])
+                    {
+                        usedEvents.Enqueue(availableEvents[j]);             // does it work the right way? Or should it be from Length to 0??
+                    }
+                }
+            }
+        }
+        
+        #endregion
+
+        #region Methodes
+
+          /// <summary>
         /// Works as timer to start the next event when the time runs out
         /// </summary>
         /// <returns>Restarts the coroutine to continue reducing the timer if it didn't run out</returns>
@@ -91,6 +172,7 @@ namespace Eventsystem
             availableEvents.RemoveAt(nextEventIndex);
 
             eventBehaviour.enabled = true;                                      //Acts as event behaviour start, since EventBehaviourScriptable has starting logic in OnEnable()
+            SoundManager.PlaySound(SoundManager.Sound.EventEnters);
         }
 
         /// <summary>
@@ -111,5 +193,7 @@ namespace Eventsystem
         {
             StartCoroutine(NextEventTimer());
         }
+
+        #endregion
     }
 }

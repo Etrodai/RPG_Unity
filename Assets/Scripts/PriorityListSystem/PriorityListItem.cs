@@ -2,6 +2,7 @@ using Buildings;
 using Manager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace PriorityListSystem
 {
@@ -16,7 +17,13 @@ namespace PriorityListSystem
         private GameManager gameManager;
 
         #endregion
-    
+
+        #region Events
+
+        public UnityEvent onChangePriorityUI;
+
+        #endregion
+        
         #region Properties
 
         public int Priority { get; set; }
@@ -26,27 +33,34 @@ namespace PriorityListSystem
     
         #region UnityEvents
         
+        /// <summary>
+        /// builds Item with name and count
+        /// </summary>
         public void Instantiate()
         {
+            onChangePriorityUI.AddListener(ChangeUIText);
             gameManager = MainManagerSingleton.Instance.GameManager;
             buildingGroup.text = Type.ToString();
-            workingBuildings.text = $"{gameManager.GetBuildingCount(Type)}";
+            int allBuildingsCount = gameManager.GetBuildingCount(Type);
+            int workingBuildingsCount = gameManager.GetWorkingBuildingCount(Type);
+            workingBuildings.text = $"{workingBuildingsCount}/{allBuildingsCount}";
         }
         
         #endregion
     
         #region OnClickEvents
         
+        /// <summary>
+        /// changes priority and place of item (higher) and its sibling (lower)
+        /// </summary>
         public void OnClickPlusButton()
         {
             if (Priority == 0) return;
             foreach (PriorityListItem item in gameManager.PriorityListItems)
             {
-                if (item.transform.GetSiblingIndex() == (Priority - 1) * 2 + 1)
-                {
-                    item.transform.SetSiblingIndex(Priority * 2 + 1);
-                    item.ChangePriority(Priority);
-                }
+                if (item.transform.GetSiblingIndex() != (Priority - 1) * 2 + 1) continue;
+                item.transform.SetSiblingIndex(Priority * 2 + 1);
+                item.ChangePriority(Priority);
             }
 
             Priority--;
@@ -55,30 +69,43 @@ namespace PriorityListSystem
             gameManager.OnChangePriority();
         }
 
+        /// <summary>
+        /// changes priority and place of item (lower) and its sibling (higher)
+        /// </summary>
         public void OnClickMinusButton()
         {
-            if (Priority != gameManager.PriorityListItems.Count - 1)
+            if (Priority == gameManager.PriorityListItems.Count - 1) return;
+            foreach (PriorityListItem item in gameManager.PriorityListItems)
             {
-                foreach (PriorityListItem item in gameManager.PriorityListItems)
-                {
-                    if (item.transform.GetSiblingIndex() == (Priority + 1) * 2 + 1)
-                    {
-                        item.transform.SetSiblingIndex(Priority * 2 + 1);
-                        item.ChangePriority(Priority);
-                    }
-                }
-
-                Priority++;
-                transform.SetSiblingIndex(Priority * 2 + 1);
-                ChangePriority(Priority);
-                gameManager.OnChangePriority();
+                if (item.transform.GetSiblingIndex() != (Priority + 1) * 2 + 1) continue;
+                item.transform.SetSiblingIndex(Priority * 2 + 1);
+                item.ChangePriority(Priority);
             }
+
+            Priority++;
+            transform.SetSiblingIndex(Priority * 2 + 1);
+            ChangePriority(Priority);
+            gameManager.OnChangePriority();
         }
         
         #endregion
-
+        
         #region Methods
 
+        /// <summary>
+        /// changes uiText of Item
+        /// </summary>
+        private void ChangeUIText()
+        {
+            int allBuildingsCount = gameManager.GetBuildingCount(Type);
+            int workingBuildingsCount = gameManager.GetWorkingBuildingCount(Type);
+            workingBuildings.text = $"{workingBuildingsCount}/{allBuildingsCount}";
+        }
+        
+        /// <summary>
+        /// if it's first or last Priority only one button is needed
+        /// </summary>
+        /// <param name="index">priority of changed item</param>
         public void ChangePriority(int index)
         {
             Priority = index;
