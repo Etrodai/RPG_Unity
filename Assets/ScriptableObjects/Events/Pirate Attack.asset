@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Pirate Attack
   m_EditorClassIdentifier: 
   eventTitle: Piraten Angriff
-  firstText: "Normalerweise gibt es keine lauten Ger\xE4usche auf Station Icarus.
-    \xDCberraschenderweise hat ein Bewohner einen lauten Krach gemeldet."
   eventText:
+  - "Normalerweise gibt es keine lauten Ger\xE4usche auf Station Icarus. \xDCberraschenderweise
+    hat ein Bewohner einen lauten Krach gemeldet."
   - "Zu jderemanns \xDCberraschung war es ein Raumschiff, dass gewaltsam an die Station
     andockte. Es ist mit Weltraum Piraten besetzt!"
   - Sie verlangen nach deinen Ressourcen!
