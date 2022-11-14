@@ -27,6 +27,8 @@ namespace Eventsystem
         [SerializeField] private EventBehaviourScriptable eventBehaviour;
         private const int resetEvents = 0;
         private Action resetEventTimer;
+        private const string SaveName = "EventManager";
+
 
         //Timer related variables
         private float timer;
@@ -43,11 +45,15 @@ namespace Eventsystem
 
         //Particle System variables
         private List<GameObject> eventParticles = new List<GameObject>();
-        public List<GameObject> EventParticles
+        public List<GameObject> EventParticles => eventParticles;
+
+        public Action ResetEventTimer
         {
-            get => eventParticles;
-            set { eventParticles = value; }
+            get => resetEventTimer;
+            set => resetEventTimer = value;
         }
+
+        public EventScriptableObject ActiveEvent => activeEvent;
 
         private void Awake()
         {
@@ -57,11 +63,19 @@ namespace Eventsystem
 
         private void Start()
         {
+            eventBehaviour.Initialize();
             resetEventTimer += ResetTimerAndParticle;
             resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
+            resetEventTimer.Invoke();
+        }
+
+        private void OnDestroy()
+        {
+            resetEventTimer -= ResetTimerAndParticle;
+            resetEventTimer -= StartTimer;
         }
 
         #endregion
@@ -118,7 +132,7 @@ namespace Eventsystem
         #endregion
 
         #region Methodes
-
+        
           /// <summary>
         /// Works as timer to start the next event when the time runs out
         /// </summary>
@@ -160,20 +174,20 @@ namespace Eventsystem
             usedEvents.Enqueue(availableEvents[nextEventIndex]);
             availableEvents.RemoveAt(nextEventIndex);
 
-            switch (activeEvent.EventTitle)
-            {
-                case "Asteroiden Regen":
-                    eventParticles[0].SetActive(true);
-                    break;
-                case "Kreuzende Wege":
-                    eventParticles[1].SetActive(true);
-                    break;
-                case "Piraten Angriff":
-                    eventParticles[2].SetActive(true);
-                    break;
-                default:
-                    break;
-            }
+            // switch (activeEvent.EventTitle)
+            // {
+            //     case "Asteroiden Regen":
+            //         eventParticles[0].SetActive(true);
+            //         break;
+            //     case "Kreuzende Wege":
+            //         eventParticles[1].SetActive(true);
+            //         break;
+            //     case "Piraten Angriff":
+            //         eventParticles[2].SetActive(true);
+            //         break;
+            //     default:
+            //         break;
+            // }
             eventBehaviour.enabled = true;                                      //Acts as event behaviour start, since EventBehaviourScriptable has starting logic in OnEnable()
             SoundManager.PlaySound(SoundManager.Sound.EventEnters);
         }
@@ -184,20 +198,20 @@ namespace Eventsystem
         private void ResetTimerAndParticle()
         {
             timer = UnityEngine.Random.Range(setMinimumTimer, setMaximumTimer);
-            switch (activeEvent.EventTitle)
-            {
-                case "Asteroiden Regen":
-                    eventParticles[0].SetActive(false);
-                    break;
-                case "Kreuzende Wege":
-                    eventParticles[1].SetActive(false);
-                    break;
-                case "Piraten Angriff":
-                    eventParticles[2].SetActive(false);
-                    break;
-                default:
-                    break;
-            }
+            // switch (activeEvent.EventTitle)
+            // {
+            //     case "Asteroiden Regen":
+            //         eventParticles[0].SetActive(false);
+            //         break;
+            //     case "Kreuzende Wege":
+            //         eventParticles[1].SetActive(false);
+            //         break;
+            //     case "Piraten Angriff":
+            //         eventParticles[2].SetActive(false);
+            //         break;
+            //     default:
+            //         break;
+            // }
             sideMenuMileStoneButton.interactable = true;
             sideMenuPriorityButton.interactable = true;
             Time.timeScale = startTime;

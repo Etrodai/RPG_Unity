@@ -137,7 +137,7 @@ namespace Cameras
         private void Start()
         {
             cameraLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(0); //TODO: (Ben) Variable for Index
-            freeLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(1);
+//            freeLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(1);
             cmFreeLook.Follow = cameraLookPoint;
             cmFreeLook.LookAt = cameraLookPoint;
 

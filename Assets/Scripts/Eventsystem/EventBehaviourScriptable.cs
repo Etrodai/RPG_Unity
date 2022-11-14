@@ -23,7 +23,7 @@ namespace Eventsystem
         [SerializeField] private TextMeshProUGUI decision2ButtonText;
         private int textIndex;
         private const int resetTextIndex = 0;
-        private bool endofEvent;
+        private bool endOfEvent;
         private const int decision1Index = 0;
         private const int decision2Index = 1;
         private bool buttonIsActive;
@@ -41,14 +41,23 @@ namespace Eventsystem
         private int charDecision1Index;
         private int charDecision2Index;
 
-        private void Start()
+        public void Initialize()
         {
             eventManager = MainManagerSingleton.Instance.EventManager;
             eventUI.SetActive(false);
             textIsActive = true;
             textIndex = resetTextIndex;
-            enabled = false;
+            // enabled = false;
         }
+        
+        // private void Start()
+        // {
+        //     eventManager = MainManagerSingleton.Instance.EventManager;
+        //     eventUI.SetActive(false);
+        //     textIsActive = true;
+        //     textIndex = resetTextIndex;
+        //     enabled = false;
+        // }
 
         private void OnDisable()
         {
@@ -141,10 +150,10 @@ namespace Eventsystem
                 }
 
                 //Ends the event by disabling the script, thus triggering the end logic in OnDisable()
-                if (endofEvent)
+                if (endOfEvent)
                 {
                     eventUI.SetActive(false);
-                    endofEvent = false;
+                    endOfEvent = false;
                     enabled = false;
                 } 
             }
@@ -184,7 +193,7 @@ namespace Eventsystem
 
                 multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision1Index].consequenceOnResources[i].eventResourceDemandValue;
             }
-            endofEvent = true;
+            endOfEvent = true;
         }
 
         /// <summary>
@@ -221,7 +230,7 @@ namespace Eventsystem
 
                 multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources[i].eventResourceDemandValue;
             }
-            endofEvent = true;
+            endOfEvent = true;
         }
 
     }
