@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Cross Way
   m_EditorClassIdentifier: 
   eventTitle: Kreuzende Wege
-  firstText: Manchmal ist aus dem Fenster gucken das einzige was man auf Station
-    Icarus tun kann.
   eventText:
+  - Manchmal ist aus dem Fenster gucken das einzige was man auf Station Icarus tun
+    kann.
   - "W\xE4hrend so manch einer dem nachgeht, berichtet ein Bewohner von einem riesigen
     Asteroiden."
   - Genauere Untersuchungen zeigen, dass der Asteroid die Umlaufbahn der Station

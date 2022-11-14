@@ -28,7 +28,8 @@ namespace Eventsystem
         //Timer related variables
         private float timer;
         private float totalTime;
-        [SerializeField, Tooltip("Timer in seconds")] private float setTimer;
+        [SerializeField, Tooltip("Minimum Time in seconds a new event can happen")] private float setMinimumTimer;
+        [SerializeField, Tooltip("Maximum Time in seconds a new event can happen")] private float setMaximumTimer;
         private const float updateTimerRate = 0.5f;
         private const float endTimer = 0f;
         private const float stopTime = 0f;
@@ -37,14 +38,23 @@ namespace Eventsystem
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
 
+        //Particle System variables
+        private List<GameObject> eventParticles = new List<GameObject>();
+        public List<GameObject> EventParticles
+        {
+            get => eventParticles;
+            set { eventParticles = value; }
+        }
+
         private void Awake()
         {
-            timer = setTimer;
+            UnityEngine.Random.InitState(DateTime.Now.Minute + DateTime.Now.Millisecond);
+            timer = UnityEngine.Random.Range(setMinimumTimer, setMaximumTimer);
         }
 
         private void Start()
         {
-            resetEventTimer += ResetTimer;
+            resetEventTimer += ResetTimerAndParticle;
             resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
         }
 
@@ -89,15 +99,43 @@ namespace Eventsystem
             usedEvents.Enqueue(availableEvents[nextEventIndex]);
             availableEvents.RemoveAt(nextEventIndex);
 
+            switch (activeEvent.EventTitle)
+            {
+                case "Asteroiden Regen":
+                    eventParticles[0].SetActive(true);
+                    break;
+                case "Kreuzende Wege":
+                    eventParticles[1].SetActive(true);
+                    break;
+                case "Piraten Angriff":
+                    eventParticles[2].SetActive(true);
+                    break;
+                default:
+                    break;
+            }
             eventBehaviour.enabled = true;                                      //Acts as event behaviour start, since EventBehaviourScriptable has starting logic in OnEnable()
         }
 
         /// <summary>
         /// Resets the timer for the next event
         /// </summary>
-        private void ResetTimer()
+        private void ResetTimerAndParticle()
         {
-            timer = setTimer;
+            timer = UnityEngine.Random.Range(setMinimumTimer, setMaximumTimer);
+            switch (activeEvent.EventTitle)
+            {
+                case "Asteroiden Regen":
+                    eventParticles[0].SetActive(false);
+                    break;
+                case "Kreuzende Wege":
+                    eventParticles[1].SetActive(false);
+                    break;
+                case "Piraten Angriff":
+                    eventParticles[2].SetActive(false);
+                    break;
+                default:
+                    break;
+            }
             sideMenuMileStoneButton.interactable = true;
             sideMenuPriorityButton.interactable = true;
             Time.timeScale = startTime;

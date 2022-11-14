@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Meteoric Rain
   m_EditorClassIdentifier: 
   eventTitle: Asteroiden Regen
-  firstText: "W\xE4hrend jeder seinem Leben auf Station Icarus nachgeht, bemerkt
-    einer der Bewohner, dass manche Asteroiden sich schneller bewegen als sie sollten."
   eventText:
+  - "W\xE4hrend jeder seinem Leben auf Station Icarus nachgeht, bemerkt einer der
+    Bewohner, dass manche Asteroiden sich schneller bewegen als sie sollten."
   - "Manche der Asteroiden treffen die Station und besch\xE4digen sie."
   - Wirst du den Schaden reparieren oder ignorieren?
   decisions:
