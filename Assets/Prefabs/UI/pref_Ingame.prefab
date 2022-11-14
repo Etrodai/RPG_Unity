@@ -173,6 +173,7 @@ MonoBehaviour:
   mileStoneSystemPanel:
     panel: {fileID: 6461077066352826112}
     isMinimized: 0
+  mileStoneEvent: {fileID: 0}
 --- !u!1 &1862918566625104389
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,6 +399,7 @@ MonoBehaviour:
     type: 3}
   itemPrefab: {fileID: 4084321320711837691, guid: 9097debc1c0ad2c4eb83a8cfe72ca355,
     type: 3}
+  mileStoneEvent: {fileID: 3346089306167225150}
 --- !u!114 &1077565563623226195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1037,10 +1039,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a154452527a9bc4c8ba651e1d9cbfd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  events:
-  - {fileID: 3346089306167225150}
-  - {fileID: 6263132251870035667}
-  - {fileID: 3291796180176346367}
   mileStones:
   - {fileID: 11400000, guid: 38bc66eadc48a5c4c9d682023bdbefb2, type: 2}
   - {fileID: 11400000, guid: 0b6aecb271d9ea7409223e93cc808307, type: 2}
@@ -1097,6 +1095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad57e42c797ec064e876ad185c5148f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 0}
 --- !u!114 &3291796180176346367
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,10 @@ public class OldOptionsMenu : MonoBehaviour
 
     private int screenWidth = 1920;
     private int screenHeight = 1080;
+    
+    //Input
+    [SerializeField] private PlayerInput playerInput;
+    private bool playerInputHasBeenInit;
 
     private void Awake()
     {
@@ -100,6 +105,24 @@ public class OldOptionsMenu : MonoBehaviour
         }
 
         cameraSensitivitySlider.value = cameraSensitivity.RotationSensivity;
+    }
+
+    private void Update()
+    {
+        if (!playerInputHasBeenInit)
+        {
+            InitPlayerInput();
+        }
+    }
+
+    private void OnDisable()
+    {
+        playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
+    }
+    
+    private void InitPlayerInput()
+    {
+        playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
     }
 
     public void EnableDisableMenu(InputAction.CallbackContext context)

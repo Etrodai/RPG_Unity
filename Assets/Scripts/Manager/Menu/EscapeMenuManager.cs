@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
@@ -11,6 +13,10 @@ namespace Manager.Menu
         [SerializeField] private GameObject optionsMenu;
 
         private const int mainMenuScene = 0;
+        
+        //Input
+        [SerializeField] private PlayerInput playerInput;
+        private bool playerInputHasBeenInit;
 
         private void Start()
         {
@@ -20,7 +26,25 @@ namespace Manager.Menu
             escapeMenu.SetActive(false);
         }
 
-        public void EnableDisableMenu()
+        private void Update()
+        {
+            if (!playerInputHasBeenInit)
+            {
+                InitPlayerInput();
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (playerInput == null) return;
+            playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
+        }
+        
+        private void InitPlayerInput()
+        {
+            playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
+        }
+        public void EnableDisableMenu(InputAction.CallbackContext context)
         {
             if(escapeMenu.activeInHierarchy == false)
             {

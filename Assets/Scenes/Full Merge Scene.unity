@@ -1461,6 +1461,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &403001721 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3346089306167225150, guid: c4184ba17d8be0846903de10bea1f884,
+    type: 3}
+  m_PrefabInstance: {fileID: 1473481242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c154260710efb940a555d3fafef269b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &404239619 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8939557473125006239, guid: c4184ba17d8be0846903de10bea1f884,
@@ -2458,6 +2470,11 @@ PrefabInstance:
       propertyPath: cmFreeLook
       value: 
       objectReference: {fileID: 1368050745}
+    - target: {fileID: 6299621790826069182, guid: 5c9342e9d4618e148b9d0f5dfd698273,
+        type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 912021417}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_RootOrder
@@ -2481,22 +2498,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9807057
+      value: 0.98111945
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.13896528
+      value: 0.13597155
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13709627
+      value: 0.13719594
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.010471016
+      value: -0.009677481
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -3139,8 +3156,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d5445b76be3c05c499b68438aaec0e52, type: 2}
   - {fileID: 11400000, guid: ca5b2bca20ea0c3448756534ca4bc1d8, type: 2}
   eventBehaviour: {fileID: 1732347678}
-  setMinimumTimer: 3
-  setMaximumTimer: 4.8
+  setMinimumTimer: 300
+  setMaximumTimer: 480
   sideMenuMileStoneButton: {fileID: 1754746685}
   sideMenuPriorityButton: {fileID: 590594050}
 --- !u!114 &829820945
@@ -3659,7 +3676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: c7c317a7595544f48a895301c12a4c96,
     type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -3824,6 +3841,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1539749904}
+        m_TargetAssemblyTypeName: CameraControllerNew, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4366,6 +4395,7 @@ MonoBehaviour:
   buildmenuLayout: {fileID: 125849333}
   prefab_blueprintObject: {fileID: 6137071565662030411, guid: f8a40523c72cff94a97f91bed5e3aaa5,
     type: 3}
+  playerInput: {fileID: 912021417}
 --- !u!4 &1146719526
 Transform:
   m_ObjectHideFlags: 0
@@ -5492,6 +5522,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -25
       objectReference: {fileID: 0}
+    - target: {fileID: 6263132251870035667, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 912021417}
     - target: {fileID: 6286265519276009086, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -5517,6 +5552,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1573660567}
+    - target: {fileID: 6323736118827970512, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: mileStoneEvent
+      value: 
+      objectReference: {fileID: 403001721}
     - target: {fileID: 6461077066352826112, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Name
@@ -6692,6 +6732,12 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9154775752196328662, guid: c4184ba17d8be0846903de10bea1f884, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c4184ba17d8be0846903de10bea1f884, type: 3}
+--- !u!1 &1539749904 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6461077066352826112, guid: c4184ba17d8be0846903de10bea1f884,
+    type: 3}
+  m_PrefabInstance: {fileID: 1473481242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1573660564
 GameObject:
   m_ObjectHideFlags: 0
@@ -6936,6 +6982,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7975433926890853842, guid: a5cf73ca99d1f544f93369825959f5e2,
         type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 912021417}
+    - target: {fileID: 7975433926890853842, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
       propertyPath: cameraSensitivity
       value: 
       objectReference: {fileID: 688328139}
@@ -7084,6 +7135,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7975433928144582884, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 912021417}
     - target: {fileID: 7975433928144582885, guid: a5cf73ca99d1f544f93369825959f5e2,
         type: 3}
       propertyPath: m_Pivot.x
@@ -7308,6 +7364,7 @@ MonoBehaviour:
   decision2Button: {fileID: 1281663019}
   decision1ButtonText: {fileID: 849470201}
   decision2ButtonText: {fileID: 695272430}
+  playerInput: {fileID: 912021417}
 --- !u!4 &1732347679
 Transform:
   m_ObjectHideFlags: 0
@@ -7560,6 +7617,7 @@ MonoBehaviour:
     type: 3}
   itemPrefab: {fileID: 4084321320711837691, guid: 9097debc1c0ad2c4eb83a8cfe72ca355,
     type: 3}
+  mileStoneEvent: {fileID: 403001721}
 --- !u!114 &1810538256
 MonoBehaviour:
   m_ObjectHideFlags: 0

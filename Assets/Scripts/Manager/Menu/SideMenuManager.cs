@@ -1,3 +1,4 @@
+using MilestoneSystem.Events;
 using PriorityListSystem;
 using UnityEngine;
 
@@ -18,9 +19,10 @@ namespace Manager.Menu
         [SerializeField] private Panel priorityListPanel;
         [SerializeField] private Panel mileStoneSystemPanel;
         private PriorityListMenu priorityListMenu;
+        [SerializeField] private ShowPrioritySystemMileStoneEvent mileStoneEvent;
 
         #endregion
-        
+
         #region UnityEvents
         
         /// <summary>
@@ -47,6 +49,7 @@ namespace Manager.Menu
             if (priorityListPanel.isMinimized && mileStoneSystemPanel.isMinimized)
             {
                 OpenMenu();
+                mileStoneEvent.ClickPriorityButton();
                 ShowPanel(ref priorityListPanel);
             }
             else if (priorityListPanel.isMinimized &&  !mileStoneSystemPanel.isMinimized)

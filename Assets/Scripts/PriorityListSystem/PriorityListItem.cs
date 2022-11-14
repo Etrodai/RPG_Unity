@@ -1,5 +1,6 @@
 using Buildings;
 using Manager;
+using MilestoneSystem.Events;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,6 +15,8 @@ namespace PriorityListSystem
         [SerializeField] private TextMeshProUGUI workingBuildings;
         [SerializeField] private GameObject upButton;
         [SerializeField] private GameObject downButton;
+        private ShowPrioritySystemMileStoneEvent mileStoneEvent;
+
         private GameManager gameManager;
 
         #endregion
@@ -27,8 +30,11 @@ namespace PriorityListSystem
         #region Properties
 
         public int Priority { get; set; }
+        
         public BuildingTypes Type { get; set; }
-
+        
+        public ShowPrioritySystemMileStoneEvent MileStoneEvent { get; set; }
+        
         #endregion
     
         #region UnityEvents
@@ -67,6 +73,7 @@ namespace PriorityListSystem
             transform.SetSiblingIndex(Priority * 2 + 1);
             ChangePriority(Priority);
             gameManager.OnChangePriority();
+            mileStoneEvent.ClickPlusButton();
         }
 
         /// <summary>
@@ -86,6 +93,7 @@ namespace PriorityListSystem
             transform.SetSiblingIndex(Priority * 2 + 1);
             ChangePriority(Priority);
             gameManager.OnChangePriority();
+            mileStoneEvent.ClickMinusButton();
         }
         
         #endregion

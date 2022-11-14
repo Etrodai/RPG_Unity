@@ -1,5 +1,7 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace UI.BuildMode
 {
@@ -13,16 +15,41 @@ namespace UI.BuildMode
         private GameObject moduleToBuild;
 
         Vector3 mousePos;
+        
+        //Input
+        [SerializeField] private PlayerInput playerInput;
+        private bool playerInputHasBeenInit;
 
         private void Start()
         {
             mainCam = Camera.main;
         }
 
+        private void Update()
+        {
+            if (!playerInputHasBeenInit)
+            {
+                InitPlayerInput();
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (playerInput == null) return;
+            playerInput.actions["LeftClick"].performed -= LeftMouseButtonPressed;
+            playerInput.actions["OpenBuildMenu"].performed -= RightMouseButtonPressed;
+        }
+
+        private void InitPlayerInput()
+        {
+            playerInput.actions["LeftClick"].performed += LeftMouseButtonPressed;
+            playerInput.actions["OpenBuildMenu"].performed += RightMouseButtonPressed;
+        }
+
         /// <summary>
         /// De/Activate Build Menu
         /// </summary>
-        public void RightMouseButtonPressed()
+        public void RightMouseButtonPressed(InputAction.CallbackContext context)
         {
             CheckIfBlueprintObjectExists();
             buildmenuLayout.SetActive(!buildmenuLayout.activeSelf);
@@ -47,7 +74,7 @@ namespace UI.BuildMode
             }
         }
 
-        public void LeftMouseButtonPressed()
+        public void LeftMouseButtonPressed(InputAction.CallbackContext context)
         {
             if (!buildmenuLayout.activeSelf)
                 return;

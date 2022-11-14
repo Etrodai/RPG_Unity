@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace MilestoneSystem.Events
@@ -12,6 +13,10 @@ namespace MilestoneSystem.Events
 
         #region Variables & Properties
 
+        //Input
+        [SerializeField] private PlayerInput playerInput;
+        private bool playerInputHasBeenInit;
+        
         public override MileStoneEventNames Name { get; set; }
         public override MileStoneEventItems[] Events { get; set; }
 
@@ -39,21 +44,24 @@ namespace MilestoneSystem.Events
 
         #region Events
 
-        // TODO: (Robin) add these events to InputSystem
-        
-        public void Move()
+        private void Move(InputAction.CallbackContext context)
         {
             Events[0].isAchieved = true;
+            playerInput.actions["MoveXAxis"].performed -= Move;
+            playerInput.actions["MoveYAxis"].performed -= Move;
         }
 
-        public void Rotate()
+        private void Rotate(InputAction.CallbackContext context)
         {
             Events[1].isAchieved = true;
+            playerInput.actions["RotateXAxis"].performed -= Rotate;
+            playerInput.actions["RotateYAxis"].performed -= Rotate;
         }
 
-        public void Zoom()
+        private void Zoom(InputAction.CallbackContext context)
         {
             Events[2].isAchieved = true;
+            playerInput.actions["Zoom"].performed -= Zoom;
         }
 
         #endregion
@@ -79,6 +87,17 @@ namespace MilestoneSystem.Events
             {
                 Events[i].isAchieved = false;
             }
+            
+            InitPlayerInput();
+        }
+        
+        private void InitPlayerInput()
+        {
+            playerInput.actions["MoveXAxis"].performed += Move;
+            playerInput.actions["MoveYAxis"].performed += Move;
+            playerInput.actions["RotateXAxis"].performed += Rotate;
+            playerInput.actions["RotateYAxis"].performed += Rotate;
+            playerInput.actions["Zoom"].performed += Zoom;
         }
 
         #endregion

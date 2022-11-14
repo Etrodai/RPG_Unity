@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using UI.Gridsystem;
 using UnityEngine;
@@ -53,6 +54,10 @@ namespace Cameras
         [SerializeField, Range(0f, 10f)] private float rotationSensivity = 0.5f;
         [SerializeField, Range(0f, 10f)] private float moveSensivity = 0.5f;
         [SerializeField, Range(0f, 2f)] private float zoomSensivity = 0.5f;
+        
+        //Input
+        [SerializeField] private PlayerInput playerInput;
+        private bool playerInputHasBeenInit;
 
         #endregion
 
@@ -146,13 +151,50 @@ namespace Cameras
 
         private void Update()
         {
+            if (!playerInputHasBeenInit)
+            {
+                InitPlayerInput();
+            }
+            
             FreeLook();
             MoveXY();
+        }
+
+        private void OnDisable()
+        {
+            if (playerInput == null) return;
+            playerInput.actions["Reset Camera"].performed -= ResetCamera;
+            playerInput.actions["Toggle Free Look"].performed -= ToggleFreeLook;
+            playerInput.actions["DeactivateCameraMovement"].performed -= DeactivateCameraMovement;
+            playerInput.actions["ActivateCameraMovement"].performed -= ActivateCameraMovement;
+            playerInput.actions["MoveYAxis"].performed -= MoveCameraYAxis;
+            playerInput.actions["MoveYAxis"].canceled -= MoveCameraYAxis;
+            playerInput.actions["MoveXAxis"].performed -= MoveCameraXAxis;
+            playerInput.actions["MoveXAxis"].canceled -= MoveCameraXAxis;
+            playerInput.actions["Zoom"].performed -= Zoom;
+            playerInput.actions["RotateXAxis"].performed -= RotateXAxis;
+            playerInput.actions["RotateYAxis"].performed -= RotateYAxis;
         }
 
         #endregion
 
         #region Methods
+
+        private void InitPlayerInput()
+        {
+            if (!playerInput.isActiveAndEnabled) return;
+            playerInput.actions["Reset Camera"].performed += ResetCamera;
+            playerInput.actions["Toggle Free Look"].performed += ToggleFreeLook;
+            playerInput.actions["DeactivateCameraMovement"].performed += DeactivateCameraMovement;
+            playerInput.actions["ActivateCameraMovement"].performed += ActivateCameraMovement;
+            playerInput.actions["MoveYAxis"].performed += MoveCameraYAxis;
+            playerInput.actions["MoveYAxis"].canceled += MoveCameraYAxis;
+            playerInput.actions["MoveXAxis"].performed += MoveCameraXAxis;
+            playerInput.actions["MoveXAxis"].canceled += MoveCameraXAxis;
+            playerInput.actions["Zoom"].performed += Zoom;
+            playerInput.actions["RotateXAxis"].performed += RotateXAxis;
+            playerInput.actions["RotateYAxis"].performed += RotateYAxis;
+        }
 
         //Keyboard Button Movement
         /// <summary>
@@ -275,7 +317,7 @@ namespace Cameras
         /// <summary>
         /// For Activating Camera Axis Movement on x and y Axis
         /// </summary>
-        public void ActivateCameraMovement()
+        public void ActivateCameraMovement(InputAction.CallbackContext context)
         {
             if (!isFreeLookActive && !isPaused)
             {
@@ -287,7 +329,7 @@ namespace Cameras
         /// <summary>
         /// Deactivating Camera Axis Movement on x and y Axis
         /// </summary>
-        public void DeactivateCameraMovement()
+        public void DeactivateCameraMovement(InputAction.CallbackContext context)
         {
             cmFreeLook.m_XAxis.m_InputAxisName = "";
             cmFreeLook.m_YAxis.m_InputAxisName = "";
@@ -369,7 +411,7 @@ namespace Cameras
         public void ActivateCamera()
         {
             isPaused = false;
-            ActivateCameraMovement();
+            ActivateCameraMovement(new InputAction.CallbackContext());
         }
 
         /// <summary>
@@ -377,7 +419,7 @@ namespace Cameras
         /// </summary>
         public void DeactivateCamera()
         {
-            DeactivateCameraMovement();
+            DeactivateCameraMovement(new InputAction.CallbackContext());
             isPaused = true;
         }
 

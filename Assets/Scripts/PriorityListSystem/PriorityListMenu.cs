@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Buildings;
 using Manager;
+using MilestoneSystem.Events;
 using SaveSystem;
 using TMPro;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace PriorityListSystem
         [SerializeField] private GameObject itemPrefab;
         private GameManager gameManager;
         private readonly List<PriorityListItem> items = new();
+        [SerializeField] private ShowPrioritySystemMileStoneEvent mileStoneEvent;
         private const string SaveName = "PriorityListMenu";
 
         #endregion
@@ -56,6 +58,7 @@ namespace PriorityListSystem
                     PriorityListItem item = itemObject.GetComponent<PriorityListItem>();
                     item.Priority = priority;
                     item.Type = type;
+                    item.MileStoneEvent = mileStoneEvent;
 
                     gameManager.PriorityListItems.Add(item);
                     items.Add(item);

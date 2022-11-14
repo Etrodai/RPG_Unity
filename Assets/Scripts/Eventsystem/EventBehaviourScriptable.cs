@@ -41,6 +41,10 @@ namespace Eventsystem
         private int charDecision1Index;
         private int charDecision2Index;
 
+        //Input
+        [SerializeField] private PlayerInput playerInput;
+        private bool playerInputHasBeenInit;
+        
         public void Initialize()
         {
             eventManager = MainManagerSingleton.Instance.EventManager;
@@ -58,11 +62,6 @@ namespace Eventsystem
         //     textIndex = resetTextIndex;
         //     enabled = false;
         // }
-
-        private void OnDisable()
-        {
-            eventManager.ResetEventTimer?.Invoke();                         //calls an Action in EventManagerScriptable to reset and start the event timer there
-        }
 
         private void OnEnable()
         {
@@ -86,6 +85,12 @@ namespace Eventsystem
 
         private void Update()
         {
+            
+            if (!playerInputHasBeenInit)
+            {
+                InitPlayerInput();
+            }
+            
             charTitlePlacingTime -= Time.unscaledDeltaTime;
             charTextPlacingTime -= Time.unscaledDeltaTime;
 
@@ -121,7 +126,18 @@ namespace Eventsystem
                 charTextPlacingTime = resetTextPlacingTime;
             }
         }
-
+        
+        private void OnDisable()
+        {
+            playerInput.actions["LeftClick"].performed -= EventBehaviour;
+            eventManager.ResetEventTimer?.Invoke();                         //calls an Action in EventManagerScriptable to reset and start the event timer there
+        }
+        
+        private void InitPlayerInput()
+        {
+            playerInput.actions["LeftClick"].performed += EventBehaviour;
+        }
+        
         /// <summary>
         /// Method to be called in Player Input Component, must be new script in order to only use it when an event was chosen and activated
         /// </summary>
