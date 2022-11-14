@@ -6,12 +6,6 @@ namespace MilestoneSystem
     [CreateAssetMenu(fileName = "New MileStone", menuName = "MileStones")]
     public class MileStonesScriptableObject : ScriptableObject
     {
-        #region TODOS
-        
-        // Kamerasteuerung, ChangePrioListe                                         TODO
-       
-        #endregion
-
         #region Variables
         
         [SerializeField] [TextArea] private string[] mileStoneText;

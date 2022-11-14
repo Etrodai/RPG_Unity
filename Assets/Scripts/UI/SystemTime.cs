@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 //Maybe integrate in Game Manager, simple Script
-//TODO Integrate in GameManager, Comments
+//TODO: (Ben) Integrate in GameManager, Comments
 namespace UI
 {
     public class SystemTime : MonoBehaviour

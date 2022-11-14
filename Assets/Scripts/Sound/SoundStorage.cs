@@ -1,13 +1,19 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace Sound
 {
     public class SoundStorage : MonoBehaviour
     {
+        #region Variables
+
         public static SoundStorage Instance { get; private set; }
         public SoundAudioClip[] soundAudioClips;
+
+        #endregion
+
+        #region UnityEvents
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -18,13 +24,19 @@ namespace Sound
             {
                 Instance = this;
             }
+            
+            DontDestroyOnLoad(Instance);
 
             SoundManager.Initialize();
         }
 
-        public void WaitForEndOfClip(AudioSource changeAudioSource, SoundManager.Sound sound)
+        #endregion
+
+        #region Methods for SoundManager
+
+        public void WaitForEndOfClip(float clipLength, SoundManager.Sound sound)
         {
-            StartCoroutine(ChangeClip(changeAudioSource.clip.length, sound));
+            StartCoroutine(ChangeClip(clipLength, sound));
         }
         
         private IEnumerator ChangeClip(float t, SoundManager.Sound sound)
@@ -32,5 +44,8 @@ namespace Sound
             yield return new WaitForSeconds(t);
             SoundManager.PlaySound(sound, false);
         }
+
+        #endregion
+
     }
 }

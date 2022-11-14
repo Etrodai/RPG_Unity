@@ -23,6 +23,9 @@ namespace Manager.Menu
         
         #region UnityEvents
         
+        /// <summary>
+        /// instantiates priorityListMenu
+        /// </summary>
         private void Start()
         {
             priorityListMenu = GetComponentInChildren<PriorityListMenu>(true);
@@ -34,6 +37,11 @@ namespace Manager.Menu
         
         #region OnClickEvents
     
+        /// <summary>
+        /// opens menu with priorityPanel, if both Panels were minimized
+        /// opens priorityPanel, if mileStonePanel was opened
+        /// closes menu, if priorityPanel was opened
+        /// </summary>
         public void OnPriorityListMenuButton()
         {
             if (priorityListPanel.isMinimized && mileStoneSystemPanel.isMinimized)
@@ -52,6 +60,11 @@ namespace Manager.Menu
             }
         } 
     
+        /// <summary>
+        /// opens menu with mileStonePanel, if both Panels were minimized
+        /// opens mileStonePanel, if priorityPanel was opened
+        /// closes menu, if mileStonePanel was opened
+        /// </summary>
         public void OnMileStoneSystemMenuButton()
         {
             if (mileStoneSystemPanel.isMinimized && priorityListPanel.isMinimized)
@@ -79,10 +92,9 @@ namespace Manager.Menu
         /// </summary>
         private void OpenMenu()
         {
-            var transform1 = transform;
-            var transformPosition = transform1.position;
+            Vector3 transformPosition = transform.position;
             transformPosition.x -= 300 * canvas.scaleFactor;
-            transform1.position = transformPosition;
+            transform.position = transformPosition;
         }
 
         /// <summary>
@@ -103,12 +115,20 @@ namespace Manager.Menu
             HidePanel(ref priorityListPanel);
         }
 
+        /// <summary>
+        /// sets given Panel Active and maximized
+        /// </summary>
+        /// <param name="panel">Panel to show</param>
         private void ShowPanel(ref Panel panel)
         {
             panel.panel.SetActive(true);
             panel.isMinimized = false;
         }
 
+        /// <summary>
+        /// sets given Panel inactive and minimized
+        /// </summary>
+        /// <param name="panel">Panel to hide</param>
         private void HidePanel(ref Panel panel)
         {
             panel.panel.SetActive(false);

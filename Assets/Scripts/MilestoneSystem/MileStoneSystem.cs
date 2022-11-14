@@ -1,27 +1,40 @@
 using System.Collections.Generic;
+using System.IO;
 using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
+using SaveSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace MilestoneSystem
 {
+    [System.Serializable]
+    public struct MileStoneSystemSave
+    {
+        public int mileStonesDone;
+        public bool isDone;
+    }
+    
     public class MileStoneSystem : MonoBehaviour
     {
         #region Variables
 
-        [SerializeField] private List<MileStoneEvent> events;
+        private MileStoneEvent[] events;
         [SerializeField] private MileStonesScriptableObject[] mileStones;
         private int mileStonesDone; // Counter of Milestones Done
         [SerializeField] private GameObject mainText; // Full Screen Text what's happening
         private int textIndex; // Counter of Texts Shown
         private bool isDone; // Shows, if a Milestone is done, and the end-text can be shown
         private TextMeshProUGUI mileStoneText; // TextField of MainText
-        [SerializeField] private GameObject menu; // SideMenu which always is there and can be mini and maximized
-        private TextMeshProUGUI requiredStuffText; // TextField of Menu
+        [SerializeField] private GameObject mileStonePanel; // SideMenu which always is there and can be mini and maximized
+        [SerializeField] private GameObject itemPrefab;
+        [SerializeField] private GameObject labelPrefab;
+        private readonly List<GameObject> allLabels = new();
+        private readonly List<GameObject> allItems = new();
         private MaterialManager materialManager;
         private EnergyManager energyManager;
         private FoodManager foodManager;
@@ -31,6 +44,9 @@ namespace MilestoneSystem
         private List<ResourceManager> managers;
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
+        private const string SaveName = "MileStoneSystem";
+
+        private bool menuWasBuild;
 
         #endregion
 
@@ -48,7 +64,7 @@ namespace MilestoneSystem
         private void Awake()
         {
             mileStoneText = mainText.GetComponentInChildren<TextMeshProUGUI>();
-            requiredStuffText = menu.GetComponentInChildren<TextMeshProUGUI>();
+            events = GetComponents<MileStoneEvent>();
         }
 
         /// <summary>
@@ -69,7 +85,11 @@ namespace MilestoneSystem
             managers.Add(citizenManager);
             
             gameManager = MainManagerSingleton.Instance.GameManager;
-
+            
+            Save.OnSaveButtonClick.AddListener(SaveData);
+            Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
+            Load.OnLoadButtonClick.AddListener(LoadData);
+            
             BuildPreMainText();
         }
 
@@ -82,6 +102,16 @@ namespace MilestoneSystem
             if (CheckIfAchieved())
             {
                 isDone = true;
+                foreach (GameObject item in allItems)
+                {
+                    Destroy(item);
+                }
+                allItems.Clear();
+                foreach (GameObject item in allLabels)
+                {
+                    Destroy(item);
+                }
+                allLabels.Clear();
                 if (textIndex == 0) BuildPostMainText();
             }
         }
@@ -101,6 +131,41 @@ namespace MilestoneSystem
         
         #endregion
 
+        #region Save Load
+
+        private void SaveData()
+        {
+            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
+            data[0].isDone = isDone;
+            data[0].mileStonesDone = mileStonesDone;
+
+            Save.AutoSaveData(data, SaveName);
+        }
+    
+        private void SaveDataAs(string savePlace)
+        {
+            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
+            data[0].isDone = isDone;
+            data[0].mileStonesDone = mileStonesDone;
+        
+            Save.SaveDataAs(savePlace, data, SaveName);
+        }
+    
+        private void LoadData(string path)
+        {
+            path = Path.Combine(path, $"{SaveName}.dat");
+            if (!File.Exists(path)) return;
+            
+            MileStoneSystemSave[] data = Load.LoadData(path) as MileStoneSystemSave[];
+
+            // if (data == null) return;
+            
+            isDone = data[0].isDone;
+            mileStonesDone = data[0].mileStonesDone;
+        }
+
+        #endregion
+        
         #region Methods
         
         #region MainText
@@ -114,6 +179,7 @@ namespace MilestoneSystem
             if (textIndex < mileStones[mileStonesDone].MileStoneText.Length)
             {
                 onSideMenuShouldClose.Invoke();
+                // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
                 sideMenuPriorityButton.interactable = false;
@@ -141,6 +207,7 @@ namespace MilestoneSystem
             if (textIndex < mileStones[mileStonesDone].MileStoneAchievedText.Length)
             {
                 onSideMenuShouldClose.Invoke();
+                // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
                 sideMenuPriorityButton.interactable = false;
@@ -166,38 +233,67 @@ namespace MilestoneSystem
         /// </summary>
         private void BuildMenu()
         {
-            requiredStuffText.text = "";
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
+                GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
+                allLabels.Add(item);
+                item.transform.localScale = Vector3.one;
+                TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
+                text.text = "ToDos";
                 foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
                 {
                     foreach (MileStoneEvent mileStoneEvent in events)
                     {
                         if (mileStoneEvent.Name == requiredEvent)
                         {
-                            requiredStuffText.text += $"{mileStoneEvent.MenuText}\n\n";
+                            foreach (MileStoneEventItems eventItems in mileStoneEvent.Events)
+                            {
+                                item = Instantiate(itemPrefab, mileStonePanel.transform, true);
+                                allItems.Add(item);
+                                item.transform.localScale = Vector3.one;
+                                text = item.GetComponentInChildren<TextMeshProUGUI>();
+                                text.text = eventItems.text;
+                            }
                             mileStoneEvent.enabled = true;
                             mileStoneEvent.ResetAll();
                         }
                     }
                 }
+
+                menuWasBuild = true;
             }
 
             if (mileStones[mileStonesDone].RequiredResources.Length != 0)
             {
-                requiredStuffText.text += "\nRequired resources:";
+                GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
+                allLabels.Add(item);
+                item.transform.localScale = Vector3.one;
+                TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
+                text.text = "Required resources";
                 foreach (Resource requiredResource in mileStones[mileStonesDone].RequiredResources)
                 {
-                    requiredStuffText.text += $"\n{requiredResource.value} {requiredResource.resource}\n";
+                    item = Instantiate(itemPrefab, mileStonePanel.transform, true);
+                    allItems.Add(item);
+                    item.transform.localScale = Vector3.one;
+                    text = item.GetComponentInChildren<TextMeshProUGUI>();
+                    text.text += $"{requiredResource.value} {requiredResource.resource}";
                 }
             }
 
             if (mileStones[mileStonesDone].RequiredModules.Length != 0)
             {
-                requiredStuffText.text += "\nRequired modules:";
+                GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
+                allLabels.Add(item);
+                item.transform.localScale = Vector3.one;
+                TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
+                text.text = "Required modules";
                 foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
                 {
-                    requiredStuffText.text += $"\n{requiredModule.value} {requiredModule.buildingTypes}\n";
+                    item = Instantiate(itemPrefab, mileStonePanel.transform, true);
+                    allItems.Add(item);
+                    item.transform.localScale = Vector3.one;
+                    text = item.GetComponentInChildren<TextMeshProUGUI>();
+                    text.text += $"{requiredModule.value} {requiredModule.buildingTypes}";
                 }
             }
         }
@@ -212,7 +308,12 @@ namespace MilestoneSystem
         /// <returns>if all required things are achieved</returns>
         private bool CheckIfAchieved()
         {
+            if (!menuWasBuild)
+            {
+                return false;
+            }
             bool hasAllRequiredStuff = true;
+            int index = 0;
 
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
@@ -222,10 +323,17 @@ namespace MilestoneSystem
                     {
                         if (mileStoneEvent.Name == requiredEvent)
                         {
-                            if (!mileStoneEvent.CheckAchieved())
+                            if (!mileStoneEvent.CheckAchieved(index))
                             {
                                 hasAllRequiredStuff = false;
                             }
+                            else
+                            {
+                                Toggle toggle = allItems[index].GetComponentInChildren<Toggle>();
+                                toggle.isOn = true;
+                            }
+
+                            index++;
                         }
                     }
                 }
@@ -237,7 +345,17 @@ namespace MilestoneSystem
                 {
                     if (requiredResource.resource == manager.ResourceType)
                     {
-                        if (manager.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
+                        if (manager.SavedResourceValue < requiredResource.value)
+                        {
+                            hasAllRequiredStuff = false;
+                        }
+                        else
+                        {
+                            Toggle toggle = allItems[index].GetComponentInChildren<Toggle>();
+                            toggle.isOn = true;
+                        }
+
+                        index++;
                     }
                 }
                 
@@ -263,8 +381,17 @@ namespace MilestoneSystem
 
             foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
             {
-                if (gameManager.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value) 
+                if (gameManager.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                {
                     hasAllRequiredStuff = false;
+                }
+                else
+                {
+                    Toggle toggle = allItems[index].gameObject.GetComponentInChildren<Toggle>();
+                    toggle.isOn = true;
+                }
+
+                index++;
 
                 // switch (requiredModule.buildingTypes)
                 // {
@@ -303,7 +430,7 @@ namespace MilestoneSystem
                 // }
             }
 
-            if (hasAllRequiredStuff)
+            if (!hasAllRequiredStuff) return false;
             {
                 foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
                 {
@@ -348,7 +475,7 @@ namespace MilestoneSystem
                 }
             }
 
-            return hasAllRequiredStuff;
+            return true;
         }
         
         #endregion

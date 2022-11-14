@@ -18,7 +18,15 @@ namespace ResourceManagement
         #region Methods
 
         protected abstract void InvokeCalculation();
+        
+        /// <summary>
+        /// Calculation of currentResourceSurplus
+        /// </summary>
         protected abstract void CalculateCurrentResourceSurplus();
+        
+        /// <summary>
+        /// Calculation of SavedResourceValue every 0.5 seconds
+        /// </summary>
         protected abstract void CalculateSavedResourceValue();
 
         #endregion

@@ -1,3 +1,6 @@
+using System;
+using SaveSystem;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace SolarSystem
@@ -21,6 +24,11 @@ namespace SolarSystem
         public bool rotateClockwise;
 
         private float timer = 0;
+
+        private void Start()
+        {
+            OrbitingSave.Planets.Add(this.GameObject());
+        }
 
         private void Update()
         {
