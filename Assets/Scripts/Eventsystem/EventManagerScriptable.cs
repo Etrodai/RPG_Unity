@@ -24,10 +24,11 @@ namespace Eventsystem
         [SerializeField] private List<EventScriptableObject> availableEvents = new List<EventScriptableObject>();
         private Queue<EventScriptableObject> usedEvents = new Queue<EventScriptableObject>();
         private EventScriptableObject activeEvent;
+        public EventScriptableObject ActiveEvent => activeEvent;
         [SerializeField] private EventBehaviourScriptable eventBehaviour;
         private const int resetEvents = 0;
         private Action resetEventTimer;
-        private const string SaveName = "EventManager";
+        public Action ResetEventTimer => resetEventTimer;
 
 
         //Timer related variables
