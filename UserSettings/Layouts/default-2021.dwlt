@@ -19,11 +19,15 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
+<<<<<<< HEAD
 <<<<<<< refs/remotes/origin/MergeBranch
   m_Title: Hierarchy
 =======
   m_Title: Scene
 >>>>>>> Minor Meta changes and re-adding get property to eventmanager
+=======
+  m_Title: Scene
+>>>>>>> EricAfterMerge
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -70,6 +74,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1531
     y: 0
+<<<<<<< HEAD
 <<<<<<< refs/remotes/origin/MergeBranch
     width: 298.66675
     height: 1299.3334
@@ -78,6 +83,8 @@ MonoBehaviour:
   vertical: 1
   controlID: 25
 =======
+=======
+>>>>>>> EricAfterMerge
     width: 389
     height: 947
   m_MinSize: {x: 276, y: 71}
@@ -87,7 +94,10 @@ MonoBehaviour:
   - {fileID: 14}
   m_Selected: 0
   m_LastSelected: 0
+<<<<<<< HEAD
 >>>>>>> Minor Meta changes and re-adding get property to eventmanager
+=======
+>>>>>>> EricAfterMerge
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -129,6 +139,7 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
+<<<<<<< HEAD
 <<<<<<< refs/remotes/origin/MergeBranch
     x: 1590
     y: 0
@@ -139,6 +150,8 @@ MonoBehaviour:
   vertical: 1
   controlID: 140
 =======
+=======
+>>>>>>> EricAfterMerge
     x: 0
     y: 573
     width: 1531
@@ -151,7 +164,10 @@ MonoBehaviour:
   - {fileID: 18}
   m_Selected: 1
   m_LastSelected: 0
+<<<<<<< HEAD
 >>>>>>> Minor Meta changes and re-adding get property to eventmanager
+=======
+>>>>>>> EricAfterMerge
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -214,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 <<<<<<< refs/remotes/origin/MergeBranch
   m_Children:
   - {fileID: 13}
@@ -244,6 +261,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 =======
 >>>>>>> Minor Meta changes and re-adding get property to eventmanager
+=======
+>>>>>>> EricAfterMerge
   m_Children: []
   m_Position:
     serializedVersion: 2
@@ -315,6 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 <<<<<<< refs/remotes/origin/MergeBranch
   m_MinSize: {x: 300, y: 360}
   m_MaxSize: {x: 4000, y: 4000}
@@ -480,6 +500,8 @@ MonoBehaviour:
   m_WindowGUID: 78145eea3956e2b4880ade1aed327347
 --- !u!114 &19
 =======
+=======
+>>>>>>> EricAfterMerge
   m_Children: []
   m_Position:
     serializedVersion: 2
@@ -497,7 +519,10 @@ MonoBehaviour:
   m_Selected: 0
   m_LastSelected: 1
 --- !u!114 &12
+<<<<<<< HEAD
 >>>>>>> Minor Meta changes and re-adding get property to eventmanager
+=======
+>>>>>>> EricAfterMerge
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -568,11 +593,15 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
+<<<<<<< HEAD
 <<<<<<< refs/remotes/origin/MergeBranch
     - Assets/Scripts/Eventsystem
 =======
     - Assets
 >>>>>>> Minor Meta changes and re-adding get property to eventmanager
+=======
+    - Assets
+>>>>>>> EricAfterMerge
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
@@ -585,6 +614,7 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
+<<<<<<< HEAD
 <<<<<<< refs/remotes/origin/MergeBranch
     m_SelectedIDs: d4760000
     m_LastClickedID: 30420
@@ -594,6 +624,11 @@ MonoBehaviour:
     m_LastClickedID: 33762
     m_ExpandedIDs: 00000000e283000000ca9a3b
 >>>>>>> Minor Meta changes and re-adding get property to eventmanager
+=======
+    m_SelectedIDs: e2830000
+    m_LastClickedID: 33762
+    m_ExpandedIDs: 00000000e283000000ca9a3b
+>>>>>>> EricAfterMerge
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -621,11 +656,15 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
 <<<<<<< refs/remotes/origin/MergeBranch
     m_ExpandedIDs: ffffffff0000000094710000ac7d0000ae7d0000b07d0000b27d0000b47d0000b67d0000b87d0000ba7d0000bc7d0000be7d0000c07d0000c27d0000c47d0000c67d0000ca7d0000cc7d0000ce7d0000d07d0000d27d0000d47d0000d67d0000d87d0000da7d0000dc7d0000de7d0000e07d0000847e0000
 =======
     m_ExpandedIDs: 00000000e2830000
 >>>>>>> Minor Meta changes and re-adding get property to eventmanager
+=======
+    m_ExpandedIDs: 00000000e2830000
+>>>>>>> EricAfterMerge
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
