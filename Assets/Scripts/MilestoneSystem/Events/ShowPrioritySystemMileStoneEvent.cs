@@ -32,8 +32,6 @@ namespace MilestoneSystem.Events
 
         #region Events
 
-        // TODO: (Robin) add these events to InputSystem
-
         public void ClickPriorityButton()
         {
             Events[0].isAchieved = true;

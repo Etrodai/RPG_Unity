@@ -64,12 +64,13 @@ namespace Eventsystem
         private void Start()
         {
             eventBehaviour.Initialize();
-            resetEventTimer += ResetTimerAndParticle;
             resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
+            timer = UnityEngine.Random.Range(setMinimumTimer, setMaximumTimer);
             resetEventTimer.Invoke();
+            resetEventTimer += ResetTimerAndParticle;
         }
 
         private void OnDestroy()

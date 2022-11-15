@@ -33,7 +33,10 @@ namespace PriorityListSystem
         
         public BuildingTypes Type { get; set; }
         
-        public ShowPrioritySystemMileStoneEvent MileStoneEvent { get; set; }
+        public ShowPrioritySystemMileStoneEvent MileStoneEvent
+        {
+            set => mileStoneEvent = value;
+        }
         
         #endregion
     

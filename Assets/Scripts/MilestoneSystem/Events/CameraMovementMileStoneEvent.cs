@@ -47,6 +47,7 @@ namespace MilestoneSystem.Events
         private void Move(InputAction.CallbackContext context)
         {
             Events[0].isAchieved = true;
+            playerInput.actions["ActivateCameraMovement"].performed -= Move;
             playerInput.actions["MoveXAxis"].performed -= Move;
             playerInput.actions["MoveYAxis"].performed -= Move;
         }
@@ -93,6 +94,7 @@ namespace MilestoneSystem.Events
         
         private void InitPlayerInput()
         {
+            playerInput.actions["ActivateCameraMovement"].performed += Move;
             playerInput.actions["MoveXAxis"].performed += Move;
             playerInput.actions["MoveYAxis"].performed += Move;
             playerInput.actions["RotateXAxis"].performed += Rotate;

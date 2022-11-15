@@ -4,6 +4,7 @@ using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using SaveSystem;
+using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -99,21 +100,21 @@ namespace MilestoneSystem
         /// </summary>
         private void Update()
         {
-            if (CheckIfAchieved())
+            if (Time.timeScale == 0) return;
+            if (!CheckIfAchieved()) return;
+            
+            isDone = true;
+            foreach (GameObject item in allItems)
             {
-                isDone = true;
-                foreach (GameObject item in allItems)
-                {
-                    Destroy(item);
-                }
-                allItems.Clear();
-                foreach (GameObject item in allLabels)
-                {
-                    Destroy(item);
-                }
-                allLabels.Clear();
-                if (textIndex == 0) BuildPostMainText();
+                Destroy(item);
             }
+            allItems.Clear();
+            foreach (GameObject item in allLabels)
+            {
+                Destroy(item);
+            }
+            allLabels.Clear();
+            if (textIndex == 0) BuildPostMainText();
         }
         
         #endregion
@@ -301,17 +302,15 @@ namespace MilestoneSystem
         #endregion
 
         #region CheckIfAchieved
-        
+
         /// <summary>
         /// checks if all required events, resources and buildings are achieved
         /// </summary>
         /// <returns>if all required things are achieved</returns>
         private bool CheckIfAchieved()
         {
-            if (!menuWasBuild)
-            {
-                return false;
-            }
+            if (!menuWasBuild) return false;
+
             bool hasAllRequiredStuff = true;
             int index = 0;
 
@@ -321,16 +320,25 @@ namespace MilestoneSystem
                 {
                     foreach (MileStoneEvent mileStoneEvent in events)
                     {
-                        if (mileStoneEvent.Name == requiredEvent)
+                        if (mileStoneEvent.Name != requiredEvent) continue;
+
+                        foreach (var mileStoneEventItem in mileStoneEvent.Events)
                         {
+                            Toggle toggle =
+                                allItems[index]
+                                    .GetComponentInChildren<
+                                        Toggle>(); //TODO: (Robin) Toggle immer bei neuen Items zwischenspeichern?
+                            if (toggle.isOn) continue;
+
                             if (!mileStoneEvent.CheckAchieved(index))
                             {
+                                toggle.isOn = false;
                                 hasAllRequiredStuff = false;
                             }
                             else
                             {
-                                Toggle toggle = allItems[index].GetComponentInChildren<Toggle>();
                                 toggle.isOn = true;
+                                SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
                             }
 
                             index++;
@@ -345,20 +353,25 @@ namespace MilestoneSystem
                 {
                     if (requiredResource.resource == manager.ResourceType)
                     {
+                        Toggle toggle = allItems[index].GetComponentInChildren<Toggle>();
                         if (manager.SavedResourceValue < requiredResource.value)
                         {
+                            toggle.isOn = false;
                             hasAllRequiredStuff = false;
                         }
                         else
                         {
-                            Toggle toggle = allItems[index].GetComponentInChildren<Toggle>();
-                            toggle.isOn = true;
+                            if (!toggle.isOn)
+                            {
+                                toggle.isOn = true;
+                                SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
+                            }
                         }
 
                         index++;
                     }
                 }
-                
+
                 // switch (requiredResource.resource)
                 // {
                 //     case ResourceTypes.Material:
@@ -381,14 +394,18 @@ namespace MilestoneSystem
 
             foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
             {
+                Toggle toggle = allItems[index].gameObject.GetComponentInChildren<Toggle>();
+                if (toggle.isOn) continue;
+
                 if (gameManager.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
                 {
+                    toggle.isOn = false;
                     hasAllRequiredStuff = false;
                 }
                 else
                 {
-                    Toggle toggle = allItems[index].gameObject.GetComponentInChildren<Toggle>();
                     toggle.isOn = true;
+                    SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
                 }
 
                 index++;
@@ -431,53 +448,52 @@ namespace MilestoneSystem
             }
 
             if (!hasAllRequiredStuff) return false;
+
+            foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
             {
-                foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
+                foreach (MileStoneEvent mileStoneEvent in events)
                 {
-                    foreach (MileStoneEvent mileStoneEvent in events)
+                    if (mileStoneEvent.Name == requiredEvent)
                     {
-                        if (mileStoneEvent.Name == requiredEvent)
-                        {
-                            mileStoneEvent.enabled = false;
-                        }
+                        mileStoneEvent.enabled = false;
                     }
-                    
-                    // switch (requiredEvent)
-                    // {
-                    //     case MileStoneEventNames.CameraMovement:
-                    //         foreach (MileStoneEvent jtem in events)
-                    //         {
-                    //             if (jtem.Name == MileStoneEventNames.CameraMovement)
-                    //             {
-                    //                 jtem.enabled = false;
-                    //             }
-                    //         }
-                    //         break;
-                    //     case MileStoneEventNames.ShowPrioritySystem:
-                    //         foreach (MileStoneEvent jtem in events)
-                    //         {
-                    //             if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
-                    //             {
-                    //                 jtem.enabled = false;
-                    //             }
-                    //         }
-                    //         break;
-                    //     case MileStoneEventNames.WaitForSeconds:
-                    //         foreach (MileStoneEvent jtem in events)
-                    //         {
-                    //             if (jtem.Name == MileStoneEventNames.WaitForSeconds)
-                    //             {
-                    //                 jtem.enabled = false;
-                    //             }
-                    //         }
-                    //         break;
-                    // }
                 }
+
+                // switch (requiredEvent)
+                // {
+                //     case MileStoneEventNames.CameraMovement:
+                //         foreach (MileStoneEvent jtem in events)
+                //         {
+                //             if (jtem.Name == MileStoneEventNames.CameraMovement)
+                //             {
+                //                 jtem.enabled = false;
+                //             }
+                //         }
+                //         break;
+                //     case MileStoneEventNames.ShowPrioritySystem:
+                //         foreach (MileStoneEvent jtem in events)
+                //         {
+                //             if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
+                //             {
+                //                 jtem.enabled = false;
+                //             }
+                //         }
+                //         break;
+                //     case MileStoneEventNames.WaitForSeconds:
+                //         foreach (MileStoneEvent jtem in events)
+                //         {
+                //             if (jtem.Name == MileStoneEventNames.WaitForSeconds)
+                //             {
+                //                 jtem.enabled = false;
+                //             }
+                //         }
+                //         break;
+                // }
             }
 
             return true;
         }
-        
+
         #endregion
 
         #endregion
