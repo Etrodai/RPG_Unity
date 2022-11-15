@@ -44,17 +44,11 @@ namespace Eventsystem
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
 
+        private const string SaveName = "EventManager";
+
         //Particle System variables
         private List<GameObject> eventParticles = new List<GameObject>();
         public List<GameObject> EventParticles => eventParticles;
-
-        public Action ResetEventTimer
-        {
-            get => resetEventTimer;
-            set => resetEventTimer = value;
-        }
-
-        public EventScriptableObject ActiveEvent => activeEvent;
 
         private void Awake()
         {
