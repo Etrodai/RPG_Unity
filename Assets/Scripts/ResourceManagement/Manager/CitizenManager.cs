@@ -53,10 +53,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-
                 currentResourceSurplus = value;
                 onCitizenSurplusChanged?.Invoke();
-                // Debug.Log("onCitizenSurplusChanged?.Invoke()");
             } 
         }
         
@@ -70,10 +68,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceProduction == value) return;
-
                 currentResourceProduction = value;
                 onCitizenProductionChanged?.Invoke();
-                // Debug.Log("onCitizenProductionChanged?.Invoke()");
             } 
         }
         
@@ -92,7 +88,6 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-
                 savedResourceValue = value;
                 onCitizenSavedValueChanged?.Invoke();
                 Debug.Log("onCitizenSavedValueChanged?.Invoke()");
@@ -112,7 +107,6 @@ namespace ResourceManagement.Manager
 
                 saveSpace = value;
                 onCitizenSaveSpaceChanged?.Invoke();
-                // Debug.Log("onCitizenSaveSpaceChanged?.Invoke()");
             } 
         }
         

@@ -23,7 +23,8 @@ MonoBehaviour:
   requiredEvent: 
   requiredResources:
   - resource: 0
-    value: 10
+    value: 15
+    eventResourceDemandValue: 0
   requiredModules:
   - buildingTypes: 7
     value: 1

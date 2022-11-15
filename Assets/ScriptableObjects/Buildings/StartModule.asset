@@ -14,32 +14,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   costs:
   - resource: 0
-    value: -50
+    value: -20
+    eventResourceDemandValue: 0
   - resource: 2
     value: -10
+    eventResourceDemandValue: 0
   - resource: 3
     value: -10
+    eventResourceDemandValue: 0
   - resource: 4
     value: -10
+    eventResourceDemandValue: 0
   requiredSpace: {x: 2, y: 2, z: 2}
   consumption: []
   production:
   - resource: 1
-    value: 20
+    value: 50
+    eventResourceDemandValue: 0
   - resource: 3
-    value: 10
+    value: 15
+    eventResourceDemandValue: 0
   - resource: 4
     value: 15
+    eventResourceDemandValue: 0
   - resource: 0
     value: 2
+    eventResourceDemandValue: 0
   saveSpace:
   - resource: 0
-    value: 50
+    value: 20
+    eventResourceDemandValue: 0
   - resource: 1
-    value: 75
+    value: 100
+    eventResourceDemandValue: 0
   - resource: 2
     value: 10
+    eventResourceDemandValue: 0
   - resource: 3
-    value: 30
+    value: 15
+    eventResourceDemandValue: 0
   - resource: 4
-    value: 30
+    value: 15
+    eventResourceDemandValue: 0

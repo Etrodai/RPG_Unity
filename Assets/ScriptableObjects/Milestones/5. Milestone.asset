@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: 5. Milestone
   m_EditorClassIdentifier: 
   mileStoneText:
-  - 5. MilestoneText, Element 0
+  - Bauen Sie ihre Station weiter aus, bis sie aus 8 Modulen besteht.
   requiredEvent: 
   requiredResources: []
   requiredModules:
+  - buildingTypes: 6
+    value: 1
   - buildingTypes: 8
     value: 8
-  mileStoneAchievedText:
-  - 5. MilestoneAchievedText, Element 0
+  mileStoneAchievedText: []

@@ -16,15 +16,13 @@ MonoBehaviour:
   - "Commander,\r\n\r\nWillkommen auf der Icarus. Diese Station stellt einen weiteren
     Schritt der Menschheit in der Besiedelung des Weltraums dar. Ihnen wird die Verantwortung
     \xFCber dieses Projekt \xFCbertragen. Wir vertrauen Ihren F\xE4higkeiten das
-    Sie die Icarus in einen Wohn- und Arbeitsraum f\xFCr die neue Generation ausbauen.\v\vUnseren
-    Berechnungen zufolge befinden Sie sich im Umfeld von Asteroidenfeldern welche
-    nach ersten Scans reichhaltig an Erzen und Mineralien sind. Diese Rohstoffe sind
-    essenziell f\xFCr den Fortbestand der Menschheit. Wir verfolgen Ihren Fortschritt
+    Sie die Icarus in einen Wohn- und Arbeitsraum f\xFCr die neue Generation ausbauen."
+  - "\v\vUnseren Berechnungen zufolge befinden Sie sich im Umfeld von Asteroidenfeldern
+    welche nach ersten Scans reichhaltig an Erzen und Mineralien sind. Diese Rohstoffe
+    sind essenziell f\xFCr den Fortbestand der Menschheit. Wir verfolgen Ihren Fortschritt
     und erwarten Zwischenbericht.\vDoch machen Sie sich erst einmal mit der Station
     vertraut. Die Sterne warten.\r\n\r\nGez. \r\nRat der vereinten Nationen"
   requiredEvent: 02000000
   requiredResources: []
-  requiredModules:
-  - buildingTypes: 0
-    value: 1
+  requiredModules: []
   mileStoneAchievedText: []

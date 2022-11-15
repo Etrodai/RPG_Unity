@@ -41,10 +41,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-                
                 currentResourceSurplus = value;
                 onEnergySurplusChanged?.Invoke();
-                // Debug.Log("onEnergySurplusChanged?.Invoke()");
             } 
         }
         
@@ -61,10 +59,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-
                 savedResourceValue = value;
                 onEnergySavedValueChanged?.Invoke();
-                // Debug.Log("onEnergySavedValueChanged?.Invoke()");
             } 
         }
         
@@ -77,10 +73,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (saveSpace == value) return;
-
                 saveSpace = value;
                 onEnergySaveSpaceChanged?.Invoke();
-                // Debug.Log("onEnergySaveSpaceChanged?.Invoke()");
             } 
         }
         

@@ -47,10 +47,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-
-                onWaterSurplusChanged?.Invoke();
-                // Debug.Log("onWaterSurplusChanged?.Invoke()");
                 currentResourceSurplus = value;
+                onWaterSurplusChanged?.Invoke();
             }
         }
         
@@ -67,10 +65,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-
-                onWaterSavedValueChanged?.Invoke();
-                // Debug.Log("onWaterSavedValueChanged?.Invoke()");
                 savedResourceValue = value;
+                onWaterSavedValueChanged?.Invoke();
             }
         }
         
@@ -83,10 +79,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (saveSpace == value) return;
-
-                onWaterSaveSpaceChanged?.Invoke();
-                // Debug.Log("onWaterSaveSpaceChanged?.Invoke()");
                 saveSpace = value;
+                onWaterSaveSpaceChanged?.Invoke();
             }
         }
         public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Water;

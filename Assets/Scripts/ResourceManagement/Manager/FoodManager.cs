@@ -39,10 +39,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-                
                 currentResourceSurplus = value;
                 onFoodSurplusChanged?.Invoke();
-                // Debug.Log("onFoodSurplusChanged?.Invoke()");
             } 
         }
         
@@ -59,10 +57,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-                
                 savedResourceValue = value;
                 onFoodSavedValueChanged?.Invoke();
-                // Debug.Log("onFoodSavedValueChanged?.Invoke()");
             } 
         }
         
@@ -75,10 +71,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (SaveSpace == value) return;
-                
                 saveSpace = value;
                 onFoodSaveSpaceChanged?.Invoke();
-                // Debug.Log("onFoodSaveSpaceChanged?.Invoke()");
             } 
         }
         

@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: EndMilestone
   m_EditorClassIdentifier: 
   mileStoneText:
-  - EndMilestoneText, Element 0
+  - "Ihre letzte Mission besteht darin, die Station weiter zu vergr\xF6\xDFern, sodass
+    ein Weiterbestehen der Menschheit gew\xE4hrleistet ist."
   requiredEvent: 
   requiredResources:
   - resource: 2
     value: 1000
+    eventResourceDemandValue: 0
   requiredModules:
   - buildingTypes: 4
     value: 15
@@ -28,4 +30,6 @@ MonoBehaviour:
   - buildingTypes: 8
     value: 100
   mileStoneAchievedText:
-  - EndMilestoneAchievedText, Element 0
+  - "Herzlichen Gl\xFCckwunsch. Sie haben die Station erfolgreich aufgebaut. Sie
+    k\xF6nnen sie gerne endlos weiterbauen, weitere Missionen werden Sie jedoch nicht
+    erhalten."

@@ -173,7 +173,9 @@ namespace Cameras
             playerInput.actions["MoveXAxis"].canceled -= MoveCameraXAxis;
             playerInput.actions["Zoom"].performed -= Zoom;
             playerInput.actions["RotateXAxis"].performed -= RotateXAxis;
-            playerInput.actions["RotateYAxis"].performed -= RotateYAxis;
+            playerInput.actions["RotateXAxis"].canceled -= RotateXAxis;
+            playerInput.actions["RotateYAxis"].performed -= RotateYAxis; 
+            playerInput.actions["RotateYAxis"].canceled -= RotateYAxis;
             playerInputHasBeenInit = false;
         }
 
@@ -194,7 +196,9 @@ namespace Cameras
             playerInput.actions["MoveXAxis"].canceled += MoveCameraXAxis;
             playerInput.actions["Zoom"].performed += Zoom;
             playerInput.actions["RotateXAxis"].performed += RotateXAxis;
+            playerInput.actions["RotateXAxis"].canceled += RotateXAxis;
             playerInput.actions["RotateYAxis"].performed += RotateYAxis;
+            playerInput.actions["RotateYAxis"].canceled += RotateYAxis;
             playerInputHasBeenInit = true;
         }
 
@@ -205,15 +209,17 @@ namespace Cameras
         /// <param name="context"></param>
         public void RotateXAxis(InputAction.CallbackContext context)
         {
-            float input = context.ReadValue<float>();
-            while (input != 0) //TODO: (Ben) Maybe Change to something better, while isnt needed
+            if (context.performed)
             {
+                float input = context.ReadValue<float>();
                 cmFreeLook.m_XAxis.m_InputAxisValue = input * RotationSensivity;
-                return;
             }
 
-            //For Resetting Momentum
-            cmFreeLook.m_XAxis.m_InputAxisValue = 0;
+            if (context.canceled)
+            {
+                //For Resetting Momentum
+                cmFreeLook.m_XAxis.m_InputAxisValue = 0;
+            }
         }
 
         /// <summary>
@@ -222,15 +228,17 @@ namespace Cameras
         /// <param name="context"></param>
         public void RotateYAxis(InputAction.CallbackContext context)
         {
-            float input = context.ReadValue<float>();
-            while (input != 0)
+            if (context.performed)
             {
+                float input = context.ReadValue<float>();
                 cmFreeLook.m_YAxis.m_InputAxisValue += input * RotationSensivity;
-                return;
             }
 
-            //For Resetting Momentum
-            cmFreeLook.m_YAxis.m_InputAxisValue = 0;
+            if (context.canceled)
+            {
+                //For Resetting Momentum
+                cmFreeLook.m_YAxis.m_InputAxisValue = 0;
+            }
         }
 
         /// <summary>

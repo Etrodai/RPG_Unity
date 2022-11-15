@@ -41,11 +41,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-                
-                onMaterialSurplusChanged?.Invoke();
-                // Debug.Log("onMaterialSurplusChanged?.Invoke()");
                 currentResourceSurplus = value;
-
+                onMaterialSurplusChanged?.Invoke();
             } 
         }
         
@@ -62,10 +59,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-                
-                onMaterialSavedValueChanged?.Invoke();
-                // Debug.Log("onMaterialSavedValueChanged?.Invoke()"); 
                 savedResourceValue = value;
+                onMaterialSavedValueChanged?.Invoke();
             } 
         }
         
@@ -78,10 +73,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (saveSpace == value) return;
-                
                 saveSpace = value;
                 onMaterialSaveSpaceChanged?.Invoke();
-                // Debug.Log("onMaterialSaveSpaceChanged?.Invoke()");
             } 
         }
         

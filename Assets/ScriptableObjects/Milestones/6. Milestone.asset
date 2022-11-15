@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: 6. Milestone
   m_EditorClassIdentifier: 
   mileStoneText:
-  - 6. MilestoneText, Element 0
+  - "Es sieht so aus als w\xE4re durch die Anzahl der Module eine Stromknappheit
+    entstanden. Sortieren Sie Ihre Priorit\xE4tenliste neu, solange Sie nicht \xFCber
+    gen\xFCgend Strom verf\xFCgen. Bauen Sie zudem eine neue Stromquelle und eine
+    Batterie um den neu erwirtschafteten Strom zu speichern."
   requiredEvent: 01000000
   requiredResources: []
   requiredModules:
@@ -22,4 +25,5 @@ MonoBehaviour:
   - buildingTypes: 4
     value: 1
   mileStoneAchievedText:
-  - 6. MilestoneAchievedText, Element 0
+  - "Sehr gut, Sie nun haben wir wieder gen\xFCgend Strom und alle Module laufen
+    wieder."

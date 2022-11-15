@@ -8,7 +8,8 @@ namespace MilestoneSystem.Events
     {
         #region Variables & Properties
 
-        private float timer = 10f;
+        [SerializeField] private float timerStart = 10f;
+        private float timer;
         public override MileStoneEventNames Name { get; set; }
         public override MileStoneEventItems[] Events { get; set; }
 
@@ -56,7 +57,7 @@ namespace MilestoneSystem.Events
         /// </summary>
         public override void ResetAll()
         {
-            timer = 10f;
+            timer = timerStart;
             Events[0].isAchieved = false;
         }
         
