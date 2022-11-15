@@ -21,7 +21,7 @@ namespace DebugMenus
         void Update()
         {
             time += Time.deltaTime;
-            timeText.text = time.ToString(CultureInfo.InvariantCulture);
+            timeText.text = time.ToString(CultureInfo.CurrentCulture);
         }
 
         #endregion

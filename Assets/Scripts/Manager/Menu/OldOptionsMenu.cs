@@ -118,14 +118,16 @@ public class OldOptionsMenu : MonoBehaviour
     private void OnDisable()
     {
         playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
+        playerInputHasBeenInit = false;
     }
     
     private void InitPlayerInput()
     {
         playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
+        playerInputHasBeenInit = true;
     }
 
-    public void EnableDisableMenu(InputAction.CallbackContext context)
+    private void EnableDisableMenu(InputAction.CallbackContext context)
     {
         if (gameObject.activeInHierarchy == true && context.performed)
         {

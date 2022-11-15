@@ -38,12 +38,15 @@ namespace Manager.Menu
         {
             if (playerInput == null) return;
             playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
+            playerInputHasBeenInit = false;
         }
         
         private void InitPlayerInput()
         {
             playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
+            playerInputHasBeenInit = true;
         }
+        
         public void EnableDisableMenu(InputAction.CallbackContext context)
         {
             if(escapeMenu.activeInHierarchy == false)

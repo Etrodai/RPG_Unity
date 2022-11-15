@@ -38,12 +38,14 @@ namespace UI.BuildMode
             if (playerInput == null) return;
             playerInput.actions["LeftClick"].performed -= LeftMouseButtonPressed;
             playerInput.actions["OpenBuildMenu"].performed -= RightMouseButtonPressed;
+            playerInputHasBeenInit = false;
         }
 
         private void InitPlayerInput()
         {
             playerInput.actions["LeftClick"].performed += LeftMouseButtonPressed;
             playerInput.actions["OpenBuildMenu"].performed += RightMouseButtonPressed;
+            playerInputHasBeenInit = true;
         }
 
         /// <summary>

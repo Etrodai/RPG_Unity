@@ -15,8 +15,7 @@ namespace MilestoneSystem.Events
 
         //Input
         [SerializeField] private PlayerInput playerInput;
-        private bool playerInputHasBeenInit;
-        
+
         public override MileStoneEventNames Name { get; set; }
         public override MileStoneEventItems[] Events { get; set; }
 

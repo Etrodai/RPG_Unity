@@ -131,11 +131,13 @@ namespace Eventsystem
         {
             playerInput.actions["LeftClick"].performed -= EventBehaviour;
             eventManager.ResetEventTimer?.Invoke();                         //calls an Action in EventManagerScriptable to reset and start the event timer there
+            playerInputHasBeenInit = false;
         }
         
         private void InitPlayerInput()
         {
             playerInput.actions["LeftClick"].performed += EventBehaviour;
+            playerInputHasBeenInit = true;
         }
         
         /// <summary>

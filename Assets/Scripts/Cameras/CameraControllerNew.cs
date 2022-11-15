@@ -174,6 +174,7 @@ namespace Cameras
             playerInput.actions["Zoom"].performed -= Zoom;
             playerInput.actions["RotateXAxis"].performed -= RotateXAxis;
             playerInput.actions["RotateYAxis"].performed -= RotateYAxis;
+            playerInputHasBeenInit = false;
         }
 
         #endregion
@@ -194,6 +195,7 @@ namespace Cameras
             playerInput.actions["Zoom"].performed += Zoom;
             playerInput.actions["RotateXAxis"].performed += RotateXAxis;
             playerInput.actions["RotateYAxis"].performed += RotateYAxis;
+            playerInputHasBeenInit = true;
         }
 
         //Keyboard Button Movement
