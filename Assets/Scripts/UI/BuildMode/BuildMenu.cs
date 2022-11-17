@@ -54,6 +54,7 @@ namespace UI.BuildMode
         public void RightMouseButtonPressed(InputAction.CallbackContext context)
         {
             CheckIfBlueprintObjectExists();
+            if (buildmenuLayout == null) return;
             buildmenuLayout.SetActive(!buildmenuLayout.activeSelf);
 
             if (buildmenuLayout.activeSelf)
@@ -78,7 +79,8 @@ namespace UI.BuildMode
 
         public void LeftMouseButtonPressed(InputAction.CallbackContext context)
         {
-            if (!buildmenuLayout.activeSelf)
+            
+            if (buildmenuLayout == null || !buildmenuLayout.activeSelf)
                 return;
 
 

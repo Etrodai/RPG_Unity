@@ -17,6 +17,7 @@ namespace SaveSystem
         #region Variables & Properties
         
         public static List<GameObject> Planets { get; } = new();
+        private SaveData saveData;
 
         #endregion
 
@@ -24,6 +25,8 @@ namespace SaveSystem
 
         private void Start()
         {
+            Planets.Clear();
+            saveData = SaveSystem.SaveData.Instance;
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
@@ -40,7 +43,7 @@ namespace SaveSystem
 
         #region Save & Load
 
-        private void SaveData(SaveLoadInvoker invoker)
+        private void SaveData()
         {
             OrbitingData[] position = new OrbitingData[Planets.Count];
             for (int i = 0; i < Planets.Count; i++)
@@ -50,10 +53,10 @@ namespace SaveSystem
                 position[i].z = Planets[i].transform.position.z;
             }
 
-            invoker.GameSave.orbitingData = position;
+            saveData.GameSave.orbitingData = position;
         }
 
-        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
+        private void SaveDataAs(string savePlace)
         {
             OrbitingData[] position = new OrbitingData[Planets.Count];
             for (int i = 0; i < Planets.Count; i++)
@@ -63,7 +66,7 @@ namespace SaveSystem
                 position[i].z = Planets[i].transform.position.z;
             }
 
-            invoker.GameSave.orbitingData = position;
+            saveData.GameSave.orbitingData = position;
         }
 
         private void LoadData(GameSave gameSave)

@@ -9,9 +9,11 @@ namespace SaveSystem
     {
         private float[] managerData;
         private ResourceManager[] managers;
+        private SaveData saveData;
 
         private void Start()
         {
+            saveData = SaveSystem.SaveData.Instance;
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
@@ -24,7 +26,7 @@ namespace SaveSystem
             Load.OnLoadButtonClick.RemoveListener(LoadData);
         }
 
-        private void SaveData(SaveLoadInvoker invoker)
+        private void SaveData()
         {
             managers = new ResourceManager[5];
             managers[0] = MainManagerSingleton.Instance.CitizenManager;
@@ -38,11 +40,11 @@ namespace SaveSystem
                 managerData[i] = managers[i].SavedResourceValue;
             }
 
-            invoker.GameSave.managerData = managerData;
+            saveData.GameSave.managerData = managerData;
             // Save.AutoSaveData(managerData, SaveName);
         }
         
-        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
+        private void SaveDataAs(string savePlace)
         {
             managers = new ResourceManager[5];
             managers[0] = MainManagerSingleton.Instance.CitizenManager;
@@ -56,7 +58,7 @@ namespace SaveSystem
                 managerData[i] = managers[i].SavedResourceValue;
             }
 
-            invoker.GameSave.managerData = managerData;
+            saveData.GameSave.managerData = managerData;
             // Save.SaveDataAs(savePlace, managerData, SaveName);
         }
 

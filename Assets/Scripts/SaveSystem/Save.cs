@@ -10,8 +10,8 @@ namespace SaveSystem
 {
     public static class Save
     {
-        public static readonly UnityEvent<SaveLoadInvoker> OnSaveButtonClick = new();
-        public static readonly UnityEvent<string, SaveLoadInvoker> OnSaveAsButtonClick = new();
+        public static readonly UnityEvent OnSaveButtonClick = new();
+        public static readonly UnityEvent<string> OnSaveAsButtonClick = new();
         
         public static void AutoSaveData(GameSave data, string name)
         {

@@ -26,6 +26,7 @@ namespace PriorityListSystem
         private GameManager gameManager;
         private readonly List<PriorityListItem> items = new();
         [SerializeField] private ShowPrioritySystemMileStoneEvent mileStoneEvent;
+        private SaveData saveData;
 
         #endregion
 
@@ -50,6 +51,7 @@ namespace PriorityListSystem
         /// </summary>
         public void Instantiate()
         {
+            saveData = SaveSystem.SaveData.Instance;
             gameManager = MainManagerSingleton.Instance.GameManager;
             
             int priority = 0;
@@ -91,7 +93,7 @@ namespace PriorityListSystem
         
         #region Save Load
 
-        private void SaveData(SaveLoadInvoker invoker)
+        private void SaveData()
         {
             PriorityListItemSave[] data = new PriorityListItemSave[items.Count];
 
@@ -101,11 +103,11 @@ namespace PriorityListSystem
                 data[i].type = (int)items[i].Type;
             }
 
-            invoker.GameSave.priorityListData = data;
+            saveData.GameSave.priorityListData = data;
             // Save.AutoSaveData(data, SaveName);
         }
     
-        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
+        private void SaveDataAs(string savePlace)
         {
             PriorityListItemSave[] data = new PriorityListItemSave[items.Count];
 
@@ -115,7 +117,7 @@ namespace PriorityListSystem
                 data[i].type = (int)items[i].Type;
             }
 
-            invoker.GameSave.priorityListData = data;
+            saveData.GameSave.priorityListData = data;
             // Save.SaveDataAs(savePlace, data, SaveName);
         }
     

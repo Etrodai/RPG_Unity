@@ -54,6 +54,7 @@ namespace MilestoneSystem
 
         private bool menuWasBuild;
         private bool showText;
+        private SaveData saveData;
 
         #endregion
 
@@ -79,6 +80,7 @@ namespace MilestoneSystem
         /// </summary>
         private void Start()
         {
+            saveData = SaveSystem.SaveData.Instance;
             managers = new List<ResourceManager>();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
@@ -152,23 +154,23 @@ namespace MilestoneSystem
 
         #region Save Load
 
-        private void SaveData(SaveLoadInvoker invoker)
+        private void SaveData()
         {
             MileStoneSystemSave data;
             data.isDone = isDone;
             data.mileStonesDone = mileStonesDone;
 
-            invoker.GameSave.mileStoneData = data;
+            saveData.GameSave.mileStoneData = data;
             // Save.AutoSaveData(data, SaveName);
         }
     
-        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
+        private void SaveDataAs(string savePlace)
         {
             MileStoneSystemSave data;
             data.isDone = isDone;
             data.mileStonesDone = mileStonesDone;
 
-            invoker.GameSave.mileStoneData = data;
+            saveData.GameSave.mileStoneData = data;
             // Save.SaveDataAs(savePlace, data, SaveName);
         }
     

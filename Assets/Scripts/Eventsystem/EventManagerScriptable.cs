@@ -40,8 +40,15 @@ namespace Eventsystem
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
 
+        private SaveData saveData;
+
         //Particle System variables
         private List<GameObject> eventParticles = new();
+        
+        #endregion
+        
+        #region Properties
+        
         public List<GameObject> EventParticles => eventParticles;
 
         public Action ResetEventTimer
@@ -52,6 +59,10 @@ namespace Eventsystem
 
         public EventScriptableObject ActiveEvent => activeEvent;
 
+        #endregion
+
+        #region UnityEvents
+
         private void Awake()
         {
             UnityEngine.Random.InitState(DateTime.Now.Minute + DateTime.Now.Millisecond);
@@ -60,6 +71,7 @@ namespace Eventsystem
 
         private void Start()
         {
+            saveData = SaveSystem.SaveData.Instance;
             eventBehaviour.Initialize();
             resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
             Save.OnSaveButtonClick.AddListener(SaveData);
@@ -80,16 +92,16 @@ namespace Eventsystem
 
         #region Save Load
 
-        private void SaveData(SaveLoadInvoker invoker)
+        private void SaveData()
         {
             EventManagerSave data = new();
             data.timer = timer;
 
-            invoker.GameSave.eventData = data;
+            saveData.GameSave.eventData = data;
             // Save.AutoSaveData(data, SaveName);
         }
     
-        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
+        private void SaveDataAs(string savePlace)
         {
             EventManagerSave data = new();
             data.timer = timer;
@@ -99,21 +111,13 @@ namespace Eventsystem
                 data.usedEventTitles[i] = usedEventsArray[i].EventTitle;
             }
 
-            invoker.GameSave.eventData = data;
-            // Save.SaveDataAs(savePlace, data, SaveName);
+            saveData.GameSave.eventData = data;
         }
     
         private void LoadData(GameSave gameSave)
         {
-            // path = Path.Combine(path, $"{SaveName}.dat");
-            // if (!File.Exists(path)) return;
-            //
-            // EventManagerSave[] data = Load.LoadData(path) as EventManagerSave[];
-
             EventManagerSave data = gameSave.eventData;
-            
-            // if (data == null) return;
-            
+
             timer = data.timer;
 
             if (data.usedEventTitles == null) return;

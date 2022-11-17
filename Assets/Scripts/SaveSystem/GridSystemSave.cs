@@ -23,6 +23,7 @@ namespace SaveSystem
         private static List<GridSystemData> Data { get; } = new();
         private Gridsystem gridsystem;
         private Transform parent;
+        private SaveData saveData;
 
         #endregion
 
@@ -30,6 +31,7 @@ namespace SaveSystem
 
         private void Start()
         {
+            saveData = SaveSystem.SaveData.Instance;
             gridsystem = Gridsystem.Instance;
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
@@ -47,7 +49,7 @@ namespace SaveSystem
 
         #region Save & Load
 
-         private void SaveData(SaveLoadInvoker invoker)
+         private void SaveData()
         {
             for (int x = 0; x < gridsystem.TileArray.GetLength(0); x++)
             {
@@ -73,10 +75,10 @@ namespace SaveSystem
 
             if (Data.Count == 0) return;
 
-            invoker.GameSave.gridData = Data.ToArray();
+            saveData.GameSave.gridData = Data.ToArray();
         }
     
-        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
+        private void SaveDataAs(string savePlace)
         {
             for (int x = 0; x < gridsystem.TileArray.GetLength(0); x++)
             {
@@ -102,7 +104,7 @@ namespace SaveSystem
         
             if (Data.Count == 0) return;
             
-            invoker.GameSave.gridData = Data.ToArray();
+            saveData.GameSave.gridData = Data.ToArray();
         }
     
         private void LoadData(GameSave gameSave)
