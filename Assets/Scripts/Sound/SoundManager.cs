@@ -267,6 +267,4 @@ namespace Sound
        
         #endregion
     }
-
-
 }

@@ -21,10 +21,7 @@ MonoBehaviour:
     W\xE4hlen Sie das Modul Wohneinheit aus\r\n- Platzieren Sie das Modul an einen
     freien Slot an Ihrer Station"
   requiredEvent: 
-  requiredResources:
-  - resource: 0
-    value: 15
-    eventResourceDemandValue: 0
+  requiredResources: []
   requiredModules:
   - buildingTypes: 7
     value: 1

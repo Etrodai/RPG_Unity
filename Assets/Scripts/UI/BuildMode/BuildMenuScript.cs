@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Buildings;
 using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.BuildMode
@@ -12,6 +14,7 @@ namespace UI.BuildMode
     public struct Buttons
     {
         public Button button;
+        public EventTrigger trigger;
         public BuildingResourcesScriptableObject moduleToBuild;
     }
     
@@ -42,6 +45,11 @@ namespace UI.BuildMode
             {
                 Initialize();
                 isInitialized = true;
+            }
+            
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].trigger = buttons[i].button.GetComponent<EventTrigger>();
             }
             
             InvokeRepeating(nameof(UpdateButtons), 0, 0.5f);
@@ -92,6 +100,7 @@ namespace UI.BuildMode
                     }
                 }
                 button.button.interactable = activate;
+                button.trigger.enabled = activate;
             }
         }
 

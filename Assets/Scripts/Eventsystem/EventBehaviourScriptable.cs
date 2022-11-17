@@ -10,6 +10,8 @@ namespace Eventsystem
 {
     public class EventBehaviourScriptable : MonoBehaviour
     {
+        #region Variables
+        
         //EventBehaviour related variables
         private EventManagerScriptable eventManager;
         private ResourceManager multiResourceManager;
@@ -45,14 +47,9 @@ namespace Eventsystem
         [SerializeField] private PlayerInput playerInput;
         private bool playerInputHasBeenInit;
         
-        public void Initialize()
-        {
-            eventManager = MainManagerSingleton.Instance.EventManager;
-            eventUI.SetActive(false);
-            textIsActive = true;
-            textIndex = resetTextIndex;
-            // enabled = false;
-        }
+        #endregion
+
+        #region UnityEvents
         
         // private void Start()
         // {
@@ -133,6 +130,19 @@ namespace Eventsystem
             eventManager.ResetEventTimer?.Invoke();                         //calls an Action in EventManagerScriptable to reset and start the event timer there
             playerInputHasBeenInit = false;
         }
+
+        #endregion
+
+        #region Methods
+
+         public void Initialize()
+        {
+            eventManager = MainManagerSingleton.Instance.EventManager;
+            eventUI.SetActive(false);
+            textIsActive = true;
+            textIndex = resetTextIndex;
+            // enabled = false;
+        }
         
         private void InitPlayerInput()
         {
@@ -143,38 +153,36 @@ namespace Eventsystem
         /// <summary>
         /// Method to be called in Player Input Component, must be new script in order to only use it when an event was chosen and activated
         /// </summary>
-        public void EventBehaviour(InputAction.CallbackContext context)
+        private void EventBehaviour(InputAction.CallbackContext context)
         {
-            if (context.performed && enabled == true)
+            if (!context.performed || enabled != true) return;
+            
+            //Select next text of each text array
+            if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length)
             {
-                //Select next text of each text array
-                if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length)
-                {
-                    eventText.text = "";
-                    charTextIndex = resetTextIndex;
-                    textIndex++;
-                    buttonIsActive = true;
-                }
-
-                //Activation of the decision buttons and disabling the ability to continue the event texts by clicking
-                if (buttonIsActive && textIndex >= eventManager.ActiveEvent.EventText.Length - 1)
-                {
-                    decision1Button.SetActive(true);
-                    decision2Button.SetActive(true);
-                    decision1ButtonText.text = eventManager.ActiveEvent.Decisions[decision1Index].decisionButtonText;
-                    decision2ButtonText.text = eventManager.ActiveEvent.Decisions[decision2Index].decisionButtonText;
-                    textIsActive = false;
-                    buttonIsActive = false;
-                }
-
-                //Ends the event by disabling the script, thus triggering the end logic in OnDisable()
-                if (endOfEvent)
-                {
-                    eventUI.SetActive(false);
-                    endOfEvent = false;
-                    enabled = false;
-                } 
+                eventText.text = "";
+                charTextIndex = resetTextIndex;
+                textIndex++;
+                buttonIsActive = true;
             }
+
+            //Activation of the decision buttons and disabling the ability to continue the event texts by clicking
+            if (buttonIsActive && textIndex >= eventManager.ActiveEvent.EventText.Length - 1)
+            {
+                decision1Button.SetActive(true);
+                decision2Button.SetActive(true);
+                decision1ButtonText.text = eventManager.ActiveEvent.Decisions[decision1Index].decisionButtonText;
+                decision2ButtonText.text = eventManager.ActiveEvent.Decisions[decision2Index].decisionButtonText;
+                textIsActive = false;
+                buttonIsActive = false;
+            }
+
+            //Ends the event by disabling the script, thus triggering the end logic in OnDisable()
+            if (!endOfEvent) return;
+            
+            eventUI.SetActive(false);
+            endOfEvent = false;
+            enabled = false;
         }
 
         /// <summary>
@@ -204,8 +212,6 @@ namespace Eventsystem
                         break;
                     case ResourceTypes.Water:
                         multiResourceManager = MainManagerSingleton.Instance.GetComponent<WaterManager>();
-                        break;
-                    default:
                         break;
                 }
 
@@ -242,8 +248,6 @@ namespace Eventsystem
                     case ResourceTypes.Water:
                         multiResourceManager = MainManagerSingleton.Instance.GetComponent<WaterManager>();
                         break;
-                    default:
-                        break;
                 }
 
                 multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources[i].eventResourceDemandValue;
@@ -251,5 +255,6 @@ namespace Eventsystem
             endOfEvent = true;
         }
 
+        #endregion
     }
 }

@@ -82,6 +82,7 @@ namespace Manager.Menu
         public void OnMainMenuClick()
         {
             //Probably place where saving must take place
+            //is now assigned in Inspector
             SceneManager.LoadScene(mainMenuScene);
         }
 

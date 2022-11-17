@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using Buildings;
 using Manager;
 using ResourceManagement;
@@ -10,6 +8,7 @@ using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MilestoneSystem
@@ -46,7 +45,12 @@ namespace MilestoneSystem
         private GameManager gameManager;
         private List<ResourceManager> managers;
         [SerializeField] private Button sideMenuMileStoneButton;
+        private EventTrigger sideMenuMileStoneButtonTrigger;
         [SerializeField] private Button sideMenuPriorityButton;
+        private EventTrigger sideMenuPriorityButtonTrigger;
+
+        private float timer;
+        [SerializeField] private float maxTimer = 0.5f;
 
         private bool menuWasBuild;
         private bool showText;
@@ -92,8 +96,11 @@ namespace MilestoneSystem
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
-            
+            sideMenuPriorityButtonTrigger = sideMenuPriorityButton.GetComponent<EventTrigger>();
+            sideMenuMileStoneButtonTrigger = sideMenuMileStoneButton.GetComponent<EventTrigger>();
             BuildPreMainText();
+
+            timer = maxTimer;
         }
 
         /// <summary>
@@ -102,6 +109,10 @@ namespace MilestoneSystem
         /// </summary>
         private void Update()
         {
+            timer -= Time.deltaTime;
+            
+            if (!(timer < 0)) return;
+            timer = maxTimer;
             if (Time.timeScale == 0) return;
             if (!CheckIfAchieved()) return;
             
@@ -116,7 +127,14 @@ namespace MilestoneSystem
             
             if (textIndex == 0) BuildPostMainText();
         }
-        
+
+        private void OnDestroy()
+        {
+            Save.OnSaveButtonClick.RemoveListener(SaveData);
+            Save.OnSaveAsButtonClick.RemoveListener(SaveDataAs);
+            Load.OnLoadButtonClick.RemoveListener(LoadData);
+        }
+
         #endregion
 
         #region ClickEvents
@@ -187,7 +205,10 @@ namespace MilestoneSystem
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
+                sideMenuMileStoneButtonTrigger.enabled = false;
                 sideMenuPriorityButton.interactable = false;
+                sideMenuPriorityButtonTrigger.enabled = false;
+
                 Time.timeScale = 0;
                 mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
                 textIndex++;
@@ -196,7 +217,9 @@ namespace MilestoneSystem
             {
                 mainText.SetActive(false);
                 sideMenuMileStoneButton.interactable = true;
+                sideMenuMileStoneButtonTrigger.enabled = true;
                 sideMenuPriorityButton.interactable = true;
+                sideMenuPriorityButtonTrigger.enabled = true;
                 BuildMenu();
                 Time.timeScale = 1;
                 textIndex = 0;
@@ -215,7 +238,9 @@ namespace MilestoneSystem
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
+                sideMenuMileStoneButtonTrigger.enabled = true;
                 sideMenuPriorityButton.interactable = false;
+                sideMenuPriorityButtonTrigger.enabled = false;
                 Time.timeScale = 0;
                 mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
                 textIndex++;
@@ -236,7 +261,7 @@ namespace MilestoneSystem
         /// <summary>
         /// when a Milestone is achieved it builds a new MilestoneMenu
         /// </summary>
-        private void BuildMenu()
+        private void BuildMenu() // TODO: (Robin) Viele getComponents, evtl iwo zwischenspeichern?
         {
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
@@ -396,7 +421,7 @@ namespace MilestoneSystem
                     {
                         if (mileStoneEvent.Name != requiredEvent) continue;
 
-                        foreach (MileStoneEventItems mileStoneEventItem in mileStoneEvent.Events)
+                        for (int i = 0; i < mileStoneEvent.Events.Length; i++)
                         {
                             if (!showText)
                             {

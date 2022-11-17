@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Buildings;
@@ -19,9 +20,9 @@ namespace SaveSystem
     {
         #region Variables
 
-        private static List<GridSystemData> data { get; } = new();
+        private static List<GridSystemData> Data { get; } = new();
         private Gridsystem gridsystem;
-        [SerializeField] private Transform parent;
+        private Transform parent;
 
         #endregion
 
@@ -33,6 +34,13 @@ namespace SaveSystem
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
+        }
+
+        private void OnDestroy()
+        {
+            Save.OnSaveButtonClick.RemoveListener(SaveData);
+            Save.OnSaveAsButtonClick.RemoveListener(SaveDataAs);
+            Load.OnLoadButtonClick.RemoveListener(LoadData);
         }
 
         #endregion
@@ -58,15 +66,14 @@ namespace SaveSystem
                             buildingData = gridsystem.TileArray[x, y, z].Module.GetComponent<Building>().SaveBuildingData()
                         };
 
-                        data.Add(gridData);
+                        Data.Add(gridData);
                     }
                 }
             }
 
-            if (data.Count == 0) return;
+            if (Data.Count == 0) return;
 
-            invoker.GameSave.gridData = data.ToArray();
-            // Save.AutoSaveData(data, SaveName);
+            invoker.GameSave.gridData = Data.ToArray();
         }
     
         private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
@@ -88,30 +95,24 @@ namespace SaveSystem
                             buildingData = gridsystem.TileArray[x, y, z].Module.GetComponent<Building>().SaveBuildingData()
                         };
 
-                        data.Add(gridData);
+                        Data.Add(gridData);
                     }
                 }
             }
         
-            if (data.Count == 0) return;
+            if (Data.Count == 0) return;
             
-            invoker.GameSave.gridData = data.ToArray();
-            // Save.SaveDataAs(savePlace, data, SaveName);
+            invoker.GameSave.gridData = Data.ToArray();
         }
     
         private void LoadData(GameSave gameSave)
         {
-            // path = Path.Combine(path, $"{SaveName}.dat");
-            // if (!File.Exists(path)) return;
-            //
-            // GridSystemData[] gridData = Load.LoadData(path) as GridSystemData[];
-
             GridSystemData[] gridData = gameSave.gridData;
             Vector3 offSetVector = new Vector3(Mathf.Floor(gridsystem.TileArray.GetLength(0) / 2), 
                                                Mathf.Floor(gridsystem.TileArray.GetLength(1) / 2),
                                                Mathf.Floor(gridsystem.TileArray.GetLength(2) / 2));
 
-            // if (gridData == null) return;
+            parent = gridsystem.CenterTile.transform;
             
             foreach (GridSystemData data in gridData)
             {
@@ -159,6 +160,7 @@ namespace SaveSystem
                 }
 
                 Building buildingScript = buildingGameObject.GetComponent<Building>();
+                buildingScript.IsLoading = true;
                 buildingScript.CurrentProductivity = data.buildingData.currentProductivity;
                 buildingScript.IsDisabled = data.buildingData.isDisabled;
                 gridsystem.TileArray[data.xIndex, data.yIndex, data.zIndex].HasModule = true;

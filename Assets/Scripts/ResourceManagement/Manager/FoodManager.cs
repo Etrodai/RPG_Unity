@@ -109,6 +109,13 @@ namespace ResourceManagement.Manager
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
         }
+        
+        private void OnDestroy()
+        {        
+            onFoodSurplusChanged.RemoveListener(ChangeUIText);
+            onFoodSavedValueChanged.RemoveListener(ChangeUIText);
+            onFoodSaveSpaceChanged.RemoveListener(ChangeUIText);
+        }
 
         #endregion
 

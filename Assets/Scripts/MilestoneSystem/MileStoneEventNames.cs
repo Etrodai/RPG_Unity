@@ -4,6 +4,8 @@ namespace MilestoneSystem
     {
         CameraMovement,
         ShowPrioritySystem,
-        WaitForSeconds
+        WaitForSeconds,
+        EnergyValueZero,
+        LifeSupportSurplusNegative
     }
 }

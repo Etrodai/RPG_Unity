@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,6 +29,13 @@ namespace SaveSystem
             Load.OnLoadButtonClick.AddListener(LoadData);
         }
 
+        private void OnDestroy()
+        {
+            Save.OnSaveButtonClick.RemoveListener(SaveData);
+            Save.OnSaveAsButtonClick.RemoveListener(SaveDataAs);
+            Load.OnLoadButtonClick.RemoveListener(LoadData);
+        }
+
         #endregion
 
         #region Save & Load
@@ -43,7 +51,6 @@ namespace SaveSystem
             }
 
             invoker.GameSave.orbitingData = position;
-            // Save.AutoSaveData(position, SaveName);
         }
 
         private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
@@ -57,20 +64,12 @@ namespace SaveSystem
             }
 
             invoker.GameSave.orbitingData = position;
-            // Save.SaveDataAs(savePlace, position, SaveName);
         }
 
         private void LoadData(GameSave gameSave)
         {
-            // path = Path.Combine(path, $"{SaveName}.dat");
-            // if (!File.Exists(path)) return;
-            //
-            // OrbitingData[] position = Load.LoadData(path) as OrbitingData[];
-
             OrbitingData[] position = gameSave.orbitingData;
 
-            // if (position == null) return;
-            
             for (int i = 0; i < Planets.Count; i++)
             {
                 Planets[i].transform.position = new Vector3(position[i].x, position[i].y, position[i].z);

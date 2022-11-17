@@ -1,3 +1,4 @@
+using System;
 using Manager;
 using TMPro;
 using UnityEngine;
@@ -111,6 +112,13 @@ namespace ResourceManagement.Manager
             gameManager = MainManagerSingleton.Instance.GameManager;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
+        }
+
+        private void OnDestroy()
+        {
+            onMaterialSurplusChanged.RemoveListener(ChangeUIText);
+            onMaterialSavedValueChanged.RemoveListener(ChangeUIText);
+            onMaterialSaveSpaceChanged.RemoveListener(ChangeUIText);
         }
 
         #endregion

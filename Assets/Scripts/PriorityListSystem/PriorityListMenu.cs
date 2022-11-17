@@ -28,6 +28,17 @@ namespace PriorityListSystem
         [SerializeField] private ShowPrioritySystemMileStoneEvent mileStoneEvent;
 
         #endregion
+
+        #region UnityEvents
+
+        private void OnDestroy()
+        {
+            Save.OnSaveButtonClick.RemoveListener(SaveData);
+            Save.OnSaveAsButtonClick.RemoveListener(SaveDataAs);
+            Load.OnLoadButtonClick.RemoveListener(LoadData);
+        }
+
+        #endregion
         
         #region Methods
         

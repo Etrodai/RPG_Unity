@@ -26,6 +26,13 @@ namespace SaveSystem
             Save.OnSaveButtonClick.AddListener(SaveGameData);
             Save.OnSaveAsButtonClick.AddListener(SaveGameDataAs);
         }
+        
+        private void OnDestroy()
+        {
+            Save.OnSaveButtonClick.RemoveListener(SaveGameData);
+            Save.OnSaveAsButtonClick.RemoveListener(SaveGameDataAs);
+        }
+
 
         private void SaveGameData(SaveLoadInvoker invoker)
         {
@@ -108,8 +115,9 @@ namespace SaveSystem
             AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
 
             // Wait until the level finish loading
-            while (asyncLoadLevel.isDone)
+            while (!asyncLoadLevel.isDone)
             {
+                Debug.Log("is not done");
                 yield return null;
             }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0031037796, g: 0.0027302653, b: 0.0033076513, a: 1}
+  m_IndirectSpecularColor: {r: 0.003103807, g: 0.0027302764, b: 0.0033076787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1127,6 +1127,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &290638394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7158588633197184991, guid: c4184ba17d8be0846903de10bea1f884,
+    type: 3}
+  m_PrefabInstance: {fileID: 1473481242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &365715882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1467,10 +1473,34 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1473481242}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 290638394}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c154260710efb940a555d3fafef269b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &403001726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290638394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c348d9e7b2f204a882c31b40a3add5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &403001727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290638394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f1b88d3dde62740b83e9ba7f50499b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &404239619 stripped
@@ -2498,22 +2528,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9816873
+      value: 0.9820182
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.1317441
+      value: 0.12921262
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.1373329
+      value: 0.13741273
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.008558446
+      value: -0.00788706
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -2779,7 +2809,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f562dcf3dcd9047a997f4e9e9f69c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 8406391516498353692, guid: 8006d72d56be99742b8f6291bdc331a9, type: 3}
 --- !u!1 &714475043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3074,11 +3103,11 @@ MonoBehaviour:
   surplusText: {fileID: 1875635612}
   savedResourceText: {fileID: 681689260}
   growTime: 10
-  waterConsumptionPerCitizen: 1
-  foodConsumptionPerCitizen: 1
+  waterConsumptionPerCitizen: 2
+  foodConsumptionPerCitizen: 2
   repeatRate: 0.5
   stepsToGrow: 5
-  sizeOfStepsToGrow: 5
+  sizeOfStepsToGrow: 10
 --- !u!114 &829820940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5302,6 +5331,47 @@ PrefabInstance:
       propertyPath: events.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: mileStones.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: mileStones.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a45775dbcb72b247917d40ac8d2f1ca,
+        type: 2}
+    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: mileStones.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: ee1350e3d770d3d4eb1aa2d5ee389489,
+        type: 2}
+    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: mileStones.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: ec6f857dffdbde24c9695327f44581ff,
+        type: 2}
+    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: mileStones.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: beebc64d89a585549921a052a5b7b69d,
+        type: 2}
+    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: mileStones.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e0a608542e27aa469273f4e1c6deec6,
+        type: 2}
+    - target: {fileID: 4364360903599020972, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: mileStones.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f1dc6ffbcfcc86499b2fbfe2eb71e10,
+        type: 2}
     - target: {fileID: 4376101565574613785, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -7115,6 +7185,41 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7975433927864553083, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975433927864553083, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975433927864553083, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 708372033}
+    - target: {fileID: 7975433927864553083, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975433927864553083, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnSaveButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975433927864553083, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SaveSystem.SaveLoadInvoker, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975433927864553083, guid: a5cf73ca99d1f544f93369825959f5e2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7975433927920439935, guid: a5cf73ca99d1f544f93369825959f5e2,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -8095,7 +8200,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1927761526
 RectTransform:
   m_ObjectHideFlags: 0

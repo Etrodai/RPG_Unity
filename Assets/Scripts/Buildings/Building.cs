@@ -35,7 +35,7 @@ namespace Buildings
         private GameManager gameManager;
         private List<ResourceManager> managers;
         private Building nullBuilding;
-        
+
         #endregion
 
         #region Events
@@ -87,6 +87,8 @@ namespace Buildings
             }
         }
         
+        public bool IsLoading { get; set; }
+
         #endregion
 
         #region UnityEvents
@@ -116,9 +118,9 @@ namespace Buildings
             managers.Add(citizenManager);
             gameManager = MainManagerSingleton.Instance.GameManager;
             nullBuilding = gameManager.NullBuilding;
-            
-            BuildModule();
-            
+
+            if (!IsLoading) BuildModule();
+
             EnableModule(CurrentProductivity, false);
             foreach (PriorityListItem item in gameManager.PriorityListItems)
             {

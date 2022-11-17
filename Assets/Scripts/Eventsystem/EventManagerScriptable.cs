@@ -20,8 +20,8 @@ namespace Eventsystem
         #region Variables
 
         //Event determination variables
-        [SerializeField] private List<EventScriptableObject> availableEvents = new List<EventScriptableObject>();
-        private Queue<EventScriptableObject> usedEvents = new Queue<EventScriptableObject>();
+        [SerializeField] private List<EventScriptableObject> availableEvents = new ();
+        private Queue<EventScriptableObject> usedEvents = new ();
         private EventScriptableObject activeEvent;
         [SerializeField] private EventBehaviourScriptable eventBehaviour;
         private const int resetEvents = 0;
@@ -116,6 +116,8 @@ namespace Eventsystem
             
             timer = data.timer;
 
+            if (data.usedEventTitles == null) return;
+            
             for (int i = 0; i < data.usedEventTitles.Length; i++)
             {
                 for (int j = 0; j < availableEvents.Count; j++)

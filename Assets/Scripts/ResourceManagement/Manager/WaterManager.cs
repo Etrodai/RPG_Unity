@@ -116,6 +116,13 @@ namespace ResourceManagement.Manager
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
         }
+        
+        private void OnDestroy()
+        {
+            onWaterSurplusChanged.RemoveListener(ChangeUIText);
+            onWaterSavedValueChanged.RemoveListener(ChangeUIText);
+            onWaterSaveSpaceChanged.RemoveListener(ChangeUIText);
+        }
 
         #endregion
 

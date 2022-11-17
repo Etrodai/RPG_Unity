@@ -15,7 +15,7 @@ namespace MilestoneSystem.Events
 
         #endregion
 
-        #region MyRegion
+        #region UnityEvents
 
         /// <summary>
         /// sets variables

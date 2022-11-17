@@ -1,3 +1,4 @@
+using System;
 using Buildings;
 using Manager;
 using MilestoneSystem.Events;
@@ -54,7 +55,12 @@ namespace PriorityListSystem
             int workingBuildingsCount = gameManager.GetWorkingBuildingCount(Type);
             workingBuildings.text = $"{workingBuildingsCount}/{allBuildingsCount}";
         }
-        
+
+        private void OnDestroy()
+        {
+            onChangePriorityUI.RemoveListener(ChangeUIText);
+        }
+
         #endregion
     
         #region OnClickEvents
