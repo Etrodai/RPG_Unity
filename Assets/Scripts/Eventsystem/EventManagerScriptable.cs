@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using SaveSystem;
 using Sound;
 using UnityEngine;
@@ -27,8 +26,6 @@ namespace Eventsystem
         [SerializeField] private EventBehaviourScriptable eventBehaviour;
         private const int resetEvents = 0;
         private Action resetEventTimer;
-        private const string SaveName = "EventManager";
-
 
         //Timer related variables
         private float timer;
@@ -44,7 +41,7 @@ namespace Eventsystem
         [SerializeField] private Button sideMenuPriorityButton;
 
         //Particle System variables
-        private List<GameObject> eventParticles = new List<GameObject>();
+        private List<GameObject> eventParticles = new();
         public List<GameObject> EventParticles => eventParticles;
 
         public Action ResetEventTimer
@@ -83,46 +80,47 @@ namespace Eventsystem
 
         #region Save Load
 
-        private void SaveData()
+        private void SaveData(SaveLoadInvoker invoker)
         {
-            EventManagerSave[] data = new EventManagerSave[1];
-            data[0] = new EventManagerSave();
-            data[0].timer = timer;
- 
+            EventManagerSave data = new();
+            data.timer = timer;
 
-            Save.AutoSaveData(data, SaveName);
+            invoker.GameSave.eventData = data;
+            // Save.AutoSaveData(data, SaveName);
         }
     
-        private void SaveDataAs(string savePlace)
+        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
         {
-            EventManagerSave[] data = new EventManagerSave[1];
-            data[0] = new EventManagerSave();
-            data[0].timer = timer;
+            EventManagerSave data = new();
+            data.timer = timer;
             EventScriptableObject[] usedEventsArray = usedEvents.ToArray();
             for (int i = 0; i < usedEventsArray.Length; i++)
             {
-                data[0].usedEventTitles[i] = usedEventsArray[i].EventTitle;
+                data.usedEventTitles[i] = usedEventsArray[i].EventTitle;
             }
 
-            Save.SaveDataAs(savePlace, data, SaveName);
+            invoker.GameSave.eventData = data;
+            // Save.SaveDataAs(savePlace, data, SaveName);
         }
     
-        private void LoadData(string path)
+        private void LoadData(GameSave gameSave)
         {
-            path = Path.Combine(path, $"{SaveName}.dat");
-            if (!File.Exists(path)) return;
-            
-            EventManagerSave[] data = Load.LoadData(path) as EventManagerSave[];
+            // path = Path.Combine(path, $"{SaveName}.dat");
+            // if (!File.Exists(path)) return;
+            //
+            // EventManagerSave[] data = Load.LoadData(path) as EventManagerSave[];
+
+            EventManagerSave data = gameSave.eventData;
             
             // if (data == null) return;
             
-            timer = data[0].timer;
+            timer = data.timer;
 
-            for (int i = 0; i < data[0].usedEventTitles.Length; i++)
+            for (int i = 0; i < data.usedEventTitles.Length; i++)
             {
                 for (int j = 0; j < availableEvents.Count; j++)
                 {
-                    if (availableEvents[j].EventTitle == data[0].usedEventTitles[i])
+                    if (availableEvents[j].EventTitle == data.usedEventTitles[i])
                     {
                         usedEvents.Enqueue(availableEvents[j]);             // does it work the right way? Or should it be from Length to 0??
                     }

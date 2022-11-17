@@ -47,7 +47,6 @@ namespace MilestoneSystem
         private List<ResourceManager> managers;
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
-        private const string SaveName = "MileStoneSystem";
 
         private bool menuWasBuild;
         private bool showText;
@@ -135,35 +134,39 @@ namespace MilestoneSystem
 
         #region Save Load
 
-        private void SaveData()
+        private void SaveData(SaveLoadInvoker invoker)
         {
-            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
-            data[0].isDone = isDone;
-            data[0].mileStonesDone = mileStonesDone;
+            MileStoneSystemSave data;
+            data.isDone = isDone;
+            data.mileStonesDone = mileStonesDone;
 
-            Save.AutoSaveData(data, SaveName);
+            invoker.GameSave.mileStoneData = data;
+            // Save.AutoSaveData(data, SaveName);
         }
     
-        private void SaveDataAs(string savePlace)
+        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
         {
-            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
-            data[0].isDone = isDone;
-            data[0].mileStonesDone = mileStonesDone;
-        
-            Save.SaveDataAs(savePlace, data, SaveName);
+            MileStoneSystemSave data;
+            data.isDone = isDone;
+            data.mileStonesDone = mileStonesDone;
+
+            invoker.GameSave.mileStoneData = data;
+            // Save.SaveDataAs(savePlace, data, SaveName);
         }
     
-        private void LoadData(string path)
+        private void LoadData(GameSave gameSave)
         {
-            path = Path.Combine(path, $"{SaveName}.dat");
-            if (!File.Exists(path)) return;
+            // path = Path.Combine(path, $"{SaveName}.dat");
+            // if (!File.Exists(path)) return;
+            //
+            // MileStoneSystemSave[] data = Load.LoadData(path) as MileStoneSystemSave[];
+
+            MileStoneSystemSave data = gameSave.mileStoneData;
             
-            MileStoneSystemSave[] data = Load.LoadData(path) as MileStoneSystemSave[];
-
             // if (data == null) return;
             
-            isDone = data[0].isDone;
-            mileStonesDone = data[0].mileStonesDone;
+            isDone = data.isDone;
+            mileStonesDone = data.mileStonesDone;
         }
 
         #endregion

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -17,12 +15,38 @@ namespace SaveSystem
         [SerializeField] private Transform buttonList;
         [SerializeField] private GameObject loadButtonPrefab;
 
+        public GameSave GameSave { get; private set; } = new();
+
         //TODO: (Robin) load als event oder nacheinander aufrufen wegen Order of execution
 
         private void Start()
         {
             OnSaveValueChanged();
             loadPanel.SetActive(false);
+            Save.OnSaveButtonClick.AddListener(SaveGameData);
+            Save.OnSaveAsButtonClick.AddListener(SaveGameDataAs);
+        }
+
+        private void SaveGameData(SaveLoadInvoker invoker)
+        {
+            StartCoroutine(SaveGameDataAfterFrame());
+        }
+
+        private IEnumerator SaveGameDataAfterFrame()
+        {
+            yield return new WaitForEndOfFrame();
+            Save.AutoSaveData(GameSave, "GameData");
+        }
+
+        private void SaveGameDataAs(string savePlace, SaveLoadInvoker invoker)
+        {
+            StartCoroutine(SaveGameDataAsAfterFrame(savePlace));
+        }
+
+        private IEnumerator SaveGameDataAsAfterFrame(string savePlace)
+        {
+            yield return new WaitForEndOfFrame();
+            Save.SaveDataAs(savePlace, GameSave, "GameData");
         }
 
         public void OnSaveValueChanged()
@@ -32,12 +56,12 @@ namespace SaveSystem
         
         public void OnSaveButtonClick()
         {
-            Save.OnSaveButtonClick?.Invoke();
+            Save.OnSaveButtonClick?.Invoke(this);
         }
 
         public void OnSaveAsButtonClick()
         {
-            Save.OnSaveAsButtonClick?.Invoke(saveName.text);
+            Save.OnSaveAsButtonClick?.Invoke(saveName.text, this);
         }
 
         public void OnResumeButtonClick()
@@ -78,30 +102,23 @@ namespace SaveSystem
         /// <returns></returns>
         private IEnumerator LoadScene(string loadName)
         {
-            Debug.Log("Load Start");
-            
+            loadName = Path.Combine(loadName, $@"GameData");
+
             // Start loading the scene
             AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
-            
-            Debug.Log(asyncLoadLevel.progress);
 
             // Wait until the level finish loading
             while (asyncLoadLevel.isDone)
             {
                 yield return null;
             }
-            
-            Debug.Log("Load While End");
 
             // Wait a frame so every Awake and Start method is called
             yield return new WaitForEndOfFrame();
 
-            Debug.Log("Load Before");
-
-            Load.OnLoadButtonClick?.Invoke(loadName);
+            GameSave = Load.LoadData(loadName);
             
-            Debug.Log("Load End");
-
+            Load.OnLoadButtonClick?.Invoke(GameSave);
         }
     }
 }

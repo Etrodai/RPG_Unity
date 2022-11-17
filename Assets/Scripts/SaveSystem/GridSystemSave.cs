@@ -21,7 +21,6 @@ namespace SaveSystem
 
         private static List<GridSystemData> data { get; } = new();
         private Gridsystem gridsystem;
-        private const string SaveName = "GridSystem";
         [SerializeField] private Transform parent;
 
         #endregion
@@ -40,7 +39,7 @@ namespace SaveSystem
 
         #region Save & Load
 
-         private void SaveData()
+         private void SaveData(SaveLoadInvoker invoker)
         {
             for (int x = 0; x < gridsystem.TileArray.GetLength(0); x++)
             {
@@ -65,11 +64,12 @@ namespace SaveSystem
             }
 
             if (data.Count == 0) return;
-            
-            Save.AutoSaveData(data, SaveName);
+
+            invoker.GameSave.gridData = data.ToArray();
+            // Save.AutoSaveData(data, SaveName);
         }
     
-        private void SaveDataAs(string savePlace)
+        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
         {
             for (int x = 0; x < gridsystem.TileArray.GetLength(0); x++)
             {
@@ -95,15 +95,18 @@ namespace SaveSystem
         
             if (data.Count == 0) return;
             
-            Save.SaveDataAs(savePlace, data, SaveName);
+            invoker.GameSave.gridData = data.ToArray();
+            // Save.SaveDataAs(savePlace, data, SaveName);
         }
     
-        private void LoadData(string path)
+        private void LoadData(GameSave gameSave)
         {
-            path = Path.Combine(path, $"{SaveName}.dat");
-            if (!File.Exists(path)) return;
-            
-            GridSystemData[] gridData = Load.LoadData(path) as GridSystemData[];
+            // path = Path.Combine(path, $"{SaveName}.dat");
+            // if (!File.Exists(path)) return;
+            //
+            // GridSystemData[] gridData = Load.LoadData(path) as GridSystemData[];
+
+            GridSystemData[] gridData = gameSave.gridData;
             Vector3 offSetVector = new Vector3(Mathf.Floor(gridsystem.TileArray.GetLength(0) / 2), 
                                                Mathf.Floor(gridsystem.TileArray.GetLength(1) / 2),
                                                Mathf.Floor(gridsystem.TileArray.GetLength(2) / 2));

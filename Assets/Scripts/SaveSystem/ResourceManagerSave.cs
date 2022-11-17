@@ -9,7 +9,6 @@ namespace SaveSystem
     {
         private float[] managerData;
         private ResourceManager[] managers;
-        private const string SaveName = "ResourceManager";
 
         private void Start()
         {
@@ -24,32 +23,38 @@ namespace SaveSystem
             Load.OnLoadButtonClick.AddListener(LoadData);
         }
         
-        private void SaveData()
+        private void SaveData(SaveLoadInvoker invoker)
         {
             managerData = new float[5];
             for (int i = 0; i < managers.Length; i++)
             {
                 managerData[i] = managers[i].SavedResourceValue;
             }
-            Save.AutoSaveData(managerData, SaveName);
+
+            invoker.GameSave.managerData = managerData;
+            // Save.AutoSaveData(managerData, SaveName);
         }
         
-        private void SaveDataAs(string savePlace)
+        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
         {
             managerData = new float[5];
             for (int i = 0; i < managers.Length; i++)
             {
                 managerData[i] = managers[i].SavedResourceValue;
             }
-            Save.SaveDataAs(savePlace, managerData, SaveName);
+
+            invoker.GameSave.managerData = managerData;
+            // Save.SaveDataAs(savePlace, managerData, SaveName);
         }
 
-        private void LoadData(string path)
+        private void LoadData(GameSave gameSave)
         {
-            path = Path.Combine(path, $"{SaveName}.dat");
-            if (!File.Exists(path)) return;
-            
-            managerData = Load.LoadData(path) as float[];
+            // path = Path.Combine(path, $"{SaveName}.dat");
+            // if (!File.Exists(path)) return;
+            //
+            // managerData = Load.LoadData(path) as float[];
+
+            managerData = gameSave.managerData;
 
             // if (managerData == null) return;
 

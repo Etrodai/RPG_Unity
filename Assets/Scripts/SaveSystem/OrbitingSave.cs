@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 namespace SaveSystem
@@ -15,8 +14,7 @@ namespace SaveSystem
     public class OrbitingSave : MonoBehaviour
     {
         #region Variables & Properties
-
-        private const string SaveName = "PlanetOrbiting";
+        
         public static List<GameObject> Planets { get; } = new();
 
         #endregion
@@ -34,7 +32,7 @@ namespace SaveSystem
 
         #region Save & Load
 
-        private void SaveData()
+        private void SaveData(SaveLoadInvoker invoker)
         {
             OrbitingData[] position = new OrbitingData[Planets.Count];
             for (int i = 0; i < Planets.Count; i++)
@@ -44,10 +42,11 @@ namespace SaveSystem
                 position[i].z = Planets[i].transform.position.z;
             }
 
-            Save.AutoSaveData(position, SaveName);
+            invoker.GameSave.orbitingData = position;
+            // Save.AutoSaveData(position, SaveName);
         }
 
-        private void SaveDataAs(string savePlace)
+        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
         {
             OrbitingData[] position = new OrbitingData[Planets.Count];
             for (int i = 0; i < Planets.Count; i++)
@@ -57,15 +56,18 @@ namespace SaveSystem
                 position[i].z = Planets[i].transform.position.z;
             }
 
-            Save.SaveDataAs(savePlace, position, SaveName);
+            invoker.GameSave.orbitingData = position;
+            // Save.SaveDataAs(savePlace, position, SaveName);
         }
 
-        private void LoadData(string path)
+        private void LoadData(GameSave gameSave)
         {
-            path = Path.Combine(path, $"{SaveName}.dat");
-            if (!File.Exists(path)) return;
-            
-            OrbitingData[] position = Load.LoadData(path) as OrbitingData[];
+            // path = Path.Combine(path, $"{SaveName}.dat");
+            // if (!File.Exists(path)) return;
+            //
+            // OrbitingData[] position = Load.LoadData(path) as OrbitingData[];
+
+            OrbitingData[] position = gameSave.orbitingData;
 
             // if (position == null) return;
             

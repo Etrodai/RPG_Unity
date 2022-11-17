@@ -26,7 +26,6 @@ namespace PriorityListSystem
         private GameManager gameManager;
         private readonly List<PriorityListItem> items = new();
         [SerializeField] private ShowPrioritySystemMileStoneEvent mileStoneEvent;
-        private const string SaveName = "PriorityListMenu";
 
         #endregion
         
@@ -81,7 +80,7 @@ namespace PriorityListSystem
         
         #region Save Load
 
-        private void SaveData()
+        private void SaveData(SaveLoadInvoker invoker)
         {
             PriorityListItemSave[] data = new PriorityListItemSave[items.Count];
 
@@ -90,11 +89,12 @@ namespace PriorityListSystem
                 data[i].priority = items[i].Priority;
                 data[i].type = (int)items[i].Type;
             }
-        
-            Save.AutoSaveData(data, SaveName);
+
+            invoker.GameSave.priorityListData = data;
+            // Save.AutoSaveData(data, SaveName);
         }
     
-        private void SaveDataAs(string savePlace)
+        private void SaveDataAs(string savePlace, SaveLoadInvoker invoker)
         {
             PriorityListItemSave[] data = new PriorityListItemSave[items.Count];
 
@@ -103,17 +103,20 @@ namespace PriorityListSystem
                 data[i].priority = items[i].Priority;
                 data[i].type = (int)items[i].Type;
             }
-        
-            Save.SaveDataAs(savePlace, data, SaveName);
+
+            invoker.GameSave.priorityListData = data;
+            // Save.SaveDataAs(savePlace, data, SaveName);
         }
     
-        private void LoadData(string path)
+        private void LoadData(GameSave gameSave)
         {
-            path = Path.Combine(path, $"{SaveName}.dat");
-            if (!File.Exists(path)) return;
+            // path = Path.Combine(path, $"{SaveName}.dat");
+            // if (!File.Exists(path)) return;
+            //
+            // PriorityListItemSave[] data = Load.LoadData(path) as PriorityListItemSave[];
+
+            PriorityListItemSave[] data = gameSave.priorityListData;
             
-            PriorityListItemSave[] data = Load.LoadData(path) as PriorityListItemSave[];
-
             // if (data == null) return;
 
             for (int i = 0; i < data.Length; i++)
