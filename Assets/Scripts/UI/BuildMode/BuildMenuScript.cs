@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Buildings;
 using Manager;
@@ -83,22 +82,21 @@ namespace UI.BuildMode
         /// </summary>
         private void UpdateButtons()
         {
-            foreach (Buttons button in buttons)
+            for (int i = 0; i < buttons.Length; i++)
             {
+                Buttons button = buttons[i];
                 bool activate = true;
-                foreach (Resource cost in button.moduleToBuild.Costs)
+                for (int j = 0; j < button.moduleToBuild.Costs.Length; j++)
                 {
-                    foreach (ResourceManager manager in managers)
+                    Resource cost = button.moduleToBuild.Costs[j];
+                    for (int k = 0; k < managers.Count; k++)
                     {
-                        if (manager.ResourceType == cost.resource)
-                        {
-                            if (manager.SavedResourceValue < cost.value)
-                            {
-                                activate = false;
-                            }
-                        }
+                        ResourceManager manager = managers[k];
+                        if (manager.ResourceType != cost.resource) continue;
+                        if (manager.SavedResourceValue < cost.value) activate = false;
                     }
                 }
+
                 button.button.interactable = activate;
                 button.trigger.enabled = activate;
             }

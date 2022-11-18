@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace UI
 
         private void Awake()
         {
-            timeText = this.GetComponent<TextMeshProUGUI>();
+            timeText = GetComponent<TextMeshProUGUI>();
         }
 
         private void LateUpdate()
@@ -21,7 +22,7 @@ namespace UI
     
         private string GetTime()
         {
-            int[] times = new int[2] {System.DateTime.Now.Hour, System.DateTime.Now.Minute};
+            int[] times = {DateTime.Now.Hour, DateTime.Now.Minute};
             string minText = times[1].ToString();
             if (times[1] < 10)
             {

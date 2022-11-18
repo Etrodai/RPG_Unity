@@ -2,6 +2,7 @@ using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace ResourceManagement.Manager
 {
@@ -30,10 +31,10 @@ namespace ResourceManagement.Manager
 
         #region Events
 
-                private UnityEvent onCitizenSurplusChanged = new();
-                private UnityEvent onCitizenProductionChanged = new();
-                private UnityEvent onCitizenSavedValueChanged = new();
-                private UnityEvent onCitizenSaveSpaceChanged = new();
+                private readonly UnityEvent onCitizenSurplusChanged = new();
+                private readonly UnityEvent onCitizenProductionChanged = new();
+                private readonly UnityEvent onCitizenSavedValueChanged = new();
+                private readonly UnityEvent onCitizenSaveSpaceChanged = new();
 
         #endregion
         
@@ -108,7 +109,7 @@ namespace ResourceManagement.Manager
             } 
         }
         
-        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Citizen; // resourceType
+        public override ResourceType ResourceType { get; set; } = ResourceType.Citizen; // resourceType
 
         #endregion
 
@@ -239,7 +240,6 @@ namespace ResourceManagement.Manager
             if (SavedResourceValue == 0)
             {
                 savedResourceText.text = $"{SavedResourceValue}/{CurrentResourceProduction}";
-                return;
             }
             // CalculateProductivity();
         }

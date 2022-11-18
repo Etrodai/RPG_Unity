@@ -16,12 +16,12 @@ namespace MilestoneSystem.Events
         //Input
         [SerializeField] private PlayerInput playerInput;
         private float movingTimer = 2f;
-        private float movingTime = 0;
+        private float movingTime;
         private float zoomCounter = 3;
         private float rotateTimer = 1f;
-        private float rotateTime = 0;
-        public override MileStoneEventNames Name { get; set; }
-        public override MileStoneEventItems[] Events { get; set; }
+        private float rotateTime;
+        public override MileStoneEventName Name { get; set; }
+        public override MileStoneEventItem[] Events { get; set; }
 
         #endregion
 
@@ -32,8 +32,8 @@ namespace MilestoneSystem.Events
         /// </summary>
         private void Awake()
         {
-            Name = MileStoneEventNames.CameraMovement;
-            Events = new MileStoneEventItems[3];
+            Name = MileStoneEventName.CameraMovement;
+            Events = new MileStoneEventItem[3];
             Events[0].text = "Move";
             Events[1].text = "Rotate";
             Events[2].text = "Zoom";

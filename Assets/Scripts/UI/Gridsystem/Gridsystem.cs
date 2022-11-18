@@ -14,46 +14,28 @@ namespace UI.Gridsystem
         [SerializeField] private GameObject prefabStation;
 
         //Singleton
-        private static Gridsystem instance;
 
-        public static Gridsystem Instance
-        {
-            get => instance;
-        }
+        public static Gridsystem Instance { get; private set; }
 
-        private GameObject centerTile;
         private GameObject gridContainer;
 
-        public GameObject CenterTile
-        {
-            get => centerTile;
-            set => centerTile = value;
-        }
+        public GameObject CenterTile { get; private set; }
 
         //Grid
         [SerializeField, Tooltip("Use value above Zero")]
         private Vector3 gridSizeXYZ = new Vector3(0, 0, 0);
 
-        public Vector3 GridSizeXYZ
-        {
-            get => gridSizeXYZ;
-            set => gridSizeXYZ = value;
-        } //Set is not required ingame
+        private Vector3 GridSizeXYZ => gridSizeXYZ; //Set is not required ingame
 
         private Vector3 spawnPos = Vector3.zero;
         public bool gridIsVisible = true;
         public bool isTextVisible;
 
         //Workaround in static or Singleton?
-        private GridTile[,,] tileArray;
 
-        public GridTile[,,] TileArray
-        {
-            get => tileArray;
-            set => tileArray = value;
-        }
+        public GridTile[,,] TileArray { get; private set; }
 
-        public List<GridTile> currentVisibleTileList = new List<GridTile>();
+        public List<GridTile> currentVisibleTileList = new();
 
         /// <summary>
         /// Create Instance and Initialing Grid
@@ -67,10 +49,10 @@ namespace UI.Gridsystem
 
         private void SingletonGridsystem()
         {
-            if (instance != null && instance != this)
+            if (Instance != null && Instance != this)
                 Destroy(this.gameObject);
             else
-                instance = this;
+                Instance = this;
         }
 
         public void CheckAvailableGridTilesAroundStation()
@@ -115,7 +97,7 @@ namespace UI.Gridsystem
             currentVisibleTileList.Add(TileArray[xValue, yValue, zValue]);
         }
 
-        public void UnCheckAvailableGridTilesAroundStation(bool isBuilded)
+        public void UnCheckAvailableGridTilesAroundStation(bool isBuilt)
         {
             if (currentVisibleTileList.Count == 0)
                 return;
@@ -124,7 +106,7 @@ namespace UI.Gridsystem
             for (int i = 0; i < currentVisibleTileList.Count; i++)
             {
                 currentVisibleTileList[i].ChangeActiveState(false);
-                if (!isBuilded)
+                if (!isBuilt)
                     currentVisibleTileList[i].IsLocked = false;
             }
 
@@ -143,7 +125,7 @@ namespace UI.Gridsystem
             GameObject grid = new GameObject { name = "Grid", transform = { position = spawnPos } };
             grid.transform.parent = gridContainer.transform;
 
-            int arrayIndex = 0;
+            int arrayIndex = 0; //TODO: is it used
             Vector3 offSetVector = new Vector3(Mathf.Floor(GridSizeXYZ.x / 2), Mathf.Floor(GridSizeXYZ.y / 2),
                 Mathf.Floor(GridSizeXYZ.z / 2));
 
@@ -178,7 +160,7 @@ namespace UI.Gridsystem
                         if (spawnPos.x == 0 && spawnPos.y == 0 && spawnPos.z == 0)
                         {
                             gridTileScript.HasModule = true;
-                        } //TODO: (Ben) Better Method to Init startgridTile
+                        } //TODO: (Ben) Better Method to Init startGridTile
 
                         if (gridIsVisible)
                             gridTileScript.InitActiveState();
@@ -191,19 +173,19 @@ namespace UI.Gridsystem
             InitStation(gridContainer.transform);
         }
 
-        private void SetOrbiting(GameObject gridContainer)
+        private void SetOrbiting(GameObject gridContainerGameObject)  //TODO: is it used
         {
-            Orbiting orbit = gridContainer.AddComponent<Orbiting>();
+            Orbiting orbit = gridContainerGameObject.AddComponent<Orbiting>();
             orbit.centerPoint = solarCenterPoint;
             orbit.xSpread = 750;
             orbit.zSpread = 750;
             orbit.rotSpeed = 0.2f;
         }
 
-        private void InitStation(Transform gridContainer)
+        private void InitStation(Transform gridContainerTransform)
         {
             GameObject stationContainer = new GameObject { name = "StationBox", transform = { position = spawnPos } };
-            stationContainer.transform.parent = gridContainer.transform;
+            stationContainer.transform.parent = gridContainerTransform.transform;
             CenterTile = Instantiate(prefabStation, Vector3.zero, Quaternion.identity);
 
             CenterTile.name = "Station";
@@ -241,7 +223,7 @@ namespace UI.Gridsystem
         public void ReInitialize()
         {
             spawnPos = Vector3.zero;
-            //TODO: (Ben) Access Camera to new Gridtiles
+            //TODO: (Ben) Access Camera to new GridTiles
             CheckGridSize(); 
             TileArray = new GridTile[(int)GridSizeXYZ.x, (int)GridSizeXYZ.y, (int)GridSizeXYZ.z];
             InitGrid();

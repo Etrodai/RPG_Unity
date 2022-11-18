@@ -5,16 +5,16 @@ namespace MilestoneSystem.Events
 {
     public class EnergyValueZeroEvent : MileStoneEvent
     {
-        public override MileStoneEventNames Name { get; set; }
-        public override MileStoneEventItems[] Events { get; set; }
+        public override MileStoneEventName Name { get; set; }
+        public override MileStoneEventItem[] Events { get; set; }
 
         private EnergyManager energyManager;
 
         private void Start()
         {
             energyManager = MainManagerSingleton.Instance.EnergyManager;
-            Name = MileStoneEventNames.EnergyValueZero;
-            Events = new MileStoneEventItems[1];
+            Name = MileStoneEventName.EnergyValueZero;
+            Events = new MileStoneEventItem[1];
             Events[0].text = "";
             Events[0].isAchieved = false;
         }

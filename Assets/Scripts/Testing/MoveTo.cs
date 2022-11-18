@@ -10,7 +10,7 @@ namespace Testing
 
         private void Awake()
         {
-            agent = this.GetComponent<NavMeshAgent>();
+            agent = GetComponent<NavMeshAgent>();
         }
 
         private void Update()

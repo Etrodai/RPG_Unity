@@ -1,22 +1,23 @@
-using Eventsystem;
-using Manager;
-using System.Collections;
 using System.Collections.Generic;
+using Manager;
 using UnityEngine;
 
-public class SendEventParticles : MonoBehaviour
+namespace Eventsystem
 {
-    [SerializeField] private List<GameObject> particleSystems = new List<GameObject>();
-
-    private EventManagerScriptable eventManager;
-
-    private void Start()
+    public class SendEventParticles : MonoBehaviour
     {
-        eventManager = MainManagerSingleton.Instance.EventManager;
+        [SerializeField] private List<GameObject> particleSystems = new();
 
-        for (int i = 0; i < particleSystems.Count; i++)
+        private EventManagerScriptable eventManager;
+
+        private void Start()
         {
-            eventManager.EventParticles.Add(particleSystems[i]);
+            eventManager = MainManagerSingleton.Instance.EventManager;
+
+            for (int i = 0; i < particleSystems.Count; i++)
+            {
+                eventManager.EventParticles.Add(particleSystems[i]);
+            }
         }
     }
 }

@@ -31,13 +31,13 @@ namespace Sound
             InGameBackgroundMusic,
             MainMenuBackgroundMusic
         }
-        private static Dictionary<Sound, float> soundTimerDictionary;
-        private static GameObject oneShotGameObject;
-        private static AudioSource oneShotAudioSource;
-        private static GameObject loopGameObject;
-        private static AudioSource loopAudioSource;
-        private static GameObject changeGameObject;
-        private static AudioSource changeAudioSource;
+        private static Dictionary<Sound, float> SoundTimerDictionary;
+        private static GameObject OneShotGameObject;
+        private static AudioSource OneShotAudioSource;
+        private static GameObject LoopGameObject;
+        private static AudioSource LoopAudioSource;
+        private static GameObject ChangeGameObject;
+        private static AudioSource ChangeAudioSource;
         
         #endregion
 
@@ -51,7 +51,7 @@ namespace Sound
         /// </summary>
         public static void Initialize()
         {
-            soundTimerDictionary = new Dictionary<Sound, float>
+            SoundTimerDictionary = new Dictionary<Sound, float>
             {
                 // [Sound.BuildModule] = 0f
             };
@@ -68,14 +68,14 @@ namespace Sound
         public static void PlaySound(Sound sound)
         {
             if (!CanPlaySound(sound)) return;
-            if (oneShotGameObject == null)
+            if (OneShotGameObject == null)
             {
-                oneShotGameObject = new GameObject("One Shot Sound");
-                oneShotAudioSource = oneShotGameObject.AddComponent<AudioSource>();
+                OneShotGameObject = new GameObject("One Shot Sound");
+                OneShotAudioSource = OneShotGameObject.AddComponent<AudioSource>();
             }
 
-            oneShotAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
-            oneShotAudioSource.PlayOneShot(GetAudioClip(sound));
+            OneShotAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
+            OneShotAudioSource.PlayOneShot(GetAudioClip(sound));
         }
         
         /// <summary>
@@ -88,27 +88,27 @@ namespace Sound
             if (!CanPlaySound(sound)) return;
             if (isLooping)
             {
-                if (loopGameObject == null)
+                if (LoopGameObject == null)
                 {
-                    loopGameObject = new GameObject("Loop Sound");
-                    loopAudioSource = loopGameObject.AddComponent<AudioSource>();
+                    LoopGameObject = new GameObject("Loop Sound");
+                    LoopAudioSource = LoopGameObject.AddComponent<AudioSource>();
                 }
 
-                loopAudioSource.clip = GetAudioClip(sound);
-                loopAudioSource.loop = true;
-                loopAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
-                loopAudioSource.Play();
+                LoopAudioSource.clip = GetAudioClip(sound);
+                LoopAudioSource.loop = true;
+                LoopAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
+                LoopAudioSource.Play();
             }
             else
             {
-                if (changeGameObject == null)
+                if (ChangeGameObject == null)
                 {
-                    changeGameObject = new GameObject("Chang Sound");
-                    changeAudioSource = changeGameObject.AddComponent<AudioSource>();
+                    ChangeGameObject = new GameObject("Chang Sound");
+                    ChangeAudioSource = ChangeGameObject.AddComponent<AudioSource>();
                 }
-                changeAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
+                ChangeAudioSource.outputAudioMixerGroup = GetAudioMixerGroup(sound);
                 AudioClip clip = GetAudioClip(sound);
-                changeAudioSource.PlayOneShot(clip);
+                ChangeAudioSource.PlayOneShot(clip);
                 SoundStorage.Instance.WaitForEndOfClip(clip.length, sound);
             }
         }
@@ -125,8 +125,13 @@ namespace Sound
         public static void PlaySound(Sound sound, Vector3 position)
         {
             if (!CanPlaySound(sound)) return;
-            GameObject soundGameObject = new GameObject("Sound");
-            soundGameObject.transform.position = position;
+            GameObject soundGameObject = new GameObject("Sound")
+            {
+                transform =
+                {
+                    position = position
+                }
+            };
             AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
             audioSource.clip = GetAudioClip(sound);
             audioSource.maxDistance = 100f;
@@ -199,14 +204,15 @@ namespace Sound
 
         private static AudioMixerGroup GetAudioMixerGroup(Sound sound)
         {
-            foreach (SoundAudioClip clip in SoundStorage.Instance.soundAudioClips)
+            for (int i = 0; i < SoundStorage.Instance.soundAudioClips.Length; i++)
             {
+                SoundAudioClip clip = SoundStorage.Instance.soundAudioClips[i];
                 if (clip.sound == sound)
                 {
                     return clip.group;
                 }
             }
-            
+
             Debug.LogError($"Mixer group for {sound} not found!");
             return null;
         }
@@ -218,8 +224,9 @@ namespace Sound
         /// <returns>random clip to play</returns>
         private static AudioClip GetAudioClip(Sound sound)
         {
-            foreach (SoundAudioClip clip in SoundStorage.Instance.soundAudioClips)
+            for (int i = 0; i < SoundStorage.Instance.soundAudioClips.Length; i++)
             {
+                SoundAudioClip clip = SoundStorage.Instance.soundAudioClips[i];
                 if (clip.sound == sound)
                 {
                     return clip.clips[Random.Range(0, clip.clips.Length)];
@@ -259,8 +266,10 @@ namespace Sound
         private static void AddListener(this EventTrigger trigger, EventTriggerType eventType,
             System.Action<PointerEventData> listener)
         {
-            EventTrigger.Entry entry = new EventTrigger.Entry();
-            entry.eventID = eventType;
+            EventTrigger.Entry entry = new EventTrigger.Entry
+            {
+                eventID = eventType
+            };
             entry.callback.AddListener(data => listener.Invoke((PointerEventData)data));
             trigger.triggers.Add(entry);
         }

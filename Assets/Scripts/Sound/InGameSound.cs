@@ -4,7 +4,7 @@ namespace Sound
 {
     public class InGameSound : MonoBehaviour
     {
-        void Start()
+        public void Start()
         {
             SoundManager.PlaySound(SoundManager.Sound.InGameBackgroundMusic, false);
         }

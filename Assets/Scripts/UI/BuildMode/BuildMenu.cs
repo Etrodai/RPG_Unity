@@ -1,4 +1,3 @@
-using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,14 +6,14 @@ namespace UI.BuildMode
 {
     public class BuildMenu : MonoBehaviour
     {
-        [SerializeField] private GameObject buildmenuLayout;
+        [SerializeField] private GameObject buildMenuLayout;
         private Camera mainCam;
 
-        [SerializeField] private GameObject prefab_blueprintObject;
+        [SerializeField] private GameObject prefabBlueprintObject;
         private GameObject blueprintObject;
         private GameObject moduleToBuild;
 
-        Vector3 mousePos;
+        private Vector3 mousePos;
         
         //Input
         [SerializeField] private PlayerInput playerInput;
@@ -51,16 +50,16 @@ namespace UI.BuildMode
         /// <summary>
         /// De/Activate Build Menu
         /// </summary>
-        public void RightMouseButtonPressed(InputAction.CallbackContext context)
+        private void RightMouseButtonPressed(InputAction.CallbackContext context)
         {
             CheckIfBlueprintObjectExists();
-            if (buildmenuLayout == null) return;
-            buildmenuLayout.SetActive(!buildmenuLayout.activeSelf);
+            if (buildMenuLayout == null) return;
+            buildMenuLayout.SetActive(!buildMenuLayout.activeSelf);
 
-            if (buildmenuLayout.activeSelf)
+            if (buildMenuLayout.activeSelf)
             {
                 mousePos = Input.mousePosition;
-                buildmenuLayout.transform.position = mousePos;
+                buildMenuLayout.transform.position = mousePos;
             }
             else
             {
@@ -77,10 +76,10 @@ namespace UI.BuildMode
             }
         }
 
-        public void LeftMouseButtonPressed(InputAction.CallbackContext context)
+        private void LeftMouseButtonPressed(InputAction.CallbackContext context)
         {
             
-            if (buildmenuLayout == null || !buildmenuLayout.activeSelf)
+            if (buildMenuLayout == null || !buildMenuLayout.activeSelf)
                 return;
 
 
@@ -100,7 +99,7 @@ namespace UI.BuildMode
                     }
                 }
 
-                buildmenuLayout.SetActive(false);
+                buildMenuLayout.SetActive(false);
             }
 
             CheckIfBlueprintObjectExists();
@@ -110,15 +109,15 @@ namespace UI.BuildMode
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="objectToBuild"></param>
-        public void BuildMenuButtonPressed(GameObject _moduleToBuild)
+        /// <param name="moduleToBuildGameObject"></param>
+        public void BuildMenuButtonPressed(GameObject moduleToBuildGameObject)
         {
             mousePos = Input.mousePosition;
             Vector3 spawnPos = mainCam.ScreenToWorldPoint(mousePos);
             CheckAvailableGridTiles();
 
-            moduleToBuild = _moduleToBuild;
-            blueprintObject = Instantiate(prefab_blueprintObject, spawnPos, Quaternion.identity);
+            this.moduleToBuild = moduleToBuildGameObject;
+            blueprintObject = Instantiate(prefabBlueprintObject, spawnPos, Quaternion.identity);
         }
 
         private void CheckAvailableGridTiles()
@@ -126,9 +125,9 @@ namespace UI.BuildMode
             Gridsystem.Gridsystem.Instance.CheckAvailableGridTilesAroundStation();
         }
 
-        private void UnCheckAvailableGridTiles(bool isBuilded)
+        private void UnCheckAvailableGridTiles(bool isBuilt)
         {
-            Gridsystem.Gridsystem.Instance.UnCheckAvailableGridTilesAroundStation(isBuilded);
+            Gridsystem.Gridsystem.Instance.UnCheckAvailableGridTilesAroundStation(isBuilt);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using Manager;
 using ResourceManagement.Manager;
 
@@ -6,8 +5,8 @@ namespace MilestoneSystem.Events
 {
     public class LifeSupportSurplusNegativeEvent : MileStoneEvent
     {
-        public override MileStoneEventNames Name { get; set; }
-        public override MileStoneEventItems[] Events { get; set; }
+        public override MileStoneEventName Name { get; set; }
+        public override MileStoneEventItem[] Events { get; set; }
 
         private FoodManager foodManager;
         private WaterManager waterManager;
@@ -16,8 +15,8 @@ namespace MilestoneSystem.Events
         {
             foodManager = MainManagerSingleton.Instance.FoodManager;
             waterManager = MainManagerSingleton.Instance.WaterManager;
-            Name = MileStoneEventNames.LifeSupportSurplusNegative;
-            Events = new MileStoneEventItems[1];
+            Name = MileStoneEventName.LifeSupportSurplusNegative;
+            Events = new MileStoneEventItem[1];
             Events[0].text = "";
             Events[0].isAchieved = false;
         }

@@ -95,9 +95,10 @@ namespace Manager.Menu
         /// </summary>
         private void OpenMenu()
         {
-            Vector3 transformPosition = transform.position;
+            Transform transform1 = transform;
+            Vector3 transformPosition = transform1.position;
             transformPosition.x -= 300 * canvas.scaleFactor;
-            transform.position = transformPosition;
+            transform1.position = transformPosition;
         }
 
         /// <summary>

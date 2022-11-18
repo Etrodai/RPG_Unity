@@ -1,13 +1,11 @@
-using System.Collections.Generic;
-
 namespace MilestoneSystem.Events
 {
     public class ShowPrioritySystemMileStoneEvent : MileStoneEvent
     {
         #region Variables & Properties
 
-        public override MileStoneEventNames Name { get; set; }
-        public override MileStoneEventItems[] Events { get; set; }
+        public override MileStoneEventName Name { get; set; }
+        public override MileStoneEventItem[] Events { get; set; }
 
         #endregion
 
@@ -18,8 +16,8 @@ namespace MilestoneSystem.Events
         /// </summary>
         private void Awake()
         {
-            Name = MileStoneEventNames.ShowPrioritySystem;
-            Events = new MileStoneEventItems[3];
+            Name = MileStoneEventName.ShowPrioritySystem;
+            Events = new MileStoneEventItem[3];
             Events[0].text = "Click on the Priority-System-Button";
             Events[1].text = "Change the Priority up";
             Events[2].text = "Change the Priority down";

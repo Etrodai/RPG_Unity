@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Eventsystem
 {
-    [System.Serializable]
+    [Serializable]
     public struct EventManagerSave
     {
         public float timer;
@@ -21,10 +21,10 @@ namespace Eventsystem
 
         //Event determination variables
         [SerializeField] private List<EventScriptableObject> availableEvents = new ();
-        private Queue<EventScriptableObject> usedEvents = new ();
+        private readonly Queue<EventScriptableObject> usedEvents = new ();
         private EventScriptableObject activeEvent;
         [SerializeField] private EventBehaviourScriptable eventBehaviour;
-        private const int resetEvents = 0;
+        private const int ResetEvents = 0;
         private Action resetEventTimer;
 
         //Timer related variables
@@ -32,23 +32,23 @@ namespace Eventsystem
         private float totalTime;
         [SerializeField, Tooltip("Minimum Time in seconds a new event can happen")] private float setMinimumTimer;
         [SerializeField, Tooltip("Maximum Time in seconds a new event can happen")] private float setMaximumTimer;
-        private const float updateTimerRate = 0.5f;
-        private const float endTimer = 0f;
-        private const float stopTime = 0f;
-        private const float startTime = 1f;
+        private const float UpdateTimerRate = 0.5f;
+        private const float EndTimer = 0f;
+        private const float StopTime = 0f;
+        private const float StartTime = 1f;
         
         [SerializeField] private Button sideMenuMileStoneButton;
         [SerializeField] private Button sideMenuPriorityButton;
 
         private SaveData saveData;
+        [SerializeField] private List<GameObject> eventParticles = new();
 
         //Particle System variables
-        private List<GameObject> eventParticles = new();
-        
+
         #endregion
         
         #region Properties
-        
+
         public List<GameObject> EventParticles => eventParticles;
 
         public Action ResetEventTimer
@@ -96,7 +96,6 @@ namespace Eventsystem
         {
             EventManagerSave data = new();
             data.timer = timer;
-
             saveData.GameSave.eventData = data;
             // Save.AutoSaveData(data, SaveName);
         }
@@ -142,15 +141,16 @@ namespace Eventsystem
         /// Works as timer to start the next event when the time runs out
         /// </summary>
         /// <returns>Restarts the coroutine to continue reducing the timer if it didn't run out</returns>
-        private IEnumerator NextEventTimer()
+          // ReSharper disable once FunctionRecursiveOnAllPaths
+          private IEnumerator NextEventTimer()
         {
-            timer -= updateTimerRate;
-            if (timer <= endTimer)
+            timer -= UpdateTimerRate;
+            if (timer <= EndTimer)
             {
                 NextEvent();                                                    //calls NextEvent() to choose the next event to be played
                 StopAllCoroutines();                                            //Stops the timer
             }
-            yield return new WaitForSeconds(updateTimerRate);
+            yield return new WaitForSeconds(UpdateTimerRate);
             StartCoroutine(NextEventTimer());
         }
 
@@ -159,9 +159,9 @@ namespace Eventsystem
         /// </summary>
         private void NextEvent()
         {
-            if (availableEvents.Count == resetEvents)                           //Refills the availableEvents list when empty
+            if (availableEvents.Count == ResetEvents)                           //Refills the availableEvents list when empty
             {
-                for (int i = usedEvents.Count; i > resetEvents; i--)
+                for (int i = usedEvents.Count; i > ResetEvents; i--)
                 {
                     availableEvents.Add(usedEvents.Peek());
                     usedEvents.Dequeue();
@@ -170,7 +170,7 @@ namespace Eventsystem
 
             sideMenuMileStoneButton.interactable = false;
             sideMenuPriorityButton.interactable = false;
-            Time.timeScale = stopTime;
+            Time.timeScale = StopTime;
             System.Random random = new System.Random();
             int nextEventIndex = random.Next(0, availableEvents.Count - 1);
 
@@ -219,7 +219,7 @@ namespace Eventsystem
             // }
             sideMenuMileStoneButton.interactable = true;
             sideMenuPriorityButton.interactable = true;
-            Time.timeScale = startTime;
+            Time.timeScale = StartTime;
         }
 
         /// <summary>

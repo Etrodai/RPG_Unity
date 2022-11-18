@@ -1,4 +1,3 @@
-using System;
 using Cinemachine;
 using UI.Gridsystem;
 using UnityEngine;
@@ -17,27 +16,27 @@ namespace Cameras
         [SerializeField] private CinemachineFreeLook cmFreeLook;
 
         //Constants
-        private const float FREELOOKDISTANCE = 1000f;
-        private const float MINZOOMLEVEL = 2f;
-        private const float MAXZOOMLEVEL = 45f;
-        private const float MINHEIGHTLEVEL = 1f;
-        private const float MAXHEIGHTLEVEL = 45f;
-        private const float MINSENSIVITY = .01f;
-        private const float MAXSENSIVITY = 10f;
-        private const float RADIUSOFFSET = 1f;
+        private const float FreeLookDistance = 1000f;
+        private const float MinZoomLevel = 2f;
+        private const float MaxZoomLevel = 45f;
+        private const float MinHeightLevel = 1f;
+        private const float MaxHeightLevel = 45f;
+        private const float MinSensitivity = .01f;
+        private const float MaxSensitivity = 10f;
+        private const float RadiusOffset = 1f;
 
-        //Axisnames
-        private string XAxisName = "Mouse X";
-        private string YAxisName = "Mouse Y";
+        //Axis names
+        private string xAxisName = "Mouse X"; //TODO: is it used???
+        private string yAxisName = "Mouse Y"; //TODO: is it used???
 
         //Targets
         private Transform freeLookPoint;
         private Transform cameraLookPoint;
 
         //Cam
-        private UnityEngine.Camera cam;
+        private Camera cam;
 
-        private bool isFreeLookActive = false;
+        private bool isFreeLookActive;
         private bool isPaused;
         private bool yInverted;
 
@@ -50,10 +49,10 @@ namespace Cameras
         private float moveY;
         private Vector3 actualXAxis;
 
-        //Sensivity
-        [SerializeField, Range(0f, 10f)] private float rotationSensivity = 0.5f;
-        [SerializeField, Range(0f, 10f)] private float moveSensivity = 0.5f;
-        [SerializeField, Range(0f, 2f)] private float zoomSensivity = 0.5f;
+        //Sensitivity
+        [SerializeField, Range(0f, 10f)] private float rotationSensitivity = 0.5f;
+        [SerializeField, Range(0f, 10f)] private float moveSensitivity = 0.5f;
+        [SerializeField, Range(0f, 2f)] private float zoomSensitivity = 0.5f;
         
         //Input
         [SerializeField] private PlayerInput playerInput;
@@ -62,62 +61,62 @@ namespace Cameras
         #endregion
 
         #region Properties
-        public float RotationSensivity
+        public float RotationSensitivity
         {
-            get => rotationSensivity;
+            get => rotationSensitivity;
             set
             {
-                if (value > MAXSENSIVITY)
+                if (value > MaxSensitivity)
                 {
-                    rotationSensivity = MAXSENSIVITY;
+                    rotationSensitivity = MaxSensitivity;
                     return;
                 }
-                else if (value < MINSENSIVITY)
+                else if (value < MinSensitivity)
                 {
-                    rotationSensivity = MINSENSIVITY;
+                    rotationSensitivity = MinSensitivity;
                     return;
                 }
 
-                rotationSensivity = value;
+                rotationSensitivity = value;
             }
         }
-        public float MoveSensivity
+        public float MoveSensitivity
         {
-            get => moveSensivity;
+            get => moveSensitivity;
             set
             {
-                if (value > MAXSENSIVITY)
+                if (value > MaxSensitivity)
                 {
-                    moveSensivity = MAXSENSIVITY;
+                    moveSensitivity = MaxSensitivity;
                     return;
                 }
-                else if (value < MINSENSIVITY)
+                else if (value < MinSensitivity)
                 {
-                    moveSensivity = MINSENSIVITY;
+                    moveSensitivity = MinSensitivity;
                     return;
                 }
 
-                moveSensivity = value;
+                moveSensitivity = value;
             }
         }
 
-        public float ZoomSensivity
+        public float ZoomSensitivity
         {
-            get => zoomSensivity;
+            get => zoomSensitivity;
             set
             {
-                if (value > MAXSENSIVITY)
+                if (value > MaxSensitivity)
                 {
-                    zoomSensivity = MAXSENSIVITY;
+                    zoomSensitivity = MaxSensitivity;
                     return;
                 }
-                else if (value < MINSENSIVITY)
+                else if (value < MinSensitivity)
                 {
-                    zoomSensivity = MINSENSIVITY;
+                    zoomSensitivity = MinSensitivity;
                     return;
                 }
 
-                zoomSensivity = value;
+                zoomSensitivity = value;
             }
         }
 
@@ -131,7 +130,7 @@ namespace Cameras
         private void Awake()
         {
             cmFreeLook = this.GetComponent<CinemachineFreeLook>();
-            cam = UnityEngine.Camera.main;
+            cam = Camera.main;
             cmFreeLook.m_XAxis.m_InputAxisName = "";
             cmFreeLook.m_YAxis.m_InputAxisName = "";
         }
@@ -207,12 +206,12 @@ namespace Cameras
         /// Rotating Camera around Object
         /// </summary>
         /// <param name="context"></param>
-        public void RotateXAxis(InputAction.CallbackContext context)
+        private void RotateXAxis(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
                 float input = context.ReadValue<float>();
-                cmFreeLook.m_XAxis.m_InputAxisValue = input * RotationSensivity;
+                cmFreeLook.m_XAxis.m_InputAxisValue = input * RotationSensitivity;
             }
 
             if (context.canceled)
@@ -226,12 +225,12 @@ namespace Cameras
         /// Move Camera on Y Axis around Object
         /// </summary>
         /// <param name="context"></param>
-        public void RotateYAxis(InputAction.CallbackContext context)
+        private void RotateYAxis(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
                 float input = context.ReadValue<float>();
-                cmFreeLook.m_YAxis.m_InputAxisValue += input * RotationSensivity;
+                cmFreeLook.m_YAxis.m_InputAxisValue += input * RotationSensitivity;
             }
 
             if (context.canceled)
@@ -245,7 +244,7 @@ namespace Cameras
         /// Input for XAxis
         /// </summary>
         /// <param name="context"></param>
-        public void MoveCameraXAxis(InputAction.CallbackContext context)
+        private void MoveCameraXAxis(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
@@ -267,7 +266,7 @@ namespace Cameras
         /// Input for Y Axis
         /// </summary>
         /// <param name="context"></param>
-        public void MoveCameraYAxis(InputAction.CallbackContext context)
+        private void MoveCameraYAxis(InputAction.CallbackContext context)
         {
             if (context.performed)
                 isHeldDownY = true;
@@ -281,14 +280,14 @@ namespace Cameras
         }
 
         /// <summary>
-        /// Move Cameratarget depended on MoveX and MoveY
+        /// Move Camera target depended on MoveX and MoveY
         /// </summary>
         private void MoveXY()
         {
             if (isHeldDownX || isHeldDownY)
             {
                 moveVector =
-                    ((actualXAxis * moveX) + (Vector3.up * moveY)) * MoveSensivity * Time.deltaTime; //TODO: (Ben) Reorder
+                    ((actualXAxis * moveX) + (Vector3.up * moveY)) * (MoveSensitivity * Time.deltaTime); //TODO: (Ben) Reorder
                 cameraLookPoint.localPosition += moveVector;
             }
 
@@ -302,7 +301,7 @@ namespace Cameras
         /// Resetting Camera to Central Point
         /// </summary>
         /// <param name="context"></param>
-        public void ResetCamera(InputAction.CallbackContext context)
+        private void ResetCamera(InputAction.CallbackContext context)
         {
             cameraLookPoint.localPosition = camResetPos;
         }
@@ -319,7 +318,7 @@ namespace Cameras
             {
                 Vector3 mousePos = Input.mousePosition;
                 freeLookPoint.transform.position =
-                    cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FREELOOKDISTANCE));
+                    cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FreeLookDistance));
             }
         }
 
@@ -327,7 +326,7 @@ namespace Cameras
         /// <summary>
         /// For Activating Camera Axis Movement on x and y Axis
         /// </summary>
-        public void ActivateCameraMovement(InputAction.CallbackContext context)
+        private void ActivateCameraMovement(InputAction.CallbackContext context)
         {
             if (!isFreeLookActive && !isPaused)
             {
@@ -339,7 +338,7 @@ namespace Cameras
         /// <summary>
         /// Deactivating Camera Axis Movement on x and y Axis
         /// </summary>
-        public void DeactivateCameraMovement(InputAction.CallbackContext context)
+        private void DeactivateCameraMovement(InputAction.CallbackContext context)
         {
             cmFreeLook.m_XAxis.m_InputAxisName = "";
             cmFreeLook.m_YAxis.m_InputAxisName = "";
@@ -352,12 +351,12 @@ namespace Cameras
         /// Get Camera near or far from Object
         /// </summary>
         /// <param name="context"></param>
-        public void Zoom(InputAction.CallbackContext context)
+        private void Zoom(InputAction.CallbackContext context)
         {
             if (isPaused)
                 return;
 
-            float mousewheelInput = Mathf.Clamp(context.ReadValue<float>(), -1, 1) * zoomSensivity;
+            float mousewheelInput = Mathf.Clamp(context.ReadValue<float>(), -1, 1) * zoomSensitivity;
 
 
             cmFreeLook.m_Orbits[1].m_Radius += mousewheelInput;
@@ -368,13 +367,13 @@ namespace Cameras
             cmFreeLook.m_Orbits[2].m_Radius += mousewheelInput;
         
             //Zoom Restriction
-            float lowRadius = MINZOOMLEVEL - RADIUSOFFSET;
-            float upRadius = MAXZOOMLEVEL - RADIUSOFFSET;
+            float lowRadius = MinZoomLevel - RadiusOffset;
+            float upRadius = MaxZoomLevel - RadiusOffset;
         
-            if (cmFreeLook.m_Orbits[1].m_Radius < MINZOOMLEVEL)
-                cmFreeLook.m_Orbits[1].m_Radius = MINZOOMLEVEL;
-            else if (cmFreeLook.m_Orbits[1].m_Radius > MAXZOOMLEVEL)
-                cmFreeLook.m_Orbits[1].m_Radius = MAXZOOMLEVEL;
+            if (cmFreeLook.m_Orbits[1].m_Radius < MinZoomLevel)
+                cmFreeLook.m_Orbits[1].m_Radius = MinZoomLevel;
+            else if (cmFreeLook.m_Orbits[1].m_Radius > MaxZoomLevel)
+                cmFreeLook.m_Orbits[1].m_Radius = MaxZoomLevel;
         
             if (cmFreeLook.m_Orbits[0].m_Radius < lowRadius)
                 cmFreeLook.m_Orbits[0].m_Radius = lowRadius;
@@ -386,15 +385,15 @@ namespace Cameras
             else if (cmFreeLook.m_Orbits[2].m_Radius > upRadius)
                 cmFreeLook.m_Orbits[2].m_Radius = upRadius;
         
-            if (cmFreeLook.m_Orbits[0].m_Height < MINHEIGHTLEVEL)
-                cmFreeLook.m_Orbits[0].m_Height = MINHEIGHTLEVEL;
-            else if (cmFreeLook.m_Orbits[0].m_Height > MAXHEIGHTLEVEL)
-                cmFreeLook.m_Orbits[0].m_Height = MAXHEIGHTLEVEL;
+            if (cmFreeLook.m_Orbits[0].m_Height < MinHeightLevel)
+                cmFreeLook.m_Orbits[0].m_Height = MinHeightLevel;
+            else if (cmFreeLook.m_Orbits[0].m_Height > MaxHeightLevel)
+                cmFreeLook.m_Orbits[0].m_Height = MaxHeightLevel;
 
-            if (cmFreeLook.m_Orbits[2].m_Height < -MAXHEIGHTLEVEL)
-                cmFreeLook.m_Orbits[2].m_Height = -MAXHEIGHTLEVEL;
-            else if (cmFreeLook.m_Orbits[2].m_Height > -MINHEIGHTLEVEL)
-                cmFreeLook.m_Orbits[2].m_Height = -MINHEIGHTLEVEL;
+            if (cmFreeLook.m_Orbits[2].m_Height < -MaxHeightLevel)
+                cmFreeLook.m_Orbits[2].m_Height = -MaxHeightLevel;
+            else if (cmFreeLook.m_Orbits[2].m_Height > -MinHeightLevel)
+                cmFreeLook.m_Orbits[2].m_Height = -MinHeightLevel;
         }
 
         //Free View
@@ -402,7 +401,7 @@ namespace Cameras
         /// Action for (de)activate Free View on Mouse
         /// </summary>
         /// <param name="context"></param>
-        public void ToggleFreeLook(InputAction.CallbackContext context)
+        private void ToggleFreeLook(InputAction.CallbackContext context)
         {
             if (isPaused)
                 return;

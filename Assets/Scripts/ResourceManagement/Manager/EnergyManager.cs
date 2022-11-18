@@ -2,6 +2,7 @@ using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace ResourceManagement.Manager
 {
@@ -78,7 +79,7 @@ namespace ResourceManagement.Manager
             } 
         }
         
-        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Energy;
+        public override ResourceType ResourceType { get; set; } = ResourceType.Energy;
 
         #endregion
         

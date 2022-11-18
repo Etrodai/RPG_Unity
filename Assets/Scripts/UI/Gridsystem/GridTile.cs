@@ -13,20 +13,9 @@ namespace UI.Gridsystem
         private MeshFilter meshFilter;
 
 
-        private bool isLocked = false;
-        private bool hasModule = false;
+        public bool IsLocked { get; set; }
 
-        public bool IsLocked
-        {
-            get => isLocked;
-            set => isLocked = value;
-        }
-
-        public bool HasModule
-        {
-            get => hasModule;
-            set => hasModule = value;
-        }
+        public bool HasModule { get; set; }
 
 
         /// <summary>
