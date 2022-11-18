@@ -77,7 +77,7 @@ namespace PriorityListSystem
                 item.transform.SetSiblingIndex(Priority * 2 + 1);
                 item.ChangePriority(Priority);
             }
-
+            
             Priority--;
             transform.SetSiblingIndex(Priority * 2 + 1);
             ChangePriority(Priority);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Buildings;
 using PriorityListSystem;
@@ -279,7 +280,7 @@ namespace Manager
         /// </summary>
         /// <param name="neededResourceValue">amount of needed resource (always negative)</param>
         /// <param name="type">type of needed resource</param>
-        public void DisableBuildings(float neededResourceValue, ResourceTypes type)
+        public void DisableBuildings(float neededResourceValue, ResourceTypes type, bool wasChanged)
         {
             for (int i = PriorityListItems.Count - 1; i > 0; i--)
             {
@@ -288,24 +289,26 @@ namespace Manager
                 List<Building> priorityList = GetAllBuildingsOfType(priorityBuildingType);
 
                 if (priorityList.Count <= 0) continue;
-                
+
+                // calculation of surplus
                 foreach (Resource consumption in priorityList[0].BuildingResources.Consumption)
                 {
                     if (consumption.resource != type) continue;
-                    
+
                     surplus += consumption.value;
                 }
 
                 foreach (Resource production in priorityList[0].BuildingResources.Production)
                 {
                     if (production.resource != type) continue;
-                    
+
                     surplus -= production.value;
                 }
-                
+
+                // DisableBuildings or change Productivity
                 if (surplus <= 0)
                 {
-                    Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
+                    // Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
                 }
                 else
                 {
@@ -317,31 +320,39 @@ namespace Manager
                     {
                         foreach (Building building in priorityList)
                         {
-                            if (!building.IsDisabled)
+                            if (building.IsDisabled) continue;
+
+                            building.IsDisabled = true;
+                            building.CurrentProductivity = 0;
+                            if (!wasChanged)
                             {
-                                building.IsDisabled = true;
                                 Debug.Log($"{building.BuildingType} is disabled cause of {type}");
-                            
-                                DisabledBuildings.Push(new DisabledBuilding(building, type));
-                                neededResourceValue += surplus;
-                                if (neededResourceValue >= 0)
-                                {
-                                    foreach (PriorityListItem item in PriorityListItems)
-                                    {
-                                        item.onChangePriorityUI.Invoke();
-                                        Debug.Log("item.onChangePriorityUI.Invoke()");
-                                    }
-                                    return;
-                                }
                             }
+
+                            DisabledBuildings.Push(new DisabledBuilding(building, type));
+                            neededResourceValue += surplus;
+                            
+                            if (!(neededResourceValue >= 0)) continue;
+                            foreach (PriorityListItem item in PriorityListItems)
+                            {
+                                item.onChangePriorityUI.Invoke();
+                                // Debug.Log("item.onChangePriorityUI.Invoke()");
+                            }
+
+                            return;
                         }
                     }
                 }
 
-                if (neededResourceValue >= 0)
+                if (!(neededResourceValue >= 0)) continue;
+                foreach (PriorityListItem item in PriorityListItems)
                 {
-                    return;
+                    item.onChangePriorityUI.Invoke();
+                    // Debug.Log("item.onChangePriorityUI.Invoke()");
                 }
+
+                return;
+
             }
         }
 
@@ -362,6 +373,8 @@ namespace Manager
                 if (DisabledBuildings.Peek().type != type) return;
 
                 Building building = DisabledBuildings.Peek().building;
+                
+                // Calculation of surplus
                 foreach (Resource consumption in building.BuildingResources.Consumption)
                 {
                     if (consumption.resource != type) continue;
@@ -376,11 +389,14 @@ namespace Manager
                     surplus -= production.value;
                 }
                 
+                // Enables buildings
                 if (surplus > 0 && surplus <= givenResourceValue)
                 {
                     givenResourceValue -= surplus;
                     Debug.Log(DisabledBuildings.Peek().building.BuildingType + " is Enabled");
-                    DisabledBuildings.Pop().building.IsDisabled = false;
+                    building.IsDisabled = false;
+                    building.CurrentProductivity = 1;
+                    DisabledBuildings.Pop();
                     somethingChanged = true;
                     
                     if (DisabledBuildings.Count != 0) continue;
@@ -388,17 +404,18 @@ namespace Manager
                     foreach (PriorityListItem item in PriorityListItems)
                     {
                         item.onChangePriorityUI.Invoke();
-                        Debug.Log("item.onChangePriorityUI.Invoke()");
+                        // Debug.Log("item.onChangePriorityUI.Invoke()");
                     }
                 }
                 else
                 {
                     if (!somethingChanged) return;
-                    
+                    //OnChangePriority();
+
                     foreach (PriorityListItem item in PriorityListItems)
                     {
                         item.onChangePriorityUI.Invoke();
-                        Debug.Log("item.onChangePriorityUI.Invoke()");
+                        // Debug.Log("item.onChangePriorityUI.Invoke()");
                     }
                     
                     return;
@@ -423,23 +440,247 @@ namespace Manager
         {
             DisabledBuilding[] buildings = new DisabledBuilding[DisabledBuildings.Count];
             int count = DisabledBuildings.Count;
+            float citizenSurplus = 0;
+            float energySurplus = 0;
+            float materialSurplus = 0;
+
+            // enable all
             for (int i = 0; i < count; i++)
             {
-                buildings[i] = DisabledBuildings.Pop();
-            }
-        
-            for (int i = PriorityListItems.Count - 1; i > 0; i--)
-            {
-                BuildingTypes type = GetBuildingTypeOnPriority(i);
-                foreach (DisabledBuilding item in buildings)
+                DisabledBuilding disabledBuilding = DisabledBuildings.Pop();
+                disabledBuilding.building.CurrentProductivity = 1;
+                disabledBuilding.building.IsDisabled = false;
+                
+                foreach (Resource resource in disabledBuilding.building.BuildingResources.Consumption)
                 {
-                    if (type != item.building.BuildingType) continue;
+                    if (resource.resource != disabledBuilding.type) continue;
                     
-                    DisabledBuildings.Push(item);
+                    switch (resource.resource)
+                    {
+                        case ResourceTypes.Material:
+                            materialSurplus -= resource.value;
+                            break;
+                        case ResourceTypes.Energy:
+                            energySurplus -= resource.value;
+                            break;
+                        case ResourceTypes.Citizen:
+                            citizenSurplus -= resource.value;
+                            break;
+                    }
                 }
-        
-                if (DisabledBuildings.Count == buildings.Length) return;
+                
+                foreach (Resource resource in disabledBuilding.building.BuildingResources.Production)
+                {
+                    if (resource.resource != disabledBuilding.type) continue;
+                    switch (resource.resource)
+                    {
+                        case ResourceTypes.Material:
+                            materialSurplus += resource.value;
+                            break;
+                        case ResourceTypes.Energy:
+                            energySurplus += resource.value;
+                            break;
+                        case ResourceTypes.Citizen:
+                            citizenSurplus += resource.value;
+                            break;
+                    }
+                }
+                buildings[i] = disabledBuilding;
             }
+            
+            // disable all
+
+            DisableBuildings(materialSurplus, ResourceTypes.Material, true);
+            DisableBuildings(energySurplus, ResourceTypes.Energy, true);
+            DisableBuildings(citizenSurplus, ResourceTypes.Citizen, true);
+
+            int citizenSaveCount = 0;
+            int energyGainCount = 0;
+            int lifeSupportGainCount = 0;
+            int materialGainCount = 0;
+            int energySaveCount = 0;
+            int lifeSupportSaveCount = 0;
+            int materialSaveCount = 0;
+            foreach (DisabledBuilding building in buildings)
+            {
+                switch (building.building.BuildingType)
+                {
+                    case BuildingTypes.CitizenSave:
+                        citizenSaveCount++;
+                        break;
+                    case BuildingTypes.EnergyGain:
+                        energyGainCount++;
+                        break;
+                    case BuildingTypes.LifeSupportGain:
+                        lifeSupportGainCount++;
+                        break;
+                    case BuildingTypes.MaterialGain:
+                        materialGainCount++;
+                        break;
+                    case BuildingTypes.EnergySave:
+                        energySaveCount++;
+                        break;
+                    case BuildingTypes.LifeSupportSave:
+                        lifeSupportSaveCount++;
+                        break;
+                    case BuildingTypes.MaterialSave:
+                        materialSaveCount++;
+                        break;
+                }
+            }
+
+            foreach (DisabledBuilding disabledBuilding in DisabledBuildings)
+            {
+                switch (disabledBuilding.building.BuildingType)
+                {
+                    case BuildingTypes.CitizenSave:
+                        citizenSaveCount--;
+                        break;
+                    case BuildingTypes.EnergyGain:
+                        energyGainCount--;
+                        break;
+                    case BuildingTypes.LifeSupportGain:
+                        lifeSupportGainCount--;
+                        break;
+                    case BuildingTypes.MaterialGain:
+                        materialGainCount--;
+                        break;
+                    case BuildingTypes.EnergySave:
+                        energySaveCount--;
+                        break;
+                    case BuildingTypes.LifeSupportSave:
+                        lifeSupportSaveCount--;
+                        break;
+                    case BuildingTypes.MaterialSave:
+                        materialSaveCount--;
+                        break;
+                }
+            }
+
+            if (citizenSaveCount > 0)
+            {
+                for (int i = 0; i < citizenSaveCount; i++)
+                {
+                    Debug.Log(BuildingTypes.CitizenSave + " is Enabled");
+                }
+            }
+            else if (citizenSaveCount < 0)
+            {
+                for (int i = citizenSaveCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingTypes.CitizenSave + " is Disabled");
+                }
+            }
+            
+            if (energyGainCount > 0)
+            {
+                for (int i = 0; i < energyGainCount; i++)
+                {
+                    Debug.Log(BuildingTypes.EnergyGain + " is Enabled");
+                }
+            }
+            else if (energyGainCount < 0)
+            {
+                for (int i = energyGainCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingTypes.EnergyGain + " is Disabled");
+                }
+            }
+            
+            if (lifeSupportGainCount > 0)
+            {
+                for (int i = 0; i < lifeSupportGainCount; i++)
+                {
+                    Debug.Log(BuildingTypes.LifeSupportGain + " is Enabled");
+                }
+            }
+            else if (lifeSupportGainCount < 0)
+            {
+                for (int i = lifeSupportGainCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingTypes.LifeSupportGain + " is Disabled");
+                }
+            }
+            
+            if (materialGainCount > 0)
+            {
+                for (int i = 0; i < materialGainCount; i++)
+                {
+                    Debug.Log(BuildingTypes.MaterialGain + " is Enabled");
+                }
+            }
+            else if (materialGainCount < 0)
+            {
+                for (int i = materialGainCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingTypes.MaterialGain + " is Disabled");
+                }
+            }
+            
+            if (energySaveCount > 0)
+            {
+                for (int i = 0; i < energySaveCount; i++)
+                {
+                    Debug.Log(BuildingTypes.EnergySave + " is Enabled");
+                }
+            }
+            else if (energySaveCount < 0)
+            {
+                for (int i = energySaveCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingTypes.EnergySave + " is Disabled");
+                }
+            }
+            
+            if (lifeSupportSaveCount > 0)
+            {
+                for (int i = 0; i < lifeSupportSaveCount; i++)
+                {
+                    Debug.Log(BuildingTypes.LifeSupportSave + " is Enabled");
+                }
+            }
+            else if (lifeSupportSaveCount < 0)
+            {
+                for (int i = lifeSupportSaveCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingTypes.LifeSupportSave + " is Disabled");
+                }
+            }
+            
+            if (materialSaveCount > 0)
+            {
+                for (int i = 0; i < materialSaveCount; i++)
+                {
+                    Debug.Log(BuildingTypes.MaterialSave + " is Enabled");
+                }
+            }
+            else if (materialSaveCount < 0)
+            {
+                for (int i = materialSaveCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingTypes.MaterialSave + " is Disabled");
+                }
+            }
+
+            //                                                                                              OLD
+            // for (int i = 0; i < count; i++)
+            // {
+            //     buildings[i] = DisabledBuildings.Pop();
+            // }
+            //
+            // for (int i = PriorityListItems.Count - 1; i > 0; i--)
+            // {
+            //     BuildingTypes type = GetBuildingTypeOnPriority(i);
+            
+            //     foreach (DisabledBuilding item in buildings)
+            //     {
+            //         if (type != item.building.BuildingType) continue;
+            //     
+            //         DisabledBuildings.Push(item);
+            //     }
+            //
+            //     if (DisabledBuildings.Count == buildings.Length) return;
+            // }
         }
     
         /// <summary>
@@ -460,7 +701,7 @@ namespace Manager
                 }
             }
             
-            DisableBuildings(surplus, ResourceTypes.Citizen);
+            DisableBuildings(surplus, ResourceTypes.Citizen, true);
             
             //     Building[] priorityBuildings = new Building[ChangedProductivityBuildings.Count];
             //     int count = ChangedProductivityBuildings.Count;
@@ -484,6 +725,12 @@ namespace Manager
             //             return;
             //         }
             //     }
+            
+            foreach (PriorityListItem item in PriorityListItems)
+            {
+                item.onChangePriorityUI.Invoke();
+                Debug.Log("item.onChangePriorityUI.Invoke()");
+            }
         }
 
         #endregion

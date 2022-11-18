@@ -158,7 +158,7 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType);
+                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType, false);
                 SavedResourceValue = 0;
             }
             else if (gameManager.DisabledBuildings.Count != 0)

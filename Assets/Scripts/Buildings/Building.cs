@@ -43,7 +43,7 @@ namespace Buildings
         /// <summary>
         /// 0: shows, if it was disabled
         /// </summary>
-        private UnityEvent<bool> onBuildingWasDisabled = new();
+        // private UnityEvent<bool> onBuildingWasDisabled = new();
         
         /// <summary>
         /// 0: old productivity
@@ -68,8 +68,8 @@ namespace Buildings
                 if (isDisabled == value) return;
 
                 isDisabled = value;
-                onBuildingWasDisabled?.Invoke(isDisabled);
-                Debug.Log("onBuildingWasDisabled?.Invoke(isDisabled)");
+                // onBuildingWasDisabled?.Invoke(isDisabled);
+                // Debug.Log("onBuildingWasDisabled?.Invoke(isDisabled)");
             }
         }
 
@@ -82,7 +82,7 @@ namespace Buildings
                 if (currentProductivity == value) return;
                 
                 onBuildingProductivityChanged.Invoke(currentProductivity, value);
-                Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
+                // Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
                 currentProductivity = value;
             }
         }
@@ -102,7 +102,7 @@ namespace Buildings
         /// </summary>
         private void Start()
         {
-            onBuildingWasDisabled.AddListener(ChangeIsDisabled);
+            // onBuildingWasDisabled.AddListener(ChangeIsDisabled);
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
             
             managers = new List<ResourceManager>();
@@ -139,7 +139,7 @@ namespace Buildings
             {
                 DisableModule(CurrentProductivity, false);
             }
-            onBuildingWasDisabled.RemoveListener(ChangeIsDisabled);
+            // onBuildingWasDisabled.RemoveListener(ChangeIsDisabled);
             onBuildingProductivityChanged.RemoveListener(ChangeProductivity);
 
             gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
@@ -183,11 +183,11 @@ namespace Buildings
         /// Disables or Enables Modules, when onBuildingWasDisabled event triggers
         /// </summary>
         /// <param name="disabled">shows, if it gets disabled or enabled</param>
-        private void ChangeIsDisabled(bool disabled)
-        {
-            if (disabled) DisableModule(CurrentProductivity, true);
-            else EnableModule(CurrentProductivity, true);
-        }
+        // private void ChangeIsDisabled(bool disabled)
+        // {
+        //     if (disabled) DisableModule(CurrentProductivity, true);
+        //     else EnableModule(CurrentProductivity, true);
+        // }
 
         /// <summary>
         /// Changes Productivity by the given values, when onBuildingProductivity event triggers

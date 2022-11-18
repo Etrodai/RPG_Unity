@@ -88,7 +88,7 @@ namespace ResourceManagement.Manager
                 if (savedResourceValue == value) return;
                 savedResourceValue = value;
                 onCitizenSavedValueChanged?.Invoke();
-                Debug.Log("onCitizenSavedValueChanged?.Invoke()");
+                // Debug.Log("onCitizenSavedValueChanged?.Invoke()");
             } 
         }
         
@@ -255,7 +255,7 @@ namespace ResourceManagement.Manager
             }
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(SavedResourceValue, ResourceType);
+                gameManager.DisableBuildings(SavedResourceValue, ResourceType, false);
             }
             else if (gameManager.ChangedProductivityBuildings.Count != 0)
             {
