@@ -26,9 +26,9 @@ MonoBehaviour:
   requiredEvent: 
   requiredResources: []
   requiredModules:
-  - buildingTypes: 2
+  - buildingType: 2
     value: 1
-  - buildingTypes: 5
+  - buildingType: 5
     value: 1
   mileStoneAchievedText:
   - Wir messen einen Anstieg Ihrer Sauerstoff Werte. Gute Arbeit

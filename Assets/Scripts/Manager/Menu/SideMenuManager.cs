@@ -54,6 +54,7 @@ namespace Manager.Menu
             }
             else if (priorityListPanel.isMinimized &&  !mileStoneSystemPanel.isMinimized)
             {
+                mileStoneEvent.ClickPriorityButton();
                 ShowPanel(ref priorityListPanel);
                 HidePanel(ref mileStoneSystemPanel);
             }

@@ -21,13 +21,13 @@ MonoBehaviour:
     value: 1000
     eventResourceDemandValue: 0
   requiredModules:
-  - buildingTypes: 4
+  - buildingType: 4
     value: 15
-  - buildingTypes: 5
+  - buildingType: 5
     value: 15
-  - buildingTypes: 6
+  - buildingType: 6
     value: 15
-  - buildingTypes: 8
+  - buildingType: 8
     value: 100
   mileStoneAchievedText:
   - "Herzlichen Gl\xFCckwunsch. Sie haben die Station erfolgreich aufgebaut. Sie

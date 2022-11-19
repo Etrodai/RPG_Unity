@@ -20,9 +20,9 @@ MonoBehaviour:
   requiredEvent: 01000000
   requiredResources: []
   requiredModules:
-  - buildingTypes: 1
+  - buildingType: 1
     value: 1
-  - buildingTypes: 4
+  - buildingType: 4
     value: 1
   mileStoneAchievedText:
   - "Sehr gut, Sie nun haben wir wieder gen\xFCgend Strom und alle Module laufen

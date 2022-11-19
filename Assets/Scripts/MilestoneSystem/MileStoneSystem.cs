@@ -485,22 +485,46 @@ namespace MilestoneSystem
                     ResourceManager manager = managers[j];
                     if (requiredResource.resource != manager.ResourceType) continue;
 
-                    if (manager.SavedResourceValue < requiredResource.value)
+                    if (requiredResource.resource == ResourceType.Citizen)
                     {
-                        itemToggles[index].isOn = false;
-                        hasAllRequiredStuff = false;
+                        if (manager.CurrentResourceProduction < requiredResource.value)
+                        {
+                            itemToggles[index].isOn = false;
+                            hasAllRequiredStuff = false;
+                        }
+                        else
+                        {
+                            if (itemToggles[index].isOn)
+                            {
+                                index++;
+                                continue;
+                            }
+
+                            itemToggles[index].isOn = true;
+                            SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
+                        }
                     }
                     else
                     {
-                        if (itemToggles[index].isOn)
+                        if (manager.SavedResourceValue < requiredResource.value)
                         {
-                            index++;
-                            continue;
+                            itemToggles[index].isOn = false;
+                            hasAllRequiredStuff = false;
                         }
+                        else
+                        {
+                            if (itemToggles[index].isOn)
+                            {
+                                index++;
+                                continue;
+                            }
 
-                        itemToggles[index].isOn = true;
-                        SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
+                            itemToggles[index].isOn = true;
+                            SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
+                        }
                     }
+                   
+                    
 
                     index++;
                 }

@@ -108,7 +108,7 @@ namespace Manager
                 for (int i = 0; i < AllBuildings.Count; i++)
                 {
                     Building building = AllBuildings[i];
-                    if (building != nullBuilding) count++;
+                    if (building.BuildingType != nullBuilding.BuildingType) count++;
                 }
 
                 return count;

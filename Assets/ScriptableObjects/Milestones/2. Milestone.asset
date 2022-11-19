@@ -27,7 +27,7 @@ MonoBehaviour:
   requiredEvent: 
   requiredResources: []
   requiredModules:
-  - buildingTypes: 3
+  - buildingType: 3
     value: 1
   mileStoneAchievedText:
   - "Ihre Station bietet genug Energie und Sauerstoff f\xFCr den Betrieb von grundlegenden

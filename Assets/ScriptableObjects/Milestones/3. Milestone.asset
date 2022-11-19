@@ -23,7 +23,7 @@ MonoBehaviour:
   requiredEvent: 
   requiredResources: []
   requiredModules:
-  - buildingTypes: 7
+  - buildingType: 7
     value: 1
   mileStoneAchievedText:
   - "Mit der Zeit werden Arbeiter auf freie Stellen in Ihrer Station aufmerksam und
