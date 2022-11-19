@@ -17,13 +17,9 @@ namespace SaveSystem
         private SaveData saveData;
         //TODO: (Robin) load als event oder nacheinander aufrufen wegen Order of execution
 
-        private void Awake()
-        {
-            saveData = SaveData.Instance;
-        }
-
         private void Start()
         {
+            saveData = SaveData.Instance;
             OnSaveValueChanged();
             loadPanel.SetActive(false);
             Save.OnSaveButtonClick.AddListener(SaveGameData);
