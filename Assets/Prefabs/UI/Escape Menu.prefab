@@ -87,7 +87,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 0.2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1640,6 +1640,7 @@ MonoBehaviour:
   cameraSensitivity: {fileID: 0}
   cameraSensitivitySlider: {fileID: 7975433926454458967}
   invertedControlToggle: {fileID: 7975433927016879263}
+  playerInput: {fileID: 0}
 --- !u!1 &7975433926904737612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2104,7 +2105,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 0.2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -6872,6 +6873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   escapeMenu: {fileID: 7975433927946142092}
   optionsMenu: {fileID: 7975433926890853844}
+  playerInput: {fileID: 0}
 --- !u!1 &7975433928170910930
 GameObject:
   m_ObjectHideFlags: 0
@@ -7161,7 +7163,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 5
   m_Viewport: {fileID: 7975433928484711823}
   m_HorizontalScrollbar: {fileID: 7975433927154377766}
   m_VerticalScrollbar: {fileID: 7975433927515846697}

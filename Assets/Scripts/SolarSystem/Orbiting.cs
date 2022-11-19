@@ -13,24 +13,30 @@ namespace SolarSystem
     {
         public float xSpread;
         public float zSpread;
-    
+
         public float yOffset;
         public float timeOffset = 0.2f;
-    
+
         public Transform centerPoint;
 
         public float rotSpeed;
         public bool rotateClockwise;
+        public bool oneTimeRotate = false;
 
         private float timer;
 
         private void Start()
         {
-            OrbitingSave.Planets.Add(this.GameObject());
         }
 
         private void Update()
         {
+            if (oneTimeRotate)
+            {
+                OneTimeOrbit();
+                this.enabled = false;
+            }
+
             timer += Time.deltaTime * rotSpeed;
             Rotate();
         }
@@ -53,6 +59,11 @@ namespace SolarSystem
                 Vector3 pos = new Vector3(x, y, z);
                 transform.position = pos + centerPoint.position;
             }
+        }
+
+        private void OneTimeOrbit()
+        {
+            
         }
     }
 }
