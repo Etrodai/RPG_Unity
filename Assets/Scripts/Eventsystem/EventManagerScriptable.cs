@@ -59,13 +59,15 @@ namespace Eventsystem
         private void Start()
         {
             eventBehaviour.Initialize();
+            resetEventTimer += ResetTimerAndParticle;
             resetEventTimer += StartTimer;                                      //Adding those methods to enable calling them at the end of the event in EventBehaviourScriptable
+            timer = UnityEngine.Random.Range(setMinimumTimer, setMaximumTimer);
+            StartCoroutine(NextEventTimer());
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
             timer = UnityEngine.Random.Range(setMinimumTimer, setMaximumTimer);
-            resetEventTimer.Invoke();
-            resetEventTimer += ResetTimerAndParticle;
+            //resetEventTimer.Invoke();
         }
 
         private void OnDestroy()
@@ -178,9 +180,9 @@ namespace Eventsystem
                 case "Kreuzende Wege":
                     eventParticles[1].SetActive(true);
                     break;
-                //case "Piraten Angriff":
-                //    eventParticles[2].SetActive(true);
-                //    break;
+                case "Piraten Angriff":
+                    eventParticles[2].SetActive(true);
+                    break;
                 default:
                     break;
             }
@@ -204,9 +206,9 @@ namespace Eventsystem
                     case "Kreuzende Wege":
                         eventParticles[1].SetActive(false);
                         break;
-                    //case "Piraten Angriff":
-                    //    eventParticles[2].SetActive(false);
-                    //    break;
+                    case "Piraten Angriff":
+                        eventParticles[2].SetActive(false);
+                        break;
                     default:
                         break;
                 } 

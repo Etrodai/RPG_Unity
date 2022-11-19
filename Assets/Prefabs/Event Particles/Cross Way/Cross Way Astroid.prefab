@@ -83,7 +83,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4320511574331447159
 Transform:
   m_ObjectHideFlags: 0
@@ -123,13 +123,13 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 0.23, y: -1.55, z: 15.35}
+      - m_Value: {x: 4.65, y: -1.55, z: -15.88}
         m_Name: Pos1
         m_Overridden: 1
-      - m_Value: {x: -6.51, y: 6.81, z: 15.35}
+      - m_Value: {x: -2.0900002, y: 6.81, z: -15.88}
         m_Name: Pos2
         m_Overridden: 1
-      - m_Value: {x: -11.39, y: 12.61, z: 15.35}
+      - m_Value: {x: -6.9700003, y: 12.61, z: -15.88}
         m_Name: Pos3
         m_Overridden: 1
     m_Vector4f:
