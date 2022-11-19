@@ -19,7 +19,7 @@ namespace SaveSystem
     {
         #region Variables
 
-        private static List<GridSystemData> Data { get; } = new();
+        private static List<GridSystemData> Data { get; set; }
         private Gridsystem gridsystem;
         private Transform parent;
         private SaveData saveData;
@@ -48,8 +48,9 @@ namespace SaveSystem
 
         #region Save & Load
 
-         private void SaveData()
-        {
+        private void SaveData()
+        { 
+            Data = new ();
             for (int x = 0; x < gridsystem.TileArray.GetLength(0); x++)
             {
                 for (int y = 0; y < gridsystem.TileArray.GetLength(1); y++)
@@ -77,6 +78,7 @@ namespace SaveSystem
     
         private void SaveDataAs(string savePlace)
         {
+            Data = new ();
             for (int x = 0; x < gridsystem.TileArray.GetLength(0); x++)
             {
                 for (int y = 0; y < gridsystem.TileArray.GetLength(1); y++)

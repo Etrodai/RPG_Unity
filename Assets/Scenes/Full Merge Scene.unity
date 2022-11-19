@@ -2522,22 +2522,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98220354
+      value: 0.98237073
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.12777172
+      value: 0.12645756
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.1374575
+      value: 0.137498
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.007486322
+      value: -0.007107311
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -4416,8 +4416,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c93b5d883e88a4182c69ac7a680995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildMenuLayout: {fileID: 0}
-  prefabBlueprintObject: {fileID: 0}
+  buildMenuLayout: {fileID: 1351156399}
+  prefabBlueprintObject: {fileID: 6137071565662030411, guid: f8a40523c72cff94a97f91bed5e3aaa5,
+    type: 3}
   playerInput: {fileID: 912021417}
 --- !u!4 &1146719526
 Transform:
@@ -4984,6 +4985,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1351156399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8939557473242862153, guid: c4184ba17d8be0846903de10bea1f884,
+    type: 3}
+  m_PrefabInstance: {fileID: 1473481242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1364424672
 GameObject:
   m_ObjectHideFlags: 0
