@@ -119,10 +119,19 @@ namespace MilestoneSystem
             if (!CheckIfAchieved()) return;
             
             isDone = true;
-            
-            foreach (GameObject item in allItems) Destroy(item);
-            foreach (GameObject item in allLabels) Destroy(item);
-            
+
+            for (var i = 0; i < allItems.Count; i++)
+            {
+                GameObject item = allItems[i];
+                Destroy(item);
+            }
+
+            for (var i = 0; i < allLabels.Count; i++)
+            {
+                GameObject item = allLabels[i];
+                Destroy(item);
+            }
+
             allItems.Clear();
             itemToggles.Clear();
             allLabels.Clear();
@@ -273,42 +282,46 @@ namespace MilestoneSystem
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "ToDos";
                 showText = false;
-                foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
                 {
-                    foreach (MileStoneEvent mileStoneEvent in events)
+                    MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
+                    for (int j = 0; j < events.Length; j++)
                     {
-                        if (mileStoneEvent.Name == requiredEvent)
+                        MileStoneEvent mileStoneEvent = events[j];
+                        if (mileStoneEvent.Name != requiredEvent) continue;
+                        
+                        for (int k = 0; k < mileStoneEvent.Events.Length; k++)
                         {
-                            for (int i = 0; i < mileStoneEvent.Events.Length; i++)
+                            item = Instantiate(itemPrefab, mileStonePanel.transform, true);
+                            allItems.Add(item);
+                            itemToggles.Add(item.GetComponentInChildren<Toggle>());
+                            item.transform.localScale = Vector3.one;
+                            text = item.GetComponentInChildren<TextMeshProUGUI>();
+                            text.text = mileStoneEvent.Events[k].text;
+                            if (!string.IsNullOrEmpty(text.text))
                             {
-                                item = Instantiate(itemPrefab, mileStonePanel.transform, true);
-                                allItems.Add(item);
-                                itemToggles.Add(item.GetComponentInChildren<Toggle>());
-                                item.transform.localScale = Vector3.one;
-                                text = item.GetComponentInChildren<TextMeshProUGUI>();
-                                text.text = mileStoneEvent.Events[i].text;
-                                if (!string.IsNullOrEmpty(text.text))
-                                {
-                                    showText = true;
-                                }
+                                showText = true;
                             }
-
-                            mileStoneEvent.enabled = true;
-                            mileStoneEvent.ResetAll();
                         }
+
+                        mileStoneEvent.enabled = true;
+                        mileStoneEvent.ResetAll();
                     }
                 }
 
                 if (!showText)
                 {
-                    foreach (GameObject allLabel in allLabels)
+                    for (int i = 0; i < allLabels.Count; i++)
                     {
+                        GameObject allLabel = allLabels[i];
                         Destroy(allLabel);
                     }
+
                     allLabels.Clear();
-                    
-                    foreach (GameObject allItem in allItems)
+
+                    for (int i = 0; i < allItems.Count; i++)
                     {
+                        GameObject allItem = allItems[i];
                         Destroy(allItem);
                     }
                 }
@@ -323,8 +336,9 @@ namespace MilestoneSystem
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "Benötigte Ressourcen";
-                foreach (Resource requiredResource in mileStones[mileStonesDone].RequiredResources)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredResources.Length; i++)
                 {
+                    Resource requiredResource = mileStones[mileStonesDone].RequiredResources[i];
                     item = Instantiate(itemPrefab, mileStonePanel.transform, true);
                     allItems.Add(item);
                     itemToggles.Add(item.GetComponentInChildren<Toggle>());
@@ -341,56 +355,57 @@ namespace MilestoneSystem
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "Benötigte Module";
-                foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredModules.Length; i++)
                 {
+                    MileStoneModule requiredModule = mileStones[mileStonesDone].RequiredModules[i];
                     item = Instantiate(itemPrefab, mileStonePanel.transform, true);
                     allItems.Add(item);
                     itemToggles.Add(item.GetComponentInChildren<Toggle>());
                     item.transform.localScale = Vector3.one;
                     text = item.GetComponentInChildren<TextMeshProUGUI>();
 
-                    switch (requiredModule.buildingTypes)
+                    switch (requiredModule.buildingType)
                     {
-                        case BuildingTypes.StartModule:
+                        case BuildingType.StartModule:
                             text.text = "";
                             break;
-                        case BuildingTypes.EnergyGain:
+                        case BuildingType.EnergyGain:
                             text.text += $"{requiredModule.value} Generator";
                             if (requiredModule.value <= 1) break;
                             text.text += "en";
                             break;
-                        case BuildingTypes.LifeSupportGain:
+                        case BuildingType.LifeSupportGain:
                             text.text += $"{requiredModule.value} Biokuppel";
                             if (requiredModule.value <= 1) break;
                             text.text += "en";
                             break;
-                        case BuildingTypes.MaterialGain:
+                        case BuildingType.MaterialGain:
                             text.text += $"{requiredModule.value} Raffinerie";
                             if (requiredModule.value <= 1) break;
                             text.text += "n";
                             break;
-                        case BuildingTypes.EnergySave:
+                        case BuildingType.EnergySave:
                             text.text += $"{requiredModule.value} Batterie";
                             if (requiredModule.value <= 1) break;
                             text.text += "n";
                             break;
-                        case BuildingTypes.LifeSupportSave:
+                        case BuildingType.LifeSupportSave:
                             text.text += $"{requiredModule.value} Wassertank";
                             if (requiredModule.value <= 1) break;
                             text.text += "s";
                             break;
-                        case BuildingTypes.MaterialSave:
+                        case BuildingType.MaterialSave:
                             text.text += $"{requiredModule.value} Erzlager";
                             if (requiredModule.value <= 1) break;
                             text.text += "er";
                             break;
-                        case BuildingTypes.CitizenSave:
+                        case BuildingType.CitizenSave:
                             text.text += $"{requiredModule.value} Wohneinheit";
-                            
+
                             if (requiredModule.value <= 1) break;
                             text.text += "en";
                             break;
-                        case BuildingTypes.All:
+                        case BuildingType.All:
                             text.text += $"Insgesamt {requiredModule.value} Modul";
                             if (requiredModule.value <= 1) break;
                             text.text += "e";
@@ -417,13 +432,15 @@ namespace MilestoneSystem
 
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
-                foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
                 {
-                    foreach (MileStoneEvent mileStoneEvent in events)
+                    MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
+                    for (int j = 0; j < events.Length; j++)
                     {
+                        MileStoneEvent mileStoneEvent = events[j];
                         if (mileStoneEvent.Name != requiredEvent) continue;
 
-                        for (int i = 0; i < mileStoneEvent.Events.Length; i++)
+                        for (int k = 0; k < mileStoneEvent.Events.Length; k++)
                         {
                             if (!showText)
                             {
@@ -453,19 +470,21 @@ namespace MilestoneSystem
                                     SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
                                 }
                             }
-                            
+
                             index++;
                         }
                     }
                 }
             }
 
-            foreach (Resource requiredResource in mileStones[mileStonesDone].RequiredResources)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredResources.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource requiredResource = mileStones[mileStonesDone].RequiredResources[i];
+                for (int j = 0; j < managers.Count; j++)
                 {
+                    ResourceManager manager = managers[j];
                     if (requiredResource.resource != manager.ResourceType) continue;
-                    
+
                     if (manager.SavedResourceValue < requiredResource.value)
                     {
                         itemToggles[index].isOn = false;
@@ -478,8 +497,9 @@ namespace MilestoneSystem
                             index++;
                             continue;
                         }
+
                         itemToggles[index].isOn = true;
-                        SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone); 
+                        SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
                     }
 
                     index++;
@@ -505,15 +525,16 @@ namespace MilestoneSystem
                 // }
             }
 
-            foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredModules.Length; i++)
             {
+                MileStoneModule requiredModule = mileStones[mileStonesDone].RequiredModules[i];
                 if (itemToggles[index].isOn)
                 {
                     index++;
                     continue;
                 }
 
-                if (gameManager.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                if (gameManager.GetBuildingCount(requiredModule.buildingType) < requiredModule.value)
                 {
                     itemToggles[index].isOn = false;
                     hasAllRequiredStuff = false;
@@ -565,10 +586,12 @@ namespace MilestoneSystem
 
             if (!hasAllRequiredStuff) return false;
 
-            foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
             {
-                foreach (MileStoneEvent mileStoneEvent in events)
+                MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
+                for (int j = 0; j < events.Length; j++)
                 {
+                    MileStoneEvent mileStoneEvent = events[j];
                     if (mileStoneEvent.Name == requiredEvent)
                     {
                         mileStoneEvent.enabled = false;

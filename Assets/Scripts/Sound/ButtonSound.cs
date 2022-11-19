@@ -7,7 +7,7 @@ namespace Sound
     [RequireComponent(typeof(EventTrigger))]
     public class ButtonSound : MonoBehaviour
     {
-        void Start()
+        private void Start()
         {
             GetComponent<Button>().AddButtonSounds();
         }

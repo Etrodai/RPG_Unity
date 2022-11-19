@@ -10,11 +10,11 @@ namespace Editor
     [CustomPropertyDrawer(typeof(Cheat))]
     public class CheatEditor : PropertyDrawer
     {
-        private const float Y_OFFSET = 2f;
+        private const float YOffset = 2f;
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return base.GetPropertyHeight(property, label) * 2f + Y_OFFSET;
+            return base.GetPropertyHeight(property, label) * 2f + YOffset;
             // return base.GetPropertyHeight(property, label) * 10f;
         }
 
@@ -26,7 +26,7 @@ namespace Editor
             // SerializedProperty arguments = property.FindPropertyRelative("Arguments");
 
             Rect commandRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-            Rect functionNameRect = new Rect(position.x, commandRect.y + EditorGUIUtility.singleLineHeight + Y_OFFSET,
+            Rect functionNameRect = new Rect(position.x, commandRect.y + EditorGUIUtility.singleLineHeight + YOffset,
                 position.width, EditorGUIUtility.singleLineHeight);
             // float height = arguments.isExpanded ? EditorGUIUtility.singleLineHeight * (arguments.arraySize) : EditorGUIUtility.singleLineHeight;
             // Rect argumentsRect = new Rect(position.x, functionNameRect.position.y + functionNameRect.height + Y_OFFSET, position.width, height);
@@ -63,8 +63,9 @@ namespace Editor
             methods.AddRange(typeof(CheatCodeLogic).GetMethods()
                 .Where(method => method.DeclaringType == typeof(CheatCodeLogic)));
 
-            foreach (MethodInfo item in methods)
+            for (int i = 0; i < methods.Count; i++)
             {
+                MethodInfo item = methods[i];
                 methodNames.Add(item.Name);
             }
 

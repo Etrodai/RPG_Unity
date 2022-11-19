@@ -1,8 +1,8 @@
-using System;
 using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace ResourceManagement.Manager
 {
@@ -79,7 +79,7 @@ namespace ResourceManagement.Manager
             } 
         }
         
-        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Material;
+        public override ResourceType ResourceType { get; set; } = ResourceType.Material;
 
         #endregion
 
@@ -158,7 +158,7 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType);
+                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType, false);
                 SavedResourceValue = 0;
             }
             else if (gameManager.DisabledBuildings.Count != 0)

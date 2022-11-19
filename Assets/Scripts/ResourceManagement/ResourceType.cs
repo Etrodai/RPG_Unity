@@ -3,7 +3,7 @@ namespace ResourceManagement
     /// <summary>
     /// Types of Resources
     /// </summary>
-    public enum ResourceTypes
+    public enum ResourceType
     {
         Material,
         Energy,

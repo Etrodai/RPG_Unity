@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace MilestoneSystem.Events
 {
@@ -10,8 +8,8 @@ namespace MilestoneSystem.Events
 
         [SerializeField] private float timerStart = 10f;
         private float timer;
-        public override MileStoneEventNames Name { get; set; }
-        public override MileStoneEventItems[] Events { get; set; }
+        public override MileStoneEventName Name { get; set; }
+        public override MileStoneEventItem[] Events { get; set; }
 
         #endregion
 
@@ -22,8 +20,8 @@ namespace MilestoneSystem.Events
         /// </summary>
         private void Start()
         {
-            Name = MileStoneEventNames.WaitForSeconds;
-            Events = new MileStoneEventItems[1];
+            Name = MileStoneEventName.WaitForSeconds;
+            Events = new MileStoneEventItem[1];
             Events[0].text = "";
             Events[0].isAchieved = false;
         }

@@ -1,6 +1,6 @@
 namespace MilestoneSystem
 {
-    public enum MileStoneEventNames
+    public enum MileStoneEventName
     {
         CameraMovement,
         ShowPrioritySystem,

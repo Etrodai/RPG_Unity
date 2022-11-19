@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Manager;
 using PriorityListSystem;
@@ -7,6 +6,7 @@ using ResourceManagement.Manager;
 using Sound;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace Buildings
 {
@@ -23,7 +23,7 @@ namespace Buildings
         #region Variables
         
         [SerializeField] private BuildingResourcesScriptableObject buildingResources; // Which Resources the building needs/produces
-        [SerializeField] private BuildingTypes buildingType; // ENUM
+        [SerializeField] private BuildingType buildingType; // ENUM
         private int indexOfAllBuildings; // index of the building in allBuildingsList of gameManager
         [SerializeField] private bool isDisabled; // does the Building work?
         private float currentProductivity = 1.0f;
@@ -39,17 +39,12 @@ namespace Buildings
         #endregion
 
         #region Events
-
-        /// <summary>
-        /// 0: shows, if it was disabled
-        /// </summary>
-        private UnityEvent<bool> onBuildingWasDisabled = new();
         
         /// <summary>
         /// 0: old productivity
         /// 1: new productivity
         /// </summary>
-        private UnityEvent<float, float> onBuildingProductivityChanged = new();
+        private readonly UnityEvent<float, float> onBuildingProductivityChanged = new();
 
         #endregion
         
@@ -57,20 +52,13 @@ namespace Buildings
 
         public BuildingResourcesScriptableObject BuildingResources => buildingResources;
         
-        public BuildingTypes BuildingType => buildingType;
+        public BuildingType BuildingType => buildingType;
 
         //OnValueChangedEvent
         public bool IsDisabled
         {
             get => isDisabled;
-            set
-            {
-                if (isDisabled == value) return;
-
-                isDisabled = value;
-                onBuildingWasDisabled?.Invoke(isDisabled);
-                Debug.Log("onBuildingWasDisabled?.Invoke(isDisabled)");
-            }
+            set => isDisabled = value;
         }
 
         //OnValueChangedEvent
@@ -82,7 +70,7 @@ namespace Buildings
                 if (currentProductivity == value) return;
                 
                 onBuildingProductivityChanged.Invoke(currentProductivity, value);
-                Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
+                // Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
                 currentProductivity = value;
             }
         }
@@ -102,7 +90,7 @@ namespace Buildings
         /// </summary>
         private void Start()
         {
-            onBuildingWasDisabled.AddListener(ChangeIsDisabled);
+            // onBuildingWasDisabled.AddListener(ChangeIsDisabled);
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
             
             managers = new List<ResourceManager>();
@@ -122,8 +110,9 @@ namespace Buildings
             if (!IsLoading) BuildModule();
 
             EnableModule(CurrentProductivity, false);
-            foreach (PriorityListItem item in gameManager.PriorityListItems)
+            for (int i = 0; i < gameManager.PriorityListItems.Count; i++)
             {
+                PriorityListItem item = gameManager.PriorityListItems[i];
                 item.onChangePriorityUI.Invoke();
             }
         }
@@ -139,7 +128,7 @@ namespace Buildings
             {
                 DisableModule(CurrentProductivity, false);
             }
-            onBuildingWasDisabled.RemoveListener(ChangeIsDisabled);
+            // onBuildingWasDisabled.RemoveListener(ChangeIsDisabled);
             onBuildingProductivityChanged.RemoveListener(ChangeProductivity);
 
             gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
@@ -155,7 +144,7 @@ namespace Buildings
         /// <returns></returns>
         public BuildingData SaveBuildingData()
         {
-            BuildingData data = new BuildingData();
+            BuildingData data = new();
             data.isDisabled = isDisabled;
             data.currentProductivity = currentProductivity;
             data.buildingType = (int)buildingType;
@@ -178,17 +167,7 @@ namespace Buildings
         #endregion
         
         #region Methods
-
-        /// <summary>
-        /// Disables or Enables Modules, when onBuildingWasDisabled event triggers
-        /// </summary>
-        /// <param name="disabled">shows, if it gets disabled or enabled</param>
-        private void ChangeIsDisabled(bool disabled)
-        {
-            if (disabled) DisableModule(CurrentProductivity, true);
-            else EnableModule(CurrentProductivity, true);
-        }
-
+        
         /// <summary>
         /// Changes Productivity by the given values, when onBuildingProductivity event triggers
         /// </summary>
@@ -206,20 +185,21 @@ namespace Buildings
         /// </summary>
         private void BuildModule()
         {
-            foreach (Resource cost in buildingResources.Costs)
+            for (int i = 0; i < buildingResources.Costs.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource cost = buildingResources.Costs[i];
+                for (int j = 0; j < managers.Count; j++)
                 {
-                    if (cost.resource == manager.ResourceType)
+                    ResourceManager manager = managers[j];
+                    if (cost.resource != manager.ResourceType) continue;
+                    
+                    if (manager.SavedResourceValue < cost.value)
                     {
-                        if (manager.SavedResourceValue < cost.value)
-                        {
-                            Debug.LogError($"Not enough {cost.resource} to build this Module.");
-                        }
-                        else
-                        {
-                            manager.SavedResourceValue -= cost.value;
-                        }
+                        Debug.LogError($"Not enough {cost.resource} to build this Module.");
+                    }
+                    else
+                    {
+                        manager.SavedResourceValue -= cost.value;
                     }
                 }
                 // switch (item.resource)
@@ -271,16 +251,16 @@ namespace Buildings
         /// </summary>
         private void EnableModule(float productivity, bool playSound)
         {
-            foreach (Resource production in buildingResources.Production)
+            for (int i = 0; i < buildingResources.Production.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource production = buildingResources.Production[i];
+                for (var j = 0; j < managers.Count; j++)
                 {
-                    if (production.resource == manager.ResourceType)
-                    {
-                        manager.CurrentResourceProduction += production.value * productivity;
-                    }
+                    ResourceManager manager = managers[j];
+                    if (production.resource != manager.ResourceType) continue;
+                    manager.CurrentResourceProduction += production.value * productivity;
                 }
-                
+
                 // switch (item.resource)
                 // {
                 //     case ResourceTypes.Material:
@@ -290,7 +270,7 @@ namespace Buildings
                 //         energyManager.CurrentResourceProduction += item.value;
                 //         break;
                 //     case ResourceTypes.Citizen:
-                //         citizenManager.CurrentResourceDemand -= item.value; // gibt es eine Produktion???
+                //         citizenManager.CurrentResourceDemand -= item.value;
                 //         break;
                 //     case ResourceTypes.Food:
                 //         foodManager.CurrentResourceProduction += item.value;
@@ -301,16 +281,16 @@ namespace Buildings
                 // }
             }
 
-            foreach (Resource consumption in buildingResources.Consumption)
+            for (int i = 0; i < buildingResources.Consumption.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource consumption = buildingResources.Consumption[i];
+                for (int j = 0; j < managers.Count; j++)
                 {
-                    if (consumption.resource == manager.ResourceType)
-                    {
-                        manager.CurrentResourceDemand += consumption.value * productivity;
-                    }
+                    ResourceManager manager = managers[j];
+                    if (consumption.resource != manager.ResourceType) continue;
+                    manager.CurrentResourceDemand += consumption.value * productivity;
                 }
-                
+
                 // switch (item.resource)
                 // {
                 //     case ResourceTypes.Material:
@@ -331,16 +311,16 @@ namespace Buildings
                 // }
             }
 
-            foreach (Resource space in buildingResources.SaveSpace)
+            for (int i = 0; i < buildingResources.SaveSpace.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource space = buildingResources.SaveSpace[i];
+                for (int j = 0; j < managers.Count; j++)
                 {
-                    if (space.resource == manager.ResourceType)
-                    {
-                        manager.SaveSpace += space.value * productivity;
-                    }
+                    ResourceManager manager = managers[j];
+                    if (space.resource != manager.ResourceType) continue;
+                    manager.SaveSpace += space.value * productivity;
                 }
-                
+
                 // switch (item.resource)
                 // {
                 //     case ResourceTypes.Material:
@@ -361,10 +341,8 @@ namespace Buildings
                 // }
             }
 
-            if (playSound)
-            {
-                SoundManager.PlaySound(SoundManager.Sound.EnableModule);
-            }
+            if (!playSound) return;
+            SoundManager.PlaySound(SoundManager.Sound.EnableModule);
         }
 
         /// <summary>
@@ -372,16 +350,16 @@ namespace Buildings
         /// </summary>
         private void DisableModule(float productivity, bool playSound)
         {
-            foreach (Resource production in buildingResources.Production)
+            for (var i = 0; i < buildingResources.Production.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource production = buildingResources.Production[i];
+                for (int j = 0; j < managers.Count; j++)
                 {
-                    if (production.resource == manager.ResourceType)
-                    {
-                        manager.CurrentResourceProduction -= production.value * productivity;
-                    }
+                    ResourceManager manager = managers[j];
+                    if (production.resource != manager.ResourceType) continue;
+                    manager.CurrentResourceProduction -= production.value * productivity;
                 }
-                
+
                 // switch (item.resource)
                 // {
                 //     case ResourceTypes.Material:
@@ -402,16 +380,16 @@ namespace Buildings
                 // }
             }
 
-            foreach (Resource consumption in buildingResources.Consumption)
+            for (int i = 0; i < buildingResources.Consumption.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource consumption = buildingResources.Consumption[i];
+                for (var j = 0; j < managers.Count; j++)
                 {
-                    if (consumption.resource == manager.ResourceType)
-                    {
-                        manager.CurrentResourceDemand -= consumption.value * productivity;
-                    }
+                    ResourceManager manager = managers[j];
+                    if (consumption.resource != manager.ResourceType) continue;
+                    manager.CurrentResourceDemand -= consumption.value * productivity;
                 }
-                
+
                 // switch (item.resource)
                 // {
                 //     case ResourceTypes.Material:
@@ -432,16 +410,16 @@ namespace Buildings
                 // }
             }
 
-            foreach (Resource space in buildingResources.SaveSpace)
+            for (int i = 0; i < buildingResources.SaveSpace.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource space = buildingResources.SaveSpace[i];
+                for (int j = 0; j < managers.Count; j++)
                 {
-                    if (space.resource == manager.ResourceType)
-                    {
-                        manager.SaveSpace -= space.value * productivity;
-                    }
+                    ResourceManager manager = managers[j];
+                    if (space.resource != manager.ResourceType) continue;
+                    manager.SaveSpace -= space.value * productivity;
                 }
-                
+
                 // switch (item.resource)
                 // {
                 //     case ResourceTypes.Material:
@@ -462,10 +440,8 @@ namespace Buildings
                 // }
             }
 
-            if (playSound)
-            {
-                SoundManager.PlaySound(SoundManager.Sound.DisableModule);
-            }
+            if (!playSound) return;
+            SoundManager.PlaySound(SoundManager.Sound.DisableModule);
         }
         
         #endregion

@@ -1,4 +1,3 @@
-using System;
 using Buildings;
 using Manager;
 using MilestoneSystem.Events;
@@ -32,7 +31,7 @@ namespace PriorityListSystem
 
         public int Priority { get; set; }
         
-        public BuildingTypes Type { get; set; }
+        public BuildingType Type { get; set; }
         
         public ShowPrioritySystemMileStoneEvent MileStoneEvent
         {
@@ -71,8 +70,9 @@ namespace PriorityListSystem
         public void OnClickPlusButton()
         {
             if (Priority == 0) return;
-            foreach (PriorityListItem item in gameManager.PriorityListItems)
+            for (int i = 0; i < gameManager.PriorityListItems.Count; i++)
             {
+                PriorityListItem item = gameManager.PriorityListItems[i];
                 if (item.transform.GetSiblingIndex() != (Priority - 1) * 2 + 1) continue;
                 item.transform.SetSiblingIndex(Priority * 2 + 1);
                 item.ChangePriority(Priority);
@@ -91,8 +91,9 @@ namespace PriorityListSystem
         public void OnClickMinusButton()
         {
             if (Priority == gameManager.PriorityListItems.Count - 1) return;
-            foreach (PriorityListItem item in gameManager.PriorityListItems)
+            for (int i = 0; i < gameManager.PriorityListItems.Count; i++)
             {
+                PriorityListItem item = gameManager.PriorityListItems[i];
                 if (item.transform.GetSiblingIndex() != (Priority + 1) * 2 + 1) continue;
                 item.transform.SetSiblingIndex(Priority * 2 + 1);
                 item.ChangePriority(Priority);

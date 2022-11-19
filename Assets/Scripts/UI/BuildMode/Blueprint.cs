@@ -16,16 +16,10 @@ namespace UI.BuildMode
         private Camera mainCam;
         private Transform station;
 
-        private bool isLockedIn;
-
-        public bool IsLockedIn
-        {
-            get => isLockedIn;
-            set => isLockedIn = value;
-        }
+        public bool IsLockedIn { get; private set; }
 
         private Ray mouseRay;
-        private const float RAYRANGE = 100;
+        private const float RayRange = 100;
 
         public GridTile gridTileHit;
 
@@ -42,7 +36,7 @@ namespace UI.BuildMode
             posInWorld = mainCam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, distance));
 
             mouseRay = mainCam.ScreenPointToRay(mousePos);
-            if (Physics.Raycast(mouseRay, out RaycastHit hit, RAYRANGE))
+            if (Physics.Raycast(mouseRay, out RaycastHit hit, RayRange))
             {
                 gridTileHit = hit.transform.gameObject.GetComponent<GridTile>(); //TODO: (Ben) VERY Expensive
                 this.transform.position = hit.transform.position;

@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using Buildings;
 using UI.Gridsystem;
 using UnityEngine;
+// ReSharper disable PossibleLossOfFraction
 
 namespace SaveSystem
 {
@@ -59,14 +58,12 @@ namespace SaveSystem
                     {
                         if (!gridsystem.TileArray[x, y, z].HasModule) continue;
                         if (gridsystem.TileArray[x,y,z].Module == null) continue;
-                        
-                        GridSystemData gridData = new GridSystemData
-                        {
-                            xIndex = x,
-                            yIndex = y,
-                            zIndex = y,
-                            buildingData = gridsystem.TileArray[x, y, z].Module.GetComponent<Building>().SaveBuildingData()
-                        };
+
+                        GridSystemData gridData = new();
+                        gridData.xIndex = x;
+                        gridData.yIndex = y;
+                        gridData.zIndex = z;
+                        gridData.buildingData = gridsystem.TileArray[x, y, z].Module.GetComponent<Building>().SaveBuildingData();
 
                         Data.Add(gridData);
                     }
@@ -89,13 +86,12 @@ namespace SaveSystem
                         if (!gridsystem.TileArray[x, y, z].HasModule) continue;
                         if (gridsystem.TileArray[x,y,z].Module == null) continue;
 
-                        GridSystemData gridData = new GridSystemData
-                        {
-                            xIndex = x,
-                            yIndex = y,
-                            zIndex = y,
-                            buildingData = gridsystem.TileArray[x, y, z].Module.GetComponent<Building>().SaveBuildingData()
-                        };
+                        GridSystemData gridData = new();
+                        
+                        gridData.xIndex = x;
+                        gridData.yIndex = y;
+                        gridData.zIndex = z;
+                        gridData.buildingData = gridsystem.TileArray[x, y, z].Module.GetComponent<Building>().SaveBuildingData();
 
                         Data.Add(gridData);
                     }
@@ -119,39 +115,39 @@ namespace SaveSystem
             foreach (GridSystemData data in gridData)
             {
                 GameObject buildingGameObject;
-                switch ((BuildingTypes)data.buildingData.buildingType)
+                switch ((BuildingType)data.buildingData.buildingType)
                 {
-                    case BuildingTypes.EnergyGain:
+                    case BuildingType.EnergyGain:
                         buildingGameObject = Instantiate(Resources.Load("Buildings/pref_EnergyGainModule",
                             typeof(GameObject)), new Vector3(data.xIndex, data.yIndex,data.zIndex)
                                                  - offSetVector, Quaternion.identity, parent) as GameObject;
                         break;
-                    case BuildingTypes.LifeSupportGain:
+                    case BuildingType.LifeSupportGain:
                         buildingGameObject = Instantiate(Resources.Load("Buildings/pref_FoodWaterGainModule",
                             typeof(GameObject)), new Vector3(data.xIndex, data.yIndex,data.zIndex)
                                                  - offSetVector, Quaternion.identity, parent) as GameObject;
                         break;
-                    case BuildingTypes.MaterialGain:
+                    case BuildingType.MaterialGain:
                         buildingGameObject = Instantiate(Resources.Load("Buildings/pref_WorkGainModule", 
                             typeof(GameObject)), new Vector3(data.xIndex, data.yIndex,data.zIndex)
                                                  - offSetVector, Quaternion.identity, parent) as GameObject;
                         break;
-                    case BuildingTypes.EnergySave:
+                    case BuildingType.EnergySave:
                         buildingGameObject = Instantiate(Resources.Load("Buildings/pref_EnergyGainModule", 
                             typeof(GameObject)), new Vector3(data.xIndex, data.yIndex,data.zIndex) 
                                                  - offSetVector, Quaternion.identity, parent) as GameObject;
                         break;
-                    case BuildingTypes.LifeSupportSave:
+                    case BuildingType.LifeSupportSave:
                         buildingGameObject = Instantiate(Resources.Load("Buildings/pref_FoodWaterSaveModule", 
                             typeof(GameObject)), new Vector3(data.xIndex, data.yIndex,data.zIndex)
                                                  - offSetVector, Quaternion.identity, parent) as GameObject;
                         break;
-                    case BuildingTypes.MaterialSave:
+                    case BuildingType.MaterialSave:
                         buildingGameObject = Instantiate(Resources.Load("Buildings/pref_WorkSaveModule", 
                             typeof(GameObject)), new Vector3(data.xIndex, data.yIndex,data.zIndex)
                                                  - offSetVector, Quaternion.identity, parent) as GameObject;
                         break;
-                    case BuildingTypes.CitizenSave:
+                    case BuildingType.CitizenSave:
                         buildingGameObject = Instantiate(Resources.Load("Buildings/pref_HousingModule", 
                             typeof(GameObject)), new Vector3(data.xIndex, data.yIndex,data.zIndex)
                                                  - offSetVector, Quaternion.identity, parent) as GameObject;
@@ -161,10 +157,14 @@ namespace SaveSystem
                         break;
                 }
 
-                Building buildingScript = buildingGameObject.GetComponent<Building>();
-                buildingScript.IsLoading = true;
-                buildingScript.CurrentProductivity = data.buildingData.currentProductivity;
-                buildingScript.IsDisabled = data.buildingData.isDisabled;
+                if (buildingGameObject != null)
+                {
+                    Building buildingScript = buildingGameObject.GetComponent<Building>();
+                    buildingScript.IsLoading = true;
+                    buildingScript.CurrentProductivity = data.buildingData.currentProductivity;
+                    buildingScript.IsDisabled = data.buildingData.isDisabled;
+                }
+
                 gridsystem.TileArray[data.xIndex, data.yIndex, data.zIndex].HasModule = true;
                 gridsystem.TileArray[data.xIndex, data.yIndex, data.zIndex].Module = buildingGameObject;
             }

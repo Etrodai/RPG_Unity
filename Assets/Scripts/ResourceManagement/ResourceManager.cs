@@ -11,7 +11,7 @@ namespace ResourceManagement
         public abstract float CurrentResourceDemand { get; set; }
         public abstract float SavedResourceValue { get; set; }
         public abstract float SaveSpace { get; set; }
-        public abstract ResourceTypes ResourceType { get; set; }
+        public abstract ResourceType ResourceType { get; set; }
 
         #endregion
 

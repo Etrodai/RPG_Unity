@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0031037796, g: 0.0027302653, b: 0.0033076513, a: 1}
+  m_IndirectSpecularColor: {r: 0.003103807, g: 0.0027302764, b: 0.0033076787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -817,12 +817,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 125706851}
   m_CullTransparentMesh: 1
---- !u!1 &125849333 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8939557473242862153, guid: c4184ba17d8be0846903de10bea1f884,
-    type: 3}
-  m_PrefabInstance: {fileID: 1473481242}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &175514443
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,22 +2522,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9821465
+      value: 0.98220354
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.12821676
+      value: 0.12777172
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13744374
+      value: 0.1374575
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0076111546
+      value: -0.007486322
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -3189,6 +3183,7 @@ MonoBehaviour:
   setMaximumTimer: 480
   sideMenuMileStoneButton: {fileID: 1754746685}
   sideMenuPriorityButton: {fileID: 590594050}
+  eventParticles: []
 --- !u!114 &829820945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4421,9 +4416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c93b5d883e88a4182c69ac7a680995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildmenuLayout: {fileID: 125849333}
-  prefab_blueprintObject: {fileID: 6137071565662030411, guid: f8a40523c72cff94a97f91bed5e3aaa5,
-    type: 3}
+  buildMenuLayout: {fileID: 0}
+  prefabBlueprintObject: {fileID: 0}
   playerInput: {fileID: 912021417}
 --- !u!4 &1146719526
 Transform:
@@ -5283,7 +5277,7 @@ PrefabInstance:
     - target: {fileID: 3291796180176346367, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: timerStart
-      value: 2.5
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 3466654161254336840, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
@@ -5785,6 +5779,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -405
+      objectReference: {fileID: 0}
+    - target: {fileID: 7158588633197184991, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7250332101990904405, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
@@ -8244,7 +8243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1927761526
 RectTransform:
   m_ObjectHideFlags: 0

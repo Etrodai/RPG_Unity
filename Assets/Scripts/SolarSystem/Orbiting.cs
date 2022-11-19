@@ -1,4 +1,3 @@
-using System;
 using SaveSystem;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -23,7 +22,7 @@ namespace SolarSystem
         public float rotSpeed;
         public bool rotateClockwise;
 
-        private float timer = 0;
+        private float timer;
 
         private void Start()
         {

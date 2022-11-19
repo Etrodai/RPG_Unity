@@ -1,7 +1,7 @@
 namespace MilestoneSystem
 {
     [System.Serializable]
-    public struct MileStoneEventItems
+    public struct MileStoneEventItem
     {
         public string text;
         public bool isAchieved;

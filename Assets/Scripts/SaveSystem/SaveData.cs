@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +8,7 @@ namespace SaveSystem
     public class SaveData : MonoBehaviour
     {
         public static SaveData Instance { get; private set; }
-        public GameSave GameSave { get; set; } = new();
+        public GameSave GameSave { get; private set; } = new();
 
         private void Awake()
         {
@@ -34,7 +33,7 @@ namespace SaveSystem
         /// https://stackoverflow.com/questions/52722160/in-unity-after-loadscene-is-there-common-way-to-wait-all-monobehaviourstart-t
         /// </summary>
         /// <returns></returns>
-        public IEnumerator LoadScene(string loadName)
+        private IEnumerator LoadScene(string loadName)
         {
             loadName = Path.Combine(loadName, $@"GameData");
 

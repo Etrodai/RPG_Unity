@@ -6,7 +6,7 @@ namespace Manager.Menu
 {
     public class MainMenuManager : MonoBehaviour
     {
-        private const int gameScene = 1;
+        private const int GameScene = 1;
 
         public void OnStartClick()
         {
@@ -21,7 +21,7 @@ namespace Manager.Menu
         IEnumerator StartGame()
         {
             yield return new WaitForSeconds(1f);
-            SceneManager.LoadScene(gameScene);
+            SceneManager.LoadScene(GameScene);
         }
     }
 }

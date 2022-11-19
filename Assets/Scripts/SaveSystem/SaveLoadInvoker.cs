@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SaveSystem
@@ -94,8 +92,9 @@ namespace SaveSystem
         public void OnLoadButtonClick()
         {
             string[] directories = Directory.GetDirectories(Path.Combine(Application.persistentDataPath, @"Data"));
-            foreach (string directory in directories)
+            for (int i = 0; i < directories.Length; i++)
             {
+                string directory = directories[i];
                 GameObject loadButton = Instantiate(loadButtonPrefab, buttonList, true);
                 TextMeshProUGUI text = loadButton.GetComponentInChildren<TextMeshProUGUI>();
                 string fileName = Path.GetFileName(directory);
@@ -103,6 +102,7 @@ namespace SaveSystem
                 Button button = loadButton.GetComponent<Button>();
                 button.onClick.AddListener(delegate { OnLoadAsButtonClick(text); });
             }
+
             loadPanel.SetActive(true);
         }
     }
