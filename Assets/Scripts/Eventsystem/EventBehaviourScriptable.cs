@@ -214,7 +214,7 @@ namespace Eventsystem
                         break;
                 }
 
-                multiResourceManager.SavedResourceValue = Mathf.Clamp(multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision1Index].consequenceOnResources[i].eventResourceDemandValue, 0f, multiResourceManager.SaveSpace);
+                multiResourceManager.SavedResourceValue = Mathf.Clamp(multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[Decision1Index].consequenceOnResources[i].eventResourceDemandValue, 0f, multiResourceManager.SaveSpace);
             }
             endOfEvent = true;
         }
@@ -249,7 +249,7 @@ namespace Eventsystem
                         break;
                 }
 
-                multiResourceManager.SavedResourceValue = Mathf.Clamp(multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[decision2Index].consequenceOnResources[i].eventResourceDemandValue, 0f, multiResourceManager.SaveSpace);
+                multiResourceManager.SavedResourceValue = Mathf.Clamp(multiResourceManager.SavedResourceValue += multiResourceManager.SaveSpace * eventManager.ActiveEvent.Decisions[Decision2Index].consequenceOnResources[i].eventResourceDemandValue, 0f, multiResourceManager.SaveSpace);
             }
             endOfEvent = true;
         }

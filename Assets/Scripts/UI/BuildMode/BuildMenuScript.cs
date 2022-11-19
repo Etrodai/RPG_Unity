@@ -64,7 +64,7 @@ namespace UI.BuildMode
         /// </summary>
         private void Initialize()
         {
-            managers = new List<ResourceManager>();
+            managers = new();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
             energyManager = MainManagerSingleton.Instance.EnergyManager;
