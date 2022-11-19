@@ -1,9 +1,8 @@
-using System.IO;
 using Manager;
-using SaveSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace ResourceManagement.Manager
 {
@@ -32,10 +31,10 @@ namespace ResourceManagement.Manager
 
         #region Events
 
-                private UnityEvent onCitizenSurplusChanged = new();
-                private UnityEvent onCitizenProductionChanged = new();
-                private UnityEvent onCitizenSavedValueChanged = new();
-                private UnityEvent onCitizenSaveSpaceChanged = new();
+                private readonly UnityEvent onCitizenSurplusChanged = new();
+                private readonly UnityEvent onCitizenProductionChanged = new();
+                private readonly UnityEvent onCitizenSavedValueChanged = new();
+                private readonly UnityEvent onCitizenSaveSpaceChanged = new();
 
         #endregion
         
@@ -53,10 +52,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-
                 currentResourceSurplus = value;
                 onCitizenSurplusChanged?.Invoke();
-                // Debug.Log("onCitizenSurplusChanged?.Invoke()");
             } 
         }
         
@@ -70,10 +67,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceProduction == value) return;
-
                 currentResourceProduction = value;
                 onCitizenProductionChanged?.Invoke();
-                // Debug.Log("onCitizenProductionChanged?.Invoke()");
             } 
         }
         
@@ -92,10 +87,9 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-
                 savedResourceValue = value;
                 onCitizenSavedValueChanged?.Invoke();
-                Debug.Log("onCitizenSavedValueChanged?.Invoke()");
+                // Debug.Log("onCitizenSavedValueChanged?.Invoke()");
             } 
         }
         
@@ -112,11 +106,10 @@ namespace ResourceManagement.Manager
 
                 saveSpace = value;
                 onCitizenSaveSpaceChanged?.Invoke();
-                // Debug.Log("onCitizenSaveSpaceChanged?.Invoke()");
             } 
         }
         
-        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Citizen; // resourceType
+        public override ResourceType ResourceType { get; set; } = ResourceType.Citizen; // resourceType
 
         #endregion
 
@@ -157,6 +150,15 @@ namespace ResourceManagement.Manager
             InvokeCalculation();
         }
 
+        private void OnDestroy()
+        {        
+            onCitizenSurplusChanged.RemoveListener(ChangeUIText);
+            onCitizenProductionChanged.RemoveListener(ChangeUIText);
+            onCitizenSavedValueChanged.RemoveListener(ChangeUIText);
+            onCitizenSavedValueChanged.RemoveListener(CalculateProductivity);
+            onCitizenSaveSpaceChanged.RemoveListener(ChangeUIText);
+        }
+
         #endregion
 
         #region Methods
@@ -180,11 +182,7 @@ namespace ResourceManagement.Manager
         /// </summary>
         protected override void CalculateCurrentResourceSurplus() // Growth
         {
-            if ((int) SaveSpace == (int)CurrentResourceProduction || foodManager.CurrentResourceSurplus <= 0 || waterManager.CurrentResourceSurplus <= 0)
-            {
-                CurrentResourceSurplus = 0;
-            } 
-            else if (SaveSpace < CurrentResourceProduction)
+            if (SaveSpace < CurrentResourceProduction)
             {
                 CurrentResourceSurplus = -1;
             }
@@ -198,16 +196,24 @@ namespace ResourceManagement.Manager
                     }
                 }
             }
-            else if (SaveSpace > CurrentResourceProduction && foodManager.CurrentResourceSurplus > 0 && waterManager.CurrentResourceSurplus > 0)
+            else if (SaveSpace > CurrentResourceProduction && foodManager.SavedResourceValue > 0 && waterManager.SavedResourceValue > 0)
             {
                 for (int i = 0; i < stepsToGrow; i++)
                 {
-                    if (foodManager.CurrentResourceSurplus > i * sizeOfStepsToGrow)
+                    if (foodManager.SavedResourceValue > i * sizeOfStepsToGrow)
                     {
                         CurrentResourceSurplus = i + 1;
                     }
                 }
             }
+
+            if (!(currentResourceSurplus > 0)) return;
+            if ((int) SaveSpace == (int)CurrentResourceProduction) CurrentResourceSurplus = 0;
+            
+            // else // if ((int) SaveSpace == (int)CurrentResourceProduction) //  || foodManager.CurrentResourceSurplus <= 0 || waterManager.CurrentResourceSurplus <= 0
+            // {
+            //     CurrentResourceSurplus = 0;
+            // }
         }
 
         /// <summary>
@@ -234,7 +240,6 @@ namespace ResourceManagement.Manager
             if (SavedResourceValue == 0)
             {
                 savedResourceText.text = $"{SavedResourceValue}/{CurrentResourceProduction}";
-                return;
             }
             // CalculateProductivity();
         }
@@ -250,7 +255,7 @@ namespace ResourceManagement.Manager
             }
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(SavedResourceValue, ResourceType);
+                gameManager.DisableBuildings(SavedResourceValue, ResourceType, false);
             }
             else if (gameManager.ChangedProductivityBuildings.Count != 0)
             {

@@ -21,8 +21,8 @@ MonoBehaviour:
   - "Nutzen Sie die von Ihnen verarbeiteten Erze um die Station mit einem externen
     Lebenserhaltungssystem auszustatten.Dieses stellt kombiniert alle n\xF6tigen
     Komponenten bereit welche Ihre Bewohner ben\xF6tigen:\r\n\r\n- \xD6ffnen Sie
-    das Baumen\xFC\r\n- W\xE4hlen Sie die Lebenserhaltung aus\r\n- Platzieren Sie
-    das System an einen freien Slot Ihrer Station"
+    das Baumen\xFC\r\n- W\xE4hlen Sie die Lebenserhaltung oder -speicher aus\n- Platzieren
+    Sie das System an einen freien Slot Ihrer Station"
   requiredEvent: 
   requiredResources: []
   requiredModules:

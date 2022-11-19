@@ -2,6 +2,7 @@ using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace ResourceManagement.Manager
 {
@@ -41,11 +42,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-                
-                onMaterialSurplusChanged?.Invoke();
-                // Debug.Log("onMaterialSurplusChanged?.Invoke()");
                 currentResourceSurplus = value;
-
+                onMaterialSurplusChanged?.Invoke();
             } 
         }
         
@@ -62,10 +60,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-                
-                onMaterialSavedValueChanged?.Invoke();
-                // Debug.Log("onMaterialSavedValueChanged?.Invoke()"); 
                 savedResourceValue = value;
+                onMaterialSavedValueChanged?.Invoke();
             } 
         }
         
@@ -78,14 +74,12 @@ namespace ResourceManagement.Manager
             set
             {
                 if (saveSpace == value) return;
-                
                 saveSpace = value;
                 onMaterialSaveSpaceChanged?.Invoke();
-                // Debug.Log("onMaterialSaveSpaceChanged?.Invoke()");
             } 
         }
         
-        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Material;
+        public override ResourceType ResourceType { get; set; } = ResourceType.Material;
 
         #endregion
 
@@ -118,6 +112,13 @@ namespace ResourceManagement.Manager
             gameManager = MainManagerSingleton.Instance.GameManager;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
+        }
+
+        private void OnDestroy()
+        {
+            onMaterialSurplusChanged.RemoveListener(ChangeUIText);
+            onMaterialSavedValueChanged.RemoveListener(ChangeUIText);
+            onMaterialSaveSpaceChanged.RemoveListener(ChangeUIText);
         }
 
         #endregion
@@ -157,7 +158,7 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType);
+                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType, false);
                 SavedResourceValue = 0;
             }
             else if (gameManager.DisabledBuildings.Count != 0)

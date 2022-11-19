@@ -10,15 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f972099e262cfc14b868da121d356ee4, type: 3}
-  m_Name: 5. Milestone
+  m_Name: 6. PreMilestone
   m_EditorClassIdentifier: 
-  mileStoneText:
-  - Bauen Sie ihre Station weiter aus, bis sie aus 8 Modulen besteht.
-  requiredEvent: 
+  mileStoneText: []
+  requiredEvent: 03000000
   requiredResources: []
-  requiredModules:
-  - buildingTypes: 6
-    value: 1
-  - buildingTypes: 8
-    value: 8
+  requiredModules: []
   mileStoneAchievedText: []

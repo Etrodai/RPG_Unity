@@ -9,9 +9,9 @@ namespace MilestoneSystem
         #region Variables
         
         [SerializeField] [TextArea] private string[] mileStoneText;
-        [SerializeField] private MileStoneEventNames[] requiredEvent;
+        [SerializeField] private MileStoneEventName[] requiredEvent;
         [SerializeField] private Resource[] requiredResources;
-        [SerializeField] private MileStoneModules[] requiredModules;
+        [SerializeField] private MileStoneModule[] requiredModules;
         [SerializeField] [TextArea] private string[] mileStoneAchievedText;
     
         #endregion
@@ -19,9 +19,9 @@ namespace MilestoneSystem
         #region Properties
        
         public string[] MileStoneText => mileStoneText;
-        public MileStoneEventNames[] RequiredEvent => requiredEvent;
+        public MileStoneEventName[] RequiredEvent => requiredEvent;
         public Resource[] RequiredResources => requiredResources;
-        public MileStoneModules[] RequiredModules => requiredModules;
+        public MileStoneModule[] RequiredModules => requiredModules;
         public string[] MileStoneAchievedText => mileStoneAchievedText;
 
         #endregion

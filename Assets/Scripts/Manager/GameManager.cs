@@ -62,16 +62,18 @@ namespace Manager
         /// </summary>
         /// <param name="type">BuildingType</param>
         /// <returns>Priority of the given BuildingType</returns>
-        public int GetPriority(BuildingTypes type)
+        public int GetPriority(BuildingType type)
         {
             int priority = 0;
-            foreach (PriorityListItem item in PriorityListItems)
+            for (int i = 0; i < PriorityListItems.Count; i++)
             {
+                var item = PriorityListItems[i];
                 if (item.Type == type)
                 {
                     priority = item.Priority;
                 }
             }
+
             return priority;
         }
 
@@ -80,17 +82,16 @@ namespace Manager
         /// </summary>
         /// <param name="priority">Priority</param>
         /// <returns>type of given Priority, if no Type has given Priority it returns All</returns>
-        private BuildingTypes GetBuildingTypeOnPriority(int priority)
+        private BuildingType GetBuildingTypeOnPriority(int priority)
         {
-            BuildingTypes type = BuildingTypes.All;
-            foreach (PriorityListItem item in PriorityListItems)
+            BuildingType type = BuildingType.All;
+            for (int i = 0; i < PriorityListItems.Count; i++)
             {
-                if (item.Priority == priority)
-                {
-                    type = item.Type;
-                }
+                PriorityListItem item = PriorityListItems[i];
+                if (item.Priority != priority) continue;
+                type = item.Type;
             }
-    
+
             return type;
         }
 
@@ -99,27 +100,26 @@ namespace Manager
         /// </summary>
         /// <param name="type">BuildingType</param>
         /// <returns>value of this buildingType</returns>
-        public int GetBuildingCount(BuildingTypes type)
+        public int GetBuildingCount(BuildingType type)
         {
             int count = 0;
-            if (type == BuildingTypes.All)
+            if (type == BuildingType.All)
             {
-                foreach (Building building in AllBuildings)
+                for (int i = 0; i < AllBuildings.Count; i++)
                 {
-                    if (building != nullBuilding)
-                    {
-                        count++;
-                    }
+                    Building building = AllBuildings[i];
+                    if (building != nullBuilding) count++;
                 }
-    
+
                 return count;
             }
-    
-            foreach (Building building in AllBuildings)
+
+            for (int i = 0; i < AllBuildings.Count; i++)
             {
+                Building building = AllBuildings[i];
                 if (building.BuildingType == type) count++;
             }
-    
+
             return count;
         }
         
@@ -128,15 +128,12 @@ namespace Manager
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public int GetWorkingBuildingCount(BuildingTypes type)
+        public int GetWorkingBuildingCount(BuildingType type)
         {
             int count = GetBuildingCount(type);
             foreach (DisabledBuilding disabledBuilding in DisabledBuildings)
             {
-                if (disabledBuilding.building.BuildingType == type)
-                {
-                    count--;
-                }
+                if (disabledBuilding.building.BuildingType == type) count--;
             }
             
             return count;
@@ -147,15 +144,13 @@ namespace Manager
         /// </summary>
         /// <param name="type">BuildingType</param>
         /// <returns>All buildings of given type</returns>
-        private List<Building> GetAllBuildingsOfType(BuildingTypes type)
+        private List<Building> GetAllBuildingsOfType(BuildingType type)
         {
             List<Building> buildings = new List<Building>();
-            foreach (Building building in AllBuildings)
+            for (int i = 0; i < AllBuildings.Count; i++)
             {
-                if (building.BuildingType == type)
-                {
-                    buildings.Add(building);
-                }
+                Building building = AllBuildings[i];
+                if (building.BuildingType == type) buildings.Add(building);
             }
 
             return buildings;
@@ -169,21 +164,24 @@ namespace Manager
         /// <param name="priorityList">List of buildings of current priority</param>
         /// <returns>amount of still needed citizen</returns>
         private float ChangeProductivityNegative(float surplusPerBuilding, float neededResourceValue, List<Building> priorityList)
-        { //TODO: (Robin) why it doesn't work correctly
-            foreach (Building building in priorityList)
+        {
+            //TODO: (Robin) why it doesn't work correctly
+            for (int i = 0; i < priorityList.Count; i++)
             {
+                Building building = priorityList[i];
                 if (building.IsDisabled || building.CurrentProductivity == 0) continue;
 
                 if (neededResourceValue + surplusPerBuilding < 0)
                 {
                     building.CurrentProductivity = 0f;
-                    DisabledBuildings.Push(new DisabledBuilding(building, ResourceTypes.Citizen));
+                    building.IsDisabled = true;
+                    DisabledBuildings.Push(new DisabledBuilding(building, ResourceType.Citizen));
                 }
                 else
                 {
                     building.CurrentProductivity = (surplusPerBuilding + neededResourceValue) / surplusPerBuilding;
                 }
-                
+
                 neededResourceValue += surplusPerBuilding;
                 ChangedProductivityBuildings.Push(building);
                 Debug.Log($"{building}'s new Productivity cause of workers: {building.CurrentProductivity}");
@@ -204,20 +202,16 @@ namespace Manager
             for (int i = 0; i < ChangedProductivityBuildings.Count; i++)
             {
                 Building building = ChangedProductivityBuildings.Peek();
-                foreach (Resource consumption in building.BuildingResources.Consumption)
+                for (int j = 0; j < building.BuildingResources.Consumption.Length; j++)
                 {
-                    if (consumption.resource == ResourceTypes.Citizen)
-                    {
-                        surplus += consumption.value;
-                    }
+                    Resource consumption = building.BuildingResources.Consumption[j];
+                    if (consumption.resource == ResourceType.Citizen) surplus += consumption.value;
                 }
 
-                foreach (Resource production in building.BuildingResources.Production)
+                for (int j = 0; j < building.BuildingResources.Production.Length; j++)
                 {
-                    if (production.resource == ResourceTypes.Citizen)
-                    {
-                        surplus -= production.value;
-                    }
+                    Resource production = building.BuildingResources.Production[j];
+                    if (production.resource == ResourceType.Citizen) surplus -= production.value;
                 }
 
                 if (building.CurrentProductivity == 0f)
@@ -225,7 +219,8 @@ namespace Manager
                     if (surplus > 0 && surplus <= givenResourceValue)
                     {
                         givenResourceValue -= surplus;
-                        ChangedProductivityBuildings.Pop().CurrentProductivity = 1f;
+                        building.CurrentProductivity = 1f;
+                        ChangedProductivityBuildings.Pop().IsDisabled = false;
 
                         List<DisabledBuilding> disabledBuildingsList = new List<DisabledBuilding>();
                         int count = DisabledBuildings.Count;
@@ -234,9 +229,10 @@ namespace Manager
                             disabledBuildingsList.Add(DisabledBuildings.Pop());
                         }
 
-                        foreach (DisabledBuilding disabledBuilding in disabledBuildingsList)
+                        for (int j = 0; j < disabledBuildingsList.Count; j++)
                         {
-                            if (disabledBuilding.type == ResourceTypes.Citizen)
+                            DisabledBuilding disabledBuilding = disabledBuildingsList[j];
+                            if (disabledBuilding.type == ResourceType.Citizen)
                             {
                                 disabledBuildingsList.Remove(disabledBuilding);
                             }
@@ -245,12 +241,13 @@ namespace Manager
                                 DisabledBuildings.Push(disabledBuilding);
                             }
                         }
-                                
+
                         Debug.Log($"{building.BuildingType}'s new Productivity cause of workers: {building.CurrentProductivity}");
                     }
                     else
                     {
                         building.CurrentProductivity = givenResourceValue / surplus;
+                        building.IsDisabled = false;
                         Debug.Log($"{building.BuildingType}'s new Productivity cause of workers: {building.CurrentProductivity}");
                         return;
                     }
@@ -279,69 +276,85 @@ namespace Manager
         /// </summary>
         /// <param name="neededResourceValue">amount of needed resource (always negative)</param>
         /// <param name="type">type of needed resource</param>
-        public void DisableBuildings(float neededResourceValue, ResourceTypes type)
+        /// <param name="wasChanged">was priorityList changed</param>
+        public void DisableBuildings(float neededResourceValue, ResourceType type, bool wasChanged)
         {
             for (int i = PriorityListItems.Count - 1; i > 0; i--)
             {
                 int surplus = 0;
-                BuildingTypes priorityBuildingType = GetBuildingTypeOnPriority(i);
+                BuildingType priorityBuildingType = GetBuildingTypeOnPriority(i);
                 List<Building> priorityList = GetAllBuildingsOfType(priorityBuildingType);
 
                 if (priorityList.Count <= 0) continue;
-                
-                foreach (Resource consumption in priorityList[0].BuildingResources.Consumption)
+
+                // calculation of surplus
+                for (int j = 0; j < priorityList[0].BuildingResources.Consumption.Length; j++)
                 {
+                    Resource consumption = priorityList[0].BuildingResources.Consumption[j];
                     if (consumption.resource != type) continue;
-                    
+
                     surplus += consumption.value;
                 }
 
-                foreach (Resource production in priorityList[0].BuildingResources.Production)
+                for (int j = 0; j < priorityList[0].BuildingResources.Production.Length; j++)
                 {
+                    Resource production = priorityList[0].BuildingResources.Production[j];
                     if (production.resource != type) continue;
-                    
+
                     surplus -= production.value;
                 }
-                
+
+                // DisableBuildings or change Productivity
                 if (surplus <= 0)
                 {
-                    Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
+                    // Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
                 }
                 else
                 {
-                    if (type == ResourceTypes.Citizen)
+                    if (type == ResourceType.Citizen)
                     {
                         neededResourceValue = ChangeProductivityNegative(surplus, neededResourceValue, priorityList);
                     }
                     else
                     {
-                        foreach (Building building in priorityList)
+                        for (int j = 0; j < priorityList.Count; j++)
                         {
-                            if (!building.IsDisabled)
+                            Building building = priorityList[j];
+                            if (building.IsDisabled) continue;
+
+                            building.IsDisabled = true;
+                            building.CurrentProductivity = 0;
+                            if (!wasChanged)
                             {
-                                building.IsDisabled = true;
                                 Debug.Log($"{building.BuildingType} is disabled cause of {type}");
-                            
-                                DisabledBuildings.Push(new DisabledBuilding(building, type));
-                                neededResourceValue += surplus;
-                                if (neededResourceValue >= 0)
-                                {
-                                    foreach (PriorityListItem item in PriorityListItems)
-                                    {
-                                        item.onChangePriorityUI.Invoke();
-                                        Debug.Log("item.onChangePriorityUI.Invoke()");
-                                    }
-                                    return;
-                                }
                             }
+
+                            DisabledBuildings.Push(new DisabledBuilding(building, type));
+                            neededResourceValue += surplus;
+
+                            if (!(neededResourceValue >= 0)) continue;
+                            for (int k = 0; k < PriorityListItems.Count; k++)
+                            {
+                                PriorityListItem item = PriorityListItems[k];
+                                item.onChangePriorityUI.Invoke();
+                                // Debug.Log("item.onChangePriorityUI.Invoke()");
+                            }
+
+                            return;
                         }
                     }
                 }
 
-                if (neededResourceValue >= 0)
+                if (!(neededResourceValue >= 0)) continue;
+                for (int j = 0; j < PriorityListItems.Count; j++)
                 {
-                    return;
+                    PriorityListItem item = PriorityListItems[j];
+                    item.onChangePriorityUI.Invoke();
+                    // Debug.Log("item.onChangePriorityUI.Invoke()");
                 }
+
+                return;
+
             }
         }
 
@@ -350,7 +363,7 @@ namespace Manager
         /// </summary>
         /// <param name="givenResourceValue">amount of resource surplus</param>
         /// <param name="type">type of resource</param>
-        public void EnableBuildings(float givenResourceValue, ResourceTypes type)
+        public void EnableBuildings(float givenResourceValue, ResourceType type)
         {
             if (DisabledBuildings.Count == 0) return;
 
@@ -362,45 +375,55 @@ namespace Manager
                 if (DisabledBuildings.Peek().type != type) return;
 
                 Building building = DisabledBuildings.Peek().building;
-                foreach (Resource consumption in building.BuildingResources.Consumption)
+                
+                // Calculation of surplus
+                for (int j = 0; j < building.BuildingResources.Consumption.Length; j++)
                 {
+                    Resource consumption = building.BuildingResources.Consumption[j];
                     if (consumption.resource != type) continue;
-                    
+
                     surplus += consumption.value;
                 }
 
-                foreach (Resource production in building.BuildingResources.Production)
+                for (int j = 0; j < building.BuildingResources.Production.Length; j++)
                 {
-                    if (production.resource != type) continue; 
-                    
+                    Resource production = building.BuildingResources.Production[j];
+                    if (production.resource != type) continue;
+
                     surplus -= production.value;
                 }
-                
+
+                // Enables buildings
                 if (surplus > 0 && surplus <= givenResourceValue)
                 {
                     givenResourceValue -= surplus;
                     Debug.Log(DisabledBuildings.Peek().building.BuildingType + " is Enabled");
-                    DisabledBuildings.Pop().building.IsDisabled = false;
+                    building.IsDisabled = false;
+                    building.CurrentProductivity = 1;
+                    DisabledBuildings.Pop();
                     somethingChanged = true;
                     
                     if (DisabledBuildings.Count != 0) continue;
-                    
-                    foreach (PriorityListItem item in PriorityListItems)
+
+                    for (int j = 0; j < PriorityListItems.Count; j++)
                     {
+                        PriorityListItem item = PriorityListItems[j];
                         item.onChangePriorityUI.Invoke();
-                        Debug.Log("item.onChangePriorityUI.Invoke()");
+                        // Debug.Log("item.onChangePriorityUI.Invoke()");
                     }
                 }
                 else
                 {
                     if (!somethingChanged) return;
-                    
-                    foreach (PriorityListItem item in PriorityListItems)
+                    //OnChangePriority();
+
+                    for (int j = 0; j < PriorityListItems.Count; j++)
                     {
+                        PriorityListItem item = PriorityListItems[j];
                         item.onChangePriorityUI.Invoke();
-                        Debug.Log("item.onChangePriorityUI.Invoke()");
+                        // Debug.Log("item.onChangePriorityUI.Invoke()");
                     }
-                    
+
                     return;
                 }
             }
@@ -423,23 +446,247 @@ namespace Manager
         {
             DisabledBuilding[] buildings = new DisabledBuilding[DisabledBuildings.Count];
             int count = DisabledBuildings.Count;
+            float citizenSurplus = 0;
+            float energySurplus = 0;
+            float materialSurplus = 0;
+
+            // enable all
             for (int i = 0; i < count; i++)
             {
-                buildings[i] = DisabledBuildings.Pop();
-            }
-        
-            for (int i = PriorityListItems.Count - 1; i > 0; i--)
-            {
-                BuildingTypes type = GetBuildingTypeOnPriority(i);
-                foreach (DisabledBuilding item in buildings)
+                DisabledBuilding disabledBuilding = DisabledBuildings.Pop();
+                disabledBuilding.building.CurrentProductivity = 1;
+                disabledBuilding.building.IsDisabled = false;
+
+                for (int j = 0; j < disabledBuilding.building.BuildingResources.Consumption.Length; j++)
                 {
-                    if (type != item.building.BuildingType) continue;
-                    
-                    DisabledBuildings.Push(item);
+                    Resource resource = disabledBuilding.building.BuildingResources.Consumption[j];
+                    if (resource.resource != disabledBuilding.type) continue;
+
+                    switch (resource.resource)
+                    {
+                        case ResourceType.Material:
+                            materialSurplus -= resource.value;
+                            break;
+                        case ResourceType.Energy:
+                            energySurplus -= resource.value;
+                            break;
+                        case ResourceType.Citizen:
+                            citizenSurplus -= resource.value;
+                            break;
+                    }
                 }
-        
-                if (DisabledBuildings.Count == buildings.Length) return;
+
+                for (int j = 0; j < disabledBuilding.building.BuildingResources.Production.Length; j++)
+                {
+                    Resource resource = disabledBuilding.building.BuildingResources.Production[j];
+                    if (resource.resource != disabledBuilding.type) continue;
+                    switch (resource.resource)
+                    {
+                        case ResourceType.Material:
+                            materialSurplus += resource.value;
+                            break;
+                        case ResourceType.Energy:
+                            energySurplus += resource.value;
+                            break;
+                        case ResourceType.Citizen:
+                            citizenSurplus += resource.value;
+                            break;
+                    }
+                }
+
+                buildings[i] = disabledBuilding;
             }
+            
+            // disable all
+
+            DisableBuildings(materialSurplus, ResourceType.Material, true);
+            DisableBuildings(energySurplus, ResourceType.Energy, true);
+            DisableBuildings(citizenSurplus, ResourceType.Citizen, true);
+
+            int citizenSaveCount = 0;
+            int energyGainCount = 0;
+            int lifeSupportGainCount = 0;
+            int materialGainCount = 0;
+            int energySaveCount = 0;
+            int lifeSupportSaveCount = 0;
+            int materialSaveCount = 0;
+            for (int i = 0; i < buildings.Length; i++)
+            {
+                DisabledBuilding building = buildings[i];
+                switch (building.building.BuildingType)
+                {
+                    case BuildingType.CitizenSave:
+                        citizenSaveCount++;
+                        break;
+                    case BuildingType.EnergyGain:
+                        energyGainCount++;
+                        break;
+                    case BuildingType.LifeSupportGain:
+                        lifeSupportGainCount++;
+                        break;
+                    case BuildingType.MaterialGain:
+                        materialGainCount++;
+                        break;
+                    case BuildingType.EnergySave:
+                        energySaveCount++;
+                        break;
+                    case BuildingType.LifeSupportSave:
+                        lifeSupportSaveCount++;
+                        break;
+                    case BuildingType.MaterialSave:
+                        materialSaveCount++;
+                        break;
+                }
+            }
+
+            foreach (DisabledBuilding disabledBuilding in DisabledBuildings)
+            {
+                switch (disabledBuilding.building.BuildingType)
+                {
+                    case BuildingType.CitizenSave:
+                        citizenSaveCount--;
+                        break;
+                    case BuildingType.EnergyGain:
+                        energyGainCount--;
+                        break;
+                    case BuildingType.LifeSupportGain:
+                        lifeSupportGainCount--;
+                        break;
+                    case BuildingType.MaterialGain:
+                        materialGainCount--;
+                        break;
+                    case BuildingType.EnergySave:
+                        energySaveCount--;
+                        break;
+                    case BuildingType.LifeSupportSave:
+                        lifeSupportSaveCount--;
+                        break;
+                    case BuildingType.MaterialSave:
+                        materialSaveCount--;
+                        break;
+                }
+            }
+
+            if (citizenSaveCount > 0)
+                for (int i = 0; i < citizenSaveCount; i++)
+                {
+                    Debug.Log(BuildingType.CitizenSave + " is Enabled");
+                }
+            else if (citizenSaveCount < 0)
+                for (int i = citizenSaveCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingType.CitizenSave + " is Disabled");
+                }
+
+            if (energyGainCount > 0)
+            {
+                for (int i = 0; i < energyGainCount; i++)
+                {
+                    Debug.Log(BuildingType.EnergyGain + " is Enabled");
+                }
+            }
+            else if (energyGainCount < 0)
+            {
+                for (int i = energyGainCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingType.EnergyGain + " is Disabled");
+                }
+            }
+            
+            if (lifeSupportGainCount > 0)
+            {
+                for (int i = 0; i < lifeSupportGainCount; i++)
+                {
+                    Debug.Log(BuildingType.LifeSupportGain + " is Enabled");
+                }
+            }
+            else if (lifeSupportGainCount < 0)
+            {
+                for (int i = lifeSupportGainCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingType.LifeSupportGain + " is Disabled");
+                }
+            }
+            
+            if (materialGainCount > 0)
+            {
+                for (int i = 0; i < materialGainCount; i++)
+                {
+                    Debug.Log(BuildingType.MaterialGain + " is Enabled");
+                }
+            }
+            else if (materialGainCount < 0)
+            {
+                for (int i = materialGainCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingType.MaterialGain + " is Disabled");
+                }
+            }
+            
+            if (energySaveCount > 0)
+            {
+                for (int i = 0; i < energySaveCount; i++)
+                {
+                    Debug.Log(BuildingType.EnergySave + " is Enabled");
+                }
+            }
+            else if (energySaveCount < 0)
+            {
+                for (int i = energySaveCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingType.EnergySave + " is Disabled");
+                }
+            }
+            
+            if (lifeSupportSaveCount > 0)
+            {
+                for (int i = 0; i < lifeSupportSaveCount; i++)
+                {
+                    Debug.Log(BuildingType.LifeSupportSave + " is Enabled");
+                }
+            }
+            else if (lifeSupportSaveCount < 0)
+            {
+                for (int i = lifeSupportSaveCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingType.LifeSupportSave + " is Disabled");
+                }
+            }
+            
+            if (materialSaveCount > 0)
+            {
+                for (int i = 0; i < materialSaveCount; i++)
+                {
+                    Debug.Log(BuildingType.MaterialSave + " is Enabled");
+                }
+            }
+            else if (materialSaveCount < 0)
+            {
+                for (int i = materialSaveCount; i < 0; i++)
+                {
+                    Debug.Log(BuildingType.MaterialSave + " is Disabled");
+                }
+            }
+
+            //                                                                                              OLD
+            // for (int i = 0; i < count; i++)
+            // {
+            //     buildings[i] = DisabledBuildings.Pop();
+            // }
+            //
+            // for (int i = PriorityListItems.Count - 1; i > 0; i--)
+            // {
+            //     BuildingTypes type = GetBuildingTypeOnPriority(i);
+            
+            //     foreach (DisabledBuilding item in buildings)
+            //     {
+            //         if (type != item.building.BuildingType) continue;
+            //     
+            //         DisabledBuildings.Push(item);
+            //     }
+            //
+            //     if (DisabledBuildings.Count == buildings.Length) return;
+            // }
         }
     
         /// <summary>
@@ -452,15 +699,16 @@ namespace Manager
             for (int i = 0; i < count; i++)
             {
                 Building building = ChangedProductivityBuildings.Pop();
-                foreach (Resource resource in building.BuildingResources.Consumption)
+                for (int j = 0; j < building.BuildingResources.Consumption.Length; j++)
                 {
-                    if (resource.resource != ResourceTypes.Citizen) continue;
-                    
+                    Resource resource = building.BuildingResources.Consumption[j];
+                    if (resource.resource != ResourceType.Citizen) continue;
+
                     surplus += resource.value - building.CurrentProductivity * resource.value;
                 }
             }
             
-            DisableBuildings(surplus, ResourceTypes.Citizen);
+            DisableBuildings(surplus, ResourceType.Citizen, true);
             
             //     Building[] priorityBuildings = new Building[ChangedProductivityBuildings.Count];
             //     int count = ChangedProductivityBuildings.Count;
@@ -484,6 +732,13 @@ namespace Manager
             //             return;
             //         }
             //     }
+
+            for (int i = 0; i < PriorityListItems.Count; i++)
+            {
+                PriorityListItem item = PriorityListItems[i];
+                item.onChangePriorityUI.Invoke();
+                Debug.Log("item.onChangePriorityUI.Invoke()");
+            }
         }
 
         #endregion

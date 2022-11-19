@@ -3,11 +3,11 @@ using Buildings;
 namespace MilestoneSystem
 {
     [System.Serializable]
-    public struct MileStoneModules
+    public struct MileStoneModule
     {
         #region Variables
         
-        public BuildingTypes buildingTypes;
+        public BuildingType buildingType;
         public int value;
        
         #endregion

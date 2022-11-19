@@ -5,7 +5,7 @@ namespace ResourceManagement
     {
         #region Variables
 
-        public ResourceTypes resource;
+        public ResourceType resource;
         public int value;
         public float eventResourceDemandValue;
 

@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace MilestoneSystem.Events
 {
@@ -8,21 +6,22 @@ namespace MilestoneSystem.Events
     {
         #region Variables & Properties
 
-        private float timer = 10f;
-        public override MileStoneEventNames Name { get; set; }
-        public override MileStoneEventItems[] Events { get; set; }
+        [SerializeField] private float timerStart = 10f;
+        private float timer;
+        public override MileStoneEventName Name { get; set; }
+        public override MileStoneEventItem[] Events { get; set; }
 
         #endregion
 
-        #region MyRegion
+        #region UnityEvents
 
         /// <summary>
         /// sets variables
         /// </summary>
         private void Start()
         {
-            Name = MileStoneEventNames.WaitForSeconds;
-            Events = new MileStoneEventItems[1];
+            Name = MileStoneEventName.WaitForSeconds;
+            Events = new MileStoneEventItem[1];
             Events[0].text = "";
             Events[0].isAchieved = false;
         }
@@ -56,7 +55,7 @@ namespace MilestoneSystem.Events
         /// </summary>
         public override void ResetAll()
         {
-            timer = 10f;
+            timer = timerStart;
             Events[0].isAchieved = false;
         }
         

@@ -4,6 +4,7 @@ using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.BuildMode
@@ -12,6 +13,7 @@ namespace UI.BuildMode
     public struct Buttons
     {
         public Button button;
+        public EventTrigger trigger;
         public BuildingResourcesScriptableObject moduleToBuild;
     }
     
@@ -42,6 +44,11 @@ namespace UI.BuildMode
             {
                 Initialize();
                 isInitialized = true;
+            }
+            
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].trigger = buttons[i].button.GetComponent<EventTrigger>();
             }
             
             InvokeRepeating(nameof(UpdateButtons), 0, 0.5f);
@@ -75,23 +82,23 @@ namespace UI.BuildMode
         /// </summary>
         private void UpdateButtons()
         {
-            foreach (Buttons button in buttons)
+            for (int i = 0; i < buttons.Length; i++)
             {
+                Buttons button = buttons[i];
                 bool activate = true;
-                foreach (Resource cost in button.moduleToBuild.Costs)
+                for (int j = 0; j < button.moduleToBuild.Costs.Length; j++)
                 {
-                    foreach (ResourceManager manager in managers)
+                    Resource cost = button.moduleToBuild.Costs[j];
+                    for (int k = 0; k < managers.Count; k++)
                     {
-                        if (manager.ResourceType == cost.resource)
-                        {
-                            if (manager.SavedResourceValue < cost.value)
-                            {
-                                activate = false;
-                            }
-                        }
+                        ResourceManager manager = managers[k];
+                        if (manager.ResourceType != cost.resource) continue;
+                        if (manager.SavedResourceValue < cost.value) activate = false;
                     }
                 }
+
                 button.button.interactable = activate;
+                button.trigger.enabled = activate;
             }
         }
 

@@ -3,7 +3,7 @@ namespace Buildings
     /// <summary>
     /// names all types of Buildings
     /// </summary>
-    public enum BuildingTypes
+    public enum BuildingType
     {
         StartModule,
         EnergyGain,

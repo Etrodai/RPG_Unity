@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace ResourceManagement.Manager
 {
@@ -39,10 +40,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-                
                 currentResourceSurplus = value;
                 onFoodSurplusChanged?.Invoke();
-                // Debug.Log("onFoodSurplusChanged?.Invoke()");
             } 
         }
         
@@ -59,10 +58,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-                
                 savedResourceValue = value;
                 onFoodSavedValueChanged?.Invoke();
-                // Debug.Log("onFoodSavedValueChanged?.Invoke()");
             } 
         }
         
@@ -75,14 +72,12 @@ namespace ResourceManagement.Manager
             set
             {
                 if (SaveSpace == value) return;
-                
                 saveSpace = value;
                 onFoodSaveSpaceChanged?.Invoke();
-                // Debug.Log("onFoodSaveSpaceChanged?.Invoke()");
             } 
         }
         
-        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Food;
+        public override ResourceType ResourceType { get; set; } = ResourceType.Food;
 
         #endregion
 
@@ -114,6 +109,13 @@ namespace ResourceManagement.Manager
             onFoodSaveSpaceChanged.AddListener(ChangeUIText);
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
+        }
+        
+        private void OnDestroy()
+        {        
+            onFoodSurplusChanged.RemoveListener(ChangeUIText);
+            onFoodSavedValueChanged.RemoveListener(ChangeUIText);
+            onFoodSaveSpaceChanged.RemoveListener(ChangeUIText);
         }
 
         #endregion

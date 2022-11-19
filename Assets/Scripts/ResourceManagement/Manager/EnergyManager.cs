@@ -2,6 +2,7 @@ using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace ResourceManagement.Manager
 {
@@ -41,10 +42,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-                
                 currentResourceSurplus = value;
                 onEnergySurplusChanged?.Invoke();
-                // Debug.Log("onEnergySurplusChanged?.Invoke()");
             } 
         }
         
@@ -61,10 +60,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-
                 savedResourceValue = value;
                 onEnergySavedValueChanged?.Invoke();
-                // Debug.Log("onEnergySavedValueChanged?.Invoke()");
             } 
         }
         
@@ -77,14 +74,12 @@ namespace ResourceManagement.Manager
             set
             {
                 if (saveSpace == value) return;
-
                 saveSpace = value;
                 onEnergySaveSpaceChanged?.Invoke();
-                // Debug.Log("onEnergySaveSpaceChanged?.Invoke()");
             } 
         }
         
-        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Energy;
+        public override ResourceType ResourceType { get; set; } = ResourceType.Energy;
 
         #endregion
         
@@ -117,6 +112,13 @@ namespace ResourceManagement.Manager
             gameManager = MainManagerSingleton.Instance.GameManager;
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0, repeatRate); 
+        }
+        
+        private void OnDestroy()
+        {        
+            onEnergySurplusChanged.RemoveListener(ChangeUIText);
+            onEnergySavedValueChanged.RemoveListener(ChangeUIText);
+            onEnergySaveSpaceChanged.RemoveListener(ChangeUIText);
         }
 
         #endregion
@@ -156,7 +158,7 @@ namespace ResourceManagement.Manager
 
             if (SavedResourceValue < 0)
             {
-                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType);
+                gameManager.DisableBuildings(CurrentResourceSurplus, ResourceType, false);
                 SavedResourceValue = 0;
             }
             else if (gameManager.DisabledBuildings.Count != 0)

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.IO;
+using Buildings;
 using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
@@ -8,7 +8,7 @@ using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MilestoneSystem
@@ -36,6 +36,7 @@ namespace MilestoneSystem
         [SerializeField] private GameObject labelPrefab;
         private readonly List<GameObject> allLabels = new();
         private readonly List<GameObject> allItems = new();
+        private readonly List<Toggle> itemToggles = new();
         private MaterialManager materialManager;
         private EnergyManager energyManager;
         private FoodManager foodManager;
@@ -44,10 +45,16 @@ namespace MilestoneSystem
         private GameManager gameManager;
         private List<ResourceManager> managers;
         [SerializeField] private Button sideMenuMileStoneButton;
+        private EventTrigger sideMenuMileStoneButtonTrigger;
         [SerializeField] private Button sideMenuPriorityButton;
-        private const string SaveName = "MileStoneSystem";
+        private EventTrigger sideMenuPriorityButtonTrigger;
+
+        private float timer;
+        [SerializeField] private float maxTimer = 0.5f;
 
         private bool menuWasBuild;
+        private bool showText;
+        private SaveData saveData;
 
         #endregion
 
@@ -73,6 +80,7 @@ namespace MilestoneSystem
         /// </summary>
         private void Start()
         {
+            saveData = SaveSystem.SaveData.Instance;
             managers = new List<ResourceManager>();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
@@ -90,8 +98,11 @@ namespace MilestoneSystem
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
-            
+            sideMenuPriorityButtonTrigger = sideMenuPriorityButton.GetComponent<EventTrigger>();
+            sideMenuMileStoneButtonTrigger = sideMenuMileStoneButton.GetComponent<EventTrigger>();
             BuildPreMainText();
+
+            timer = maxTimer;
         }
 
         /// <summary>
@@ -100,23 +111,41 @@ namespace MilestoneSystem
         /// </summary>
         private void Update()
         {
+            timer -= Time.deltaTime;
+            
+            if (!(timer < 0)) return;
+            timer = maxTimer;
             if (Time.timeScale == 0) return;
             if (!CheckIfAchieved()) return;
             
             isDone = true;
-            foreach (GameObject item in allItems)
+
+            for (var i = 0; i < allItems.Count; i++)
             {
+                GameObject item = allItems[i];
                 Destroy(item);
             }
+
+            for (var i = 0; i < allLabels.Count; i++)
+            {
+                GameObject item = allLabels[i];
+                Destroy(item);
+            }
+
             allItems.Clear();
-            foreach (GameObject item in allLabels)
-            {
-                Destroy(item);
-            }
+            itemToggles.Clear();
             allLabels.Clear();
+            
             if (textIndex == 0) BuildPostMainText();
         }
-        
+
+        private void OnDestroy()
+        {
+            Save.OnSaveButtonClick.RemoveListener(SaveData);
+            Save.OnSaveAsButtonClick.RemoveListener(SaveDataAs);
+            Load.OnLoadButtonClick.RemoveListener(LoadData);
+        }
+
         #endregion
 
         #region ClickEvents
@@ -136,33 +165,37 @@ namespace MilestoneSystem
 
         private void SaveData()
         {
-            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
-            data[0].isDone = isDone;
-            data[0].mileStonesDone = mileStonesDone;
+            MileStoneSystemSave data;
+            data.isDone = isDone;
+            data.mileStonesDone = mileStonesDone;
 
-            Save.AutoSaveData(data, SaveName);
+            saveData.GameSave.mileStoneData = data;
+            // Save.AutoSaveData(data, SaveName);
         }
     
         private void SaveDataAs(string savePlace)
         {
-            MileStoneSystemSave[] data = new MileStoneSystemSave[1];
-            data[0].isDone = isDone;
-            data[0].mileStonesDone = mileStonesDone;
-        
-            Save.SaveDataAs(savePlace, data, SaveName);
+            MileStoneSystemSave data;
+            data.isDone = isDone;
+            data.mileStonesDone = mileStonesDone;
+
+            saveData.GameSave.mileStoneData = data;
+            // Save.SaveDataAs(savePlace, data, SaveName);
         }
     
-        private void LoadData(string path)
+        private void LoadData(GameSave gameSave)
         {
-            path = Path.Combine(path, $"{SaveName}.dat");
-            if (!File.Exists(path)) return;
-            
-            MileStoneSystemSave[] data = Load.LoadData(path) as MileStoneSystemSave[];
+            // path = Path.Combine(path, $"{SaveName}.dat");
+            // if (!File.Exists(path)) return;
+            //
+            // MileStoneSystemSave[] data = Load.LoadData(path) as MileStoneSystemSave[];
 
+            MileStoneSystemSave data = gameSave.mileStoneData;
+            
             // if (data == null) return;
             
-            isDone = data[0].isDone;
-            mileStonesDone = data[0].mileStonesDone;
+            isDone = data.isDone;
+            mileStonesDone = data.mileStonesDone;
         }
 
         #endregion
@@ -183,7 +216,10 @@ namespace MilestoneSystem
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
+                sideMenuMileStoneButtonTrigger.enabled = false;
                 sideMenuPriorityButton.interactable = false;
+                sideMenuPriorityButtonTrigger.enabled = false;
+
                 Time.timeScale = 0;
                 mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
                 textIndex++;
@@ -192,7 +228,9 @@ namespace MilestoneSystem
             {
                 mainText.SetActive(false);
                 sideMenuMileStoneButton.interactable = true;
+                sideMenuMileStoneButtonTrigger.enabled = true;
                 sideMenuPriorityButton.interactable = true;
+                sideMenuPriorityButtonTrigger.enabled = true;
                 BuildMenu();
                 Time.timeScale = 1;
                 textIndex = 0;
@@ -211,7 +249,9 @@ namespace MilestoneSystem
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
+                sideMenuMileStoneButtonTrigger.enabled = true;
                 sideMenuPriorityButton.interactable = false;
+                sideMenuPriorityButtonTrigger.enabled = false;
                 Time.timeScale = 0;
                 mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
                 textIndex++;
@@ -232,7 +272,7 @@ namespace MilestoneSystem
         /// <summary>
         /// when a Milestone is achieved it builds a new MilestoneMenu
         /// </summary>
-        private void BuildMenu()
+        private void BuildMenu() // TODO: (Robin) Viele getComponents, evtl iwo zwischenspeichern?
         {
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
@@ -241,23 +281,48 @@ namespace MilestoneSystem
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "ToDos";
-                foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
+                showText = false;
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
                 {
-                    foreach (MileStoneEvent mileStoneEvent in events)
+                    MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
+                    for (int j = 0; j < events.Length; j++)
                     {
-                        if (mileStoneEvent.Name == requiredEvent)
+                        MileStoneEvent mileStoneEvent = events[j];
+                        if (mileStoneEvent.Name != requiredEvent) continue;
+                        
+                        for (int k = 0; k < mileStoneEvent.Events.Length; k++)
                         {
-                            foreach (MileStoneEventItems eventItems in mileStoneEvent.Events)
+                            item = Instantiate(itemPrefab, mileStonePanel.transform, true);
+                            allItems.Add(item);
+                            itemToggles.Add(item.GetComponentInChildren<Toggle>());
+                            item.transform.localScale = Vector3.one;
+                            text = item.GetComponentInChildren<TextMeshProUGUI>();
+                            text.text = mileStoneEvent.Events[k].text;
+                            if (!string.IsNullOrEmpty(text.text))
                             {
-                                item = Instantiate(itemPrefab, mileStonePanel.transform, true);
-                                allItems.Add(item);
-                                item.transform.localScale = Vector3.one;
-                                text = item.GetComponentInChildren<TextMeshProUGUI>();
-                                text.text = eventItems.text;
+                                showText = true;
                             }
-                            mileStoneEvent.enabled = true;
-                            mileStoneEvent.ResetAll();
                         }
+
+                        mileStoneEvent.enabled = true;
+                        mileStoneEvent.ResetAll();
+                    }
+                }
+
+                if (!showText)
+                {
+                    for (int i = 0; i < allLabels.Count; i++)
+                    {
+                        GameObject allLabel = allLabels[i];
+                        Destroy(allLabel);
+                    }
+
+                    allLabels.Clear();
+
+                    for (int i = 0; i < allItems.Count; i++)
+                    {
+                        GameObject allItem = allItems[i];
+                        Destroy(allItem);
                     }
                 }
 
@@ -270,11 +335,13 @@ namespace MilestoneSystem
                 allLabels.Add(item);
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
-                text.text = "Required resources";
-                foreach (Resource requiredResource in mileStones[mileStonesDone].RequiredResources)
+                text.text = "Benötigte Ressourcen";
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredResources.Length; i++)
                 {
+                    Resource requiredResource = mileStones[mileStonesDone].RequiredResources[i];
                     item = Instantiate(itemPrefab, mileStonePanel.transform, true);
                     allItems.Add(item);
+                    itemToggles.Add(item.GetComponentInChildren<Toggle>());
                     item.transform.localScale = Vector3.one;
                     text = item.GetComponentInChildren<TextMeshProUGUI>();
                     text.text += $"{requiredResource.value} {requiredResource.resource}";
@@ -287,14 +354,63 @@ namespace MilestoneSystem
                 allLabels.Add(item);
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
-                text.text = "Required modules";
-                foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
+                text.text = "Benötigte Module";
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredModules.Length; i++)
                 {
+                    MileStoneModule requiredModule = mileStones[mileStonesDone].RequiredModules[i];
                     item = Instantiate(itemPrefab, mileStonePanel.transform, true);
                     allItems.Add(item);
+                    itemToggles.Add(item.GetComponentInChildren<Toggle>());
                     item.transform.localScale = Vector3.one;
                     text = item.GetComponentInChildren<TextMeshProUGUI>();
-                    text.text += $"{requiredModule.value} {requiredModule.buildingTypes}";
+
+                    switch (requiredModule.buildingType)
+                    {
+                        case BuildingType.StartModule:
+                            text.text = "";
+                            break;
+                        case BuildingType.EnergyGain:
+                            text.text += $"{requiredModule.value} Generator";
+                            if (requiredModule.value <= 1) break;
+                            text.text += "en";
+                            break;
+                        case BuildingType.LifeSupportGain:
+                            text.text += $"{requiredModule.value} Biokuppel";
+                            if (requiredModule.value <= 1) break;
+                            text.text += "en";
+                            break;
+                        case BuildingType.MaterialGain:
+                            text.text += $"{requiredModule.value} Raffinerie";
+                            if (requiredModule.value <= 1) break;
+                            text.text += "n";
+                            break;
+                        case BuildingType.EnergySave:
+                            text.text += $"{requiredModule.value} Batterie";
+                            if (requiredModule.value <= 1) break;
+                            text.text += "n";
+                            break;
+                        case BuildingType.LifeSupportSave:
+                            text.text += $"{requiredModule.value} Wassertank";
+                            if (requiredModule.value <= 1) break;
+                            text.text += "s";
+                            break;
+                        case BuildingType.MaterialSave:
+                            text.text += $"{requiredModule.value} Erzlager";
+                            if (requiredModule.value <= 1) break;
+                            text.text += "er";
+                            break;
+                        case BuildingType.CitizenSave:
+                            text.text += $"{requiredModule.value} Wohneinheit";
+
+                            if (requiredModule.value <= 1) break;
+                            text.text += "en";
+                            break;
+                        case BuildingType.All:
+                            text.text += $"Insgesamt {requiredModule.value} Modul";
+                            if (requiredModule.value <= 1) break;
+                            text.text += "e";
+                            break;
+                    }
                 }
             }
         }
@@ -316,29 +432,43 @@ namespace MilestoneSystem
 
             if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
-                foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
                 {
-                    foreach (MileStoneEvent mileStoneEvent in events)
+                    MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
+                    for (int j = 0; j < events.Length; j++)
                     {
+                        MileStoneEvent mileStoneEvent = events[j];
                         if (mileStoneEvent.Name != requiredEvent) continue;
 
-                        foreach (var mileStoneEventItem in mileStoneEvent.Events)
+                        for (int k = 0; k < mileStoneEvent.Events.Length; k++)
                         {
-                            Toggle toggle =
-                                allItems[index]
-                                    .GetComponentInChildren<
-                                        Toggle>(); //TODO: (Robin) Toggle immer bei neuen Items zwischenspeichern?
-                            if (toggle.isOn) continue;
-
-                            if (!mileStoneEvent.CheckAchieved(index))
+                            if (!showText)
                             {
-                                toggle.isOn = false;
-                                hasAllRequiredStuff = false;
+                                if (!mileStoneEvent.CheckAchieved(index))
+                                {
+                                    hasAllRequiredStuff = false;
+                                    index++;
+                                    continue;
+                                }
                             }
                             else
                             {
-                                toggle.isOn = true;
-                                SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
+                                if (itemToggles[index].isOn)
+                                {
+                                    index++;
+                                    continue;
+                                }
+
+                                if (!mileStoneEvent.CheckAchieved(index))
+                                {
+                                    itemToggles[index].isOn = false;
+                                    hasAllRequiredStuff = false;
+                                }
+                                else
+                                {
+                                    itemToggles[index].isOn = true;
+                                    SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
+                                }
                             }
 
                             index++;
@@ -347,29 +477,32 @@ namespace MilestoneSystem
                 }
             }
 
-            foreach (Resource requiredResource in mileStones[mileStonesDone].RequiredResources)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredResources.Length; i++)
             {
-                foreach (ResourceManager manager in managers)
+                Resource requiredResource = mileStones[mileStonesDone].RequiredResources[i];
+                for (int j = 0; j < managers.Count; j++)
                 {
-                    if (requiredResource.resource == manager.ResourceType)
+                    ResourceManager manager = managers[j];
+                    if (requiredResource.resource != manager.ResourceType) continue;
+
+                    if (manager.SavedResourceValue < requiredResource.value)
                     {
-                        Toggle toggle = allItems[index].GetComponentInChildren<Toggle>();
-                        if (manager.SavedResourceValue < requiredResource.value)
+                        itemToggles[index].isOn = false;
+                        hasAllRequiredStuff = false;
+                    }
+                    else
+                    {
+                        if (itemToggles[index].isOn)
                         {
-                            toggle.isOn = false;
-                            hasAllRequiredStuff = false;
-                        }
-                        else
-                        {
-                            if (!toggle.isOn)
-                            {
-                                toggle.isOn = true;
-                                SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
-                            }
+                            index++;
+                            continue;
                         }
 
-                        index++;
+                        itemToggles[index].isOn = true;
+                        SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
                     }
+
+                    index++;
                 }
 
                 // switch (requiredResource.resource)
@@ -392,19 +525,23 @@ namespace MilestoneSystem
                 // }
             }
 
-            foreach (MileStoneModules requiredModule in mileStones[mileStonesDone].RequiredModules)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredModules.Length; i++)
             {
-                Toggle toggle = allItems[index].gameObject.GetComponentInChildren<Toggle>();
-                if (toggle.isOn) continue;
-
-                if (gameManager.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
+                MileStoneModule requiredModule = mileStones[mileStonesDone].RequiredModules[i];
+                if (itemToggles[index].isOn)
                 {
-                    toggle.isOn = false;
+                    index++;
+                    continue;
+                }
+
+                if (gameManager.GetBuildingCount(requiredModule.buildingType) < requiredModule.value)
+                {
+                    itemToggles[index].isOn = false;
                     hasAllRequiredStuff = false;
                 }
                 else
                 {
-                    toggle.isOn = true;
+                    itemToggles[index].isOn = true;
                     SoundManager.PlaySound(SoundManager.Sound.AchievedMilestone);
                 }
 
@@ -449,10 +586,12 @@ namespace MilestoneSystem
 
             if (!hasAllRequiredStuff) return false;
 
-            foreach (MileStoneEventNames requiredEvent in mileStones[mileStonesDone].RequiredEvent)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
             {
-                foreach (MileStoneEvent mileStoneEvent in events)
+                MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
+                for (int j = 0; j < events.Length; j++)
                 {
+                    MileStoneEvent mileStoneEvent = events[j];
                     if (mileStoneEvent.Name == requiredEvent)
                     {
                         mileStoneEvent.enabled = false;

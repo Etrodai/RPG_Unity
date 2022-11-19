@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -9,28 +8,26 @@ namespace SaveSystem
 {
     public static class Load
     {
-        public static readonly UnityEvent<string> OnLoadButtonClick = new();
+        public static readonly UnityEvent<GameSave> OnLoadButtonClick = new();
 
-        public static IEnumerable LoadData(string path)
+        public static GameSave LoadData(string path)
         {
             path = $"{path}.dat";
-            if (File.Exists(path))
+            if (!File.Exists(path)) return null;
+            
+            try
             {
-                try
-                {
-                    BinaryFormatter bf = new BinaryFormatter();
-                    FileStream fs = new FileStream(path, FileMode.Open);
-                    IEnumerable data = bf.Deserialize(fs) as IEnumerable;
-                    fs.Close();
-                    return data;
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError(e);
-                    throw;
-                }
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream fs = new FileStream(path, FileMode.Open);
+                GameSave data = bf.Deserialize(fs) as GameSave;
+                fs.Close();
+                return data;
             }
-            return null;
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+                throw;
+            }
         }
     }
 }

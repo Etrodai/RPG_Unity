@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 namespace Manager.Menu
 {
@@ -12,7 +10,7 @@ namespace Manager.Menu
         [SerializeField] private GameObject escapeMenu;
         [SerializeField] private GameObject optionsMenu;
 
-        private const int mainMenuScene = 0;
+        private const int MainMenuScene = 0;
         
         //Input
         [SerializeField] private PlayerInput playerInput;
@@ -46,8 +44,8 @@ namespace Manager.Menu
             playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
             playerInputHasBeenInit = true;
         }
-        
-        public void EnableDisableMenu(InputAction.CallbackContext context)
+
+        private void EnableDisableMenu(InputAction.CallbackContext context)
         {
             if(escapeMenu.activeInHierarchy == false)
             {
@@ -82,7 +80,8 @@ namespace Manager.Menu
         public void OnMainMenuClick()
         {
             //Probably place where saving must take place
-            SceneManager.LoadScene(mainMenuScene);
+            //is now assigned in Inspector
+            SceneManager.LoadScene(MainMenuScene);
         }
 
         public void OnExitGameClick()

@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SaveSystem
@@ -17,12 +14,45 @@ namespace SaveSystem
         [SerializeField] private Transform buttonList;
         [SerializeField] private GameObject loadButtonPrefab;
 
+        private SaveData saveData;
         //TODO: (Robin) load als event oder nacheinander aufrufen wegen Order of execution
 
         private void Start()
         {
+            saveData = SaveData.Instance;
             OnSaveValueChanged();
             loadPanel.SetActive(false);
+            Save.OnSaveButtonClick.AddListener(SaveGameData);
+            Save.OnSaveAsButtonClick.AddListener(SaveGameDataAs);
+        }
+        
+        private void OnDestroy()
+        {
+            Save.OnSaveButtonClick.RemoveListener(SaveGameData);
+            Save.OnSaveAsButtonClick.RemoveListener(SaveGameDataAs);
+        }
+
+
+        private void SaveGameData()
+        {
+            StartCoroutine(SaveGameDataAfterFrame());
+        }
+
+        private IEnumerator SaveGameDataAfterFrame()
+        {
+            yield return new WaitForEndOfFrame();
+            Save.AutoSaveData(saveData.GameSave, "GameData");
+        }
+
+        private void SaveGameDataAs(string savePlace)
+        {
+            StartCoroutine(SaveGameDataAsAfterFrame(savePlace));
+        }
+
+        private IEnumerator SaveGameDataAsAfterFrame(string savePlace)
+        {
+            yield return new WaitForEndOfFrame();
+            Save.SaveDataAs(savePlace, saveData.GameSave, "GameData");
         }
 
         public void OnSaveValueChanged()
@@ -45,7 +75,8 @@ namespace SaveSystem
             //change scene, than wait 1 frame, than load
             string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\Autosafe");
             // Load.OnLoadButtonClick?.Invoke(loadName);
-            StartCoroutine(LoadScene(loadName));
+            saveData.LoadData(loadName);
+            // StartCoroutine(saveData.LoadScene(loadName));
         }
 
         public void OnLoadAsButtonClick(TextMeshProUGUI buttonName)
@@ -54,14 +85,16 @@ namespace SaveSystem
             Debug.Log("Load");
             string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\{buttonName.text}");
             // Load.OnLoadButtonClick?.Invoke(loadName);
-            StartCoroutine(LoadScene(loadName));
+            saveData.LoadData(loadName);
+            // StartCoroutine(saveData.LoadScene(loadName));
         }
 
         public void OnLoadButtonClick()
         {
             string[] directories = Directory.GetDirectories(Path.Combine(Application.persistentDataPath, @"Data"));
-            foreach (string directory in directories)
+            for (int i = 0; i < directories.Length; i++)
             {
+                string directory = directories[i];
                 GameObject loadButton = Instantiate(loadButtonPrefab, buttonList, true);
                 TextMeshProUGUI text = loadButton.GetComponentInChildren<TextMeshProUGUI>();
                 string fileName = Path.GetFileName(directory);
@@ -69,39 +102,8 @@ namespace SaveSystem
                 Button button = loadButton.GetComponent<Button>();
                 button.onClick.AddListener(delegate { OnLoadAsButtonClick(text); });
             }
+
             loadPanel.SetActive(true);
-        }
-        
-        /// <summary>
-        /// https://stackoverflow.com/questions/52722160/in-unity-after-loadscene-is-there-common-way-to-wait-all-monobehaviourstart-t
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator LoadScene(string loadName)
-        {
-            Debug.Log("Load Start");
-            
-            // Start loading the scene
-            AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
-            
-            Debug.Log(asyncLoadLevel.progress);
-
-            // Wait until the level finish loading
-            while (asyncLoadLevel.isDone)
-            {
-                yield return null;
-            }
-            
-            Debug.Log("Load While End");
-
-            // Wait a frame so every Awake and Start method is called
-            yield return new WaitForEndOfFrame();
-
-            Debug.Log("Load Before");
-
-            Load.OnLoadButtonClick?.Invoke(loadName);
-            
-            Debug.Log("Load End");
-
         }
     }
 }

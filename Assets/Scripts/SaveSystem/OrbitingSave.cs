@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 namespace SaveSystem
@@ -15,9 +14,9 @@ namespace SaveSystem
     public class OrbitingSave : MonoBehaviour
     {
         #region Variables & Properties
-
-        private const string SaveName = "PlanetOrbiting";
+        
         public static List<GameObject> Planets { get; } = new();
+        private SaveData saveData;
 
         #endregion
 
@@ -25,9 +24,18 @@ namespace SaveSystem
 
         private void Start()
         {
+            // Planets.Clear();
+            saveData = SaveSystem.SaveData.Instance;
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
+        }
+
+        private void OnDestroy()
+        {
+            Save.OnSaveButtonClick.RemoveListener(SaveData);
+            Save.OnSaveAsButtonClick.RemoveListener(SaveDataAs);
+            Load.OnLoadButtonClick.RemoveListener(LoadData);
         }
 
         #endregion
@@ -44,7 +52,7 @@ namespace SaveSystem
                 position[i].z = Planets[i].transform.position.z;
             }
 
-            Save.AutoSaveData(position, SaveName);
+            saveData.GameSave.orbitingData = position;
         }
 
         private void SaveDataAs(string savePlace)
@@ -57,18 +65,13 @@ namespace SaveSystem
                 position[i].z = Planets[i].transform.position.z;
             }
 
-            Save.SaveDataAs(savePlace, position, SaveName);
+            saveData.GameSave.orbitingData = position;
         }
 
-        private void LoadData(string path)
+        private void LoadData(GameSave gameSave)
         {
-            path = Path.Combine(path, $"{SaveName}.dat");
-            if (!File.Exists(path)) return;
-            
-            OrbitingData[] position = Load.LoadData(path) as OrbitingData[];
+            OrbitingData[] position = gameSave.orbitingData;
 
-            // if (position == null) return;
-            
             for (int i = 0; i < Planets.Count; i++)
             {
                 Planets[i].transform.position = new Vector3(position[i].x, position[i].y, position[i].z);

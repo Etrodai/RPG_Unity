@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace ResourceManagement.Manager
 {
@@ -47,10 +48,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (currentResourceSurplus == value) return;
-
-                onWaterSurplusChanged?.Invoke();
-                // Debug.Log("onWaterSurplusChanged?.Invoke()");
                 currentResourceSurplus = value;
+                onWaterSurplusChanged?.Invoke();
             }
         }
         
@@ -67,10 +66,8 @@ namespace ResourceManagement.Manager
             set
             {
                 if (savedResourceValue == value) return;
-
-                onWaterSavedValueChanged?.Invoke();
-                // Debug.Log("onWaterSavedValueChanged?.Invoke()");
                 savedResourceValue = value;
+                onWaterSavedValueChanged?.Invoke();
             }
         }
         
@@ -83,13 +80,11 @@ namespace ResourceManagement.Manager
             set
             {
                 if (saveSpace == value) return;
-
-                onWaterSaveSpaceChanged?.Invoke();
-                // Debug.Log("onWaterSaveSpaceChanged?.Invoke()");
                 saveSpace = value;
+                onWaterSaveSpaceChanged?.Invoke();
             }
         }
-        public override ResourceTypes ResourceType { get; set; } = ResourceTypes.Water;
+        public override ResourceType ResourceType { get; set; } = ResourceType.Water;
 
         #endregion
 
@@ -121,6 +116,13 @@ namespace ResourceManagement.Manager
             onWaterSaveSpaceChanged.AddListener(ChangeUIText);
             dividendFor10Seconds = 10 / repeatRate;
             InvokeRepeating(nameof(InvokeCalculation), 0f, repeatRate);
+        }
+        
+        private void OnDestroy()
+        {
+            onWaterSurplusChanged.RemoveListener(ChangeUIText);
+            onWaterSavedValueChanged.RemoveListener(ChangeUIText);
+            onWaterSaveSpaceChanged.RemoveListener(ChangeUIText);
         }
 
         #endregion

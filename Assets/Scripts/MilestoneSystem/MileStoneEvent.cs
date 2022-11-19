@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MilestoneSystem
 {
     public abstract class MileStoneEvent : MonoBehaviour
     {
-        public abstract MileStoneEventNames Name { get; set; }
-        public abstract MileStoneEventItems[] Events { get; set; }
+        public abstract MileStoneEventName Name { get; set; }
+        public abstract MileStoneEventItem[] Events { get; set; }
         
         /// <summary>
         /// Checks if the given Event is achieved

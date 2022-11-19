@@ -14,8 +14,9 @@ namespace DebugMenus
         private void OnValidate()
         {
             cheats = new Dictionary<string, Cheat>();
-            foreach (Cheat item in usableCheats)
+            for (int i = 0; i < usableCheats.Length; i++)
             {
+                Cheat item = usableCheats[i];
                 cheats.Add(item.Command, item);
             }
         }
@@ -24,8 +25,7 @@ namespace DebugMenus
         {
             Debug.Log($"Processing command: {command}");
 
-            Cheat cheatToUse = null;
-            cheats.TryGetValue(command, out cheatToUse);
+            cheats.TryGetValue(command, out var cheatToUse);
 
             if (cheatToUse == null)
             {
@@ -34,7 +34,7 @@ namespace DebugMenus
             }
 
             MethodInfo method = typeof(CheatCodeLogic).GetMethod(cheatToUse.FunctionName);
-            method.Invoke(new CheatCodeLogic(), null);
+            if (method != null) method.Invoke(new CheatCodeLogic(), null);
         }
 
         // public void ProcessInput(string input)
