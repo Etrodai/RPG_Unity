@@ -15,11 +15,11 @@ MonoBehaviour:
   costs:
   - resource: 0
     value: 50
+    eventResourceDemandValue: 0
   requiredSpace: {x: 1, y: 1, z: 1}
-  consumption:
-  - resource: 0
-    value: 0
+  consumption: []
   production: []
   saveSpace:
   - resource: 1
     value: 100
+    eventResourceDemandValue: 0

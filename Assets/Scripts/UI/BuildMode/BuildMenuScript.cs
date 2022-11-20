@@ -3,6 +3,7 @@ using Buildings;
 using Manager;
 using ResourceManagement;
 using ResourceManagement.Manager;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,8 +14,22 @@ namespace UI.BuildMode
     public struct Buttons
     {
         public Button button;
-        public EventTrigger trigger;
+        private EventTrigger trigger;
         public BuildingResourcesScriptableObject moduleToBuild;
+        public GameObject hoverGameObject;
+        private TextMeshProUGUI hoverText;
+        
+        public EventTrigger Trigger
+        { 
+            get => trigger;
+            set => trigger = value;
+        }    
+        
+        public TextMeshProUGUI HoverText
+        { 
+            get => hoverText;
+            set => hoverText = value;
+        }
     }
     
     public class BuildMenuScript : MonoBehaviour
@@ -45,12 +60,7 @@ namespace UI.BuildMode
                 Initialize();
                 isInitialized = true;
             }
-            
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                buttons[i].trigger = buttons[i].button.GetComponent<EventTrigger>();
-            }
-            
+
             InvokeRepeating(nameof(UpdateButtons), 0, 0.5f);
             UpdateButtons();
         }
@@ -75,6 +85,149 @@ namespace UI.BuildMode
             managers.Add(waterManager);
             citizenManager = MainManagerSingleton.Instance.CitizenManager;
             managers.Add(citizenManager);
+
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].Trigger = buttons[i].button.GetComponent<EventTrigger>();
+                buttons[i].HoverText = buttons[i].hoverGameObject.GetComponentInChildren<TextMeshProUGUI>();
+                buttons[i].hoverGameObject.SetActive(false);
+
+                string text = "";
+                string resourceText = "";
+                if (buttons[i].moduleToBuild.Costs.Length != 0)
+                {
+                    text += "Kosten:\n";
+                    for (int j = 0; j < buttons[i].moduleToBuild.Costs.Length; j++)
+                    {
+                        Resource resourcesCost = buttons[i].moduleToBuild.Costs[j];
+                        switch (resourcesCost.resource)
+                        {
+                            case ResourceType.Material:
+                                resourceText = "Mineralien";
+                                break;
+                            case ResourceType.Energy:
+                                resourceText = "Strom";
+                                break;
+                            case ResourceType.Citizen:
+                                resourceText = "Arbeiter";
+                                break;
+                            case ResourceType.Food:
+                                resourceText = "Nahrung";
+                                break;
+                            case ResourceType.Water:
+                                resourceText = "Wasser";
+                                break;
+                        }
+                        text += $"{resourcesCost.value} {resourceText}\n";
+                    }
+
+                    text += "\n";
+                }
+                
+                if (buttons[i].moduleToBuild.Consumption.Length != 0)
+                {
+                    text += "Benötigt:\n";
+                    string workerText = "";
+                    for (int j = 0; j < buttons[i].moduleToBuild.Consumption.Length; j++)
+                    {
+                        Resource resourcesConsumption = buttons[i].moduleToBuild.Consumption[j];
+                        switch (resourcesConsumption.resource)
+                        {
+                            case ResourceType.Material:
+                                resourceText = "Mineralien";
+                                break;
+                            case ResourceType.Energy:
+                                resourceText = "Strom";
+                                break;
+                            case ResourceType.Citizen:
+                                resourceText = "Arbeiter";
+                                break;
+                            case ResourceType.Food:
+                                resourceText = "Nahrung";
+                                break;
+                            case ResourceType.Water:
+                                resourceText = "Wasser";
+                                break;
+                        }
+                        
+                        if (resourcesConsumption.resource == ResourceType.Citizen)
+                        {
+                            workerText +=$"{resourcesConsumption.value} {resourceText}\n";
+                        }
+                        else
+                        {
+                            text += $"{resourcesConsumption.value} {resourceText}/10 Sek\n";
+                        }
+                    }
+
+                    text += workerText;
+                    text += "\n";
+                }
+                
+                if (buttons[i].moduleToBuild.Production.Length != 0)
+                {
+                    text += "Produziert:\n";
+                    for (int j = 0; j < buttons[i].moduleToBuild.Production.Length; j++)
+                    {
+                        Resource resourcesProduction = buttons[i].moduleToBuild.Production[j];
+                        switch (resourcesProduction.resource)
+                        {
+                            case ResourceType.Material:
+                                resourceText = "Mineralien";
+                                break;
+                            case ResourceType.Energy:
+                                resourceText = "Strom";
+                                break;
+                            case ResourceType.Citizen:
+                                resourceText = "Arbeiter";
+                                break;
+                            case ResourceType.Food:
+                                resourceText = "Nahrung";
+                                break;
+                            case ResourceType.Water:
+                                resourceText = "Wasser";
+                                break;
+                        }
+                        text += $"{resourcesProduction.value} {resourceText}/10 Sek\n";
+                    }
+
+                    text += "\n";
+                }
+                
+                if (buttons[i].moduleToBuild.SaveSpace.Length != 0)
+                {
+                    text += "Lagerplatz:\n";
+                    for (int j = 0; j < buttons[i].moduleToBuild.SaveSpace.Length; j++)
+                    {
+                        Resource resourcesSaveSpace = buttons[i].moduleToBuild.SaveSpace[j];
+                        switch (resourcesSaveSpace.resource)
+                        {
+                            case ResourceType.Material:
+                                resourceText = "Mineralien";
+                                break;
+                            case ResourceType.Energy:
+                                resourceText = "Strom";
+                                break;
+                            case ResourceType.Citizen:
+                                resourceText = "Arbeiter";
+                                break;
+                            case ResourceType.Food:
+                                resourceText = "Nahrung";
+                                break;
+                            case ResourceType.Water:
+                                resourceText = "Wasser";
+                                break;
+                        }
+                        text += $"{resourcesSaveSpace.value} {resourceText}\n";
+                    }
+
+                    text += "\n";
+                }
+                
+                buttons[i].HoverText.text = text;
+                // buttons[i].trigger.AddListener(EventTriggerType.PointerEnter, _ => ShowHoverText(buttons[i].hoverGameObject));
+                // buttons[i].trigger.AddListener(EventTriggerType.PointerExit, _ => HideHoverText(buttons[i].hoverGameObject));
+            }
         }
 
         /// <summary>
@@ -98,8 +251,18 @@ namespace UI.BuildMode
                 }
 
                 button.button.interactable = activate;
-                button.trigger.enabled = activate;
+                // button.trigger.enabled = activate;
             }
+        }
+
+        public void ShowHoverText(GameObject hoverGameObject)
+        {
+            hoverGameObject.SetActive(true);
+        }
+
+        public void HideHoverText(GameObject hoverGameObject)
+        {
+            hoverGameObject.SetActive(false);
         }
 
         #endregion

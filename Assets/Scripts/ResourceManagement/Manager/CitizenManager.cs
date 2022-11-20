@@ -184,6 +184,13 @@ namespace ResourceManagement.Manager
         {
             if (SaveSpace < CurrentResourceProduction)
             {
+                for (int i = 0; i > -stepsToGrow; i--)
+                {
+                    if (saveSpace - currentResourceProduction < i * sizeOfStepsToGrow)
+                    {
+                        CurrentResourceSurplus = i - 1;
+                    }
+                }
                 CurrentResourceSurplus = -1;
             }
             else if (foodManager.SavedResourceValue <= 0 || waterManager.SavedResourceValue <= 0)
@@ -204,6 +211,11 @@ namespace ResourceManagement.Manager
                     {
                         CurrentResourceSurplus = i + 1;
                     }
+                }
+
+                if (CurrentResourceSurplus + currentResourceProduction > saveSpace)
+                {
+                    currentResourceSurplus = saveSpace - currentResourceProduction;
                 }
             }
 
