@@ -38,6 +38,7 @@ namespace MilestoneSystem
         private readonly List<GameObject> allLabels = new();
         private readonly List<GameObject> allItems = new();
         private readonly List<Toggle> itemToggles = new();
+        private int mileStonesDone;
         private MaterialManager materialManager;
         private EnergyManager energyManager;
         private FoodManager foodManager;
@@ -60,8 +61,7 @@ namespace MilestoneSystem
         private SaveData saveData;
 
         #endregion
-        
-        public int MileStonesDone { get; private set; }
+
 
         #region Events
 
@@ -86,7 +86,7 @@ namespace MilestoneSystem
         private void Start()
         {
             saveData = SaveSystem.SaveData.Instance;
-            managers = new List<ResourceManager>();
+            managers = new();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
             energyManager = MainManagerSingleton.Instance.EnergyManager;
@@ -125,13 +125,13 @@ namespace MilestoneSystem
             
             isDone = true;
 
-            for (var i = 0; i < allItems.Count; i++)
+            for (int i = 0; i < allItems.Count; i++)
             {
                 GameObject item = allItems[i];
                 Destroy(item);
             }
 
-            for (var i = 0; i < allLabels.Count; i++)
+            for (int i = 0; i < allLabels.Count; i++)
             {
                 GameObject item = allLabels[i];
                 Destroy(item);
@@ -172,7 +172,7 @@ namespace MilestoneSystem
         {
             MileStoneSystemSave data;
             data.isDone = isDone;
-            data.mileStonesDone = MileStonesDone;
+            data.mileStonesDone = mileStonesDone;
 
             saveData.GameSave.mileStoneData = data;
             // Save.AutoSaveData(data, SaveName);
@@ -182,7 +182,7 @@ namespace MilestoneSystem
         {
             MileStoneSystemSave data;
             data.isDone = isDone;
-            data.mileStonesDone = MileStonesDone;
+            data.mileStonesDone = mileStonesDone;
 
             saveData.GameSave.mileStoneData = data;
             // Save.SaveDataAs(savePlace, data, SaveName);
@@ -200,7 +200,7 @@ namespace MilestoneSystem
             // if (data == null) return;
             
             isDone = data.isDone;
-            MileStonesDone = data.mileStonesDone;
+            mileStonesDone = data.mileStonesDone;
         }
 
         #endregion
@@ -215,7 +215,7 @@ namespace MilestoneSystem
         /// </summary>
         private void BuildPreMainText()
         {
-            if (textIndex < mileStones[MileStonesDone].MileStoneText.Length)
+            if (textIndex < mileStones[mileStonesDone].MileStoneText.Length)
             {
                 onSideMenuShouldClose.Invoke();
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
@@ -226,7 +226,7 @@ namespace MilestoneSystem
                 sideMenuPriorityButtonTrigger.enabled = false;
 
                 Time.timeScale = 0;
-                mileStoneText.text = mileStones[MileStonesDone].MileStoneText[textIndex];
+                mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
                 textIndex++;
             }
             else
@@ -257,7 +257,7 @@ namespace MilestoneSystem
         /// </summary>
         private void BuildPostMainText()
         {
-            if (textIndex < mileStones[MileStonesDone].MileStoneAchievedText.Length)
+            if (textIndex < mileStones[mileStonesDone].MileStoneAchievedText.Length)
             {
                 onSideMenuShouldClose.Invoke();
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
@@ -267,14 +267,14 @@ namespace MilestoneSystem
                 sideMenuPriorityButton.interactable = false;
                 sideMenuPriorityButtonTrigger.enabled = false;
                 Time.timeScale = 0;
-                mileStoneText.text = mileStones[MileStonesDone].MileStoneAchievedText[textIndex];
+                mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
                 textIndex++;
             }
             else
             {
                 textIndex = 0;
                 isDone = false;
-                MileStonesDone++;
+                mileStonesDone++;
                 BuildPreMainText();
             }
         }
@@ -288,7 +288,7 @@ namespace MilestoneSystem
         /// </summary>
         private void BuildMenu() // TODO: (Robin) Viele getComponents, evtl iwo zwischenspeichern?
         {
-            if (mileStones[MileStonesDone].RequiredEvent.Length != 0)
+            if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
                 GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
                 allLabels.Add(item);
@@ -296,9 +296,9 @@ namespace MilestoneSystem
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "ToDos";
                 showText = false;
-                for (int i = 0; i < mileStones[MileStonesDone].RequiredEvent.Length; i++)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
                 {
-                    MileStoneEventName requiredEvent = mileStones[MileStonesDone].RequiredEvent[i];
+                    MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
                     for (int j = 0; j < events.Length; j++)
                     {
                         MileStoneEvent mileStoneEvent = events[j];
@@ -343,16 +343,16 @@ namespace MilestoneSystem
                 menuWasBuild = true;
             }
 
-            if (mileStones[MileStonesDone].RequiredResources.Length != 0)
+            if (mileStones[mileStonesDone].RequiredResources.Length != 0)
             {
                 GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
                 allLabels.Add(item);
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "Benötigte Ressourcen";
-                for (int i = 0; i < mileStones[MileStonesDone].RequiredResources.Length; i++)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredResources.Length; i++)
                 {
-                    Resource requiredResource = mileStones[MileStonesDone].RequiredResources[i];
+                    Resource requiredResource = mileStones[mileStonesDone].RequiredResources[i];
                     item = Instantiate(itemPrefab, mileStonePanel.transform, true);
                     allItems.Add(item);
                     itemToggles.Add(item.GetComponentInChildren<Toggle>());
@@ -362,16 +362,16 @@ namespace MilestoneSystem
                 }
             }
 
-            if (mileStones[MileStonesDone].RequiredModules.Length != 0)
+            if (mileStones[mileStonesDone].RequiredModules.Length != 0)
             {
                 GameObject item = Instantiate(labelPrefab, mileStonePanel.transform, true);
                 allLabels.Add(item);
                 item.transform.localScale = Vector3.one;
                 TextMeshProUGUI text = item.GetComponent<TextMeshProUGUI>();
                 text.text = "Benötigte Module";
-                for (int i = 0; i < mileStones[MileStonesDone].RequiredModules.Length; i++)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredModules.Length; i++)
                 {
-                    MileStoneModule requiredModule = mileStones[MileStonesDone].RequiredModules[i];
+                    MileStoneModule requiredModule = mileStones[mileStonesDone].RequiredModules[i];
                     item = Instantiate(itemPrefab, mileStonePanel.transform, true);
                     allItems.Add(item);
                     itemToggles.Add(item.GetComponentInChildren<Toggle>());
@@ -436,7 +436,7 @@ namespace MilestoneSystem
             for (int i = 0; i < buildMenuScript.Buttons.Length; i++)
             {
                 Buttons button = buildMenuScript.Buttons[i];
-                switch (MileStonesDone)
+                switch (mileStonesDone)
                 {
                     case 1:
                         if (!sideMenuManager.CanOpenMileStonePanel) sideMenuManager.CanOpenMileStonePanel = true;
@@ -490,11 +490,11 @@ namespace MilestoneSystem
             bool hasAllRequiredStuff = true;
             int index = 0;
 
-            if (mileStones[MileStonesDone].RequiredEvent.Length != 0)
+            if (mileStones[mileStonesDone].RequiredEvent.Length != 0)
             {
-                for (int i = 0; i < mileStones[MileStonesDone].RequiredEvent.Length; i++)
+                for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
                 {
-                    MileStoneEventName requiredEvent = mileStones[MileStonesDone].RequiredEvent[i];
+                    MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
                     for (int j = 0; j < events.Length; j++)
                     {
                         MileStoneEvent mileStoneEvent = events[j];
@@ -537,9 +537,9 @@ namespace MilestoneSystem
                 }
             }
 
-            for (int i = 0; i < mileStones[MileStonesDone].RequiredResources.Length; i++)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredResources.Length; i++)
             {
-                Resource requiredResource = mileStones[MileStonesDone].RequiredResources[i];
+                Resource requiredResource = mileStones[mileStonesDone].RequiredResources[i];
                 for (int j = 0; j < managers.Count; j++)
                 {
                     ResourceManager manager = managers[j];
@@ -609,9 +609,9 @@ namespace MilestoneSystem
                 // }
             }
 
-            for (int i = 0; i < mileStones[MileStonesDone].RequiredModules.Length; i++)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredModules.Length; i++)
             {
-                MileStoneModule requiredModule = mileStones[MileStonesDone].RequiredModules[i];
+                MileStoneModule requiredModule = mileStones[mileStonesDone].RequiredModules[i];
                 if (itemToggles[index].isOn)
                 {
                     index++;
@@ -670,9 +670,9 @@ namespace MilestoneSystem
 
             if (!hasAllRequiredStuff) return false;
 
-            for (int i = 0; i < mileStones[MileStonesDone].RequiredEvent.Length; i++)
+            for (int i = 0; i < mileStones[mileStonesDone].RequiredEvent.Length; i++)
             {
-                MileStoneEventName requiredEvent = mileStones[MileStonesDone].RequiredEvent[i];
+                MileStoneEventName requiredEvent = mileStones[mileStonesDone].RequiredEvent[i];
                 for (int j = 0; j < events.Length; j++)
                 {
                     MileStoneEvent mileStoneEvent = events[j];

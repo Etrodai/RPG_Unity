@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Buildings;
 using Manager;
@@ -11,13 +12,14 @@ using UnityEngine.UI;
 namespace UI.BuildMode
 {
     [System.Serializable]
-    public struct Buttons
+    public class Buttons
     {
         public Button button;
         public BuildingResourcesScriptableObject moduleToBuild;
         public BuildingType type;
         public GameObject hoverGameObject;
         private TextMeshProUGUI hoverText;
+        private RawImage image;
         private EventTrigger trigger;
 
         public EventTrigger Trigger
@@ -30,6 +32,12 @@ namespace UI.BuildMode
         { 
             get => hoverText;
             set => hoverText = value;
+        }
+
+        public RawImage Image
+        {
+            get => image;
+            set => image = value;
         }
     }
     
@@ -45,6 +53,9 @@ namespace UI.BuildMode
         private CitizenManager citizenManager;
         private List<ResourceManager> managers;
         private bool isInitialized;
+        private float currentAlpha;
+        [SerializeField] float lerpTime;
+        private Buttons lerpButton;
 
         #endregion
         
@@ -93,7 +104,9 @@ namespace UI.BuildMode
             {
                 buttons[i].Trigger = buttons[i].button.GetComponent<EventTrigger>();
                 buttons[i].HoverText = buttons[i].hoverGameObject.GetComponentInChildren<TextMeshProUGUI>();
-                buttons[i].hoverGameObject.SetActive(false);
+                buttons[i].Image = buttons[i].hoverGameObject.GetComponent<RawImage>();
+                buttons[i].HoverText.color = new(buttons[i].HoverText.color.r, buttons[i].HoverText.color.g, buttons[i].HoverText.color.b, 0);
+                buttons[i].Image.color = new(buttons[i].Image.color.r, buttons[i].Image.color.g, buttons[i].Image.color.b, 0);
 
                 string text = "";
                 string resourceText = "";
@@ -229,7 +242,7 @@ namespace UI.BuildMode
                 
                 buttons[i].HoverText.text = text;
                 
-                buttons[i].button.gameObject.SetActive(false);
+                // buttons[i].button.gameObject.SetActive(false);
                 // buttons[i].trigger.AddListener(EventTriggerType.PointerEnter, _ => ShowHoverText(buttons[i].hoverGameObject));
                 // buttons[i].trigger.AddListener(EventTriggerType.PointerExit, _ => HideHoverText(buttons[i].hoverGameObject));
             }
@@ -264,13 +277,62 @@ namespace UI.BuildMode
 
         public void ShowHoverText(GameObject hoverGameObject)
         {
-            hoverGameObject.SetActive(true);
+            foreach (Buttons button in buttons)
+            {
+                if (button.hoverGameObject == hoverGameObject) lerpButton = button;
+            }
+            StartCoroutine(LerpInHoverText());
         }
 
         public void HideHoverText(GameObject hoverGameObject)
         {
-            hoverGameObject.SetActive(false);
+            foreach (Buttons button in buttons)
+            {
+                if (button.hoverGameObject != hoverGameObject) continue;
+                StopCoroutine(LerpInHoverText());
+                StartCoroutine(LerpOutHoverText());
+            }
         }
+
+        private IEnumerator LerpInHoverText()
+        {
+            const float startValue = 0;
+            var lerpTimeLocal = lerpTime;
+            const float endValue = 1;
+            Buttons lerpButtonLocal = lerpButton;
+            float t = 0;
+
+            yield return new WaitForSeconds(2);
+            
+            while (t < lerpTime)
+            {
+                yield return new WaitForEndOfFrame();
+                currentAlpha = Mathf.Lerp(startValue, endValue, t / lerpTimeLocal);
+                lerpButtonLocal.Image.color = new(lerpButtonLocal.Image.color.r, lerpButtonLocal.Image.color.g, lerpButtonLocal.Image.color.b, currentAlpha);
+                lerpButtonLocal.HoverText.color = new(lerpButtonLocal.HoverText.color.r, lerpButtonLocal.HoverText.color.g, lerpButtonLocal.HoverText.color.b, currentAlpha);
+                t += Time.deltaTime;
+            }
+        }
+
+        private IEnumerator LerpOutHoverText()
+        {
+            
+            float t = 0;
+            float startValue = currentAlpha;
+            float lerpTimeLocal = currentAlpha * lerpTime;
+            float endValue = 0;
+            Buttons lerpButtonLocal = lerpButton;
+            
+            while (t < lerpTime)
+            {
+                yield return new WaitForEndOfFrame();
+                currentAlpha = Mathf.Lerp(startValue, endValue, t / lerpTimeLocal);
+                lerpButtonLocal.Image.color = new(lerpButtonLocal.Image.color.r, lerpButtonLocal.Image.color.g, lerpButtonLocal.Image.color.b, currentAlpha);
+                lerpButtonLocal.HoverText.color = new(lerpButtonLocal.HoverText.color.r, lerpButtonLocal.HoverText.color.g, lerpButtonLocal.HoverText.color.b, currentAlpha);
+                t += Time.deltaTime;
+            }
+        }
+        
 
         #endregion
     }
