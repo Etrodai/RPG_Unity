@@ -809,18 +809,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1618599327}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &345125444 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6525770193590801649, guid: c4184ba17d8be0846903de10bea1f884,
-    type: 3}
-  m_PrefabInstance: {fileID: 6525770193993106805}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c154260710efb940a555d3fafef269b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &378986414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1398,22 +1386,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98175544
+      value: 0.9817879
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.13122691
+      value: 0.13097954
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13734934
+      value: 0.13735719
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00842194
+      value: -0.008356942
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -3318,6 +3306,41 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6525770193993106805}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1539749907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539749904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.62352943, b: 0.7372549, a: 0.29803923}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: 8c386d3456a5bdb4c91fc187bf24a9a7, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1539749908
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539749904}
+  m_CullTransparentMesh: 1
 --- !u!1 &1573660564
 GameObject:
   m_ObjectHideFlags: 0
@@ -5061,16 +5084,16 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1573660567}
-    - target: {fileID: 6525770194257789579, guid: c4184ba17d8be0846903de10bea1f884,
-        type: 3}
-      propertyPath: mileStoneEvent
-      value: 
-      objectReference: {fileID: 345125444}
     - target: {fileID: 6525770194263570718, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1146719525}
+    - target: {fileID: 6525770194634947941, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6525770194902718033, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Name
