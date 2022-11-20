@@ -14,11 +14,12 @@ namespace UI.BuildMode
     public struct Buttons
     {
         public Button button;
-        private EventTrigger trigger;
         public BuildingResourcesScriptableObject moduleToBuild;
+        public BuildingType type;
         public GameObject hoverGameObject;
         private TextMeshProUGUI hoverText;
-        
+        private EventTrigger trigger;
+
         public EventTrigger Trigger
         { 
             get => trigger;
@@ -46,6 +47,8 @@ namespace UI.BuildMode
         private bool isInitialized;
 
         #endregion
+        
+        public Buttons[] Buttons => buttons;
 
         #region UnityEvents
 
@@ -225,6 +228,8 @@ namespace UI.BuildMode
                 }
                 
                 buttons[i].HoverText.text = text;
+                
+                buttons[i].button.gameObject.SetActive(false);
                 // buttons[i].trigger.AddListener(EventTriggerType.PointerEnter, _ => ShowHoverText(buttons[i].hoverGameObject));
                 // buttons[i].trigger.AddListener(EventTriggerType.PointerExit, _ => HideHoverText(buttons[i].hoverGameObject));
             }
@@ -238,6 +243,9 @@ namespace UI.BuildMode
             for (int i = 0; i < buttons.Length; i++)
             {
                 Buttons button = buttons[i];
+
+                if (!button.button.gameObject.activeSelf) continue;
+                
                 bool activate = true;
                 for (int j = 0; j < button.moduleToBuild.Costs.Length; j++)
                 {
@@ -251,7 +259,6 @@ namespace UI.BuildMode
                 }
 
                 button.button.interactable = activate;
-                // button.trigger.enabled = activate;
             }
         }
 

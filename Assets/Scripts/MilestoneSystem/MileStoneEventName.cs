@@ -6,6 +6,7 @@ namespace MilestoneSystem
         ShowPrioritySystem,
         WaitForSeconds,
         EnergyValueZero,
-        LifeSupportSurplusNegative
+        LifeSupportSurplusNegative,
+        ShowMileStoneSystem
     }
 }

@@ -6588,6 +6588,7 @@ GameObject:
   - component: {fileID: 6525770193590801655}
   - component: {fileID: 6525770193590801419}
   - component: {fileID: 6525770193590801418}
+  - component: {fileID: 8460170113033468068}
   m_Layer: 5
   m_Name: MilestoneSystem
   m_TagString: Untagged
@@ -6630,6 +6631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mileStones:
   - {fileID: 11400000, guid: 38bc66eadc48a5c4c9d682023bdbefb2, type: 2}
+  - {fileID: 11400000, guid: fd24d46869b3c874ca80611f232ee632, type: 2}
   - {fileID: 11400000, guid: 0b6aecb271d9ea7409223e93cc808307, type: 2}
   - {fileID: 11400000, guid: b221625632078fd4cb8dcd9b647866ea, type: 2}
   - {fileID: 11400000, guid: be32ba64c180c604182d4854660da537, type: 2}
@@ -6723,6 +6725,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94f1b88d3dde62740b83e9ba7f50499b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8460170113033468068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6525770193738157903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e9d562ed374c69b4f7da9713885dab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6525770193739857749
@@ -19651,7 +19665,8 @@ MonoBehaviour:
   mileStoneSystemPanel:
     panel: {fileID: 6525770194634947941}
     isMinimized: 0
-  mileStoneEvent: {fileID: 0}
+  ShowPrioMileStoneEvent: {fileID: 0}
+  ShowMileStoneMileStoneEvent: {fileID: 0}
 --- !u!1 &6525770194261047417
 GameObject:
   m_ObjectHideFlags: 0
@@ -40140,40 +40155,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttons:
   - button: {fileID: 6525770195002626003}
-    trigger: {fileID: 0}
     moduleToBuild: {fileID: 11400000, guid: 172b2e0b1b5a63345a10c16c076651cc, type: 2}
     hoverGameObject: {fileID: 0}
-    hoverText: {fileID: 0}
   - button: {fileID: 6525770194263570718}
-    trigger: {fileID: 0}
     moduleToBuild: {fileID: 11400000, guid: 559f05d0e8bfa64458dc4c187cd0e20d, type: 2}
     hoverGameObject: {fileID: 0}
-    hoverText: {fileID: 0}
   - button: {fileID: 6525770193893136154}
-    trigger: {fileID: 0}
     moduleToBuild: {fileID: 11400000, guid: e35849435eeb1fe479ebd83215a0fef2, type: 2}
     hoverGameObject: {fileID: 0}
-    hoverText: {fileID: 0}
   - button: {fileID: 6525770195139226769}
-    trigger: {fileID: 0}
     moduleToBuild: {fileID: 11400000, guid: 881b5b37e3fbef540a633f2135c689bd, type: 2}
     hoverGameObject: {fileID: 0}
-    hoverText: {fileID: 0}
   - button: {fileID: 6525770195020727946}
-    trigger: {fileID: 0}
     moduleToBuild: {fileID: 11400000, guid: d7b5a3c6a202cfb459863b7b7b98e412, type: 2}
     hoverGameObject: {fileID: 0}
-    hoverText: {fileID: 0}
   - button: {fileID: 6525770194083733283}
-    trigger: {fileID: 0}
     moduleToBuild: {fileID: 11400000, guid: 11d0365b2aa98e84a84ea55d216c2f57, type: 2}
     hoverGameObject: {fileID: 0}
-    hoverText: {fileID: 0}
   - button: {fileID: 6525770193865346481}
-    trigger: {fileID: 0}
     moduleToBuild: {fileID: 11400000, guid: 9e3cc1d344f2a1d4e859cdb04b7002bd, type: 2}
     hoverGameObject: {fileID: 0}
-    hoverText: {fileID: 0}
 --- !u!1 &7121978912421599912
 GameObject:
   m_ObjectHideFlags: 0

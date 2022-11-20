@@ -1,6 +1,6 @@
-namespace MilestoneSystem.Events
+﻿namespace MilestoneSystem.Events
 {
-    public class ShowPrioritySystemMileStoneEvent : MileStoneEvent
+    public class ShowMileStoneSystem : MileStoneEvent
     {
         #region Variables & Properties
 
@@ -8,7 +8,7 @@ namespace MilestoneSystem.Events
         public override MileStoneEventItem[] Events { get; set; }
 
         #endregion
-
+       
         #region UnityEvents
 
         /// <summary>
@@ -16,35 +16,28 @@ namespace MilestoneSystem.Events
         /// </summary>
         private void Awake()
         {
-            Name = MileStoneEventName.ShowPrioritySystem;
-            Events = new MileStoneEventItem[3];
-            Events[0].text = "Öffne das Prio-Menü";
-            Events[1].text = "Verändere die Priorität nach oben";
-            Events[2].text = "Verändere die Priorität nach unten";
+            Name = MileStoneEventName.ShowMileStoneSystem;
+            Events = new MileStoneEventItem[2];
+            Events[0].text = "Öffne das Meilensteinmenü";
+            Events[1].text = "Schließe das Meinensteinmenü";
             Events[0].isAchieved = false;
             Events[1].isAchieved = false;
-            Events[2].isAchieved = false;
         }
 
         #endregion
 
         #region Events
 
-        public void ClickPriorityButton()
+        public void OpenMileStoneMenu()
         {
             Events[0].isAchieved = true;
         }
 
-        public void ClickPlusButton()
+        public void CloseMileStoneMenu()
         {
             Events[1].isAchieved = true;
         }
 
-        public void ClickMinusButton()
-        {
-            Events[2].isAchieved = true;
-        }
-        
         #endregion
         
         #region Methods

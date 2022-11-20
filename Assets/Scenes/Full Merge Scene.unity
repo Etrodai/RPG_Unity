@@ -1422,22 +1422,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9828236
+      value: 0.98307455
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.12281991
+      value: 0.12075339
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13760735
+      value: 0.137668
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0060991007
+      value: -0.0055368147
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -2768,6 +2768,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1150830597 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8460170113033468068, guid: c4184ba17d8be0846903de10bea1f884,
+    type: 3}
+  m_PrefabInstance: {fileID: 6525770193993106805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e9d562ed374c69b4f7da9713885dab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1174447127 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6525770195667422646, guid: c4184ba17d8be0846903de10bea1f884,
@@ -4993,7 +5005,7 @@ PrefabInstance:
     - target: {fileID: 6525770193738157903, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6525770193823204510, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
@@ -5425,6 +5437,16 @@ PrefabInstance:
       propertyPath: mileStoneEvent
       value: 
       objectReference: {fileID: 345125444}
+    - target: {fileID: 6525770194257789579, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: ShowPrioMileStoneEvent
+      value: 
+      objectReference: {fileID: 345125444}
+    - target: {fileID: 6525770194257789579, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: ShowMileStoneMileStoneEvent
+      value: 
+      objectReference: {fileID: 1150830597}
     - target: {fileID: 6525770194263570716, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Delegates.Array.size

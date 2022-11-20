@@ -1,3 +1,4 @@
+using MilestoneSystem;
 using MilestoneSystem.Events;
 using PriorityListSystem;
 using UnityEngine;
@@ -19,9 +20,15 @@ namespace Manager.Menu
         [SerializeField] private Panel priorityListPanel;
         [SerializeField] private Panel mileStoneSystemPanel;
         private PriorityListMenu priorityListMenu;
-        [SerializeField] private ShowPrioritySystemMileStoneEvent mileStoneEvent;
+        [SerializeField] private ShowPrioritySystemMileStoneEvent showPrioMileStoneEvent;
+        [SerializeField] private ShowMileStoneSystem showMileStoneMileStoneEvent;
+        [SerializeField] private MileStoneSystem milestoneSystem;
 
         #endregion
+
+        public bool CanOpenMileStonePanel { get; set; }
+
+        public bool CanOpenPriorityListPanel { get; set; }
 
         #region UnityEvents
         
@@ -34,7 +41,7 @@ namespace Manager.Menu
             priorityListMenu.Instantiate();
             CloseMenu();
         }
-        
+
         #endregion
         
         #region OnClickEvents
@@ -49,12 +56,12 @@ namespace Manager.Menu
             if (priorityListPanel.isMinimized && mileStoneSystemPanel.isMinimized)
             {
                 OpenMenu();
-                mileStoneEvent.ClickPriorityButton();
+                showPrioMileStoneEvent.ClickPriorityButton();
                 ShowPanel(ref priorityListPanel);
             }
             else if (priorityListPanel.isMinimized &&  !mileStoneSystemPanel.isMinimized)
             {
-                mileStoneEvent.ClickPriorityButton();
+                showPrioMileStoneEvent.ClickPriorityButton();
                 ShowPanel(ref priorityListPanel);
                 HidePanel(ref mileStoneSystemPanel);
             }
@@ -74,6 +81,7 @@ namespace Manager.Menu
             if (mileStoneSystemPanel.isMinimized && priorityListPanel.isMinimized)
             {
                 OpenMenu();
+                showMileStoneMileStoneEvent.OpenMileStoneMenu();
                 ShowPanel(ref mileStoneSystemPanel);
             }
             else if (mileStoneSystemPanel.isMinimized &&  !priorityListPanel.isMinimized)
@@ -83,6 +91,7 @@ namespace Manager.Menu
             }
             else if (!mileStoneSystemPanel.isMinimized)
             {
+                showMileStoneMileStoneEvent.CloseMileStoneMenu();
                 CloseMenu();
             }
         }
@@ -90,7 +99,9 @@ namespace Manager.Menu
         #endregion
     
         #region Methods
-       
+
+
+        
         /// <summary>
         /// maximizes menu by moving it to the left side
         /// </summary>
