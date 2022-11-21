@@ -1386,22 +1386,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9818212
+      value: 0.9818651
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.1307258
+      value: 0.13038994
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13736519
+      value: 0.1373758
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00828992
+      value: -0.0082018515
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -2704,7 +2704,9 @@ MonoBehaviour:
   buildMenuLayout: {fileID: 1351156399}
   prefabBlueprintObject: {fileID: 6137071565662030411, guid: f8a40523c72cff94a97f91bed5e3aaa5,
     type: 3}
+  bluePrintMaterial: {fileID: 2100000, guid: 2fae0fb1e7d94e849989668c214cb4e0, type: 2}
   playerInput: {fileID: 912021417}
+  children: []
 --- !u!4 &1146719526
 Transform:
   m_ObjectHideFlags: 0

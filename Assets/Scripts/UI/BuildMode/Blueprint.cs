@@ -16,6 +16,8 @@ namespace UI.BuildMode
         private Camera mainCam;
         private Transform station;
 
+        private MeshRenderer _meshRenderer;
+        private MeshFilter _meshFilter;
         public bool IsLockedIn { get; private set; }
 
         private Ray mouseRay;

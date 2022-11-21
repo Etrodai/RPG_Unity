@@ -65,9 +65,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5003347455741662861}
+  - {fileID: 7017885279639488881}
   - {fileID: 2024830040343533776}
   - {fileID: 8465631488584866436}
+  - {fileID: 7550075197130320355}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -164,6 +165,38 @@ Transform:
   m_Father: {fileID: 7550075197130320355}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7297094273586344019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7017885279639488881}
+  m_Layer: 0
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7017885279639488881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7297094273586344019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5003347455741662861}
+  m_Father: {fileID: 2435942644437676469}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8421616551403935559
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,13 +222,13 @@ Transform:
   m_GameObject: {fileID: 8421616551403935559}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.057955004, y: 0.057955004, z: 0.057955004}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3061391835550750006}
   - {fileID: 4309787364703714216}
-  m_Father: {fileID: 5003347455741662861}
-  m_RootOrder: 7
+  m_Father: {fileID: 2435942644437676469}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8746332538975463422
 GameObject:
@@ -618,7 +651,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 2435942644437676469}
+    m_TransformParent: {fileID: 7017885279639488881}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 649c67cb2d300594c963ac8d084b0800,
         type: 3}
