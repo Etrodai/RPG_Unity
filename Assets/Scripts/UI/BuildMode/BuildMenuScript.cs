@@ -54,7 +54,7 @@ namespace UI.BuildMode
         private List<ResourceManager> managers;
         private bool isInitialized;
         private float currentAlpha;
-        [SerializeField] float lerpTime;
+        [SerializeField] private float lerpTime;
         private Buttons lerpButton;
 
         #endregion
@@ -105,8 +105,8 @@ namespace UI.BuildMode
                 buttons[i].Trigger = buttons[i].button.GetComponent<EventTrigger>();
                 buttons[i].HoverText = buttons[i].hoverGameObject.GetComponentInChildren<TextMeshProUGUI>();
                 buttons[i].Image = buttons[i].hoverGameObject.GetComponent<RawImage>();
-                buttons[i].HoverText.color = new(buttons[i].HoverText.color.r, buttons[i].HoverText.color.g, buttons[i].HoverText.color.b, 0);
-                buttons[i].Image.color = new(buttons[i].Image.color.r, buttons[i].Image.color.g, buttons[i].Image.color.b, 0);
+                // buttons[i].HoverText.color = new(buttons[i].HoverText.color.r, buttons[i].HoverText.color.g, buttons[i].HoverText.color.b, 0);
+                // buttons[i].Image.color = new(buttons[i].Image.color.r, buttons[i].Image.color.g, buttons[i].Image.color.b, 0);
 
                 string text = "";
                 string resourceText = "";
@@ -243,8 +243,7 @@ namespace UI.BuildMode
                 buttons[i].HoverText.text = text;
                 
                 // buttons[i].button.gameObject.SetActive(false);
-                // buttons[i].trigger.AddListener(EventTriggerType.PointerEnter, _ => ShowHoverText(buttons[i].hoverGameObject));
-                // buttons[i].trigger.AddListener(EventTriggerType.PointerExit, _ => HideHoverText(buttons[i].hoverGameObject));
+                buttons[i].hoverGameObject.SetActive(false);
             }
         }
 
@@ -277,21 +276,25 @@ namespace UI.BuildMode
 
         public void ShowHoverText(GameObject hoverGameObject)
         {
-            foreach (Buttons button in buttons)
-            {
-                if (button.hoverGameObject == hoverGameObject) lerpButton = button;
-            }
-            StartCoroutine(LerpInHoverText());
+            // foreach (Buttons button in buttons)
+            // {
+            //     if (button.hoverGameObject == hoverGameObject) lerpButton = button;
+            // }
+            // StartCoroutine(LerpInHoverText());
+            
+            hoverGameObject.SetActive(true);
         }
 
         public void HideHoverText(GameObject hoverGameObject)
         {
-            foreach (Buttons button in buttons)
-            {
-                if (button.hoverGameObject != hoverGameObject) continue;
-                StopCoroutine(LerpInHoverText());
-                StartCoroutine(LerpOutHoverText());
-            }
+            // foreach (Buttons button in buttons)
+            // {
+            //     if (button.hoverGameObject != hoverGameObject) continue;
+            //     StopCoroutine(LerpInHoverText());
+            //     StartCoroutine(LerpOutHoverText());
+            // }
+            
+            hoverGameObject.SetActive(false);
         }
 
         private IEnumerator LerpInHoverText()

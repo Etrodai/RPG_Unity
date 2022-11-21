@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Buildings;
 using PriorityListSystem;
 using ResourceManagement;
+using Sound;
 using UnityEngine;
 using Building = Buildings.Building;
 
@@ -188,6 +189,13 @@ namespace Manager
                 if (neededResourceValue >= 0) return neededResourceValue;
             }
 
+            for (int j = 0; j < PriorityListItems.Count; j++)
+            {
+                PriorityListItem item = PriorityListItems[j];
+                item.onChangePriorityUI.Invoke();
+                // Debug.Log("item.onChangePriorityUI.Invoke()");
+            }
+            
             return neededResourceValue;
         }
         
@@ -268,6 +276,13 @@ namespace Manager
                     }
                 }
             }
+            
+            for (int j = 0; j < PriorityListItems.Count; j++)
+            {
+                PriorityListItem item = PriorityListItems[j];
+                item.onChangePriorityUI.Invoke();
+                // Debug.Log("item.onChangePriorityUI.Invoke()");
+            }
         }
 
         /// <summary>
@@ -327,6 +342,7 @@ namespace Manager
                             if (!wasChanged)
                             {
                                 Debug.Log($"{building.BuildingType} is disabled cause of {type}");
+                                SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                             }
 
                             DisabledBuildings.Push(new DisabledBuilding(building, type));
@@ -400,6 +416,7 @@ namespace Manager
                     Debug.Log(DisabledBuildings.Peek().building.BuildingType + " is Enabled");
                     building.IsDisabled = false;
                     building.CurrentProductivity = 1;
+                    SoundManager.PlaySound(SoundManager.Sound.EnableModule);
                     DisabledBuildings.Pop();
                     somethingChanged = true;
                     
@@ -454,7 +471,7 @@ namespace Manager
             for (int i = 0; i < count; i++)
             {
                 DisabledBuilding disabledBuilding = DisabledBuildings.Pop();
-                disabledBuilding.building.CurrentProductivity = 1;
+                disabledBuilding.building.CurrentProductivity = 1; // => Sound wird abgespielt, für jedes building
                 disabledBuilding.building.IsDisabled = false;
 
                 for (int j = 0; j < disabledBuilding.building.BuildingResources.Consumption.Length; j++)
@@ -571,11 +588,13 @@ namespace Manager
                 for (int i = 0; i < citizenSaveCount; i++)
                 {
                     Debug.Log(BuildingType.CitizenSave + " is Enabled");
+                    SoundManager.PlaySound(SoundManager.Sound.EnableModule);
                 }
             else if (citizenSaveCount < 0)
                 for (int i = citizenSaveCount; i < 0; i++)
                 {
                     Debug.Log(BuildingType.CitizenSave + " is Disabled");
+                    SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                 }
 
             if (energyGainCount > 0)
@@ -583,6 +602,7 @@ namespace Manager
                 for (int i = 0; i < energyGainCount; i++)
                 {
                     Debug.Log(BuildingType.EnergyGain + " is Enabled");
+                    SoundManager.PlaySound(SoundManager.Sound.EnableModule);
                 }
             }
             else if (energyGainCount < 0)
@@ -590,6 +610,7 @@ namespace Manager
                 for (int i = energyGainCount; i < 0; i++)
                 {
                     Debug.Log(BuildingType.EnergyGain + " is Disabled");
+                    SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                 }
             }
             
@@ -598,6 +619,7 @@ namespace Manager
                 for (int i = 0; i < lifeSupportGainCount; i++)
                 {
                     Debug.Log(BuildingType.LifeSupportGain + " is Enabled");
+                    SoundManager.PlaySound(SoundManager.Sound.EnableModule);
                 }
             }
             else if (lifeSupportGainCount < 0)
@@ -605,6 +627,7 @@ namespace Manager
                 for (int i = lifeSupportGainCount; i < 0; i++)
                 {
                     Debug.Log(BuildingType.LifeSupportGain + " is Disabled");
+                    SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                 }
             }
             
@@ -613,6 +636,7 @@ namespace Manager
                 for (int i = 0; i < materialGainCount; i++)
                 {
                     Debug.Log(BuildingType.MaterialGain + " is Enabled");
+                    SoundManager.PlaySound(SoundManager.Sound.EnableModule);
                 }
             }
             else if (materialGainCount < 0)
@@ -620,6 +644,7 @@ namespace Manager
                 for (int i = materialGainCount; i < 0; i++)
                 {
                     Debug.Log(BuildingType.MaterialGain + " is Disabled");
+                    SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                 }
             }
             
@@ -628,6 +653,7 @@ namespace Manager
                 for (int i = 0; i < energySaveCount; i++)
                 {
                     Debug.Log(BuildingType.EnergySave + " is Enabled");
+                    SoundManager.PlaySound(SoundManager.Sound.EnableModule);
                 }
             }
             else if (energySaveCount < 0)
@@ -635,6 +661,7 @@ namespace Manager
                 for (int i = energySaveCount; i < 0; i++)
                 {
                     Debug.Log(BuildingType.EnergySave + " is Disabled");
+                    SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                 }
             }
             
@@ -643,6 +670,7 @@ namespace Manager
                 for (int i = 0; i < lifeSupportSaveCount; i++)
                 {
                     Debug.Log(BuildingType.LifeSupportSave + " is Enabled");
+                    SoundManager.PlaySound(SoundManager.Sound.EnableModule);
                 }
             }
             else if (lifeSupportSaveCount < 0)
@@ -650,6 +678,7 @@ namespace Manager
                 for (int i = lifeSupportSaveCount; i < 0; i++)
                 {
                     Debug.Log(BuildingType.LifeSupportSave + " is Disabled");
+                    SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                 }
             }
             
@@ -658,6 +687,7 @@ namespace Manager
                 for (int i = 0; i < materialSaveCount; i++)
                 {
                     Debug.Log(BuildingType.MaterialSave + " is Enabled");
+                    SoundManager.PlaySound(SoundManager.Sound.EnableModule);
                 }
             }
             else if (materialSaveCount < 0)
@@ -665,6 +695,7 @@ namespace Manager
                 for (int i = materialSaveCount; i < 0; i++)
                 {
                     Debug.Log(BuildingType.MaterialSave + " is Disabled");
+                    SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                 }
             }
 

@@ -61,8 +61,7 @@ namespace MilestoneSystem
         private SaveData saveData;
 
         #endregion
-
-
+        
         #region Events
 
         public UnityEvent onSideMenuShouldClose;

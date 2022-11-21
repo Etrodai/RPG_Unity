@@ -93,7 +93,7 @@ namespace Buildings
             // onBuildingWasDisabled.AddListener(ChangeIsDisabled);
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
             
-            managers = new List<ResourceManager>();
+            managers = new ();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
             energyManager = MainManagerSingleton.Instance.EnergyManager;
@@ -342,7 +342,6 @@ namespace Buildings
             }
 
             if (!playSound) return;
-            SoundManager.PlaySound(SoundManager.Sound.EnableModule);
         }
 
         /// <summary>
@@ -440,8 +439,8 @@ namespace Buildings
                 // }
             }
 
-            if (!playSound) return;
-            SoundManager.PlaySound(SoundManager.Sound.DisableModule);
+            // if (!playSound) return;
+            // SoundManager.PlaySound(SoundManager.Sound.DisableModule);
         }
         
         #endregion
