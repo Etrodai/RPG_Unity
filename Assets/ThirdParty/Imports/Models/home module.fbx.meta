@@ -2,7 +2,37 @@ fileFormatVersion: 2
 guid: 515e0d46ff8559d459a534578a136a2c
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -6909774898777685894
+    second: big_ring_combined|big_ring_combinedAction
+  - first:
+      74: 4419427756522290724
+    second: big_ring_combined|CylinderAction
+  - first:
+      74: -518988296966395608
+    second: big_ring_combined|Ring.001Action
+  - first:
+      74: 3051748959143139541
+    second: big_ring_combined|Ring.002Action
+  - first:
+      74: -7098476452997518018
+    second: big_ring_combined|small_ring_combinedAction
+  - first:
+      74: -5779464782242667968
+    second: small_ring_combined|big_ring_combinedAction
+  - first:
+      74: 700780969589996879
+    second: small_ring_combined|CylinderAction
+  - first:
+      74: 5395051298623609745
+    second: small_ring_combined|Ring.001Action
+  - first:
+      74: 6639632911419523335
+    second: small_ring_combined|Ring.002Action
+  - first:
+      74: 2588948368488091360
+    second: small_ring_combined|small_ring_combinedAction
   externalObjects: {}
   materials:
     materialImportMode: 2
