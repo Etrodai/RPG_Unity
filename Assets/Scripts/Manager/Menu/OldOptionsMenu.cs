@@ -17,9 +17,9 @@ namespace Manager.Menu
 
         //Audio settings
         [SerializeField] private AudioMixer masterVolume;
-        [SerializeField] private Slider masterVolumeSlider; // TODO: is it used?
-        [SerializeField] private Slider musicVolumeSlider; // TODO: is it used?
-        [SerializeField] private Slider sfxVolumeSlider; // TODO: is it used?
+        [SerializeField] private Slider masterVolumeSlider;
+        [SerializeField] private Slider musicVolumeSlider; 
+        [SerializeField] private Slider sfxVolumeSlider;
 
         //Control settings
         [SerializeField] private CameraControllerNew cameraSensitivity;
@@ -32,7 +32,8 @@ namespace Manager.Menu
         //Input
         [SerializeField] private PlayerInput playerInput;
         private bool playerInputHasBeenInit;
-
+        
+        #region Unity Methods
         private void Awake()
         {
             Screen.fullScreen = true;
@@ -40,9 +41,12 @@ namespace Manager.Menu
 
         private void Start()
         {
+            masterVolume.SetFloat("exposedMasterVolume", Mathf.Log10(masterVolumeSlider.value) * 20);
+            masterVolume.SetFloat("exposedMusicVolume", Mathf.Log10(musicVolumeSlider.value) * 20);
+            masterVolume.SetFloat("exposedSFXVolume", Mathf.Log10(sfxVolumeSlider.value) * 20);
             gameObject.SetActive(false);
         }
-
+        
         private void OnEnable()
         {
             resolutionText.text = $"{screenWidth}x{screenHeight}";
@@ -115,7 +119,8 @@ namespace Manager.Menu
             playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
             playerInputHasBeenInit = false;
         }
-    
+        #endregion
+
         private void InitPlayerInput()
         {
             playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
