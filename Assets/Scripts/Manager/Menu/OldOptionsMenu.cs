@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Manager.Menu
@@ -103,7 +104,10 @@ namespace Manager.Menu
                     break;
             }
 
-            cameraSensitivitySlider.value = cameraSensitivity.RotationSensitivity;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                cameraSensitivitySlider.value = cameraSensitivity.RotationSensitivity; 
+            }
         }
 
         private void Update()
@@ -116,18 +120,24 @@ namespace Manager.Menu
 
         private void OnDisable()
         {
-            playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
-            playerInputHasBeenInit = false;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
+                playerInputHasBeenInit = false; 
+            }
         }
         #endregion
 
         private void InitPlayerInput()
         {
-            playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
-            playerInputHasBeenInit = true;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
+                playerInputHasBeenInit = true; 
+            }
         }
 
-        private void EnableDisableMenu(InputAction.CallbackContext context)
+        public void EnableDisableMenu(InputAction.CallbackContext context)
         {
             if (gameObject.activeInHierarchy && context.performed)
             {
