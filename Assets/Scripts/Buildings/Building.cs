@@ -53,8 +53,7 @@ namespace Buildings
         public BuildingResourcesScriptableObject BuildingResources => buildingResources;
         
         public BuildingType BuildingType => buildingType;
-
-        //OnValueChangedEvent
+        
         public bool IsDisabled
         {
             get => isDisabled;
@@ -68,10 +67,12 @@ namespace Buildings
             set
             {
                 if (currentProductivity == value) return;
-                
-                onBuildingProductivityChanged.Invoke(currentProductivity, value);
-                // Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
+
+                float oldValue = currentProductivity;
+                Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
                 currentProductivity = value;
+                onBuildingProductivityChanged.Invoke(oldValue, value);
+
             }
         }
         

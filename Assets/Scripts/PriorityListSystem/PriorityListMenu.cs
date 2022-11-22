@@ -135,12 +135,12 @@ namespace PriorityListSystem
             {
                 items[i].Type = (BuildingType)data[i].type;
                 
-                while (items[i].Priority < data[i].priority) //TODO: (Robin) Attention!!! whileLoop
+                while (items[i].Priority < data[i].priority) 
                 {
                     items[i].OnClickPlusButton();
                 }
 
-                while (items[i].Priority > data[i].priority) //TODO: (Robin) Attention!!! whileLoop
+                while (items[i].Priority > data[i].priority)
                 {
                     items[i].OnClickMinusButton();
                 }

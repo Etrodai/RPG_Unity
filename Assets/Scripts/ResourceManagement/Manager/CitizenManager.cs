@@ -259,17 +259,17 @@ namespace ResourceManagement.Manager
         /// <summary>
         /// Calculates Productivity of all Buildings in List
         /// </summary>
-        private void CalculateProductivity()
+        public void CalculateProductivity()
         {
-            if (SavedResourceValue == 0)
-            {
-                return;
-            }
+            // if (SavedResourceValue == 0)
+            // {
+            //     return;
+            // }
             if (SavedResourceValue < 0)
             {
                 gameManager.DisableBuildings(SavedResourceValue, ResourceType, false);
             }
-            else if (gameManager.ChangedProductivityBuildings.Count != 0)
+            else if (gameManager.ChangedProductivityBuildings.Count != 0 && SavedResourceValue > 0)
             {
                 gameManager.ChangeProductivityPositive(SavedResourceValue);
             }

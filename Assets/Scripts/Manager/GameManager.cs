@@ -166,13 +166,12 @@ namespace Manager
         /// <returns>amount of still needed citizen</returns>
         private float ChangeProductivityNegative(float surplusPerBuilding, float neededResourceValue, List<Building> priorityList)
         {
-            //TODO: (Robin) why it doesn't work correctly
             for (int i = 0; i < priorityList.Count; i++)
             {
                 Building building = priorityList[i];
                 if (building.IsDisabled || building.CurrentProductivity == 0) continue;
 
-                if (neededResourceValue + surplusPerBuilding < 0)
+                if (neededResourceValue + surplusPerBuilding <= 0)
                 {
                     building.CurrentProductivity = 0f;
                     building.IsDisabled = true;
@@ -186,7 +185,14 @@ namespace Manager
                 neededResourceValue += surplusPerBuilding;
                 ChangedProductivityBuildings.Push(building);
                 Debug.Log($"{building}'s new Productivity cause of workers: {building.CurrentProductivity}");
-                if (neededResourceValue >= 0) return neededResourceValue;
+                if (!(neededResourceValue >= 0)) continue;
+                for (int j = 0; j < PriorityListItems.Count; j++)
+                {
+                    PriorityListItem item = PriorityListItems[j];
+                    item.onChangePriorityUI.Invoke();
+                    // Debug.Log("item.onChangePriorityUI.Invoke()");
+                }
+                return neededResourceValue;
             }
 
             for (int j = 0; j < PriorityListItems.Count; j++)
@@ -204,8 +210,8 @@ namespace Manager
         /// </summary>
         /// <param name="givenResourceValue">Value of jobless citizen</param>
         public void ChangeProductivityPositive(float givenResourceValue)
-        { //TODO: (Robin) why it doesn't work correctly
-            int surplus = 0;
+        { 
+            float surplus = 0;
 
             for (int i = 0; i < ChangedProductivityBuildings.Count; i++)
             {
@@ -213,13 +219,13 @@ namespace Manager
                 for (int j = 0; j < building.BuildingResources.Consumption.Length; j++)
                 {
                     Resource consumption = building.BuildingResources.Consumption[j];
-                    if (consumption.resource == ResourceType.Citizen) surplus += consumption.value;
+                    if (consumption.resource == ResourceType.Citizen) surplus += consumption.value * building.CurrentProductivity;
                 }
 
                 for (int j = 0; j < building.BuildingResources.Production.Length; j++)
                 {
                     Resource production = building.BuildingResources.Production[j];
-                    if (production.resource == ResourceType.Citizen) surplus -= production.value;
+                    if (production.resource == ResourceType.Citizen) surplus -= production.value * building.CurrentProductivity;
                 }
 
                 if (building.CurrentProductivity == 0f)
@@ -262,7 +268,7 @@ namespace Manager
                 }
                 else
                 {
-                    if (surplus > 0 && 1 - building.CurrentProductivity * surplus <= givenResourceValue)
+                    if (surplus > 0 && (1 - building.CurrentProductivity) * surplus <= givenResourceValue)
                     {
                         givenResourceValue -= surplus;
                         ChangedProductivityBuildings.Pop().CurrentProductivity = 1f;
