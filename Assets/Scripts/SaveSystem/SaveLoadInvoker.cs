@@ -15,7 +15,6 @@ namespace SaveSystem
         [SerializeField] private GameObject loadButtonPrefab;
 
         private SaveData saveData;
-        //TODO: (Robin) load als event oder nacheinander aufrufen wegen Order of execution
 
         private void Start()
         {

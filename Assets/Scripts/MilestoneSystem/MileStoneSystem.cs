@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using Buildings;
 using Manager;
+using Manager.Menu;
 using ResourceManagement;
 using ResourceManagement.Manager;
 using SaveSystem;
 using Sound;
 using TMPro;
+using UI.BuildMode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -26,7 +28,6 @@ namespace MilestoneSystem
 
         private MileStoneEvent[] events;
         [SerializeField] private MileStonesScriptableObject[] mileStones;
-        private int mileStonesDone; // Counter of Milestones Done
         [SerializeField] private GameObject mainText; // Full Screen Text what's happening
         private int textIndex; // Counter of Texts Shown
         private bool isDone; // Shows, if a Milestone is done, and the end-text can be shown
@@ -37,6 +38,7 @@ namespace MilestoneSystem
         private readonly List<GameObject> allLabels = new();
         private readonly List<GameObject> allItems = new();
         private readonly List<Toggle> itemToggles = new();
+        private int mileStonesDone;
         private MaterialManager materialManager;
         private EnergyManager energyManager;
         private FoodManager foodManager;
@@ -48,6 +50,8 @@ namespace MilestoneSystem
         private EventTrigger sideMenuMileStoneButtonTrigger;
         [SerializeField] private Button sideMenuPriorityButton;
         private EventTrigger sideMenuPriorityButtonTrigger;
+        [SerializeField] private SideMenuManager sideMenuManager;
+        [SerializeField] private BuildMenuScript buildMenuScript;
 
         private float timer;
         [SerializeField] private float maxTimer = 0.5f;
@@ -57,7 +61,7 @@ namespace MilestoneSystem
         private SaveData saveData;
 
         #endregion
-
+        
         #region Events
 
         public UnityEvent onSideMenuShouldClose;
@@ -81,7 +85,7 @@ namespace MilestoneSystem
         private void Start()
         {
             saveData = SaveSystem.SaveData.Instance;
-            managers = new List<ResourceManager>();
+            managers = new();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
             energyManager = MainManagerSingleton.Instance.EnergyManager;
@@ -120,13 +124,13 @@ namespace MilestoneSystem
             
             isDone = true;
 
-            for (var i = 0; i < allItems.Count; i++)
+            for (int i = 0; i < allItems.Count; i++)
             {
                 GameObject item = allItems[i];
                 Destroy(item);
             }
 
-            for (var i = 0; i < allLabels.Count; i++)
+            for (int i = 0; i < allLabels.Count; i++)
             {
                 GameObject item = allLabels[i];
                 Destroy(item);
@@ -227,14 +231,23 @@ namespace MilestoneSystem
             else
             {
                 mainText.SetActive(false);
-                sideMenuMileStoneButton.interactable = true;
-                sideMenuMileStoneButtonTrigger.enabled = true;
-                sideMenuPriorityButton.interactable = true;
-                sideMenuPriorityButtonTrigger.enabled = true;
+                if (sideMenuManager.CanOpenMileStonePanel)
+                {
+                    sideMenuMileStoneButton.interactable = true;
+                    sideMenuMileStoneButtonTrigger.enabled = true;
+                }
+
+                if (sideMenuManager.CanOpenPriorityListPanel)
+                {
+                    sideMenuPriorityButton.interactable = true;
+                    sideMenuPriorityButtonTrigger.enabled = true;
+                }
+               
                 BuildMenu();
                 Time.timeScale = 1;
                 textIndex = 0;
             }
+            CheckIfMileStoneIsReached();
         }
 
         /// <summary>
@@ -249,7 +262,7 @@ namespace MilestoneSystem
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
-                sideMenuMileStoneButtonTrigger.enabled = true;
+                sideMenuMileStoneButtonTrigger.enabled = false;
                 sideMenuPriorityButton.interactable = false;
                 sideMenuPriorityButtonTrigger.enabled = false;
                 Time.timeScale = 0;
@@ -417,6 +430,52 @@ namespace MilestoneSystem
 
         #endregion
 
+        private void CheckIfMileStoneIsReached()
+        {
+            for (int i = 0; i < buildMenuScript.Buttons.Length; i++)
+            {
+                Buttons button = buildMenuScript.Buttons[i];
+                switch (mileStonesDone)
+                {
+                    case 1:
+                        if (!sideMenuManager.CanOpenMileStonePanel) sideMenuManager.CanOpenMileStonePanel = true;
+                        break;
+                    case 3:
+                        if (button.type == BuildingType.MaterialGain)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                    case 4:
+                        if (button.type == BuildingType.CitizenSave)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                    case 6:
+                        if (button.type is BuildingType.LifeSupportGain or BuildingType.LifeSupportSave)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                    case 7:
+                        if (button.type == BuildingType.MaterialSave)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                    case 8:
+                        if (!sideMenuManager.CanOpenPriorityListPanel) sideMenuManager.CanOpenPriorityListPanel = true;
+
+                        if (button.type is BuildingType.EnergyGain or BuildingType.EnergySave)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                }
+            }
+        }
+        
         #region CheckIfAchieved
 
         /// <summary>

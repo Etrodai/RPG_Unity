@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using MilestoneSystem.Events;
 using PriorityListSystem;
 using UnityEngine;
@@ -19,12 +22,25 @@ namespace Manager.Menu
         [SerializeField] private Panel priorityListPanel;
         [SerializeField] private Panel mileStoneSystemPanel;
         private PriorityListMenu priorityListMenu;
-        [SerializeField] private ShowPrioritySystemMileStoneEvent mileStoneEvent;
+        [SerializeField] private ShowPrioritySystemMileStoneEvent showPrioMileStoneEvent;
+        [SerializeField] private ShowMileStoneSystem showMileStoneMileStoneEvent;
+        private Vector3 openPosition;
+        private Vector3 closePosition;
+        [SerializeField] private float lerpTime;
 
         #endregion
 
+        public bool CanOpenMileStonePanel { get; set; }
+
+        public bool CanOpenPriorityListPanel { get; set; }
+
         #region UnityEvents
-        
+
+        private void Awake()
+        {
+            openPosition = transform.position;
+        }
+
         /// <summary>
         /// instantiates priorityListMenu
         /// </summary>
@@ -32,9 +48,9 @@ namespace Manager.Menu
         {
             priorityListMenu = GetComponentInChildren<PriorityListMenu>(true);
             priorityListMenu.Instantiate();
-            CloseMenu();
+            // CloseMenuInstantly();
         }
-        
+
         #endregion
         
         #region OnClickEvents
@@ -49,12 +65,12 @@ namespace Manager.Menu
             if (priorityListPanel.isMinimized && mileStoneSystemPanel.isMinimized)
             {
                 OpenMenu();
-                mileStoneEvent.ClickPriorityButton();
+                showPrioMileStoneEvent.ClickPriorityButton();
                 ShowPanel(ref priorityListPanel);
             }
             else if (priorityListPanel.isMinimized &&  !mileStoneSystemPanel.isMinimized)
             {
-                mileStoneEvent.ClickPriorityButton();
+                showPrioMileStoneEvent.ClickPriorityButton();
                 ShowPanel(ref priorityListPanel);
                 HidePanel(ref mileStoneSystemPanel);
             }
@@ -74,6 +90,7 @@ namespace Manager.Menu
             if (mileStoneSystemPanel.isMinimized && priorityListPanel.isMinimized)
             {
                 OpenMenu();
+                showMileStoneMileStoneEvent.OpenMileStoneMenu();
                 ShowPanel(ref mileStoneSystemPanel);
             }
             else if (mileStoneSystemPanel.isMinimized &&  !priorityListPanel.isMinimized)
@@ -83,6 +100,7 @@ namespace Manager.Menu
             }
             else if (!mileStoneSystemPanel.isMinimized)
             {
+                showMileStoneMileStoneEvent.CloseMileStoneMenu();
                 CloseMenu();
             }
         }
@@ -90,34 +108,50 @@ namespace Manager.Menu
         #endregion
     
         #region Methods
-       
+
+
+        
         /// <summary>
         /// maximizes menu by moving it to the left side
         /// </summary>
         private void OpenMenu()
         {
-            Transform transform1 = transform;
-            Vector3 transformPosition = transform1.position;
-            transformPosition.x -= 300 * canvas.scaleFactor;
-            transform1.position = transformPosition;
+            if (!priorityListPanel.isMinimized && !mileStoneSystemPanel.isMinimized) return;
+
+            StartCoroutine(MoveMenu(true));
+            // Transform transform1 = transform;
+            // Vector3 transformPosition = transform1.position;
+            //
+            // transformPosition.x -= 300 * canvas.scaleFactor;
+            // transform1.position = transformPosition;
         }
 
+        public void CloseMenuInstantly()
+        {
+            if (closePosition == Vector3.zero)
+            {
+                closePosition = new(openPosition.x + 300 * canvas.scaleFactor, openPosition.y, openPosition.z);
+            }
+            StopAllCoroutines();
+            transform.position = closePosition;
+            HidePanel(ref mileStoneSystemPanel);
+            HidePanel(ref priorityListPanel);
+        }
+        
         /// <summary>
         /// minimizes menu by moving it to the right side
         /// </summary>
-        public void CloseMenu()
+        private void CloseMenu()
         {
-            if (priorityListPanel.isMinimized && mileStoneSystemPanel.isMinimized)
-            {
-                return;
-            }
-            
-            var transform1 = transform;
-            var transformPosition = transform1.position;
-            transformPosition.x += 300 * canvas.scaleFactor;
-            transform1.position = transformPosition;
-            HidePanel(ref mileStoneSystemPanel);
-            HidePanel(ref priorityListPanel);
+            if (priorityListPanel.isMinimized && mileStoneSystemPanel.isMinimized) return;
+
+            StartCoroutine(MoveMenu(false));
+            // Transform transform1 = transform;
+            // Vector3 transformPosition = transform1.position;
+            // transformPosition.x += 300 * canvas.scaleFactor;
+            // transform1.position = transformPosition;
+            // HidePanel(ref mileStoneSystemPanel);
+            // HidePanel(ref priorityListPanel);
         }
 
         /// <summary>
@@ -138,6 +172,25 @@ namespace Manager.Menu
         {
             panel.panel.SetActive(false);
             panel.isMinimized = true;
+        }
+
+        private IEnumerator MoveMenu(bool shouldOpen)
+        {
+            yield return new WaitForEndOfFrame();
+            float t = 0;
+            while (t < lerpTime)
+            {
+                yield return new WaitForEndOfFrame();
+                transform.position = shouldOpen
+                    ? Vector3.Lerp(closePosition, openPosition, t/lerpTime)
+                    : Vector3.Lerp(openPosition, closePosition, t/lerpTime);
+                t += Time.deltaTime;
+            }
+
+            if (shouldOpen) yield break;
+
+            HidePanel(ref mileStoneSystemPanel);
+            HidePanel(ref priorityListPanel);
         }
 
         #endregion

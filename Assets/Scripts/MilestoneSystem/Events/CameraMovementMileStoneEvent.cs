@@ -34,9 +34,9 @@ namespace MilestoneSystem.Events
         {
             Name = MileStoneEventName.CameraMovement;
             Events = new MileStoneEventItem[3];
-            Events[0].text = "Move";
-            Events[1].text = "Rotate";
-            Events[2].text = "Zoom";
+            Events[0].text = "Bewegen";
+            Events[1].text = "Rotieren";
+            Events[2].text = "Zoomen";
             for (int i = 0; i < Events.Length; i++)
             {
                 Events[i].isAchieved = false;

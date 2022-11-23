@@ -184,6 +184,13 @@ namespace ResourceManagement.Manager
         {
             if (SaveSpace < CurrentResourceProduction)
             {
+                for (int i = 0; i > -stepsToGrow; i--)
+                {
+                    if (saveSpace - currentResourceProduction < i * sizeOfStepsToGrow)
+                    {
+                        CurrentResourceSurplus = i - 1;
+                    }
+                }
                 CurrentResourceSurplus = -1;
             }
             else if (foodManager.SavedResourceValue <= 0 || waterManager.SavedResourceValue <= 0)
@@ -204,6 +211,11 @@ namespace ResourceManagement.Manager
                     {
                         CurrentResourceSurplus = i + 1;
                     }
+                }
+
+                if (CurrentResourceSurplus + currentResourceProduction > saveSpace)
+                {
+                    currentResourceSurplus = saveSpace - currentResourceProduction;
                 }
             }
 
@@ -247,17 +259,17 @@ namespace ResourceManagement.Manager
         /// <summary>
         /// Calculates Productivity of all Buildings in List
         /// </summary>
-        private void CalculateProductivity()
+        public void CalculateProductivity()
         {
-            if (SavedResourceValue == 0)
-            {
-                return;
-            }
+            // if (SavedResourceValue == 0)
+            // {
+            //     return;
+            // }
             if (SavedResourceValue < 0)
             {
                 gameManager.DisableBuildings(SavedResourceValue, ResourceType, false);
             }
-            else if (gameManager.ChangedProductivityBuildings.Count != 0)
+            else if (gameManager.ChangedProductivityBuildings.Count != 0 && SavedResourceValue > 0)
             {
                 gameManager.ChangeProductivityPositive(SavedResourceValue);
             }
@@ -268,9 +280,9 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void ChangeUIText()
         {
-            surplusText.text = $"{CurrentResourceSurplus}";
-            currentResourceProductionText.text = $"{CurrentResourceProduction}/{SaveSpace}";
-            savedResourceText.text = $"{SavedResourceValue}/{CurrentResourceProduction}";
+            surplusText.text = $"{(int)CurrentResourceSurplus}";
+            currentResourceProductionText.text = $"{(int)CurrentResourceProduction}/{(int)SaveSpace}";
+            savedResourceText.text = $"{(int)SavedResourceValue}/{(int)CurrentResourceProduction}";
         }
 
         #endregion

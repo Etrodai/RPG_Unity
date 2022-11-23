@@ -171,8 +171,8 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void ChangeUIText()
         {
-            surplusText.text = $"{CurrentResourceSurplus}";
-            savedResourceText.text = $"{(int) SavedResourceValue}/{SaveSpace}";
+            surplusText.text = $"{(int)CurrentResourceSurplus}";
+            savedResourceText.text = $"{(int)SavedResourceValue}/{(int)SaveSpace}";
         }
         
         #endregion
