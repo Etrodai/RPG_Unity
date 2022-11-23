@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Manager.Menu
@@ -17,14 +18,15 @@ namespace Manager.Menu
 
         //Audio settings
         [SerializeField] private AudioMixer masterVolume;
-        [SerializeField] private Slider masterVolumeSlider; // TODO: is it used?
-        [SerializeField] private Slider musicVolumeSlider; // TODO: is it used?
-        [SerializeField] private Slider sfxVolumeSlider; // TODO: is it used?
+        [SerializeField] private Slider masterVolumeSlider;
+        [SerializeField] private Slider musicVolumeSlider; 
+        [SerializeField] private Slider sfxVolumeSlider;
 
         //Control settings
         [SerializeField] private CameraControllerNew cameraSensitivity;
         [SerializeField] private Slider cameraSensitivitySlider;
         [SerializeField] private Toggle invertedControlToggle; // TODO: is it used?
+        private bool isInverted;
 
         private int screenWidth = 1920;
         private int screenHeight = 1080;
@@ -32,7 +34,8 @@ namespace Manager.Menu
         //Input
         [SerializeField] private PlayerInput playerInput;
         private bool playerInputHasBeenInit;
-
+        
+        #region Unity Methods
         private void Awake()
         {
             Screen.fullScreen = true;
@@ -40,66 +43,81 @@ namespace Manager.Menu
 
         private void Start()
         {
+            masterVolume.SetFloat("exposedMasterVolume", Mathf.Log10(masterVolumeSlider.value) * 20);
+            masterVolume.SetFloat("exposedMusicVolume", Mathf.Log10(musicVolumeSlider.value) * 20);
+            masterVolume.SetFloat("exposedSFXVolume", Mathf.Log10(sfxVolumeSlider.value) * 20);
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                cameraSensitivity.RotationSensitivity = cameraSensitivitySlider.value; 
+                cameraSensitivity.MoveSensitivity = cameraSensitivitySlider.value;
+                cameraSensitivity.InvertYAxis(isInverted);
+            }
             gameObject.SetActive(false);
         }
-
+        
         private void OnEnable()
         {
-            resolutionText.text = $"{screenWidth}x{screenHeight}";
-            switch(resolutionText.text)
+            if (SceneManager.GetActiveScene().buildIndex != 0)
             {
-                case "2560x1440":
-                    resolution.value = 0;
-                    break;
-                case "1920x1200":
-                    resolution.value = 1;
-                    break;
-                case "1920x1080":
-                    resolution.value = 2;
-                    break;
-                case "1680x1050":
-                    resolution.value = 3;
-                    break;
-                case "1440x900":
-                    resolution.value = 4;
-                    break;
-                case "1366x768":
-                    resolution.value = 5;
-                    break;
-                case "1280x800":
-                    resolution.value = 6;
-                    break;
-                case "1280x720":
-                    resolution.value = 7;
-                    break;
-                case "1024x768":
-                    resolution.value = 8;
-                    break;
-                case "800x600":
-                    resolution.value = 9;
-                    break;
-                case "640x480":
-                    resolution.value = 10;
-                    break;
+                resolutionText.text = $"{screenWidth}x{screenHeight}";
+                switch (resolutionText.text)
+                {
+                    case "2560x1440":
+                        resolution.value = 0;
+                        break;
+                    case "1920x1200":
+                        resolution.value = 1;
+                        break;
+                    case "1920x1080":
+                        resolution.value = 2;
+                        break;
+                    case "1680x1050":
+                        resolution.value = 3;
+                        break;
+                    case "1440x900":
+                        resolution.value = 4;
+                        break;
+                    case "1366x768":
+                        resolution.value = 5;
+                        break;
+                    case "1280x800":
+                        resolution.value = 6;
+                        break;
+                    case "1280x720":
+                        resolution.value = 7;
+                        break;
+                    case "1024x768":
+                        resolution.value = 8;
+                        break;
+                    case "800x600":
+                        resolution.value = 9;
+                        break;
+                    case "640x480":
+                        resolution.value = 10;
+                        break;
+                }
+
+                switch (Screen.fullScreenMode)
+                {
+                    case FullScreenMode.ExclusiveFullScreen:
+                        windowModeText.text = "Vollbild";
+                        windowMode.value = 0;
+                        break;
+                    case FullScreenMode.Windowed:
+                        windowModeText.text = "Fenster";
+                        windowMode.value = 1;
+                        break;
+                    case FullScreenMode.FullScreenWindow:
+                        windowModeText.text = "Rahmenloses Fenster";
+                        windowMode.value = 2;
+                        break;
+                }
+
+                cameraSensitivitySlider.value = cameraSensitivity.RotationSensitivity;
+
+                invertedControlToggle.isOn = isInverted;
             }
 
-            switch (Screen.fullScreenMode)
-            {
-                case FullScreenMode.ExclusiveFullScreen:
-                    windowModeText.text = "Vollbild";
-                    windowMode.value = 0;
-                    break;
-                case FullScreenMode.Windowed:
-                    windowModeText.text = "Fenster";
-                    windowMode.value = 1;
-                    break;
-                case FullScreenMode.FullScreenWindow:
-                    windowModeText.text = "Rahmenloses Fenster";
-                    windowMode.value = 2;
-                    break;
-            }
-
-            cameraSensitivitySlider.value = cameraSensitivity.RotationSensitivity;
         }
 
         private void Update()
@@ -112,17 +130,24 @@ namespace Manager.Menu
 
         private void OnDisable()
         {
-            playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
-            playerInputHasBeenInit = false;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
+                playerInputHasBeenInit = false; 
+            }
         }
-    
+        #endregion
+
         private void InitPlayerInput()
         {
-            playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
-            playerInputHasBeenInit = true;
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
+                playerInputHasBeenInit = true; 
+            }
         }
 
-        private void EnableDisableMenu(InputAction.CallbackContext context)
+        public void EnableDisableMenu(InputAction.CallbackContext context)
         {
             if (gameObject.activeInHierarchy && context.performed)
             {
@@ -223,6 +248,19 @@ namespace Manager.Menu
         {
             cameraSensitivity.RotationSensitivity = cameraSensitivitySlider.value;
             cameraSensitivity.MoveSensitivity = cameraSensitivitySlider.value;
+        }
+
+        public void InvertCameraControls()
+        {
+            if (isInverted)
+            {
+                isInverted = false;
+            }
+            else
+            {
+                isInverted = true;
+            }
+            cameraSensitivity.InvertYAxis(isInverted);
         }
         #endregion
     }

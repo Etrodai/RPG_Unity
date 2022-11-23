@@ -135,13 +135,13 @@ namespace Eventsystem
         #region Methods
 
          public void Initialize()
-        {
+         {
             eventManager = MainManagerSingleton.Instance.EventManager;
             eventUI.SetActive(false);
             textIsActive = true;
             textIndex = ResetTextIndex;
             // enabled = false;
-        }
+         }
         
         private void InitPlayerInput()
         {
@@ -155,7 +155,28 @@ namespace Eventsystem
         private void EventBehaviour(InputAction.CallbackContext context)
         {
             if (!context.performed || enabled != true) return;
-            
+
+            //Instantly places current text when clicking again after switching to the next text
+            if (eventText.text.Length < eventManager.ActiveEvent.EventText[textIndex].Length && textIndex < eventManager.ActiveEvent.EventText.Length && !decision1Active && !decision2Active)
+            {
+                eventText.text = eventManager.ActiveEvent.EventText[textIndex];
+                return;
+            }
+
+            //Instantly places text for decision one after switching to it
+            if (eventText.text.Length < eventManager.ActiveEvent.Decisions[Decision1Index].consequenceText.Length && decision1Active)
+            {
+                eventText.text = eventManager.ActiveEvent.Decisions[Decision1Index].consequenceText;
+                return;
+            }
+
+            //Instantly places text for decision two after switching to it
+            if (eventText.text.Length < eventManager.ActiveEvent.Decisions[Decision2Index].consequenceText.Length && decision2Active)
+            {
+                eventText.text = eventManager.ActiveEvent.Decisions[Decision2Index].consequenceText;
+                return;
+            }
+
             //Select next text of each text array
             if (textIsActive && textIndex < eventManager.ActiveEvent.EventText.Length)
             {

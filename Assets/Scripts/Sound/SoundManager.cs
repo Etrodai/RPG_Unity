@@ -263,7 +263,7 @@ namespace Sound
         /// <param name="trigger"></param>
         /// <param name="eventType">eventType listener has listen to</param>
         /// <param name="listener">method, which is played when event gets triggered</param>
-        private static void AddListener(this EventTrigger trigger, EventTriggerType eventType,
+        public static void AddListener(this EventTrigger trigger, EventTriggerType eventType,
             System.Action<PointerEventData> listener)
         {
             EventTrigger.Entry entry = new EventTrigger.Entry
@@ -273,7 +273,6 @@ namespace Sound
             entry.callback.AddListener(data => listener.Invoke((PointerEventData)data));
             trigger.triggers.Add(entry);
         }
-       
         #endregion
     }
 }

@@ -18,9 +18,9 @@ namespace MilestoneSystem.Events
         {
             Name = MileStoneEventName.ShowPrioritySystem;
             Events = new MileStoneEventItem[3];
-            Events[0].text = "Click on the Priority-System-Button";
-            Events[1].text = "Change the Priority up";
-            Events[2].text = "Change the Priority down";
+            Events[0].text = "Öffne das Prio-Menü";
+            Events[1].text = "Verändere die Priorität nach oben";
+            Events[2].text = "Verändere die Priorität nach unten";
             Events[0].isAchieved = false;
             Events[1].isAchieved = false;
             Events[2].isAchieved = false;

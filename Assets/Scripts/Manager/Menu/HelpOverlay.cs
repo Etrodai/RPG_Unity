@@ -39,6 +39,7 @@ public class HelpOverlay : MonoBehaviour
         }
         else
         {
+            overlayImages[activeOverlayIndex].SetActive(false);
             playerInput.actions["LeftClick"].performed -= OnClickContinue;
             overlayContainer.SetActive(false);
             Time.timeScale = startTime;

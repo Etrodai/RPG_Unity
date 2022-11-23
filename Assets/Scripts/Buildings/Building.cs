@@ -53,8 +53,7 @@ namespace Buildings
         public BuildingResourcesScriptableObject BuildingResources => buildingResources;
         
         public BuildingType BuildingType => buildingType;
-
-        //OnValueChangedEvent
+        
         public bool IsDisabled
         {
             get => isDisabled;
@@ -68,10 +67,12 @@ namespace Buildings
             set
             {
                 if (currentProductivity == value) return;
-                
-                onBuildingProductivityChanged.Invoke(currentProductivity, value);
-                // Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
+
+                float oldValue = currentProductivity;
+                Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
                 currentProductivity = value;
+                onBuildingProductivityChanged.Invoke(oldValue, value);
+
             }
         }
         
@@ -93,7 +94,7 @@ namespace Buildings
             // onBuildingWasDisabled.AddListener(ChangeIsDisabled);
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
             
-            managers = new List<ResourceManager>();
+            managers = new ();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
             energyManager = MainManagerSingleton.Instance.EnergyManager;
@@ -342,7 +343,6 @@ namespace Buildings
             }
 
             if (!playSound) return;
-            SoundManager.PlaySound(SoundManager.Sound.EnableModule);
         }
 
         /// <summary>
@@ -440,8 +440,8 @@ namespace Buildings
                 // }
             }
 
-            if (!playSound) return;
-            SoundManager.PlaySound(SoundManager.Sound.DisableModule);
+            // if (!playSound) return;
+            // SoundManager.PlaySound(SoundManager.Sound.DisableModule);
         }
         
         #endregion

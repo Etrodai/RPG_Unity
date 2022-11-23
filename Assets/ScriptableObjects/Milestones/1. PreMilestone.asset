@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f972099e262cfc14b868da121d356ee4, type: 3}
+  m_Name: 1. PreMilestone
+  m_EditorClassIdentifier: 
+  mileStoneText:
+  - "Um eine \xDCbersicht \xFCber Ihre aktuellen Missionen zu erhalten, haben wir
+    Ihnen diese auf der rechten Seite erstellt. \xD6ffenen Sie das Meilenstein-Men\xFC
+    und f\xFChren sie die entsprechenden Schritte durch."
+  requiredEvent: 05000000
+  requiredResources: []
+  requiredModules: []
+  mileStoneAchievedText:
+  - "Nun k\xF6nnen Sie jederzeit auf die aktuellen Missionen zugreifen."

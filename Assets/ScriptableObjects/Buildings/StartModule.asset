@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   costs:
   - resource: 0
-    value: -20
+    value: -200
     eventResourceDemandValue: 0
   - resource: 2
     value: -10
@@ -42,7 +42,7 @@ MonoBehaviour:
     eventResourceDemandValue: 0
   saveSpace:
   - resource: 0
-    value: 20
+    value: 200
     eventResourceDemandValue: 0
   - resource: 1
     value: 100
