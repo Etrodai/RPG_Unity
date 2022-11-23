@@ -25,8 +25,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 447745949}
-  m_LocalRotation: {x: -0.1861141, y: -0.13523555, z: 0.02296195, w: 0.97290576}
-  m_LocalPosition: {x: 584.75006, y: 9.183052, z: -138.96461}
+  m_LocalRotation: {x: 0.19197372, y: 0.9102031, z: 0.07203529, w: -0.35984358}
+  m_LocalPosition: {x: 757.7137, y: -148.14856, z: -782.4236}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -64,7 +64,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -73,7 +73,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!114 &447745951
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 1
+  m_RenderShadows: 0
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 1
@@ -914,10 +914,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b164b1e92015d4945ad4dde8ffa1646e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cmFreeLook: {fileID: 0}
-  rotationSensivity: 0.5
-  moveSensivity: 0.5
-  zoomSensivity: 0.5
+  cmFreeLook: {fileID: 6299621790826069183}
+  rotationSensitivity: 0.5
+  moveSensitivity: 0.5
+  zoomSensitivity: 0.5
+  playerInput: {fileID: 0}
 --- !u!1 &6299621790983145294
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,15 +1024,14 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 447745950}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

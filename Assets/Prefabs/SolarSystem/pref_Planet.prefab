@@ -151,6 +151,7 @@ MonoBehaviour:
   centerPoint: {fileID: 0}
   rotSpeed: 7
   rotateClockwise: 0
+  oneTimeRotate: 0
 --- !u!1 &746080715164530851
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,8 +181,8 @@ Transform:
   m_GameObject: {fileID: 746080715164530851}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 500, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 746080716190365125}
   - {fileID: 746080714837493407}
@@ -270,6 +271,7 @@ MonoBehaviour:
   centerPoint: {fileID: 0}
   rotSpeed: 0.1
   rotateClockwise: 0
+  oneTimeRotate: 0
 --- !u!1 &746080716190365126
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,3 +389,4 @@ MonoBehaviour:
   centerPoint: {fileID: 746080715164530850}
   rotSpeed: 1
   rotateClockwise: 0
+  oneTimeRotate: 0
