@@ -1,5 +1,6 @@
 using System.Reflection;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,10 +31,15 @@ namespace UI.BuildMode
         
         private Vector3 mousePos;
 
+        [SerializeField] private GameObject eventPanel;
+        [SerializeField] private GameObject mileStonePanel;
+
         //Input
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private MeshRenderer[] children;
         private bool playerInputHasBeenInit;
+
+        [SerializeField] private  GameObject buildMenu;
 
         #endregion
 
@@ -48,9 +54,14 @@ namespace UI.BuildMode
 
         private void Update()
         {
-            if (!playerInputHasBeenInit)
+            if (!playerInputHasBeenInit && !eventPanel.activeSelf && !mileStonePanel.activeSelf)
             {
                 InitPlayerInput();
+            }
+
+            if ((eventPanel.activeSelf || mileStonePanel.activeSelf) && playerInputHasBeenInit)
+            {
+                Terminate();
             }
         }
 
@@ -64,9 +75,15 @@ namespace UI.BuildMode
         private void OnDisable()
         {
             if (playerInput == null) return;
+            Terminate();
+        }
+        
+        private void Terminate()
+        {            
             playerInput.actions["LeftClick"].performed -= LeftMouseButtonPressed;
             playerInput.actions["OpenBuildMenu"].performed -= RightMouseButtonPressed;
             playerInputHasBeenInit = false;
+            
         }
 
         /// <summary>
@@ -119,7 +136,7 @@ namespace UI.BuildMode
         private void LeftMouseButtonPressed(InputAction.CallbackContext context)
         {
             //Quick return when there isn´t anything to build
-            if (buildMenuLayout == null || !buildMenuLayout.activeSelf)
+            if (buildMenuLayout == null /*|| !buildMenuLayout.activeSelf*/)
                 return;
 
 
@@ -165,6 +182,7 @@ namespace UI.BuildMode
         /// <param name="moduleToBuildGameObject"> the Object to build </param>
         public void BuildMenuButtonPressed(GameObject moduleToBuildGameObject)
         {
+            buildMenu.SetActive(false);
             mousePos = Input.mousePosition;
             Vector3 spawnPos = mainCam.ScreenToWorldPoint(mousePos);
             CheckAvailableGridTiles();

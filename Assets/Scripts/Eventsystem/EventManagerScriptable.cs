@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SaveSystem;
 using Sound;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Eventsystem
@@ -54,6 +55,8 @@ namespace Eventsystem
         public List<GameObject> EventParticles => eventParticles;
 
         #endregion
+        
+        public UnityEvent onMenusShouldClose;
 
         #region UnityEvents
 
@@ -164,6 +167,7 @@ namespace Eventsystem
                 }
             }
 
+            onMenusShouldClose.Invoke();
             sideMenuMileStoneButton.interactable = false;
             sideMenuPriorityButton.interactable = false;
             Time.timeScale = StopTime;
