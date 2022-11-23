@@ -48,7 +48,7 @@ namespace Manager.Menu
         {
             priorityListMenu = GetComponentInChildren<PriorityListMenu>(true);
             priorityListMenu.Instantiate();
-            // CloseMenuInstantly();
+            CloseMenuInstantly();
         }
 
         #endregion
