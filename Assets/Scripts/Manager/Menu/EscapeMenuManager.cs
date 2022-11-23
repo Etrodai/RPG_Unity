@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Manager.Menu
 {
-    public class EscapeMenuManager : MonoBehaviour
+    public class EscapeMenuManager : MonoBehaviour //Made by Eric
     {
         //[SerializeField] private UIDocument escapeDocument;
         [SerializeField] private GameObject escapeMenu;
@@ -45,6 +45,10 @@ namespace Manager.Menu
             playerInputHasBeenInit = true;
         }
 
+        /// <summary>
+        /// Switches the Escape menu UI on or off depending on its current state
+        /// </summary>
+        /// <param name="context">Register the esc input</param>
         private void EnableDisableMenu(InputAction.CallbackContext context)
         {
             if(escapeMenu.activeInHierarchy == false)
@@ -59,35 +63,41 @@ namespace Manager.Menu
             }
         }
 
+        /// <summary>
+        /// Method for the resume button to get back into the game
+        /// </summary>
         public void OnResumeClick()
         {
             Time.timeScale = 1f;
             escapeMenu.SetActive(false);
         }
 
+        /// <summary>
+        /// Method for the options button to activate the options menu ui
+        /// </summary>
         public void OnOptionsClick()
         {
             escapeMenu.SetActive(false);
             optionsMenu.SetActive(true);
         }
 
+        /// <summary>
+        /// Method for returning back into the escape menu from options menu
+        /// </summary>
         public void OnBackToEscapeMenuClick()
         {
             optionsMenu.SetActive(false);
             escapeMenu.SetActive(true);
         }
 
+        /// <summary>
+        /// Method for exit button to load the main menu scene
+        /// </summary>
         public void OnMainMenuClick()
         {
             //Probably place where saving must take place
             //is now assigned in Inspector
             SceneManager.LoadScene(MainMenuScene);
-        }
-
-        public void OnExitGameClick()
-        {
-            //Saving needed here as well
-            Application.Quit();
         }
     }
 }

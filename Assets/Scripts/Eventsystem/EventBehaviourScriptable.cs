@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace Eventsystem
 {
-    public class EventBehaviourScriptable : MonoBehaviour
+    public class EventBehaviourScriptable : MonoBehaviour //Made by Eric
     {
         #region Variables
         

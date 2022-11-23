@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace DebugMenus
 {
-    public class DebugMenu : MonoBehaviour
+    public class DebugMenu : MonoBehaviour //Made by Robin
     {
         public static DebugMenu Instance { get; private set; }
 

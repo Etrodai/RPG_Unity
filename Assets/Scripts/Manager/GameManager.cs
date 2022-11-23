@@ -8,7 +8,7 @@ using Building = Buildings.Building;
 
 namespace Manager
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour //Made by Robin
     {
         #region Variables
 

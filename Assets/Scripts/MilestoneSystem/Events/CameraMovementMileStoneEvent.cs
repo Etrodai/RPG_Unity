@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace MilestoneSystem.Events
 {
-    public class CameraMovementMileStoneEvent : MileStoneEvent
+    public class CameraMovementMileStoneEvent : MileStoneEvent //Made by Robin
     {
         #region TODOS
         

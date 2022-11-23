@@ -1,7 +1,7 @@
 namespace ResourceManagement
 {
     [System.Serializable]
-    public struct Resource
+    public struct Resource //Made by Robin
     {
         #region Variables
 

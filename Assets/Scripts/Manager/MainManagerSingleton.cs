@@ -7,7 +7,7 @@ namespace Manager
     [RequireComponent(typeof(EnergyManager), typeof(FoodManager), typeof(WaterManager))]
     [RequireComponent(typeof(MaterialManager), typeof(CitizenManager), typeof(GameManager))]
     [RequireComponent(typeof(EventManagerScriptable))]
-    public class MainManagerSingleton : MonoBehaviour
+    public class MainManagerSingleton : MonoBehaviour //Made by Eric, adjustments by Robin
     {
         public static MainManagerSingleton Instance { get; private set; }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MilestoneSystem
 {
-    public abstract class MileStoneEvent : MonoBehaviour
+    public abstract class MileStoneEvent : MonoBehaviour //Made by Robin
     {
         public abstract MileStoneEventName Name { get; set; }
         public abstract MileStoneEventItem[] Events { get; set; }

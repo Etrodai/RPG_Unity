@@ -12,7 +12,7 @@ namespace Manager.Menu
         public bool isMinimized;
     }
     
-    public class SideMenuManager : MonoBehaviour
+    public class SideMenuManager : MonoBehaviour //Made by Robin
     {
         #region Variables
 

@@ -3,7 +3,7 @@ using ResourceManagement.Manager;
 
 namespace MilestoneSystem.Events
 {
-    public class EnergyValueZeroEvent : MileStoneEvent
+    public class EnergyValueZeroEvent : MileStoneEvent //Made by Robin
     {
         public override MileStoneEventName Name { get; set; }
         public override MileStoneEventItem[] Events { get; set; }

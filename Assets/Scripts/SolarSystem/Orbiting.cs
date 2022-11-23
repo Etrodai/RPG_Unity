@@ -9,7 +9,7 @@ namespace SolarSystem
     ///
     /// Code by:  https://www.youtube.com/watch?v=En7iugIoG_A
     /// </summary>
-    public class Orbiting : MonoBehaviour
+    public class Orbiting : MonoBehaviour //Made by Ben
     {
         public float xSpread;
         public float zSpread;

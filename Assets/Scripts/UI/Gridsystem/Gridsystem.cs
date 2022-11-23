@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UI.Gridsystem
 {
-    public class Gridsystem : MonoBehaviour
+    public class Gridsystem : MonoBehaviour //Made by Ben
     {
         [SerializeField] private Transform solarCenterPoint; //TODO: (Ben) Init with Vector directly
 

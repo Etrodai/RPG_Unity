@@ -3,7 +3,7 @@ namespace ResourceManagement
     /// <summary>
     /// Types of Resources
     /// </summary>
-    public enum ResourceType
+    public enum ResourceType //Made by Robin
     {
         Material,
         Energy,

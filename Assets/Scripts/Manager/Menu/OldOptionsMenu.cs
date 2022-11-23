@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Manager.Menu
 {
-    public class OldOptionsMenu : MonoBehaviour
+    public class OldOptionsMenu : MonoBehaviour //Made by Eric
     {
         //Graphic settings
         [SerializeField] private TMP_Dropdown resolution;
@@ -25,7 +25,7 @@ namespace Manager.Menu
         //Control settings
         [SerializeField] private CameraControllerNew cameraSensitivity;
         [SerializeField] private Slider cameraSensitivitySlider;
-        [SerializeField] private Toggle invertedControlToggle; // TODO: is it used?
+        [SerializeField] private Toggle invertedControlToggle;
         private bool isInverted;
 
         private int screenWidth = 1920;
@@ -41,6 +41,9 @@ namespace Manager.Menu
             Screen.fullScreen = true;
         }
 
+        /// <summary>
+        /// Sets all options to their set value
+        /// </summary>
         private void Start()
         {
             masterVolume.SetFloat("exposedMasterVolume", Mathf.Log10(masterVolumeSlider.value) * 20);
@@ -55,6 +58,9 @@ namespace Manager.Menu
             gameObject.SetActive(false);
         }
         
+        /// <summary>
+        /// Sets the texts and values of the option ui to the set values
+        /// </summary>
         private void OnEnable()
         {
             if (SceneManager.GetActiveScene().buildIndex != 0)
@@ -132,7 +138,7 @@ namespace Manager.Menu
         {
             if (SceneManager.GetActiveScene().buildIndex != 0)
             {
-                playerInput.actions["OpenEscapeMenu"].performed -= EnableDisableMenu;
+                playerInput.actions["OpenEscapeMenu"].performed -= DisableMenu;
                 playerInputHasBeenInit = false; 
             }
         }
@@ -142,12 +148,12 @@ namespace Manager.Menu
         {
             if (SceneManager.GetActiveScene().buildIndex != 0)
             {
-                playerInput.actions["OpenEscapeMenu"].performed += EnableDisableMenu;
+                playerInput.actions["OpenEscapeMenu"].performed += DisableMenu;
                 playerInputHasBeenInit = true; 
             }
         }
 
-        public void EnableDisableMenu(InputAction.CallbackContext context)
+        public void DisableMenu(InputAction.CallbackContext context)
         {
             if (gameObject.activeInHierarchy && context.performed)
             {
@@ -156,6 +162,9 @@ namespace Manager.Menu
         }
 
         #region Graphic options
+        /// <summary>
+        /// Sets the resolution to chosen setting
+        /// </summary>
         public void SetResolution()
         {
             switch (resolution.value)
@@ -209,6 +218,9 @@ namespace Manager.Menu
             Screen.SetResolution(screenWidth, screenHeight, Screen.fullScreenMode);
         }
 
+        /// <summary>
+        /// Sets the window mode to the chosen value
+        /// </summary>
         public void SetWindowMode()
         {
             switch (windowMode.value)
@@ -227,16 +239,28 @@ namespace Manager.Menu
         #endregion
 
         #region Audio options
+        /// <summary>
+        /// Master volume
+        /// </summary>
+        /// <param name="sliderValue"></param>
         public void OnMasterVolumeChanged(float sliderValue)
         {
             masterVolume.SetFloat("exposedMasterVolume", Mathf.Log10(sliderValue) * 20);
         }
 
+        /// <summary>
+        /// Music volume
+        /// </summary>
+        /// <param name="sliderValue"></param>
         public void OnMusicVolumeChanged(float sliderValue)
         {
             masterVolume.SetFloat("exposedMusicVolume", Mathf.Log10(sliderValue) * 20);
         }
 
+        /// <summary>
+        /// SFX volume
+        /// </summary>
+        /// <param name="sliderValue"></param>
         public void OnSFXVolumeChanged(float sliderValue)
         {
             masterVolume.SetFloat("exposedSFXVolume", Mathf.Log10(sliderValue) * 20);
@@ -244,12 +268,18 @@ namespace Manager.Menu
         #endregion
 
         #region Control options
+        /// <summary>
+        /// Sets the sensitivity of the camera movement
+        /// </summary>
         public void OnControlSensitivityChanged()
         {
             cameraSensitivity.RotationSensitivity = cameraSensitivitySlider.value;
             cameraSensitivity.MoveSensitivity = cameraSensitivitySlider.value;
         }
 
+        /// <summary>
+        /// Inverts inputs for up and down
+        /// </summary>
         public void InvertCameraControls()
         {
             if (isInverted)

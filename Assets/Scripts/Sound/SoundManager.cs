@@ -12,7 +12,7 @@ namespace Sound
     /// If a sound gets called in the Update() you can say, how often it will get played by adding it in the Initialize
     /// Button sounds will be added automatically, when the ButtonSound script is on the GameObject of the button
     /// </summary>
-    public static class SoundManager
+    public static class SoundManager //Made by Robin
     {
         #region Variables
         

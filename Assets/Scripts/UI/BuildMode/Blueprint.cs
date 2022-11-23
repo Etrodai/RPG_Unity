@@ -6,7 +6,7 @@ namespace UI.BuildMode
     /// <summary>
     /// Script for Handling Module before Placement
     /// </summary>
-    public class Blueprint : MonoBehaviour
+    public class Blueprint : MonoBehaviour //Made by Ben
     {
         //Mouse and Positions
         private Vector3 mousePos;

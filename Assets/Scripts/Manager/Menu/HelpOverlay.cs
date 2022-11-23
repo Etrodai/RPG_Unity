@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HelpOverlay : MonoBehaviour
+public class HelpOverlay : MonoBehaviour //Made by Eric
 {
     [SerializeField] private GameObject overlayContainer;
     [SerializeField] private List<GameObject> overlayImages = new List<GameObject>();

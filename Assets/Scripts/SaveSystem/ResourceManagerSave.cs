@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SaveSystem
 {
-    public class ResourceManagerSave : MonoBehaviour
+    public class ResourceManagerSave : MonoBehaviour //Made by Robin
     {
         private float[] managerData;
         private ResourceManager[] managers;

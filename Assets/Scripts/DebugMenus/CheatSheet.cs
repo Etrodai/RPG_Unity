@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DebugMenus
 {
     [CreateAssetMenu(fileName = "New CheatSheet", menuName = "CheatSheet")]
-    public class CheatSheet : ScriptableObject
+    public class CheatSheet : ScriptableObject //Made by Robin
     {
         [SerializeField] private Cheat[] usableCheats;
 

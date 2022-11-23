@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ResourceManagement
 {
-    public abstract class ResourceManager : MonoBehaviour
+    public abstract class ResourceManager : MonoBehaviour //Made by Robin
     {
         #region Variables/Properties
 

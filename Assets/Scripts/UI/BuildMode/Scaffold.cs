@@ -7,7 +7,7 @@ using UnityEngine;
 /// Script for constructing a scaffold over time
 /// Creator: Benjamin
 /// </summary>
-public class Scaffold : MonoBehaviour
+public class Scaffold : MonoBehaviour //Made by Ben
 {
     #region Variables
 

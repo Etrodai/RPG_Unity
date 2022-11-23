@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace SaveSystem
 {
-    public class SaveData : MonoBehaviour
+    public class SaveData : MonoBehaviour //Made by Robin
     {
         public static SaveData Instance { get; private set; }
         public GameSave GameSave { get; private set; } = new();

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace ResourceManagement.Manager
 {
-    public class WaterManager : ResourceManager
+    public class WaterManager : ResourceManager //Made by Robin
     {
         #region TODOS
 

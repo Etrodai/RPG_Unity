@@ -3,7 +3,7 @@ using ResourceManagement.Manager;
 
 namespace DebugMenus
 {
-    public class CheatCodeLogic
+    public class CheatCodeLogic //Made by Robin
     {
         public void EnergyPlus100()
         {

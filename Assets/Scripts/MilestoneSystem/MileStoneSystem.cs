@@ -22,7 +22,7 @@ namespace MilestoneSystem
         public bool isDone;
     }
     
-    public class MileStoneSystem : MonoBehaviour
+    public class MileStoneSystem : MonoBehaviour //Made by Robin
     {
         #region Variables
 

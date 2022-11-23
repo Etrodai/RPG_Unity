@@ -9,7 +9,7 @@ namespace UI.BuildMode
     /// Controlling Behaviour in Build Menu and the Placement
     /// Creator: Benjamin
     /// </summary>
-    public class BuildMenu : MonoBehaviour
+    public class BuildMenu : MonoBehaviour //Made by Ben
     {
         #region Variables
 

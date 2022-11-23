@@ -41,7 +41,7 @@ namespace UI.BuildMode
         }
     }
     
-    public class BuildMenuScript : MonoBehaviour
+    public class BuildMenuScript : MonoBehaviour //Made by Ben
     {
         #region Variables
 

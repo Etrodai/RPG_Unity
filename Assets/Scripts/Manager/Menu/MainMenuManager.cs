@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Manager.Menu
 {
-    public class MainMenuManager : MonoBehaviour
+    public class MainMenuManager : MonoBehaviour //Made by Eric
     {
         private const int GameScene = 1;
         private const float startTime = 1f;
@@ -14,11 +14,17 @@ namespace Manager.Menu
             Time.timeScale = startTime;
         }
 
+        /// <summary>
+        /// Method for start button to load the game scene
+        /// </summary>
         public void OnStartClick()
         {
             StartCoroutine(nameof(StartGame));
         }
 
+        /// <summary>
+        /// Method for the quit button to stop the application
+        /// </summary>
         public void OnExitGameClick()
         {
             Application.Quit();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DebugMenus
 {
-    public class TimeDebug : MonoBehaviour
+    public class TimeDebug : MonoBehaviour //Made by Robin
     {
         #region Variables
 

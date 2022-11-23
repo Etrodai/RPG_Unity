@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Eventsystem
 {
-    [System.Serializable]
+    [System.Serializable] //Made Robin
     public struct DecisionsAndConsequences
     {
         [TextArea] public string decisionButtonText;

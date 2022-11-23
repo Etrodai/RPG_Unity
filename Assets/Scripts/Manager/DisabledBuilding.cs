@@ -3,7 +3,7 @@ using ResourceManagement;
 
 namespace Manager
 {
-    public struct DisabledBuilding
+    public struct DisabledBuilding //Made by Robin
     {
         public readonly Building building;
         public readonly ResourceType type;

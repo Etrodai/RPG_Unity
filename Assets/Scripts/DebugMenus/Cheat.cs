@@ -1,7 +1,7 @@
 namespace DebugMenus
 {
     [System.Serializable]
-    public class Cheat
+    public class Cheat //Made by Robin
     {
         public string Command;
         public string FunctionName;

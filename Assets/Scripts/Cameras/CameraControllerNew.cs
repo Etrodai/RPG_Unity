@@ -9,7 +9,7 @@ namespace Cameras
     /// Script for Camera Control via Cinemachine Free View Cam
     /// Creator: Robin & Ben
     /// </summary>
-    public class CameraControllerNew : MonoBehaviour
+    public class CameraControllerNew : MonoBehaviour //Made by Ben
     {
         #region Variables
 

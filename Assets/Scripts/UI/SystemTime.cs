@@ -6,7 +6,7 @@ using UnityEngine;
 //TODO: (Ben) Integrate in GameManager, Comments
 namespace UI
 {
-    public class SystemTime : MonoBehaviour
+    public class SystemTime : MonoBehaviour //Made by Ben
     {
         private TextMeshProUGUI timeText;
 

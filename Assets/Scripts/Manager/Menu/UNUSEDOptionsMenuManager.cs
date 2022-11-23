@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace Manager.Menu
 {
-    public class UNUSEDOptionsMenuManager : MonoBehaviour
+    public class UNUSEDOptionsMenuManager : MonoBehaviour //Made by Eric (currently unused, was intended to be used for ui toolkit ui)
     {
         private UIDocument optionsDocument;
         public DropdownField ResolutionOption { get; } = new();

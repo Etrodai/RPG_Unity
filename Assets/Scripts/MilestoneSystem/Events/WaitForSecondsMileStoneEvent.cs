@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MilestoneSystem.Events
 {
-    public class WaitForSecondsMileStoneEvent : MileStoneEvent
+    public class WaitForSecondsMileStoneEvent : MileStoneEvent //Made by Robin
     {
         #region Variables & Properties
 

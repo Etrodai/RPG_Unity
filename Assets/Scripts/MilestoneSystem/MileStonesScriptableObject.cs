@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MilestoneSystem
 {
     [CreateAssetMenu(fileName = "New MileStone", menuName = "MileStones")]
-    public class MileStonesScriptableObject : ScriptableObject
+    public class MileStonesScriptableObject : ScriptableObject //Made by Robin
     {
         #region Variables
         

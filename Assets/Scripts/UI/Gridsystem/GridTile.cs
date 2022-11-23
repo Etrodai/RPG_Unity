@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace UI.Gridsystem
 {
-    public class GridTile : MonoBehaviour
+    public class GridTile : MonoBehaviour //Made by Ben
     {
         [SerializeField] private GameObject prefabGridTileAvailable;
         [SerializeField] private GameObject prefabGridTileLocked;

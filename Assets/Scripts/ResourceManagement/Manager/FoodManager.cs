@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace ResourceManagement.Manager
 {
-    public class FoodManager : ResourceManager
+    public class FoodManager : ResourceManager //Made by Robin
     {
         #region Variables
 

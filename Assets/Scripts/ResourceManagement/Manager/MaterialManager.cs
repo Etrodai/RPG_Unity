@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace ResourceManagement.Manager
 {
-    public class MaterialManager : ResourceManager
+    public class MaterialManager : ResourceManager //Made by Robin
     {
         #region Variables
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DebugMenus
 {
-    public class CheatConsole : MonoBehaviour
+    public class CheatConsole : MonoBehaviour //Made by Robin
     {
         [SerializeField] private TMP_InputField inputField;
         [SerializeField] private GameObject cheatConsolePanel;

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Buildings
 {
     [CreateAssetMenu(fileName = "New Building", menuName = "Buildings")]
-    public class BuildingResourcesScriptableObject : ScriptableObject
+    public class BuildingResourcesScriptableObject : ScriptableObject //Made by Robin
     {
         #region TODOS
         

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PirateRotation : MonoBehaviour
+public class PirateRotation : MonoBehaviour //Made by Eric
 {
     [SerializeField] private float rotationSpeed;
     private float yRotation;

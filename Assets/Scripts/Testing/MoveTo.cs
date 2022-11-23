@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace Testing
 {
-    public class MoveTo : MonoBehaviour
+    public class MoveTo : MonoBehaviour //Made by Ben
     {
         [SerializeField] private NavMeshAgent agent;
         [SerializeField] private GameObject target;

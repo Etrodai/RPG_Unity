@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
-namespace Buildings
+namespace Buildings //Made by Robin
 {
     [System.Serializable]
     public struct BuildingData

@@ -15,7 +15,7 @@ namespace Eventsystem
         public string[] usedEventTitles;
     }
     
-    public class EventManagerScriptable : MonoBehaviour
+    public class EventManagerScriptable : MonoBehaviour //Made by Eric
     {
         #region Variables
 
@@ -76,7 +76,6 @@ namespace Eventsystem
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
             timer = UnityEngine.Random.Range(setMinimumTimer, setMaximumTimer);
-            //resetEventTimer.Invoke();
         }
 
         private void OnDestroy()
@@ -134,12 +133,12 @@ namespace Eventsystem
 
         #region Methodes
         
-          /// <summary>
+        /// <summary>
         /// Works as timer to start the next event when the time runs out
         /// </summary>
         /// <returns>Restarts the coroutine to continue reducing the timer if it didn't run out</returns>
-          // ReSharper disable once FunctionRecursiveOnAllPaths
-          private IEnumerator NextEventTimer()
+        // ReSharper disable once FunctionRecursiveOnAllPaths
+        private IEnumerator NextEventTimer()
         {
             timer -= UpdateTimerRate;
             if (timer <= EndTimer)

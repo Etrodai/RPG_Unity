@@ -3,7 +3,7 @@ namespace Buildings
     /// <summary>
     /// names all types of Buildings
     /// </summary>
-    public enum BuildingType
+    public enum BuildingType //Made by Robin
     {
         StartModule,
         EnergyGain,

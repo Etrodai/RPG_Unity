@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Sound
 {
-    public class SoundStorage : MonoBehaviour
+    public class SoundStorage : MonoBehaviour //Made by Robin
     {
         #region Variables
 
