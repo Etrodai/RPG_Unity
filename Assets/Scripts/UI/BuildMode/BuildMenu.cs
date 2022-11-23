@@ -39,8 +39,6 @@ namespace UI.BuildMode
         [SerializeField] private MeshRenderer[] children;
         private bool playerInputHasBeenInit;
 
-        [SerializeField] private  GameObject buildMenu;
-
         #endregion
 
         #region Unity Events
@@ -176,13 +174,26 @@ namespace UI.BuildMode
             UnCheckAvailableGridTiles(true);
         }
 
+        public void DisableAll()
+        {
+            Buttons[] buttons = buildMenuLayout.GetComponentInChildren<BuildMenuScript>().Buttons;
+            for (var i = 0; i < buttons.Length; i++)
+            {
+                Buttons button = buttons[i];
+                button.hoverGameObject.SetActive(false);
+            }
+
+            buildMenuLayout.SetActive(false);
+        }
+
         /// <summary>
         /// Starting Workflow when ui button pressed
         /// </summary>
         /// <param name="moduleToBuildGameObject"> the Object to build </param>
         public void BuildMenuButtonPressed(GameObject moduleToBuildGameObject)
         {
-            buildMenu.SetActive(false);
+            DisableAll();
+            
             mousePos = Input.mousePosition;
             Vector3 spawnPos = mainCam.ScreenToWorldPoint(mousePos);
             CheckAvailableGridTiles();

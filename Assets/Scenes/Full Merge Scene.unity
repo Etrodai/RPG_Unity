@@ -1418,22 +1418,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98264486
+      value: 0.9826781
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.124270335
+      value: 0.124001585
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13756415
+      value: 0.1375722
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.006493787
+      value: -0.006420601
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -2100,10 +2100,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1958975819}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1146719525}
+        m_TargetAssemblyTypeName: UI.BuildMode.BuildMenu, Assembly-CSharp
+        m_MethodName: DisableAll
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5207,7 +5207,7 @@ PrefabInstance:
     - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: onMenusShouldClose.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
@@ -5223,7 +5223,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onMenusShouldClose.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1958975819}
+      objectReference: {fileID: 1146719525}
     - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: onSideMenuShouldClose.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -5262,7 +5262,7 @@ PrefabInstance:
     - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: onMenusShouldClose.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: SetActive
+      value: DisableAll
       objectReference: {fileID: 0}
     - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
@@ -5287,7 +5287,7 @@ PrefabInstance:
     - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: onMenusShouldClose.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: UI.BuildMode.BuildMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
