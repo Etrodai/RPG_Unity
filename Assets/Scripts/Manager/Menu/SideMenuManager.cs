@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using MilestoneSystem.Events;
 using PriorityListSystem;
 using UnityEngine;
@@ -27,6 +25,7 @@ namespace Manager.Menu
         private Vector3 openPosition;
         private Vector3 closePosition;
         [SerializeField] private float lerpTime;
+        private bool closeIsRunning;
 
         #endregion
 
@@ -108,8 +107,6 @@ namespace Manager.Menu
         #endregion
     
         #region Methods
-
-
         
         /// <summary>
         /// maximizes menu by moving it to the left side
@@ -118,6 +115,11 @@ namespace Manager.Menu
         {
             if (!priorityListPanel.isMinimized && !mileStoneSystemPanel.isMinimized) return;
 
+            var position = transform.position;
+            var scaleFactor = canvas.scaleFactor;
+            openPosition = new Vector3(position.x - 300 * scaleFactor, position.y, position.z);
+            closePosition = position;
+            
             StartCoroutine(MoveMenu(true));
             // Transform transform1 = transform;
             // Vector3 transformPosition = transform1.position;
@@ -128,11 +130,18 @@ namespace Manager.Menu
 
         public void CloseMenuInstantly()
         {
-            if (closePosition == Vector3.zero)
+            if (priorityListPanel.isMinimized && mileStoneSystemPanel.isMinimized) return;
+
+            if (!closeIsRunning)
             {
-                closePosition = new(openPosition.x + 300 * canvas.scaleFactor, openPosition.y, openPosition.z);
+                var position = transform.position;
+                var scaleFactor = canvas.scaleFactor;
+                openPosition = position;
+                closePosition = new(position.x + 300 * scaleFactor, position.y, position.z);
             }
+
             StopAllCoroutines();
+            closeIsRunning = false;
             transform.position = closePosition;
             HidePanel(ref mileStoneSystemPanel);
             HidePanel(ref priorityListPanel);
@@ -145,6 +154,11 @@ namespace Manager.Menu
         {
             if (priorityListPanel.isMinimized && mileStoneSystemPanel.isMinimized) return;
 
+            var position = transform.position;
+            var scaleFactor = canvas.scaleFactor;
+            openPosition = position;
+            closePosition = new(position.x + 300 * scaleFactor, position.y, position.z);
+            
             StartCoroutine(MoveMenu(false));
             // Transform transform1 = transform;
             // Vector3 transformPosition = transform1.position;
@@ -176,6 +190,7 @@ namespace Manager.Menu
 
         private IEnumerator MoveMenu(bool shouldOpen)
         {
+            closeIsRunning = true;
             yield return new WaitForEndOfFrame();
             float t = 0;
             while (t < lerpTime)
@@ -191,6 +206,7 @@ namespace Manager.Menu
 
             HidePanel(ref mileStoneSystemPanel);
             HidePanel(ref priorityListPanel);
+            closeIsRunning = false;
         }
 
         #endregion
