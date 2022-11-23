@@ -1,3 +1,4 @@
+using Buildings;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,7 @@ namespace UI.BuildMode
         private Camera mainCam;
 
         [SerializeField] private GameObject prefabBlueprintObject;
+        [SerializeField] private Material bluePrintMaterial;
         private GameObject blueprintObject;
         private GameObject moduleToBuild;
 
@@ -19,6 +21,7 @@ namespace UI.BuildMode
         [SerializeField] private PlayerInput playerInput;
         private bool playerInputHasBeenInit;
 
+        [SerializeField] private MeshRenderer[] children;
         private void Start()
         {
             mainCam = Camera.main;
@@ -91,7 +94,6 @@ namespace UI.BuildMode
                 {
                     if (blueprint.gridTileHit.SetModuleOnUsed())
                     {
-                        // Debug.Log(blueprint.gridTileHit.name);
                         GameObject module = Instantiate(moduleToBuild, blueprint.transform.position, quaternion.identity);
                         module.transform.parent = GameObject.FindGameObjectWithTag("Station").transform; //TODO: (Ben) Redo
                         blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
@@ -117,7 +119,30 @@ namespace UI.BuildMode
             CheckAvailableGridTiles();
 
             this.moduleToBuild = moduleToBuildGameObject;
+
+            //TODO: Package in own Method, better way??
             blueprintObject = Instantiate(prefabBlueprintObject, spawnPos, Quaternion.identity);
+            Transform bpModel = Instantiate(moduleToBuildGameObject.transform.GetChild(0),spawnPos,quaternion.identity);
+            bpModel.SetParent(blueprintObject.transform);
+
+            SetBlueprintMaterial(bpModel);
+
+        }
+
+        private void SetBlueprintMaterial(Transform bpModel)
+        {
+            children = bpModel.GetComponentsInChildren<MeshRenderer>();
+            for (int i = 0; i < children.Length; i++)
+            {
+                MeshRenderer renderer = children[i];
+                Material[] materials = new Material[renderer.materials.Length];
+                for (int j = 0; j < renderer.sharedMaterials.Length; j++)
+                {
+                    materials[j] = bluePrintMaterial;
+                }
+
+                renderer.sharedMaterials = materials;
+            }
         }
 
         private void CheckAvailableGridTiles()

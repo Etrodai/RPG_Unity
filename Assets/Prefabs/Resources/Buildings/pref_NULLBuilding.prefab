@@ -47,19 +47,3 @@ MonoBehaviour:
   buildingResources: {fileID: 11400000, guid: 340baf75e50cf0049bba2a7838449076, type: 2}
   buildingType: 8
   isDisabled: 0
-  onChangePriorityUI:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5390708910693098554, guid: 9097debc1c0ad2c4eb83a8cfe72ca355,
-          type: 3}
-        m_TargetAssemblyTypeName: PriorityListSystem.PriorityListItem, Assembly-CSharp
-        m_MethodName: ChangeUIText
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
