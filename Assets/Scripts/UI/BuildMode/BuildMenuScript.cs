@@ -242,7 +242,7 @@ namespace UI.BuildMode
                 
                 buttons[i].HoverText.text = text;
                 
-                // buttons[i].button.gameObject.SetActive(false);
+                buttons[i].button.gameObject.SetActive(false);
                 buttons[i].hoverGameObject.SetActive(false);
             }
         }

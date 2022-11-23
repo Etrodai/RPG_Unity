@@ -1386,22 +1386,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98189664
+      value: 0.98226565
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.13014857
+      value: 0.12728539
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13738339
+      value: 0.13747257
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00813824
+      value: -0.007346991
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -2701,7 +2701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c93b5d883e88a4182c69ac7a680995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildMenuLayout: {fileID: 1351156399}
+  buildMenuLayout: {fileID: 1958975819}
   prefabBlueprintObject: {fileID: 6137071565662030411, guid: f8a40523c72cff94a97f91bed5e3aaa5,
     type: 3}
   bluePrintMaterial: {fileID: 2100000, guid: 2fae0fb1e7d94e849989668c214cb4e0, type: 2}
@@ -2722,18 +2722,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1174447127 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6525770195667422646, guid: c4184ba17d8be0846903de10bea1f884,
-    type: 3}
-  m_PrefabInstance: {fileID: 6525770193993106805}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 825ed17a57116d844a513adc4247eb4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1219277153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3183,12 +3171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1351156399 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6525770194789566426, guid: c4184ba17d8be0846903de10bea1f884,
-    type: 3}
-  m_PrefabInstance: {fileID: 6525770193993106805}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1364424672
 GameObject:
   m_ObjectHideFlags: 0
@@ -4863,6 +4845,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926439075}
   m_CullTransparentMesh: 1
+--- !u!1 &1958975819 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4496911494953743542, guid: c4184ba17d8be0846903de10bea1f884,
+    type: 3}
+  m_PrefabInstance: {fileID: 6525770193993106805}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1962763408 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6525770195392782821, guid: c4184ba17d8be0846903de10bea1f884,
@@ -5175,6 +5163,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OK Button Background
       objectReference: {fileID: 0}
+    - target: {fileID: 4496911494953743542, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5497791728109240059, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -5214,16 +5207,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 47.736023
-      objectReference: {fileID: 0}
-    - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
-        type: 3}
-      propertyPath: onSideMenuShouldClose.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseMenuInstantly
-      objectReference: {fileID: 0}
-    - target: {fileID: 6525770193590801652, guid: c4184ba17d8be0846903de10bea1f884,
-        type: 3}
-      propertyPath: onSideMenuShouldClose.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Manager.Menu.SideMenuManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6525770193590801654, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
@@ -5319,12 +5302,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1174447127}
+      objectReference: {fileID: 0}
     - target: {fileID: 6525770193865346487, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1174447127}
+      objectReference: {fileID: 0}
     - target: {fileID: 6525770193865346487, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -5414,12 +5397,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1174447127}
+      objectReference: {fileID: 0}
     - target: {fileID: 6525770193893136152, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1174447127}
+      objectReference: {fileID: 0}
     - target: {fileID: 6525770193893136152, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -5794,12 +5777,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1174447127}
+      objectReference: {fileID: 0}
     - target: {fileID: 6525770195020727944, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1174447127}
+      objectReference: {fileID: 0}
     - target: {fileID: 6525770195020727944, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
