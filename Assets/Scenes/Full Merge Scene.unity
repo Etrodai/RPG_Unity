@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.003103807, g: 0.0027302764, b: 0.0033076787, a: 1}
+  m_IndirectSpecularColor: {r: 0.0031037796, g: 0.0027302653, b: 0.0033076513, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1386,22 +1386,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.982201
+      value: 0.9824867
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.12779194
+      value: 0.12553734
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13745688
+      value: 0.13752599
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0074919546
+      value: -0.0068451148
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -4671,11 +4671,6 @@ PrefabInstance:
       propertyPath: cameraSensitivity
       value: 
       objectReference: {fileID: 688328139}
-    - target: {fileID: 7975433926890853844, guid: a5cf73ca99d1f544f93369825959f5e2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7975433926904737611, guid: a5cf73ca99d1f544f93369825959f5e2,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -6213,7 +6208,7 @@ PrefabInstance:
     - target: {fileID: 4496911494953743542, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5497791728109240059, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
@@ -6665,16 +6660,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1146719525}
-    - target: {fileID: 6525770194569833390, guid: c4184ba17d8be0846903de10bea1f884,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -378.174
-      objectReference: {fileID: 0}
-    - target: {fileID: 6525770194569833390, guid: c4184ba17d8be0846903de10bea1f884,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 39.087
-      objectReference: {fileID: 0}
     - target: {fileID: 6525770194603146856, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_AnchorMax.y

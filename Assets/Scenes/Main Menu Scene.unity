@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit Game
+  m_text: Beenden
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7c4e67b7adae424dbd444749a2f3b59, type: 2}
   m_sharedMaterial: {fileID: 8708423411448957096, guid: e7c4e67b7adae424dbd444749a2f3b59,
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 25.25
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

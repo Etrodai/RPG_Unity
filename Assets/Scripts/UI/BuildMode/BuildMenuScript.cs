@@ -67,7 +67,7 @@ namespace UI.BuildMode
         /// builds BuildMenu
         /// checks, if buttons should be interactable
         /// </summary>
-        private void OnEnable()
+        private void Start()
         {
             if (!isInitialized)
             {

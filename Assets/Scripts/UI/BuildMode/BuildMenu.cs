@@ -43,6 +43,7 @@ namespace UI.BuildMode
         {
             mainCam = Camera.main;
             startModule = GameObject.FindGameObjectWithTag("Station").transform;
+            buildMenuLayout.SetActive(false);
         }
 
         private void Update()

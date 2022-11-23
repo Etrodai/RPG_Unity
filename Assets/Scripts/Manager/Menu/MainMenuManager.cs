@@ -7,6 +7,12 @@ namespace Manager.Menu
     public class MainMenuManager : MonoBehaviour
     {
         private const int GameScene = 1;
+        private const float startTime = 1f;
+
+        private void Awake()
+        {
+            Time.timeScale = startTime;
+        }
 
         public void OnStartClick()
         {
