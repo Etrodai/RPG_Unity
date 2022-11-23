@@ -1386,22 +1386,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98226565
+      value: 0.9824177
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.12728539
+      value: 0.12608597
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13747257
+      value: 0.13750933
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.007346991
+      value: -0.00700112
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -5163,6 +5163,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: OK Button Background
       objectReference: {fileID: 0}
+    - target: {fileID: 4496911493735399133, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1146719525}
+    - target: {fileID: 4496911493786248310, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1146719525}
+    - target: {fileID: 4496911494427724402, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1146719525}
+    - target: {fileID: 4496911494522629199, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1146719525}
+    - target: {fileID: 4496911494656554470, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1146719525}
+    - target: {fileID: 4496911494739386365, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1146719525}
+    - target: {fileID: 4496911494895877311, guid: c4184ba17d8be0846903de10bea1f884,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1146719525}
     - target: {fileID: 4496911494953743542, guid: c4184ba17d8be0846903de10bea1f884,
         type: 3}
       propertyPath: m_IsActive
