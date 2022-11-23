@@ -6362,6 +6362,8 @@ MonoBehaviour:
     type: 3}
   sideMenuMileStoneButton: {fileID: 6525770195462376008}
   sideMenuPriorityButton: {fileID: 6525770194516264311}
+  sideMenuManager: {fileID: 6525770194257789579}
+  buildMenuScript: {fileID: 6525770195667422646}
   maxTimer: 0.5
   onSideMenuShouldClose:
     m_PersistentCalls:
@@ -11975,7 +11977,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6525770193647478373}
-  - {fileID: 7379018306076611432}
   m_Father: {fileID: 6525770195667422647}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12274,7 +12275,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6525770194072477774}
-  - {fileID: 7308887203307994554}
   m_Father: {fileID: 6525770193823204510}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13599,7 +13599,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6525770193912564364}
-  - {fileID: 6120646949503045491}
   m_Father: {fileID: 6525770195413584352}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19407,7 +19406,9 @@ MonoBehaviour:
   mileStoneSystemPanel:
     panel: {fileID: 6525770194634947941}
     isMinimized: 0
-  mileStoneEvent: {fileID: 6525770193590801649}
+  showPrioMileStoneEvent: {fileID: 6525770193590801649}
+  showMileStoneMileStoneEvent: {fileID: 8460170113033468068}
+  lerpTime: 0
 --- !u!1 &6525770194261047417
 GameObject:
   m_ObjectHideFlags: 0
@@ -19578,7 +19579,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6525770195002450757}
-  - {fileID: 5290345994931251816}
   m_Father: {fileID: 6525770194910543968}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -32004,7 +32004,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6525770195021543862}
-  - {fileID: 1928205630054657035}
   m_Father: {fileID: 6525770194910543968}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -32167,7 +32166,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6525770195382755631}
-  - {fileID: 4583509503694813562}
   m_Father: {fileID: 6525770195413584352}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -32814,7 +32812,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6525770193740244041}
-  - {fileID: 1722001365660342475}
   m_Father: {fileID: 6525770193823204510}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -39826,7 +39823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6525770195667422647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39904,24 +39901,33 @@ MonoBehaviour:
   buttons:
   - button: {fileID: 6525770195002626003}
     moduleToBuild: {fileID: 11400000, guid: 172b2e0b1b5a63345a10c16c076651cc, type: 2}
+    type: 0
     hoverGameObject: {fileID: 0}
   - button: {fileID: 6525770194263570718}
     moduleToBuild: {fileID: 11400000, guid: 559f05d0e8bfa64458dc4c187cd0e20d, type: 2}
+    type: 0
     hoverGameObject: {fileID: 0}
   - button: {fileID: 6525770193893136154}
     moduleToBuild: {fileID: 11400000, guid: e35849435eeb1fe479ebd83215a0fef2, type: 2}
+    type: 0
     hoverGameObject: {fileID: 0}
   - button: {fileID: 6525770195139226769}
     moduleToBuild: {fileID: 11400000, guid: 881b5b37e3fbef540a633f2135c689bd, type: 2}
+    type: 0
     hoverGameObject: {fileID: 0}
   - button: {fileID: 6525770195020727946}
     moduleToBuild: {fileID: 11400000, guid: d7b5a3c6a202cfb459863b7b7b98e412, type: 2}
+    type: 0
     hoverGameObject: {fileID: 0}
   - button: {fileID: 6525770194083733283}
     moduleToBuild: {fileID: 11400000, guid: 11d0365b2aa98e84a84ea55d216c2f57, type: 2}
+    type: 0
     hoverGameObject: {fileID: 0}
   - button: {fileID: 6525770193865346481}
     moduleToBuild: {fileID: 11400000, guid: 9e3cc1d344f2a1d4e859cdb04b7002bd, type: 2}
+    type: 0
+    hoverGameObject: {fileID: 0}
+  lerpTime: 0
 --- !u!1 &7200591698815810452
 GameObject:
   m_ObjectHideFlags: 0
