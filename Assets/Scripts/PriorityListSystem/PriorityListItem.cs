@@ -52,25 +52,25 @@ namespace PriorityListSystem
             switch (Type)
             {
                 case BuildingType.EnergyGain:
-                    buildingGroup.text += "Generatoren";
+                    buildingGroup.text = "Generatoren";
                     break;
                 case BuildingType.LifeSupportGain:
-                    buildingGroup.text += "Biokuppelen";
+                    buildingGroup.text = "Biokuppeln";
                     break;
                 case BuildingType.MaterialGain:
-                    buildingGroup.text += "Raffinerien";
+                    buildingGroup.text = "Raffinerien";
                     break;
                 case BuildingType.EnergySave:
-                    buildingGroup.text += "Batterien";
+                    buildingGroup.text = "Batterien";
                     break;
                 case BuildingType.LifeSupportSave:
-                    buildingGroup.text += "Wassertanks";
+                    buildingGroup.text = "Wassertanks";
                     break;
                 case BuildingType.MaterialSave:
-                    buildingGroup.text += "Erzlager";
+                    buildingGroup.text = "Erzlager";
                     break;
                 case BuildingType.CitizenSave:
-                    buildingGroup.text += "Wohneinheit";
+                    buildingGroup.text = "Wohneinheit";
                     break;
             }
 

@@ -160,7 +160,12 @@ namespace UI.BuildMode
                         blueprint.gridTileHit.GetComponent<Collider>().isTrigger = false;
                         //Saving Module in Grid to remember 
                         blueprint.gridTileHit.Module = module;
-                        module.SetActive(false);
+                        // module.SetActive(false);
+                        Renderer[] renderer = module.GetComponentsInChildren<Renderer>();
+                        foreach (Renderer item in renderer)
+                        {
+                            item.enabled = false;
+                        }
                         
                         
                         //Activate Build Scaffold

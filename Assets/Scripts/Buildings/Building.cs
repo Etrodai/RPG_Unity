@@ -109,7 +109,10 @@ namespace Buildings //Made by Robin
             
             if (!IsLoading) BuildModule();
 
-            EnableModule(CurrentProductivity);
+            if (buildingType == BuildingType.StartModule)
+            {
+                EnableModule(CurrentProductivity);
+            }
             for (int i = 0; i < gameManager.PriorityListItems.Count; i++)
             {
                 PriorityListItem item = gameManager.PriorityListItems[i];
@@ -202,7 +205,7 @@ namespace Buildings //Made by Robin
         /// <summary>
         /// adds production, consumption and saveSpace
         /// </summary>
-        private void EnableModule(float productivity)
+        public void EnableModule(float productivity)
         {
             for (int i = 0; i < buildingResources.Production.Length; i++)
             {

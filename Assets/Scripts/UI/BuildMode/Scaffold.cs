@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Buildings;
 using UnityEngine;
 
 /// <summary>
@@ -61,7 +62,15 @@ public class Scaffold : MonoBehaviour //Made by Ben
         }
 
         //Make Module visible and destroying itself
-        Module.SetActive(true);
+        Renderer[] renderer = Module.GetComponentsInChildren<Renderer>();
+        foreach (Renderer item in renderer)
+        {
+            item.enabled = true;
+        }
+
+        Building buildingScript = Module.GetComponent<Building>();
+        buildingScript.EnableModule(buildingScript.CurrentProductivity);
+        // Module.SetActive(true);
         Destroy(this.transform.parent.gameObject);
     }
 
