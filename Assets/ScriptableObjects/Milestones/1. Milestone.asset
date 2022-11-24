@@ -18,8 +18,8 @@ MonoBehaviour:
     Steuerung einer Au\xDFenh\xFCllen-Drohne. Diese bietet Ihnen die Ansicht von
     au\xDFerhalb der Station zur einfachen \xDCbersicht."
   - "Machen Sie sich erstmal mit der Steuerung vertraut:\r\n- Bewegen Sie die Drohne
-    nach links und rechts (A/D oder Maustaste links gedr\xFCckt halten)\r\n- Bewegen
-    Sie die Drohne nach oben und unten (W/S)\r\n- Zoomen Sie mit der integrierten
+    nach links und rechts (A/D) \roben und unten (W/S)\n- Rotieren Sie um die Station
+    herum (linke Maustaste gedr\xFCckt halten)\r\n- Zoomen Sie mit der integrierten
     Kamera n\xE4her heran (Mausrad)"
   requiredEvent: 00000000
   requiredResources: []

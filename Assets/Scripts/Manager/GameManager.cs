@@ -219,13 +219,13 @@ namespace Manager
                 for (int j = 0; j < building.BuildingResources.Consumption.Length; j++)
                 {
                     Resource consumption = building.BuildingResources.Consumption[j];
-                    if (consumption.resource == ResourceType.Citizen) surplus += consumption.value * building.CurrentProductivity;
+                    if (consumption.resource == ResourceType.Citizen) surplus += consumption.value;
                 }
 
                 for (int j = 0; j < building.BuildingResources.Production.Length; j++)
                 {
                     Resource production = building.BuildingResources.Production[j];
-                    if (production.resource == ResourceType.Citizen) surplus -= production.value * building.CurrentProductivity;
+                    if (production.resource == ResourceType.Citizen) surplus -= production.value;
                 }
 
                 if (building.CurrentProductivity == 0f)
