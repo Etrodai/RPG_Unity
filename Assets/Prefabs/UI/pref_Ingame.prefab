@@ -6153,13 +6153,37 @@ MonoBehaviour:
   sideMenuManager: {fileID: 6525770194257789579}
   buildMenuScript: {fileID: 4496911495300628186}
   maxTimer: 0.5
-  onSideMenuShouldClose:
+  onMenusShouldClose:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6525770194257789579}
         m_TargetAssemblyTypeName: Manager.Menu.SideMenuManager, Assembly-CSharp
         m_MethodName: CloseMenuInstantly
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4496911495300628186}
+        m_TargetAssemblyTypeName: UI.BuildMode.BuildMenuScript, Assembly-CSharp
+        m_MethodName: Initialize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4496911494953743542}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -37709,6 +37733,12 @@ PrefabInstance:
 --- !u!224 &4496911494953743529 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6279811262859793720, guid: cd63a03f414799442b9f2a1517efb760,
+    type: 3}
+  m_PrefabInstance: {fileID: 7588110447175786897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4496911494953743542 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6279811262859793703, guid: cd63a03f414799442b9f2a1517efb760,
     type: 3}
   m_PrefabInstance: {fileID: 7588110447175786897}
   m_PrefabAsset: {fileID: 0}

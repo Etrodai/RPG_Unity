@@ -86,8 +86,9 @@ namespace UI.BuildMode
         /// <summary>
         /// sets Variables
         /// </summary>
-        private void Initialize()
+        public void Initialize()
         {
+            if (isInitialized) return;
             managers = new();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);

@@ -259,7 +259,7 @@ namespace ResourceManagement.Manager
         /// <summary>
         /// Calculates Productivity of all Buildings in List
         /// </summary>
-        public void CalculateProductivity()
+        private void CalculateProductivity()
         {
             // if (SavedResourceValue == 0)
             // {

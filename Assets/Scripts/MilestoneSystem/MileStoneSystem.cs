@@ -64,7 +64,7 @@ namespace MilestoneSystem
         
         #region Events
 
-        public UnityEvent onSideMenuShouldClose;
+        public UnityEvent onMenusShouldClose;
 
         #endregion
         
@@ -216,7 +216,7 @@ namespace MilestoneSystem
         {
             if (textIndex < mileStones[mileStonesDone].MileStoneText.Length)
             {
-                onSideMenuShouldClose.Invoke();
+                onMenusShouldClose.Invoke();
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
@@ -258,7 +258,7 @@ namespace MilestoneSystem
         {
             if (textIndex < mileStones[mileStonesDone].MileStoneAchievedText.Length)
             {
-                onSideMenuShouldClose.Invoke();
+                onMenusShouldClose.Invoke();
                 // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;

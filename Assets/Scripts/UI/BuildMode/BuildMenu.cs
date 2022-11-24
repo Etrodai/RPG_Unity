@@ -1,5 +1,6 @@
 using System.Reflection;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,6 +31,9 @@ namespace UI.BuildMode
         
         private Vector3 mousePos;
 
+        [SerializeField] private GameObject eventPanel;
+        [SerializeField] private GameObject mileStonePanel;
+
         //Input
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private MeshRenderer[] children;
@@ -48,9 +52,14 @@ namespace UI.BuildMode
 
         private void Update()
         {
-            if (!playerInputHasBeenInit)
+            if (!playerInputHasBeenInit && !eventPanel.activeSelf && !mileStonePanel.activeSelf)
             {
                 InitPlayerInput();
+            }
+
+            if ((eventPanel.activeSelf || mileStonePanel.activeSelf) && playerInputHasBeenInit)
+            {
+                Terminate();
             }
         }
 
@@ -64,9 +73,15 @@ namespace UI.BuildMode
         private void OnDisable()
         {
             if (playerInput == null) return;
+            Terminate();
+        }
+        
+        private void Terminate()
+        {            
             playerInput.actions["LeftClick"].performed -= LeftMouseButtonPressed;
             playerInput.actions["OpenBuildMenu"].performed -= RightMouseButtonPressed;
             playerInputHasBeenInit = false;
+            
         }
 
         /// <summary>
@@ -119,7 +134,7 @@ namespace UI.BuildMode
         private void LeftMouseButtonPressed(InputAction.CallbackContext context)
         {
             //Quick return when there isn´t anything to build
-            if (buildMenuLayout == null || !buildMenuLayout.activeSelf)
+            if (buildMenuLayout == null /*|| !buildMenuLayout.activeSelf*/)
                 return;
 
 
@@ -159,12 +174,26 @@ namespace UI.BuildMode
             UnCheckAvailableGridTiles(true);
         }
 
+        public void DisableAll()
+        {
+            Buttons[] buttons = buildMenuLayout.GetComponentInChildren<BuildMenuScript>().Buttons;
+            for (var i = 0; i < buttons.Length; i++)
+            {
+                Buttons button = buttons[i];
+                button.hoverGameObject.SetActive(false);
+            }
+
+            buildMenuLayout.SetActive(false);
+        }
+
         /// <summary>
         /// Starting Workflow when ui button pressed
         /// </summary>
         /// <param name="moduleToBuildGameObject"> the Object to build </param>
         public void BuildMenuButtonPressed(GameObject moduleToBuildGameObject)
         {
+            DisableAll();
+            
             mousePos = Input.mousePosition;
             Vector3 spawnPos = mainCam.ScreenToWorldPoint(mousePos);
             CheckAvailableGridTiles();
