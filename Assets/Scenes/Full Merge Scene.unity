@@ -1552,22 +1552,22 @@ PrefabInstance:
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9834873
+      value: 0.98442733
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.117267616
+      value: 0.1088788
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13776791
+      value: 0.13799559
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.004588276
+      value: -0.0023490994
       objectReference: {fileID: 0}
     - target: {fileID: 6299621790983145285, guid: 5c9342e9d4618e148b9d0f5dfd698273,
         type: 3}
@@ -2220,8 +2220,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d5445b76be3c05c499b68438aaec0e52, type: 2}
   - {fileID: 11400000, guid: ca5b2bca20ea0c3448756534ca4bc1d8, type: 2}
   eventBehaviour: {fileID: 1732347678}
-  setMinimumTimer: 3
-  setMaximumTimer: 5
+  setMinimumTimer: 300
+  setMaximumTimer: 480
   sideMenuMileStoneButton: {fileID: 1754746685}
   sideMenuPriorityButton: {fileID: 590594050}
   eventParticles: []
