@@ -7208,6 +7208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9928d313749c942469ae0280c198f0c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionsScriptable: {fileID: 11400000, guid: 7f7040a173ed8904c924bf83593d7e59, type: 2}
   resolution: {fileID: 1681579025}
   resolutionText: {fileID: 750896419}
   windowMode: {fileID: 1454813918}

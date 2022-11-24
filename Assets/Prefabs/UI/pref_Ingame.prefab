@@ -31427,8 +31427,7 @@ MonoBehaviour:
   m_text: Am unteren Bildschirmrand siehst du die Resourcenleiste. Auf der linken
     Seite jeder Resource wird der aktuelle Wert angezeigt. Auf der rechten Seite
     siehst du wie viel du jeweils lagern kannst. Ganz unten wird dir gezeigt wie
-    viel du pro 10 Sekunden herstellst. Die Bewohner unterteilen sich in Arbeitslose
-    (obere Zahl) und gesamt Bewohner (untere Zahl).
+    viel du pro 10 Sekunden herstellst.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7c4e67b7adae424dbd444749a2f3b59, type: 2}
   m_sharedMaterial: {fileID: 8708423411448957096, guid: e7c4e67b7adae424dbd444749a2f3b59,
