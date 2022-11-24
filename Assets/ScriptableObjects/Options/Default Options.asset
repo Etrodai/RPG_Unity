@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc256b816d35b64ba6acfc431327f32, type: 3}
+  m_Name: Default Options
+  m_EditorClassIdentifier: 
+  resolutionCase: 2
+  windowModeCase: 2
+  masterVolumeSetting: 0.5
+  musicVolumeSetting: 0.2
+  sfxVolumeSetting: 0.2
+  cameraSensitivitySetting: 1.0000001
+  invertedIsActive: 0

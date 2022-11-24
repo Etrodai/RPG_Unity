@@ -10,6 +10,9 @@ namespace Manager.Menu
 {
     public class OldOptionsMenu : MonoBehaviour //Made by Eric
     {
+        //ScriptableObject save
+        [SerializeField] private OptionsScriptableObject optionsScriptable;
+
         //Graphic settings
         [SerializeField] private TMP_Dropdown resolution;
         [SerializeField] private TextMeshProUGUI resolutionText;
@@ -26,10 +29,9 @@ namespace Manager.Menu
         [SerializeField] private CameraControllerNew cameraSensitivity;
         [SerializeField] private Slider cameraSensitivitySlider;
         [SerializeField] private Toggle invertedControlToggle;
-        private bool isInverted;
 
-        private int screenWidth = 1920;
-        private int screenHeight = 1080;
+        //private int screenWidth;
+        //private int screenHeight;
     
         //Input
         [SerializeField] private PlayerInput playerInput;
@@ -46,14 +48,21 @@ namespace Manager.Menu
         /// </summary>
         private void Start()
         {
-            masterVolume.SetFloat("exposedMasterVolume", Mathf.Log10(masterVolumeSlider.value) * 20);
-            masterVolume.SetFloat("exposedMusicVolume", Mathf.Log10(musicVolumeSlider.value) * 20);
-            masterVolume.SetFloat("exposedSFXVolume", Mathf.Log10(sfxVolumeSlider.value) * 20);
+            resolution.value = optionsScriptable.ResolutionCase;
+            SetResolution();
+            windowMode.value = optionsScriptable.WindowModeCase;
+            SetWindowMode();
+
+            masterVolume.SetFloat("exposedMasterVolume", Mathf.Log10(optionsScriptable.MasterVolumeSetting) * 20);
+            masterVolume.SetFloat("exposedMusicVolume", Mathf.Log10(optionsScriptable.MusicVolumeSetting) * 20);
+            masterVolume.SetFloat("exposedSFXVolume", Mathf.Log10(optionsScriptable.SFXVolumeSetting) * 20);
+
             if (SceneManager.GetActiveScene().buildIndex != 0)
             {
-                cameraSensitivity.RotationSensitivity = cameraSensitivitySlider.value; 
-                cameraSensitivity.MoveSensitivity = cameraSensitivitySlider.value;
-                cameraSensitivity.InvertYAxis(isInverted);
+                cameraSensitivity.RotationSensitivity = optionsScriptable.CameraSensitivitySetting; 
+                cameraSensitivity.MoveSensitivity = optionsScriptable.CameraSensitivitySetting;
+                cameraSensitivity.InvertYAxis(optionsScriptable.InvertedIsActive);
+
             }
             gameObject.SetActive(false);
         }
@@ -65,63 +74,66 @@ namespace Manager.Menu
         {
             if (SceneManager.GetActiveScene().buildIndex != 0)
             {
-                resolutionText.text = $"{screenWidth}x{screenHeight}";
-                switch (resolutionText.text)
+                resolutionText.text = $"{optionsScriptable.OptionsScreenWidth}x{optionsScriptable.OptionsScreenHeight}";
+                switch (optionsScriptable.ResolutionCase)
                 {
-                    case "2560x1440":
+                    case 0:
                         resolution.value = 0;
                         break;
-                    case "1920x1200":
+                    case 1:
                         resolution.value = 1;
                         break;
-                    case "1920x1080":
+                    case 2:
                         resolution.value = 2;
                         break;
-                    case "1680x1050":
+                    case 3:
                         resolution.value = 3;
                         break;
-                    case "1440x900":
+                    case 4:
                         resolution.value = 4;
                         break;
-                    case "1366x768":
+                    case 5:
                         resolution.value = 5;
                         break;
-                    case "1280x800":
+                    case 6:
                         resolution.value = 6;
                         break;
-                    case "1280x720":
+                    case 7:
                         resolution.value = 7;
                         break;
-                    case "1024x768":
+                    case 8:
                         resolution.value = 8;
                         break;
-                    case "800x600":
+                    case 9:
                         resolution.value = 9;
                         break;
-                    case "640x480":
+                    case 10:
                         resolution.value = 10;
                         break;
                 }
 
-                switch (Screen.fullScreenMode)
+                switch (optionsScriptable.WindowModeCase)
                 {
-                    case FullScreenMode.ExclusiveFullScreen:
+                    case 0:
                         windowModeText.text = "Vollbild";
                         windowMode.value = 0;
                         break;
-                    case FullScreenMode.Windowed:
+                    case 1:
                         windowModeText.text = "Fenster";
                         windowMode.value = 1;
                         break;
-                    case FullScreenMode.FullScreenWindow:
+                    case 2:
                         windowModeText.text = "Rahmenloses Fenster";
                         windowMode.value = 2;
                         break;
                 }
 
-                cameraSensitivitySlider.value = cameraSensitivity.RotationSensitivity;
+                masterVolumeSlider.value = optionsScriptable.MasterVolumeSetting;
+                musicVolumeSlider.value = optionsScriptable.MusicVolumeSetting;
+                sfxVolumeSlider.value = optionsScriptable.SFXVolumeSetting;
 
-                invertedControlToggle.isOn = isInverted;
+                cameraSensitivitySlider.value = optionsScriptable.CameraSensitivitySetting;
+                invertedControlToggle.isOn = optionsScriptable.InvertedIsActive;
             }
 
         }
@@ -170,52 +182,63 @@ namespace Manager.Menu
             switch (resolution.value)
             {
                 case 0:
-                    screenWidth = 2560;
-                    screenHeight = 1440;
+                    optionsScriptable.ResolutionCase = 0;
+                    optionsScriptable.OptionsScreenWidth = 2560;
+                    optionsScriptable.OptionsScreenHeight = 1440;
                     break;
                 case 1:
-                    screenWidth = 1920;
-                    screenHeight = 1200;
+                    optionsScriptable.ResolutionCase = 1;
+                    optionsScriptable.OptionsScreenWidth = 1920;
+                    optionsScriptable.OptionsScreenHeight = 1200;
                     break;
                 case 2:
-                    screenWidth = 1920;
-                    screenHeight = 1080;
+                    optionsScriptable.ResolutionCase = 2;
+                    optionsScriptable.OptionsScreenWidth = 1920;
+                    optionsScriptable.OptionsScreenHeight = 1080;
                     break;
                 case 3:
-                    screenWidth = 1680;
-                    screenHeight = 1050;
+                    optionsScriptable.ResolutionCase = 3;
+                    optionsScriptable.OptionsScreenWidth = 1680;
+                    optionsScriptable.OptionsScreenHeight = 1050;
                     break;
                 case 4:
-                    screenWidth = 1440;
-                    screenHeight = 900;
+                    optionsScriptable.ResolutionCase = 4;
+                    optionsScriptable.OptionsScreenWidth = 1440;
+                    optionsScriptable.OptionsScreenHeight = 900;
                     break;
                 case 5:
-                    screenWidth = 1366;
-                    screenHeight = 768;
+                    optionsScriptable.ResolutionCase = 5;
+                    optionsScriptable.OptionsScreenWidth = 1366;
+                    optionsScriptable.OptionsScreenHeight = 768;
                     break;
                 case 6:
-                    screenWidth = 1280;
-                    screenHeight = 800;
+                    optionsScriptable.ResolutionCase = 6;
+                    optionsScriptable.OptionsScreenWidth = 1280;
+                    optionsScriptable.OptionsScreenHeight = 800;
                     break;
                 case 7:
-                    screenWidth = 1280;
-                    screenHeight = 720;
+                    optionsScriptable.ResolutionCase = 7;
+                    optionsScriptable.OptionsScreenWidth = 1280;
+                    optionsScriptable.OptionsScreenHeight = 720;
                     break;
                 case 8:
-                    screenWidth = 1024;
-                    screenHeight = 768;
+                    optionsScriptable.ResolutionCase = 8;
+                    optionsScriptable.OptionsScreenWidth = 1024;
+                    optionsScriptable.OptionsScreenHeight = 768;
                     break;
                 case 9:
-                    screenWidth = 800;
-                    screenHeight = 600;
+                    optionsScriptable.ResolutionCase = 9;
+                    optionsScriptable.OptionsScreenWidth = 800;
+                    optionsScriptable.OptionsScreenHeight = 600;
                     break;
                 case 10:
-                    screenWidth = 640;
-                    screenHeight = 480;
+                    optionsScriptable.ResolutionCase = 10;
+                    optionsScriptable.OptionsScreenWidth = 640;
+                    optionsScriptable.OptionsScreenHeight = 480;
                     break;
             }
 
-            Screen.SetResolution(screenWidth, screenHeight, Screen.fullScreenMode);
+            Screen.SetResolution(optionsScriptable.OptionsScreenWidth, optionsScriptable.OptionsScreenHeight, Screen.fullScreenMode);
         }
 
         /// <summary>
@@ -226,12 +249,15 @@ namespace Manager.Menu
             switch (windowMode.value)
             {
                 case 0:
+                    optionsScriptable.WindowModeCase = 0;
                     Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
                     break;
                 case 1:
+                    optionsScriptable.WindowModeCase = 1;
                     Screen.fullScreenMode = FullScreenMode.Windowed;
                     break;
                 case 2:
+                    optionsScriptable.WindowModeCase = 2;
                     Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
                     break;
             }
@@ -245,6 +271,7 @@ namespace Manager.Menu
         /// <param name="sliderValue"></param>
         public void OnMasterVolumeChanged(float sliderValue)
         {
+            optionsScriptable.MasterVolumeSetting = sliderValue;
             masterVolume.SetFloat("exposedMasterVolume", Mathf.Log10(sliderValue) * 20);
         }
 
@@ -254,6 +281,7 @@ namespace Manager.Menu
         /// <param name="sliderValue"></param>
         public void OnMusicVolumeChanged(float sliderValue)
         {
+            optionsScriptable.MusicVolumeSetting = sliderValue;
             masterVolume.SetFloat("exposedMusicVolume", Mathf.Log10(sliderValue) * 20);
         }
 
@@ -263,6 +291,7 @@ namespace Manager.Menu
         /// <param name="sliderValue"></param>
         public void OnSFXVolumeChanged(float sliderValue)
         {
+            optionsScriptable.SFXVolumeSetting = sliderValue;
             masterVolume.SetFloat("exposedSFXVolume", Mathf.Log10(sliderValue) * 20);
         }
         #endregion
@@ -273,8 +302,9 @@ namespace Manager.Menu
         /// </summary>
         public void OnControlSensitivityChanged()
         {
-            cameraSensitivity.RotationSensitivity = cameraSensitivitySlider.value;
-            cameraSensitivity.MoveSensitivity = cameraSensitivitySlider.value;
+            optionsScriptable.CameraSensitivitySetting = cameraSensitivitySlider.value;
+            cameraSensitivity.RotationSensitivity = optionsScriptable.CameraSensitivitySetting;
+            cameraSensitivity.MoveSensitivity = optionsScriptable.CameraSensitivitySetting;
         }
 
         /// <summary>
@@ -282,15 +312,15 @@ namespace Manager.Menu
         /// </summary>
         public void InvertCameraControls()
         {
-            if (isInverted)
+            if (optionsScriptable.InvertedIsActive)
             {
-                isInverted = false;
+                optionsScriptable.InvertedIsActive = false;
             }
             else
             {
-                isInverted = true;
+                optionsScriptable.InvertedIsActive = true;
             }
-            cameraSensitivity.InvertYAxis(isInverted);
+            cameraSensitivity.InvertYAxis(optionsScriptable.InvertedIsActive);
         }
         #endregion
     }

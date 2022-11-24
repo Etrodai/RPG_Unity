@@ -62,6 +62,15 @@ namespace Manager.Menu
                 escapeMenu.SetActive(false);
             }
         }
+        
+        public void EnableMenuOnClick()
+        {
+            if(escapeMenu.activeInHierarchy == false)
+            {
+                Time.timeScale = 0f;
+                escapeMenu.SetActive(true);
+            }
+        }
 
         /// <summary>
         /// Method for the resume button to get back into the game
@@ -84,7 +93,7 @@ namespace Manager.Menu
         /// <summary>
         /// Method for returning back into the escape menu from options menu
         /// </summary>
-        public void OnBackToEscapeMenuClick()
+        public void OnBackToEscapeMenu()
         {
             optionsMenu.SetActive(false);
             escapeMenu.SetActive(true);

@@ -187,8 +187,8 @@ MonoBehaviour:
     y: 0
     width: 379
     height: 573
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -228,7 +228,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 3091f8fff6edfcff08eefcff3ceffcffaaf0fcff2cf5fcffbeabfdffae4bffffce4bffffe04bffff624dffff824effff0453ffffb4deffff38e8ffffe6faffff30880000a888000090a00000cc130100
+      m_ExpandedIDs: daf8ffffe4f8ffffeef8ffff9ef9ffffb6f9ffffe8faffffae6e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -539,9 +539,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 502.5999, y: 271.9694, z: 28.197258}
+    m_Target: {x: 497.3279, y: 285.90524, z: 28.323849}
     speed: 2
-    m_Value: {x: 502.5999, y: 271.9694, z: 28.197258}
+    m_Value: {x: 497.3279, y: 285.90524, z: 28.323849}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -592,9 +592,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 272.95013
+    m_Target: 252.7579
     speed: 2
-    m_Value: 272.95013
+    m_Value: 252.7579
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -717,22 +717,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/ThirdParty
+    - Assets/ScriptableObjects/Options
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/ThirdParty
+  - Assets/ScriptableObjects/Options
   m_LastFoldersGridSize: -1
   m_LastProjectPath: "D:\\Studium\\Auftr\xE4ge\\Raumstation Builder\\RPG_Unity"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 195}
-    m_SelectedIDs: 38860000
-    m_LastClickedID: 34360
-    m_ExpandedIDs: ffffffff00000000ee85000030860000d6ef000000ca9a3b
+    scrollPos: {x: 0, y: 79}
+    m_SelectedIDs: 208c0000
+    m_LastClickedID: 35872
+    m_ExpandedIDs: 00000000da850000ee850000f0850000068600000c8c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -760,7 +760,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000ee85000000ca9a3b
+    m_ExpandedIDs: 00000000da850000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -804,7 +804,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 10}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
