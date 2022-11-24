@@ -70,6 +70,7 @@ public class Scaffold : MonoBehaviour //Made by Ben
 
         Building buildingScript = Module.GetComponent<Building>();
         buildingScript.EnableModule(buildingScript.CurrentProductivity);
+        buildingScript.AddToList(buildingScript);
         // Module.SetActive(true);
         Destroy(this.transform.parent.gameObject);
     }

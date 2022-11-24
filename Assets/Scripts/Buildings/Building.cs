@@ -69,7 +69,6 @@ namespace Buildings //Made by Robin
                 if (currentProductivity == value) return;
 
                 float oldValue = currentProductivity;
-                Debug.Log("onBuildingProductivityChanged.Invoke(currentProductivity, value)");
                 currentProductivity = value;
                 onBuildingProductivityChanged.Invoke(oldValue, value);
 
@@ -109,7 +108,7 @@ namespace Buildings //Made by Robin
             
             if (!IsLoading) BuildModule();
 
-            if (buildingType == BuildingType.StartModule)
+            if (buildingType == BuildingType.StartModule || IsLoading)
             {
                 EnableModule(CurrentProductivity);
             }
@@ -187,10 +186,20 @@ namespace Buildings //Made by Robin
                 }
             }
 
+            if (buildingType == BuildingType.StartModule || IsLoading)
+            {
+                AddToList(this);
+            }
+            
+            SoundManager.PlaySound(SoundManager.Sound.BuildModule);
+        }
+
+        public void AddToList(Building building)
+        {
             int empty = gameManager.GetIndexOfFirstEmpty();
             if (empty == -1)
             {
-                gameManager.AllBuildings.Add(this);
+                gameManager.AllBuildings.Add(building);
                 indexOfAllBuildings = gameManager.AllBuildings.Count - 1;
             }
             else
@@ -198,8 +207,6 @@ namespace Buildings //Made by Robin
                 gameManager.AllBuildings[empty] = this;
                 indexOfAllBuildings = empty;
             }
-            
-            SoundManager.PlaySound(SoundManager.Sound.BuildModule);
         }
         
         /// <summary>
