@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Manager;
 using PriorityListSystem;
@@ -35,6 +36,8 @@ namespace Buildings //Made by Robin
         private GameManager gameManager;
         private List<ResourceManager> managers;
         private Building nullBuilding;
+        [SerializeField] private MeshRenderer[] renderer;
+        private List<Material> material = new();
 
         #endregion
 
@@ -93,6 +96,8 @@ namespace Buildings //Made by Robin
         {
             // onBuildingWasDisabled.AddListener(ChangeIsDisabled);
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
+
+            // AddMaterials();
             
             managers = new ();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
@@ -107,7 +112,7 @@ namespace Buildings //Made by Robin
             managers.Add(citizenManager);
             gameManager = MainManagerSingleton.Instance.GameManager;
             nullBuilding = gameManager.NullBuilding;
-
+            
             if (!IsLoading) BuildModule();
 
             EnableModule(CurrentProductivity, false);
@@ -168,6 +173,76 @@ namespace Buildings //Made by Robin
         #endregion
         
         #region Methods
+
+        // private void AddMaterials()
+        // {
+        //     switch (buildingType)
+        //     {
+        //         case BuildingType.StartModule:
+        //             for (var i = 0; i < renderer.Length; i++)
+        //             {
+        //                 var meshRenderer = renderer[i];
+        //                 material.Add(meshRenderer.materials[^1]);
+        //             }
+        //
+        //             break;
+        //         case BuildingType.EnergyGain:
+        //             for (var i = 0; i < renderer.Length; i++)
+        //             {
+        //                 var meshRenderer = renderer[i];
+        //                 material.Add(meshRenderer.materials[^1]);
+        //             }
+        //
+        //             break;
+        //         case BuildingType.LifeSupportGain:
+        //             for (var i = 0; i < renderer.Length; i++)
+        //             {
+        //                 var meshRenderer = renderer[i];
+        //                 material.Add(meshRenderer.materials[^2]);
+        //             }
+        //
+        //             break;
+        //         case BuildingType.MaterialGain:
+        //             for (var i = 0; i < renderer.Length; i++)
+        //             {
+        //                 var meshRenderer = renderer[i];
+        //                 material.Add(meshRenderer.materials[^1]);
+        //                 material.Add(meshRenderer.materials[^2]);
+        //             }
+        //
+        //             break;
+        //         case BuildingType.EnergySave:
+        //             for (var i = 0; i < renderer.Length; i++)
+        //             {
+        //                 var meshRenderer = renderer[i];
+        //                 material.Add(meshRenderer.materials[^1]);
+        //             }
+        //
+        //             break;
+        //         case BuildingType.LifeSupportSave:
+        //             for (var i = 0; i < renderer.Length; i++)
+        //             {
+        //                 var meshRenderer = renderer[i];
+        //                 material.Add(meshRenderer.materials[^1]);
+        //                 material.Add(meshRenderer.materials[^2]);
+        //             }
+        //
+        //             break;
+        //         case BuildingType.MaterialSave:
+        //             for (var i = 0; i < renderer.Length; i++)
+        //             {
+        //                 var meshRenderer = renderer[i];
+        //                 material.Add(meshRenderer.materials[^1]);
+        //             }
+        //
+        //             break;
+        //         case BuildingType.CitizenSave:
+        //             material.Add(renderer[0].materials[^2]);
+        //             material.Add(renderer[1].materials[^1]);
+        //             material.Add(renderer[2].materials[^1]);
+        //             break;
+        //     }
+        // }
         
         /// <summary>
         /// Changes Productivity by the given values, when onBuildingProductivity event triggers
@@ -178,6 +253,11 @@ namespace Buildings //Made by Robin
         {
             if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity, true);
             else EnableModule(newProductivity - oldProductivity, true);
+
+            // foreach (Material item in material)
+            // {
+            //     item.SetColor("_EmissionColor", );
+            // }
         }
         
         /// <summary>

@@ -38,8 +38,11 @@ namespace UI.BuildMode
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private MeshRenderer[] children;
         private bool playerInputHasBeenInit;
+        private bool canBeUsed;
 
         #endregion
+        
+        public bool CanBeUsed { get => canBeUsed; set => canBeUsed = value; }
 
         #region Unity Events
 
@@ -52,7 +55,7 @@ namespace UI.BuildMode
 
         private void Update()
         {
-            if (!playerInputHasBeenInit && !eventPanel.activeSelf && !mileStonePanel.activeSelf)
+            if (!playerInputHasBeenInit && !eventPanel.activeSelf && !mileStonePanel.activeSelf && canBeUsed)
             {
                 InitPlayerInput();
             }

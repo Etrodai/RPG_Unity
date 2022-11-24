@@ -100,6 +100,8 @@ MonoBehaviour:
   buildingResources: {fileID: 11400000, guid: 172b2e0b1b5a63345a10c16c076651cc, type: 2}
   buildingType: 3
   isDisabled: 0
+  renderer:
+  - {fileID: 8339171029351417997}
 --- !u!1 &4616091245828644861
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +785,12 @@ PrefabInstance:
 --- !u!4 &5003347455741662861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 649c67cb2d300594c963ac8d084b0800,
+    type: 3}
+  m_PrefabInstance: {fileID: 4820487116073693542}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8339171029351417997 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3557668486934378987, guid: 649c67cb2d300594c963ac8d084b0800,
     type: 3}
   m_PrefabInstance: {fileID: 4820487116073693542}
   m_PrefabAsset: {fileID: 0}
