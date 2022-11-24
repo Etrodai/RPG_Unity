@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 746080714837493407}
   - component: {fileID: 746080714837493405}
-  - component: {fileID: 746080714837493406}
   m_Layer: 0
   m_Name: Planet Trail
   m_TagString: Untagged
@@ -132,26 +131,6 @@ TrailRenderer:
   m_MinVertexDistance: 10
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &746080714837493406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 746080714837493376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3724f51361c99e64b9bc127e6df9e21c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xSpread: 500
-  zSpread: 500
-  yOffset: 0
-  timeOffset: 0.2
-  centerPoint: {fileID: 0}
-  rotSpeed: 7
-  rotateClockwise: 0
-  oneTimeRotate: 0
 --- !u!1 &746080715164530851
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +314,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 71a158193bd502c4dbcaccc79d5581b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
