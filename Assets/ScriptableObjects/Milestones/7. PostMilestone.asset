@@ -16,4 +16,6 @@ MonoBehaviour:
   requiredEvent: 06000000
   requiredResources: []
   requiredModules: []
-  mileStoneAchievedText: []
+  mileStoneAchievedText:
+  - Die Nahrung und das Wasser ist erfolgreich an der Erde angekommen. Gute Arbeit
+    Commander.

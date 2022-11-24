@@ -16,4 +16,9 @@ MonoBehaviour:
   requiredEvent: 08000000
   requiredResources: []
   requiredModules: []
-  mileStoneAchievedText: []
+  mileStoneAchievedText:
+  - 'Der Krieg ist vorbei und die Materialen werden an die Erde geschickt. Hoffen
+    wir, dass der Aufbau schnell vorangeht.
+
+
+    Gute Arbeit Comander'

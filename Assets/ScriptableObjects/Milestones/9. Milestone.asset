@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f972099e262cfc14b868da121d356ee4, type: 3}
   m_Name: 9. Milestone
   m_EditorClassIdentifier: 
-  mileStoneText: []
+  mileStoneText:
+  - "Bereiten Sie sich nun auf das Ende des Krieges vor. Der Aufbau der St\xE4dte
+    muss schnellstm\xF6glich vorangetrieben werden. Bereiten Sie hierf\xFCr die n\xF6tigen
+    Materialen vor, die wir dann an die Erde senden werden."
   requiredEvent: 
   requiredResources:
   - resource: 0

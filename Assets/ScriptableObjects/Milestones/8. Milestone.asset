@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f972099e262cfc14b868da121d356ee4, type: 3}
   m_Name: 8. Milestone
   m_EditorClassIdentifier: 
-  mileStoneText: []
+  mileStoneText:
+  - Allerdings gibt es keine Verschnaufpause. Trotz Ihrer Lieferung ist ein Krieg
+    wegen der drohenden Hungersnot entstanden. Die erstem Menschen versuchen zu fliehen.
+  - "Bauen Sie gen\xFCgend Module um die Fl\xFCchtlinge aufnehmen zu k\xF6nnen. Beilen
+    Sie sich, Comander."
   requiredEvent: 
   requiredResources: []
   requiredModules:

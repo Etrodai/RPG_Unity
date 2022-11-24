@@ -1,4 +1,5 @@
 using System;
+using Manager;
 using ResourceManagement.Manager;
 
 namespace MilestoneSystem.Events
@@ -13,6 +14,8 @@ namespace MilestoneSystem.Events
         
         private void Start()
         {
+            foodManager = MainManagerSingleton.Instance.FoodManager;
+            waterManager = MainManagerSingleton.Instance.WaterManager;
             Name = MileStoneEventName.SendFoodToEarth;
             Events = new MileStoneEventItem[1];
             Events[0].text = "";

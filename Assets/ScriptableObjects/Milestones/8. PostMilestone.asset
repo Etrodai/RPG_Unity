@@ -16,4 +16,6 @@ MonoBehaviour:
   requiredEvent: 07000000
   requiredResources: []
   requiredModules: []
-  mileStoneAchievedText: []
+  mileStoneAchievedText:
+  - "Gerade noch rechtzeitig f\xFCr die Fl\xFCchtigen haben Sie die Wohneinheiten
+    fertig gestellt."

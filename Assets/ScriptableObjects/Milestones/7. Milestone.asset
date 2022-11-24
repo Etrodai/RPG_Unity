@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f972099e262cfc14b868da121d356ee4, type: 3}
   m_Name: 7. Milestone
   m_EditorClassIdentifier: 
-  mileStoneText: []
+  mileStoneText:
+  - "Comander, Ihre Hilfe wird erneut ben\xF6tigt. Auf der Erde wird eine Hungersnot
+    vorhergesagt. Daher m\xFCssen Sie Nahrung und Wasser senden um diese zu verhindern."
   requiredEvent: 
   requiredResources:
   - resource: 3

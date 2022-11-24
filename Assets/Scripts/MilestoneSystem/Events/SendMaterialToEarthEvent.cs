@@ -1,3 +1,4 @@
+using Manager;
 using ResourceManagement.Manager;
 
 namespace MilestoneSystem.Events
@@ -10,6 +11,7 @@ namespace MilestoneSystem.Events
         private MaterialManager materialManager;
         private void Start()
         {
+            materialManager = MainManagerSingleton.Instance.MaterialManager;
             Name = MileStoneEventName.SendMaterialToEarth;
             Events = new MileStoneEventItem[1];
             Events[0].text = "";
