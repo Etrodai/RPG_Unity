@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Buildings;
 using Manager;
@@ -362,7 +363,24 @@ namespace MilestoneSystem
                     itemToggles.Add(item.GetComponentInChildren<Toggle>());
                     item.transform.localScale = Vector3.one;
                     text = item.GetComponentInChildren<TextMeshProUGUI>();
-                    text.text += $"{requiredResource.value} {requiredResource.resource}";
+                    switch (requiredResource.resource)
+                    {
+                        case ResourceType.Material:
+                            text.text += $"{requiredResource.value} Mineralien";
+                            break;
+                        case ResourceType.Energy:
+                            text.text += $"{requiredResource.value} Strom";
+                            break;
+                        case ResourceType.Citizen:
+                            text.text += $"{requiredResource.value} Bewohner";
+                            break;
+                        case ResourceType.Food:
+                            text.text += $"{requiredResource.value} Nahrung";
+                            break;
+                        case ResourceType.Water:
+                            text.text += $"{requiredResource.value} Wasser";
+                            break;
+                    }
                 }
             }
 

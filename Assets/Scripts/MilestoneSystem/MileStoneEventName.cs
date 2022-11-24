@@ -7,6 +7,9 @@ namespace MilestoneSystem
         WaitForSeconds,
         EnergyValueZero,
         LifeSupportSurplusNegative,
-        ShowMileStoneSystem
+        ShowMileStoneSystem,
+        SendFoodToEarth,
+        RefugeesComeToStation,
+        SendMaterialToEarth
     }
 }

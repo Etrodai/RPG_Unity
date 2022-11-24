@@ -49,7 +49,32 @@ namespace PriorityListSystem
         {
             onChangePriorityUI.AddListener(ChangeUIText);
             gameManager = MainManagerSingleton.Instance.GameManager;
-            buildingGroup.text = Type.ToString();
+            switch (Type)
+            {
+                case BuildingType.EnergyGain:
+                    buildingGroup.text += "Generatoren";
+                    break;
+                case BuildingType.LifeSupportGain:
+                    buildingGroup.text += "Biokuppelen";
+                    break;
+                case BuildingType.MaterialGain:
+                    buildingGroup.text += "Raffinerien";
+                    break;
+                case BuildingType.EnergySave:
+                    buildingGroup.text += "Batterien";
+                    break;
+                case BuildingType.LifeSupportSave:
+                    buildingGroup.text += "Wassertanks";
+                    break;
+                case BuildingType.MaterialSave:
+                    buildingGroup.text += "Erzlager";
+                    break;
+                case BuildingType.CitizenSave:
+                    buildingGroup.text += "Wohneinheit";
+                    break;
+            }
+
+            // buildingGroup.text = Type.ToString();
             int allBuildingsCount = gameManager.GetBuildingCount(Type);
             int workingBuildingsCount = gameManager.GetWorkingBuildingCount(Type);
             workingBuildings.text = $"{workingBuildingsCount}/{allBuildingsCount}";

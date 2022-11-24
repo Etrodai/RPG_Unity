@@ -62,7 +62,7 @@ namespace PriorityListSystem
                 GameObject priorityLabel = Instantiate (labelPrefab, gameObject.transform, true);
                 priorityLabel.transform.localScale = Vector3.one;
                 TextMeshProUGUI labelText = priorityLabel.GetComponent<TextMeshProUGUI>();
-                labelText.text = $"Priority {priority + 1}";
+                labelText.text = $"Priorität {priority + 1}";
 
                 GameObject itemObject = Instantiate(itemPrefab, gameObject.transform, true);
                 itemObject.transform.localScale = Vector3.one;
