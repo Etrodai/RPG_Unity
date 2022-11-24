@@ -21,11 +21,11 @@ MonoBehaviour:
   - resource: 2
     value: 2
     eventResourceDemandValue: 0
+  - resource: 0
+    value: 5
+    eventResourceDemandValue: 0
   production:
   - resource: 1
     value: 40
     eventResourceDemandValue: 0
-  saveSpace:
-  - resource: 1
-    value: 100
-    eventResourceDemandValue: 0
+  saveSpace: []
