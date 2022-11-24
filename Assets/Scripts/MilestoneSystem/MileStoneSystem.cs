@@ -52,6 +52,7 @@ namespace MilestoneSystem
         private EventTrigger sideMenuPriorityButtonTrigger;
         [SerializeField] private SideMenuManager sideMenuManager;
         [SerializeField] private BuildMenuScript buildMenuScript;
+        [SerializeField] private BuildMenu buildMenu;
 
         private float timer;
         [SerializeField] private float maxTimer = 0.5f;
@@ -470,6 +471,7 @@ namespace MilestoneSystem
                     case >= 3:
                         if (button.type == BuildingType.MaterialGain)
                         {
+                            if (!buildMenu.CanBeUsed) buildMenu.CanBeUsed = true;
                             if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
                         }
                         break;

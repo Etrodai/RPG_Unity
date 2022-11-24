@@ -280,7 +280,7 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void ChangeUIText()
         {
-            surplusText.text = $"{(int)CurrentResourceSurplus}";
+            surplusText.text = CurrentResourceSurplus > 0 ? $"+{(int)CurrentResourceSurplus}" : $"{(int)CurrentResourceSurplus}";
             currentResourceProductionText.text = $"{(int)CurrentResourceProduction}/{(int)SaveSpace}";
             savedResourceText.text = $"{(int)SavedResourceValue}/{(int)CurrentResourceProduction}";
         }
