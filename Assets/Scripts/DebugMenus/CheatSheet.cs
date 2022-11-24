@@ -29,7 +29,7 @@ namespace DebugMenus
 
             if (cheatToUse == null)
             {
-                Debug.LogError("Cheat does not exist!");
+                // Debug.LogError("Cheat does not exist!");
                 return;
             }
 

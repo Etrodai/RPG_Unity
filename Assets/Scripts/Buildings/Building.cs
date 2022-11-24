@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Manager;
 using PriorityListSystem;
@@ -36,8 +35,6 @@ namespace Buildings //Made by Robin
         private GameManager gameManager;
         private List<ResourceManager> managers;
         private Building nullBuilding;
-        [SerializeField] private MeshRenderer[] renderer;
-        private List<Material> material = new();
 
         #endregion
 
@@ -94,11 +91,8 @@ namespace Buildings //Made by Robin
         /// </summary>
         private void Start()
         {
-            // onBuildingWasDisabled.AddListener(ChangeIsDisabled);
             onBuildingProductivityChanged.AddListener(ChangeProductivity);
 
-            // AddMaterials();
-            
             managers = new ();
             materialManager = MainManagerSingleton.Instance.MaterialManager;
             managers.Add(materialManager);
@@ -115,7 +109,7 @@ namespace Buildings //Made by Robin
             
             if (!IsLoading) BuildModule();
 
-            EnableModule(CurrentProductivity, false);
+            EnableModule(CurrentProductivity);
             for (int i = 0; i < gameManager.PriorityListItems.Count; i++)
             {
                 PriorityListItem item = gameManager.PriorityListItems[i];
@@ -132,9 +126,8 @@ namespace Buildings //Made by Robin
         {
             if (!IsDisabled)
             {
-                DisableModule(CurrentProductivity, false);
+                DisableModule(CurrentProductivity);
             }
-            // onBuildingWasDisabled.RemoveListener(ChangeIsDisabled);
             onBuildingProductivityChanged.RemoveListener(ChangeProductivity);
 
             gameManager.AllBuildings[indexOfAllBuildings] = nullBuilding;
@@ -157,92 +150,10 @@ namespace Buildings //Made by Robin
             
             return data;
         }
-        
-        
-        // /// <summary>
-        // /// loads building data
-        // /// </summary>
-        // /// <param name="data">data of loaded building</param>
-        // public void LoadBuildingData(BuildingData data)
-        // {
-        //     isDisabled = data.isDisabled;
-        //     currentProductivity = data.currentProductivity;
-        //     buildingType = (BuildingTypes)data.buildingType;
-        // }
-        
+
         #endregion
         
         #region Methods
-
-        // private void AddMaterials()
-        // {
-        //     switch (buildingType)
-        //     {
-        //         case BuildingType.StartModule:
-        //             for (var i = 0; i < renderer.Length; i++)
-        //             {
-        //                 var meshRenderer = renderer[i];
-        //                 material.Add(meshRenderer.materials[^1]);
-        //             }
-        //
-        //             break;
-        //         case BuildingType.EnergyGain:
-        //             for (var i = 0; i < renderer.Length; i++)
-        //             {
-        //                 var meshRenderer = renderer[i];
-        //                 material.Add(meshRenderer.materials[^1]);
-        //             }
-        //
-        //             break;
-        //         case BuildingType.LifeSupportGain:
-        //             for (var i = 0; i < renderer.Length; i++)
-        //             {
-        //                 var meshRenderer = renderer[i];
-        //                 material.Add(meshRenderer.materials[^2]);
-        //             }
-        //
-        //             break;
-        //         case BuildingType.MaterialGain:
-        //             for (var i = 0; i < renderer.Length; i++)
-        //             {
-        //                 var meshRenderer = renderer[i];
-        //                 material.Add(meshRenderer.materials[^1]);
-        //                 material.Add(meshRenderer.materials[^2]);
-        //             }
-        //
-        //             break;
-        //         case BuildingType.EnergySave:
-        //             for (var i = 0; i < renderer.Length; i++)
-        //             {
-        //                 var meshRenderer = renderer[i];
-        //                 material.Add(meshRenderer.materials[^1]);
-        //             }
-        //
-        //             break;
-        //         case BuildingType.LifeSupportSave:
-        //             for (var i = 0; i < renderer.Length; i++)
-        //             {
-        //                 var meshRenderer = renderer[i];
-        //                 material.Add(meshRenderer.materials[^1]);
-        //                 material.Add(meshRenderer.materials[^2]);
-        //             }
-        //
-        //             break;
-        //         case BuildingType.MaterialSave:
-        //             for (var i = 0; i < renderer.Length; i++)
-        //             {
-        //                 var meshRenderer = renderer[i];
-        //                 material.Add(meshRenderer.materials[^1]);
-        //             }
-        //
-        //             break;
-        //         case BuildingType.CitizenSave:
-        //             material.Add(renderer[0].materials[^2]);
-        //             material.Add(renderer[1].materials[^1]);
-        //             material.Add(renderer[2].materials[^1]);
-        //             break;
-        //     }
-        // }
         
         /// <summary>
         /// Changes Productivity by the given values, when onBuildingProductivity event triggers
@@ -251,13 +162,8 @@ namespace Buildings //Made by Robin
         /// <param name="newProductivity">new Value</param>
         private void ChangeProductivity(float oldProductivity, float newProductivity)
         {
-            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity, true);
-            else EnableModule(newProductivity - oldProductivity, true);
-
-            // foreach (Material item in material)
-            // {
-            //     item.SetColor("_EmissionColor", );
-            // }
+            if (oldProductivity > newProductivity) DisableModule(oldProductivity - newProductivity);
+            else EnableModule(newProductivity - oldProductivity);
         }
         
         /// <summary>
@@ -274,42 +180,8 @@ namespace Buildings //Made by Robin
                     ResourceManager manager = managers[j];
                     if (cost.resource != manager.ResourceType) continue;
                     
-                    if (manager.SavedResourceValue < cost.value)
-                    {
-                        Debug.LogError($"Not enough {cost.resource} to build this Module.");
-                    }
-                    else
-                    {
                         manager.SavedResourceValue -= cost.value;
-                    }
                 }
-                // switch (item.resource)
-                // {
-                //     case ResourceTypes.Material:
-                //         if (materialManager.SavedResourceValue < item.value)
-                //             Debug.LogError("Not enough Material to build this Module.");
-                //         else materialManager.SavedResourceValue -= item.value;
-                //         break;
-                //     case ResourceTypes.Energy:
-                //         if (energyManager.SavedResourceValue < item.value)
-                //             Debug.LogError("Not enough Energy to build this Module.");
-                //         else energyManager.SavedResourceValue -= item.value;
-                //         break;
-                //     case ResourceTypes.Citizen:
-                //         if (citizenManager.CurrentResourceProduction < item.value) Debug.LogError("Not enough Citizen to build this Module.");
-                //         else citizenManager.CurrentResourceProduction -= item.value;
-                //         break;
-                //     case ResourceTypes.Food:
-                //         if (foodManager.SavedResourceValue < item.value)
-                //             Debug.LogError("Not enough Food to build this Module.");
-                //         else foodManager.SavedResourceValue -= item.value;
-                //         break;
-                //     case ResourceTypes.Water:
-                //         if (waterManager.SavedResourceValue < item.value)
-                //             Debug.LogError("Not enough Water to build this Module.");
-                //         else waterManager.SavedResourceValue -= item.value;
-                //         break;
-                // }
             }
 
             int empty = gameManager.GetIndexOfFirstEmpty();
@@ -330,7 +202,7 @@ namespace Buildings //Made by Robin
         /// <summary>
         /// adds production, consumption and saveSpace
         /// </summary>
-        private void EnableModule(float productivity, bool playSound)
+        private void EnableModule(float productivity)
         {
             for (int i = 0; i < buildingResources.Production.Length; i++)
             {
@@ -341,25 +213,6 @@ namespace Buildings //Made by Robin
                     if (production.resource != manager.ResourceType) continue;
                     manager.CurrentResourceProduction += production.value * productivity;
                 }
-
-                // switch (item.resource)
-                // {
-                //     case ResourceTypes.Material:
-                //         materialManager.CurrentResourceProduction += item.value;
-                //         break;
-                //     case ResourceTypes.Energy:
-                //         energyManager.CurrentResourceProduction += item.value;
-                //         break;
-                //     case ResourceTypes.Citizen:
-                //         citizenManager.CurrentResourceDemand -= item.value;
-                //         break;
-                //     case ResourceTypes.Food:
-                //         foodManager.CurrentResourceProduction += item.value;
-                //         break;
-                //     case ResourceTypes.Water:
-                //         waterManager.CurrentResourceProduction += item.value;
-                //         break;
-                // }
             }
 
             for (int i = 0; i < buildingResources.Consumption.Length; i++)
@@ -371,25 +224,6 @@ namespace Buildings //Made by Robin
                     if (consumption.resource != manager.ResourceType) continue;
                     manager.CurrentResourceDemand += consumption.value * productivity;
                 }
-
-                // switch (item.resource)
-                // {
-                //     case ResourceTypes.Material:
-                //         materialManager.CurrentResourceDemand += item.value;
-                //         break;
-                //     case ResourceTypes.Energy:
-                //         energyManager.CurrentResourceDemand += item.value;
-                //         break;
-                //     case ResourceTypes.Citizen:
-                //         citizenManager.CurrentResourceDemand += item.value; 
-                //         break;
-                //     case ResourceTypes.Food:
-                //         foodManager.CurrentResourceDemand += item.value;
-                //         break;
-                //     case ResourceTypes.Water:
-                //         waterManager.CurrentResourceDemand += item.value;
-                //         break;
-                // }
             }
 
             for (int i = 0; i < buildingResources.SaveSpace.Length; i++)
@@ -401,34 +235,13 @@ namespace Buildings //Made by Robin
                     if (space.resource != manager.ResourceType) continue;
                     manager.SaveSpace += space.value * productivity;
                 }
-
-                // switch (item.resource)
-                // {
-                //     case ResourceTypes.Material:
-                //         materialManager.SaveSpace += item.value;
-                //         break;
-                //     case ResourceTypes.Energy:
-                //         energyManager.SaveSpace += item.value;
-                //         break;
-                //     case ResourceTypes.Citizen:
-                //         citizenManager.SaveSpace += item.value;
-                //         break;
-                //     case ResourceTypes.Food:
-                //         foodManager.SaveSpace += item.value;
-                //         break;
-                //     case ResourceTypes.Water:
-                //         waterManager.SaveSpace += item.value;
-                //         break;
-                // }
             }
-
-            if (!playSound) return;
         }
 
         /// <summary>
         /// reduces production, consumption and saveSpace
         /// </summary>
-        private void DisableModule(float productivity, bool playSound)
+        private void DisableModule(float productivity)
         {
             for (var i = 0; i < buildingResources.Production.Length; i++)
             {
@@ -439,25 +252,6 @@ namespace Buildings //Made by Robin
                     if (production.resource != manager.ResourceType) continue;
                     manager.CurrentResourceProduction -= production.value * productivity;
                 }
-
-                // switch (item.resource)
-                // {
-                //     case ResourceTypes.Material:
-                //         materialManager.CurrentResourceProduction -= item.value;
-                //         break;
-                //     case ResourceTypes.Energy:
-                //         energyManager.CurrentResourceProduction -= item.value;
-                //         break;
-                //     case ResourceTypes.Citizen:
-                //         citizenManager.CurrentResourceDemand += item.value;
-                //         break;
-                //     case ResourceTypes.Food:
-                //         foodManager.CurrentResourceProduction -= item.value;
-                //         break;
-                //     case ResourceTypes.Water:
-                //         waterManager.CurrentResourceProduction -= item.value;
-                //         break;
-                // }
             }
 
             for (int i = 0; i < buildingResources.Consumption.Length; i++)
@@ -469,25 +263,6 @@ namespace Buildings //Made by Robin
                     if (consumption.resource != manager.ResourceType) continue;
                     manager.CurrentResourceDemand -= consumption.value * productivity;
                 }
-
-                // switch (item.resource)
-                // {
-                //     case ResourceTypes.Material:
-                //         materialManager.CurrentResourceDemand -= item.value;
-                //         break;
-                //     case ResourceTypes.Energy:
-                //         energyManager.CurrentResourceDemand -= item.value;
-                //         break;
-                //     case ResourceTypes.Citizen:
-                //         citizenManager.CurrentResourceDemand -= item.value; 
-                //         break;
-                //     case ResourceTypes.Food:
-                //         foodManager.CurrentResourceDemand -= item.value;
-                //         break;
-                //     case ResourceTypes.Water:
-                //         waterManager.CurrentResourceDemand -= item.value;
-                //         break;
-                // }
             }
 
             for (int i = 0; i < buildingResources.SaveSpace.Length; i++)
@@ -499,29 +274,7 @@ namespace Buildings //Made by Robin
                     if (space.resource != manager.ResourceType) continue;
                     manager.SaveSpace -= space.value * productivity;
                 }
-
-                // switch (item.resource)
-                // {
-                //     case ResourceTypes.Material:
-                //         materialManager.SaveSpace -= item.value;
-                //         break;
-                //     case ResourceTypes.Energy:
-                //         energyManager.SaveSpace -= item.value;
-                //         break;
-                //     case ResourceTypes.Citizen:
-                //         citizenManager.SaveSpace -= item.value;
-                //         break;
-                //     case ResourceTypes.Food:
-                //         foodManager.SaveSpace -= item.value;
-                //         break;
-                //     case ResourceTypes.Water:
-                //         waterManager.SaveSpace -= item.value;
-                //         break;
-                // }
             }
-
-            // if (!playSound) return;
-            // SoundManager.PlaySound(SoundManager.Sound.DisableModule);
         }
         
         #endregion

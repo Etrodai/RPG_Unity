@@ -7,12 +7,6 @@ namespace ResourceManagement.Manager
 {
     public class WaterManager : ResourceManager //Made by Robin
     {
-        #region TODOS
-
-        // use waterScalingFactor
-
-        #endregion
-
         #region Variables
 
         [SerializeField] private TextMeshProUGUI savedResourceText;
@@ -22,9 +16,7 @@ namespace ResourceManagement.Manager
         private float currentResourceSurplus;
         private float savedResourceValue;
         private float saveSpace;
-
-        // private const float waterScalingFactor = 1.6f; //Factor to multiply the demand based off of the current citizen number (Can later be changed into dynamic field to change scaling over time)
-
+        
         #endregion
 
         #region Events

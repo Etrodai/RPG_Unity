@@ -52,7 +52,6 @@ namespace SaveSystem
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
             }
         }
 
@@ -69,7 +68,6 @@ namespace SaveSystem
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError(e);
                 }
             }
             else
@@ -81,7 +79,6 @@ namespace SaveSystem
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError(e);
                 }
             }
         }

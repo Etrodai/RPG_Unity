@@ -74,7 +74,6 @@ namespace PriorityListSystem
                     break;
             }
 
-            // buildingGroup.text = Type.ToString();
             int allBuildingsCount = gameManager.GetBuildingCount(Type);
             int workingBuildingsCount = gameManager.GetWorkingBuildingCount(Type);
             workingBuildings.text = $"{workingBuildingsCount}/{allBuildingsCount}";

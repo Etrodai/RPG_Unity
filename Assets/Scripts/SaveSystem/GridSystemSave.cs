@@ -172,7 +172,6 @@ namespace SaveSystem
                 gridsystem.TileArray[data.xIndex, data.yIndex, data.zIndex].HasModule = true;
                 gridsystem.TileArray[data.xIndex, data.yIndex, data.zIndex].Module = buildingGameObject;
             }
-            // TODO: (Robin) wird es an der richtigen Position instantiiert?
         }
 
         #endregion

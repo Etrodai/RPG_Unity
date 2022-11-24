@@ -121,11 +121,6 @@ namespace Manager.Menu
             closePosition = position;
             
             StartCoroutine(MoveMenu(true));
-            // Transform transform1 = transform;
-            // Vector3 transformPosition = transform1.position;
-            //
-            // transformPosition.x -= 300 * canvas.scaleFactor;
-            // transform1.position = transformPosition;
         }
 
         public void CloseMenuInstantly()
@@ -160,12 +155,6 @@ namespace Manager.Menu
             closePosition = new(position.x + 300 * scaleFactor, position.y, position.z);
             
             StartCoroutine(MoveMenu(false));
-            // Transform transform1 = transform;
-            // Vector3 transformPosition = transform1.position;
-            // transformPosition.x += 300 * canvas.scaleFactor;
-            // transform1.position = transformPosition;
-            // HidePanel(ref mileStoneSystemPanel);
-            // HidePanel(ref priorityListPanel);
         }
 
         /// <summary>

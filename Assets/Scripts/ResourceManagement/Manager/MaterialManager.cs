@@ -23,9 +23,9 @@ namespace ResourceManagement.Manager
 
         #region Events
 
-                private readonly UnityEvent onMaterialSurplusChanged = new();
-                private readonly UnityEvent onMaterialSavedValueChanged = new();
-                private readonly UnityEvent onMaterialSaveSpaceChanged = new();
+        private readonly UnityEvent onMaterialSurplusChanged = new();
+        private readonly UnityEvent onMaterialSavedValueChanged = new();
+        private readonly UnityEvent onMaterialSaveSpaceChanged = new();
 
         #endregion
         

@@ -40,7 +40,6 @@ namespace SaveSystem
             }
 
             saveData.GameSave.managerData = managerData;
-            // Save.AutoSaveData(managerData, SaveName);
         }
         
         private void SaveDataAs(string savePlace)
@@ -58,7 +57,6 @@ namespace SaveSystem
             }
 
             saveData.GameSave.managerData = managerData;
-            // Save.SaveDataAs(savePlace, managerData, SaveName);
         }
 
         private void LoadData(GameSave gameSave)

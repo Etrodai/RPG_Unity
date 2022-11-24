@@ -103,7 +103,6 @@ namespace PriorityListSystem
             }
 
             saveData.GameSave.priorityListData = data;
-            // Save.AutoSaveData(data, SaveName);
         }
     
         private void SaveDataAs(string savePlace)
@@ -117,20 +116,12 @@ namespace PriorityListSystem
             }
 
             saveData.GameSave.priorityListData = data;
-            // Save.SaveDataAs(savePlace, data, SaveName);
         }
     
         private void LoadData(GameSave gameSave)
         {
-            // path = Path.Combine(path, $"{SaveName}.dat");
-            // if (!File.Exists(path)) return;
-            //
-            // PriorityListItemSave[] data = Load.LoadData(path) as PriorityListItemSave[];
-
             PriorityListItemSave[] data = gameSave.priorityListData;
             
-            // if (data == null) return;
-
             for (int i = 0; i < data.Length; i++)
             {
                 items[i].Type = (BuildingType)data[i].type;

@@ -73,9 +73,7 @@ namespace SaveSystem
         {
             //change scene, than wait 1 frame, than load
             string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\Autosafe");
-            // Load.OnLoadButtonClick?.Invoke(loadName);
             saveData.LoadData(loadName);
-            // StartCoroutine(saveData.LoadScene(loadName));
         }
 
         public void OnLoadAsButtonClick(TextMeshProUGUI buttonName)
@@ -83,9 +81,7 @@ namespace SaveSystem
             //change scene, than wait 1 frame, than load
             Debug.Log("Load");
             string loadName = Path.Combine(Application.persistentDataPath, $@"Data\\{buttonName.text}");
-            // Load.OnLoadButtonClick?.Invoke(loadName);
             saveData.LoadData(loadName);
-            // StartCoroutine(saveData.LoadScene(loadName));
         }
 
         public void OnLoadButtonClick()

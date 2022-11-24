@@ -13,7 +13,7 @@ namespace Cameras
     {
         #region Variables
 
-        private const int CHILDINDEX = 0;
+        private const int ChildIndex = 0;
         
         [SerializeField] private CinemachineFreeLook cmFreeLook;
 
@@ -141,7 +141,7 @@ namespace Cameras
         /// </summary>
         private void Start()
         {
-            cameraLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(CHILDINDEX);
+            cameraLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(ChildIndex);
             cmFreeLook.Follow = cameraLookPoint;
             cmFreeLook.LookAt = cameraLookPoint;
 

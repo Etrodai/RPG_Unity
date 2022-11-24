@@ -190,7 +190,6 @@ namespace Manager
                 {
                     PriorityListItem item = PriorityListItems[j];
                     item.onChangePriorityUI.Invoke();
-                    // Debug.Log("item.onChangePriorityUI.Invoke()");
                 }
                 return neededResourceValue;
             }
@@ -199,7 +198,6 @@ namespace Manager
             {
                 PriorityListItem item = PriorityListItems[j];
                 item.onChangePriorityUI.Invoke();
-                // Debug.Log("item.onChangePriorityUI.Invoke()");
             }
             
             return neededResourceValue;
@@ -287,7 +285,6 @@ namespace Manager
             {
                 PriorityListItem item = PriorityListItems[j];
                 item.onChangePriorityUI.Invoke();
-                // Debug.Log("item.onChangePriorityUI.Invoke()");
             }
         }
 
@@ -326,11 +323,7 @@ namespace Manager
                 }
 
                 // DisableBuildings or change Productivity
-                if (surplus <= 0)
-                {
-                    // Debug.Log("Überprüfe deine PrioListe, die unterste Priorität ändert den Zustand nicht!");
-                }
-                else
+                if (surplus > 0)
                 {
                     if (type == ResourceType.Citizen)
                     {
@@ -359,7 +352,6 @@ namespace Manager
                             {
                                 PriorityListItem item = PriorityListItems[k];
                                 item.onChangePriorityUI.Invoke();
-                                // Debug.Log("item.onChangePriorityUI.Invoke()");
                             }
 
                             return;
@@ -372,7 +364,6 @@ namespace Manager
                 {
                     PriorityListItem item = PriorityListItems[j];
                     item.onChangePriorityUI.Invoke();
-                    // Debug.Log("item.onChangePriorityUI.Invoke()");
                 }
 
                 return;
@@ -432,19 +423,16 @@ namespace Manager
                     {
                         PriorityListItem item = PriorityListItems[j];
                         item.onChangePriorityUI.Invoke();
-                        // Debug.Log("item.onChangePriorityUI.Invoke()");
                     }
                 }
                 else
                 {
                     if (!somethingChanged) return;
-                    //OnChangePriority();
 
                     for (int j = 0; j < PriorityListItems.Count; j++)
                     {
                         PriorityListItem item = PriorityListItems[j];
                         item.onChangePriorityUI.Invoke();
-                        // Debug.Log("item.onChangePriorityUI.Invoke()");
                     }
 
                     return;
@@ -477,7 +465,7 @@ namespace Manager
             for (int i = 0; i < count; i++)
             {
                 DisabledBuilding disabledBuilding = DisabledBuildings.Pop();
-                disabledBuilding.building.CurrentProductivity = 1; // => Sound wird abgespielt, für jedes building
+                disabledBuilding.building.CurrentProductivity = 1;
                 disabledBuilding.building.IsDisabled = false;
 
                 for (int j = 0; j < disabledBuilding.building.BuildingResources.Consumption.Length; j++)
@@ -704,26 +692,6 @@ namespace Manager
                     SoundManager.PlaySound(SoundManager.Sound.DisableModule);
                 }
             }
-
-            //                                                                                              OLD
-            // for (int i = 0; i < count; i++)
-            // {
-            //     buildings[i] = DisabledBuildings.Pop();
-            // }
-            //
-            // for (int i = PriorityListItems.Count - 1; i > 0; i--)
-            // {
-            //     BuildingTypes type = GetBuildingTypeOnPriority(i);
-            
-            //     foreach (DisabledBuilding item in buildings)
-            //     {
-            //         if (type != item.building.BuildingType) continue;
-            //     
-            //         DisabledBuildings.Push(item);
-            //     }
-            //
-            //     if (DisabledBuildings.Count == buildings.Length) return;
-            // }
         }
     
         /// <summary>
@@ -746,35 +714,11 @@ namespace Manager
             }
             
             DisableBuildings(surplus, ResourceType.Citizen, true);
-            
-            //     Building[] priorityBuildings = new Building[ChangedProductivityBuildings.Count];
-            //     int count = ChangedProductivityBuildings.Count;
-            //     for (int i = 0; i < count; i++)
-            //     {
-            //         priorityBuildings[i] = ChangedProductivityBuildings.Pop();
-            //     }
-            //     for (int i = PriorityListItems.Count - 1; i > 0; i--)
-            //     {
-            //         BuildingTypes type = GetBuildingTypeOnPriority(i);
-            //         foreach (Building item in priorityBuildings)
-            //         {
-            //             if (type == item.BuildingType)
-            //             {
-            //                 ChangedProductivityBuildings.Push(item);
-            //             }
-            //         }
-            //     
-            //         if (ChangedProductivityBuildings.Count == priorityBuildings.Length)
-            //         {
-            //             return;
-            //         }
-            //     }
 
             for (int i = 0; i < PriorityListItems.Count; i++)
             {
                 PriorityListItem item = PriorityListItems[i];
                 item.onChangePriorityUI.Invoke();
-                Debug.Log("item.onChangePriorityUI.Invoke()");
             }
         }
 

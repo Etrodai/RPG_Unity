@@ -89,7 +89,6 @@ namespace ResourceManagement.Manager
                 if (savedResourceValue == value) return;
                 savedResourceValue = value;
                 onCitizenSavedValueChanged?.Invoke();
-                // Debug.Log("onCitizenSavedValueChanged?.Invoke()");
             } 
         }
         
@@ -221,11 +220,6 @@ namespace ResourceManagement.Manager
 
             if (!(currentResourceSurplus > 0)) return;
             if ((int) SaveSpace == (int)CurrentResourceProduction) CurrentResourceSurplus = 0;
-            
-            // else // if ((int) SaveSpace == (int)CurrentResourceProduction) //  || foodManager.CurrentResourceSurplus <= 0 || waterManager.CurrentResourceSurplus <= 0
-            // {
-            //     CurrentResourceSurplus = 0;
-            // }
         }
 
         /// <summary>
@@ -253,7 +247,6 @@ namespace ResourceManagement.Manager
             {
                 savedResourceText.text = $"{SavedResourceValue}/{CurrentResourceProduction}";
             }
-            // CalculateProductivity();
         }
 
         /// <summary>
@@ -261,10 +254,6 @@ namespace ResourceManagement.Manager
         /// </summary>
         private void CalculateProductivity()
         {
-            // if (SavedResourceValue == 0)
-            // {
-            //     return;
-            // }
             if (SavedResourceValue < 0)
             {
                 gameManager.DisableBuildings(SavedResourceValue, ResourceType, false);

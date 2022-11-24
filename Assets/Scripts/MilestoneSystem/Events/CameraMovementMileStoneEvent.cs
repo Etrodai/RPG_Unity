@@ -5,12 +5,6 @@ namespace MilestoneSystem.Events
 {
     public class CameraMovementMileStoneEvent : MileStoneEvent //Made by Robin
     {
-        #region TODOS
-        
-        // Anzahl, wie oft/lange bewegt werden muss hinzufügen?
-        
-        #endregion
-
         #region Variables & Properties
 
         //Input

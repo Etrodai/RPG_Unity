@@ -213,7 +213,6 @@ namespace Sound
                 }
             }
 
-            Debug.LogError($"Mixer group for {sound} not found!");
             return null;
         }
         

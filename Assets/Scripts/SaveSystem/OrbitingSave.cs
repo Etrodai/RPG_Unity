@@ -24,7 +24,6 @@ namespace SaveSystem
 
         private void Start()
         {
-            // Planets.Clear();
             saveData = SaveSystem.SaveData.Instance;
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);

@@ -611,25 +611,6 @@ namespace MilestoneSystem
 
                     index++;
                 }
-
-                // switch (requiredResource.resource)
-                // {
-                //     case ResourceTypes.Material:
-                //         if (MaterialManager.Instance.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
-                //         break;
-                //     case ResourceTypes.Energy:
-                //         if (EnergyManager.Instance.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
-                //         break;
-                //     case ResourceTypes.Citizen:
-                //         if (CitizenManager.Instance.CurrentResourceProduction < requiredResource.value) hasAllRequiredStuff = false;
-                //         break;
-                //     case ResourceTypes.Food:
-                //         if (FoodManager.Instance.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
-                //         break;
-                //     case ResourceTypes.Water:
-                //         if (WaterManager.Instance.SavedResourceValue < requiredResource.value) hasAllRequiredStuff = false;
-                //         break;
-                // }
             }
 
             for (int i = 0; i < mileStones[mileStonesDone].RequiredModules.Length; i++)
@@ -653,42 +634,6 @@ namespace MilestoneSystem
                 }
 
                 index++;
-
-                // switch (requiredModule.buildingTypes)
-                // {
-                //     case BuildingTypes.All:
-                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value) 
-                //             hasAllRequiredStuff = false;
-                //         break;
-                //     case BuildingTypes.CitizenSave:
-                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
-                //             hasAllRequiredStuff = false;
-                //         break;
-                //     case BuildingTypes.EnergyGain:
-                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
-                //             hasAllRequiredStuff = false;
-                //         break;
-                //     case BuildingTypes.EnergySave:
-                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
-                //             hasAllRequiredStuff = false;
-                //         break;
-                //     case BuildingTypes.MaterialGain:
-                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
-                //             hasAllRequiredStuff = false;
-                //         break;
-                //     case BuildingTypes.MaterialSave:
-                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
-                //             hasAllRequiredStuff = false;
-                //         break;
-                //     case BuildingTypes.LifeSupportGain:
-                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
-                //             hasAllRequiredStuff = false;
-                //         break;
-                //     case BuildingTypes.LifeSupportSave:
-                //         if (GameManager.Instance.GetBuildingCount(requiredModule.buildingTypes) < requiredModule.value)
-                //             hasAllRequiredStuff = false;
-                //         break;
-                // }
             }
 
             if (!hasAllRequiredStuff) return false;
@@ -704,37 +649,6 @@ namespace MilestoneSystem
                         mileStoneEvent.enabled = false;
                     }
                 }
-
-                // switch (requiredEvent)
-                // {
-                //     case MileStoneEventNames.CameraMovement:
-                //         foreach (MileStoneEvent jtem in events)
-                //         {
-                //             if (jtem.Name == MileStoneEventNames.CameraMovement)
-                //             {
-                //                 jtem.enabled = false;
-                //             }
-                //         }
-                //         break;
-                //     case MileStoneEventNames.ShowPrioritySystem:
-                //         foreach (MileStoneEvent jtem in events)
-                //         {
-                //             if (jtem.Name == MileStoneEventNames.ShowPrioritySystem)
-                //             {
-                //                 jtem.enabled = false;
-                //             }
-                //         }
-                //         break;
-                //     case MileStoneEventNames.WaitForSeconds:
-                //         foreach (MileStoneEvent jtem in events)
-                //         {
-                //             if (jtem.Name == MileStoneEventNames.WaitForSeconds)
-                //             {
-                //                 jtem.enabled = false;
-                //             }
-                //         }
-                //         break;
-                // }
             }
 
             return true;
