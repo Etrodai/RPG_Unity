@@ -96,15 +96,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Toggle Free Look",
-                    "type": "Button",
-                    "id": "cc9aa0c6-9e27-458f-98b6-01f4da0d72dc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Reset Camera",
                     "type": "Button",
                     "id": "d203c3e8-123f-4a63-90b9-fd109d651399",
@@ -233,17 +224,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "DeactivateCameraMovement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "981a8fa7-6683-4f29-b617-82ba2e16096a",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Toggle Free Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

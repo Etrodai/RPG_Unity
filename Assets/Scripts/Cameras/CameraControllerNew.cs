@@ -13,6 +13,8 @@ namespace Cameras
     {
         #region Variables
 
+        private const int CHILDINDEX = 0;
+        
         [SerializeField] private CinemachineFreeLook cmFreeLook;
 
         //Constants
@@ -35,8 +37,7 @@ namespace Cameras
 
         //Cam
         private Camera cam;
-
-        private bool isFreeLookActive;
+        
         private bool isPaused;
         private bool yInverted;
 
@@ -140,8 +141,7 @@ namespace Cameras
         /// </summary>
         private void Start()
         {
-            cameraLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(0); //TODO: (Ben) Variable for Index
-//            freeLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(1);
+            cameraLookPoint = Gridsystem.Instance.CenterTile.transform.GetChild(CHILDINDEX);
             cmFreeLook.Follow = cameraLookPoint;
             cmFreeLook.LookAt = cameraLookPoint;
 
@@ -155,7 +155,6 @@ namespace Cameras
                 InitPlayerInput();
             }
             
-            FreeLook();
             MoveXY();
         }
 
@@ -163,7 +162,6 @@ namespace Cameras
         {
             if (playerInput == null) return;
             playerInput.actions["Reset Camera"].performed -= ResetCamera;
-            playerInput.actions["Toggle Free Look"].performed -= ToggleFreeLook;
             playerInput.actions["DeactivateCameraMovement"].performed -= DeactivateCameraMovement;
             playerInput.actions["ActivateCameraMovement"].performed -= ActivateCameraMovement;
             playerInput.actions["MoveYAxis"].performed -= MoveCameraYAxis;
@@ -186,7 +184,6 @@ namespace Cameras
         {
             if (!playerInput.isActiveAndEnabled) return;
             playerInput.actions["Reset Camera"].performed += ResetCamera;
-            playerInput.actions["Toggle Free Look"].performed += ToggleFreeLook;
             playerInput.actions["DeactivateCameraMovement"].performed += DeactivateCameraMovement;
             playerInput.actions["ActivateCameraMovement"].performed += ActivateCameraMovement;
             playerInput.actions["MoveYAxis"].performed += MoveCameraYAxis;
@@ -306,29 +303,13 @@ namespace Cameras
             cameraLookPoint.localPosition = camResetPos;
         }
 
-        /// <summary>
-        /// Active when FreeView is toggled
-        /// </summary>
-        private void FreeLook()
-        {
-            if (isPaused)
-                return;
-
-            if (isFreeLookActive && Input.GetMouseButton(0))
-            {
-                Vector3 mousePos = Input.mousePosition;
-                freeLookPoint.transform.position =
-                    cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, FreeLookDistance));
-            }
-        }
-
         //Mouse Movement
         /// <summary>
         /// For Activating Camera Axis Movement on x and y Axis
         /// </summary>
         private void ActivateCameraMovement(InputAction.CallbackContext context)
         {
-            if (!isFreeLookActive && !isPaused)
+            if (!isPaused)
             {
                 cmFreeLook.m_XAxis.m_InputAxisName = "Mouse X";
                 cmFreeLook.m_YAxis.m_InputAxisName = "Mouse Y";
@@ -394,23 +375,6 @@ namespace Cameras
                 cmFreeLook.m_Orbits[2].m_Height = -MaxHeightLevel;
             else if (cmFreeLook.m_Orbits[2].m_Height > -MinHeightLevel)
                 cmFreeLook.m_Orbits[2].m_Height = -MinHeightLevel;
-        }
-
-        //Free View
-        /// <summary>
-        /// Action for (de)activate Free View on Mouse
-        /// </summary>
-        /// <param name="context"></param>
-        private void ToggleFreeLook(InputAction.CallbackContext context)
-        {
-            if (isPaused)
-                return;
-
-            isFreeLookActive = !isFreeLookActive;
-            if (isFreeLookActive)
-                cmFreeLook.LookAt = freeLookPoint;
-            else
-                cmFreeLook.LookAt = cameraLookPoint;
         }
 
         //Extern Usage
