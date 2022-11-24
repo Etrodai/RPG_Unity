@@ -62,6 +62,11 @@ namespace MilestoneSystem
         private bool showText;
         private SaveData saveData;
         private bool isLoading;
+        
+        private float charTextPlacingTime;
+        private float endPlacingTime;
+        private int charTextIndex;
+        private const float ResetTextPlacingTime = 0.03f;
 
         #endregion
         
@@ -69,10 +74,12 @@ namespace MilestoneSystem
 
         public UnityEvent onMenusShouldClose;
 
+        
+
         #endregion
-        
+
         #region UnityEvents
-        
+
         /// <summary>
         /// sets variables
         /// </summary>
@@ -108,6 +115,7 @@ namespace MilestoneSystem
             sideMenuPriorityButtonTrigger = sideMenuPriorityButton.GetComponent<EventTrigger>();
             sideMenuMileStoneButtonTrigger = sideMenuMileStoneButton.GetComponent<EventTrigger>();
 
+            mileStoneText.text = "";
             BuildPreMainText();
 
             timer = maxTimer;
@@ -120,7 +128,33 @@ namespace MilestoneSystem
         private void Update()
         {
             timer -= Time.deltaTime;
-            
+
+            charTextPlacingTime -= Time.unscaledDeltaTime;
+
+            if (mainText.activeSelf)
+            {
+                if (isDone)
+                {
+                    //Fades in one char after another for the title
+                    if (mileStoneText.text.Length < mileStones[mileStonesDone].MileStoneAchievedText[textIndex].Length && charTextPlacingTime <= endPlacingTime)
+                    {
+                        mileStoneText.text += mileStones[mileStonesDone].MileStoneAchievedText[textIndex][charTextIndex];
+                        charTextIndex++;
+                        charTextPlacingTime = ResetTextPlacingTime;
+                    }
+                }
+                else
+                {
+                    if(mileStoneText.text.Length < mileStones[mileStonesDone].MileStoneText[textIndex].Length && charTextPlacingTime <= endPlacingTime)
+                    {
+                        mileStoneText.text += mileStones[mileStonesDone].MileStoneText[textIndex][charTextIndex];
+                        charTextIndex++;
+                        charTextPlacingTime = ResetTextPlacingTime;
+                    }
+                }
+                
+            }
+
             if (!(timer < 0)) return;
             timer = maxTimer;
             if (Time.timeScale == 0) return;
@@ -143,7 +177,7 @@ namespace MilestoneSystem
             allItems.Clear();
             itemToggles.Clear();
             allLabels.Clear();
-            
+
             if (textIndex == 0) BuildPostMainText();
         }
 
@@ -163,8 +197,29 @@ namespace MilestoneSystem
         /// </summary>
         public void OnClickOKButton()
         {
+            if (isDone)
+            {
+                //Instantly places current text for BuildPostMainText() when clicking agan after switching to the next text
+                if (mileStoneText.text.Length < mileStones[mileStonesDone].MileStoneAchievedText[textIndex].Length)
+                {
+                    mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
+                    return;
+                } 
+            }
+            else
+            {
+                //Instantly places current text for BuildPreMainText() when clicking again after switching to the next text
+                if (mileStoneText.text.Length < mileStones[mileStonesDone].MileStoneText[textIndex].Length)
+                {
+                    mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
+                    return;
+                }
+            }
+            
+            textIndex++;
             if (isDone) BuildPostMainText();
             else BuildPreMainText();
+            
         }
         
         #endregion
@@ -220,6 +275,7 @@ namespace MilestoneSystem
         /// </summary>
         private void BuildPreMainText()
         {
+            
             if (textIndex < mileStones[mileStonesDone].MileStoneText.Length)
             {
                 onMenusShouldClose.Invoke();
@@ -231,8 +287,8 @@ namespace MilestoneSystem
                 sideMenuPriorityButtonTrigger.enabled = false;
 
                 Time.timeScale = 0;
-                mileStoneText.text = mileStones[mileStonesDone].MileStoneText[textIndex];
-                textIndex++;
+                mileStoneText.text = "";
+                charTextIndex = 0;
             }
             else
             {
@@ -265,21 +321,21 @@ namespace MilestoneSystem
             if (textIndex < mileStones[mileStonesDone].MileStoneAchievedText.Length)
             {
                 onMenusShouldClose.Invoke();
-                // Debug.Log("onSideMenuShouldClose.Invoke()");
                 mainText.SetActive(true);
                 sideMenuMileStoneButton.interactable = false;
                 sideMenuMileStoneButtonTrigger.enabled = false;
                 sideMenuPriorityButton.interactable = false;
                 sideMenuPriorityButtonTrigger.enabled = false;
+                mileStoneText.text = "";
+                charTextIndex = 0;
                 Time.timeScale = 0;
-                mileStoneText.text = mileStones[mileStonesDone].MileStoneAchievedText[textIndex];
-                textIndex++;
             }
             else
             {
                 textIndex = 0;
                 isDone = false;
                 mileStonesDone++;
+                mainText.SetActive(false);
                 BuildPreMainText();
             }
         }
