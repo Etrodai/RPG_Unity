@@ -13,13 +13,10 @@ MonoBehaviour:
   m_Name: 5. Milestone
   m_EditorClassIdentifier: 
   mileStoneText:
-  - Bauen Sie ihre Station weiter aus, bis sie aus 8 Modulen besteht. Zudem sollten
-    Sie ein Erzlager errichten.
-  requiredEvent: 
+  - Bauen Sie ihre Station weiter aus. Zudem sollten Sie ein Erzlager errichten.
+  requiredEvent: 03000000
   requiredResources: []
   requiredModules:
   - buildingType: 6
     value: 1
-  - buildingType: 8
-    value: 8
   mileStoneAchievedText: []

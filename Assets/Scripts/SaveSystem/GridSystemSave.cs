@@ -107,6 +107,8 @@ namespace SaveSystem
     
         private void LoadData(GameSave gameSave)
         {
+            if (gameSave.gridData == null) return;
+            
             GridSystemData[] gridData = gameSave.gridData;
             Vector3 offSetVector = new Vector3(Mathf.Floor(gridsystem.TileArray.GetLength(0) / 2), 
                                                Mathf.Floor(gridsystem.TileArray.GetLength(1) / 2),

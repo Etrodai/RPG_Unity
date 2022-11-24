@@ -57,8 +57,7 @@ namespace MilestoneSystem.Events
 
             if (!(movingTimer <= 0)) return;
             Events[0].isAchieved = true;
-            playerInput.actions["ActivateCameraMovement"].started -= Move;
-            playerInput.actions["ActivateCameraMovement"].canceled -= Move;
+
             playerInput.actions["MoveXAxis"].started -= Move;
             playerInput.actions["MoveXAxis"].canceled -= Move;
             playerInput.actions["MoveYAxis"].started -= Move;
@@ -77,6 +76,8 @@ namespace MilestoneSystem.Events
 
             if (!(rotateTimer <= 0)) return;
             Events[1].isAchieved = true;
+            playerInput.actions["ActivateCameraMovement"].started -= Move;
+            playerInput.actions["ActivateCameraMovement"].canceled -= Move;
             playerInput.actions["RotateXAxis"].started -= Rotate;
             playerInput.actions["RotateXAxis"].canceled -= Rotate;
             playerInput.actions["RotateYAxis"].started -= Rotate;
@@ -120,8 +121,6 @@ namespace MilestoneSystem.Events
         
         private void InitPlayerInput()
         {
-            playerInput.actions["ActivateCameraMovement"].started += Move;
-            playerInput.actions["ActivateCameraMovement"].canceled += Move;
             playerInput.actions["MoveXAxis"].started += Move;
             playerInput.actions["MoveXAxis"].canceled += Move;
             playerInput.actions["MoveYAxis"].started += Move;
@@ -130,6 +129,8 @@ namespace MilestoneSystem.Events
             playerInput.actions["RotateXAxis"].canceled += Rotate;
             playerInput.actions["RotateYAxis"].started += Rotate;
             playerInput.actions["RotateYAxis"].canceled += Rotate;
+            playerInput.actions["ActivateCameraMovement"].started += Rotate;
+            playerInput.actions["ActivateCameraMovement"].canceled += Rotate;
             playerInput.actions["Zoom"].performed += Zoom;
         }
 

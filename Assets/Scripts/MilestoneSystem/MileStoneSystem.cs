@@ -59,6 +59,7 @@ namespace MilestoneSystem
         private bool menuWasBuild;
         private bool showText;
         private SaveData saveData;
+        private bool isLoading;
 
         #endregion
         
@@ -96,14 +97,15 @@ namespace MilestoneSystem
             managers.Add(waterManager);
             citizenManager = MainManagerSingleton.Instance.CitizenManager;
             managers.Add(citizenManager);
-            
+
             gameManager = MainManagerSingleton.Instance.GameManager;
-            
+
             Save.OnSaveButtonClick.AddListener(SaveData);
             Save.OnSaveAsButtonClick.AddListener(SaveDataAs);
             Load.OnLoadButtonClick.AddListener(LoadData);
             sideMenuPriorityButtonTrigger = sideMenuPriorityButton.GetComponent<EventTrigger>();
             sideMenuMileStoneButtonTrigger = sideMenuMileStoneButton.GetComponent<EventTrigger>();
+
             BuildPreMainText();
 
             timer = maxTimer;
@@ -200,6 +202,8 @@ namespace MilestoneSystem
             
             isDone = data.isDone;
             mileStonesDone = data.mileStonesDone;
+            
+            BuildPreMainText();
         }
 
         #endregion
@@ -437,40 +441,40 @@ namespace MilestoneSystem
                 Buttons button = buildMenuScript.Buttons[i];
                 switch (mileStonesDone)
                 {
-                    case 1:
-                        if (!sideMenuManager.CanOpenMileStonePanel) sideMenuManager.CanOpenMileStonePanel = true;
-                        break;
-                    case 3:
-                        if (button.type == BuildingType.MaterialGain)
-                        {
-                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
-                        }
-                        break;
-                    case 4:
-                        if (button.type == BuildingType.CitizenSave)
-                        {
-                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
-                        }
-                        break;
-                    case 6:
-                        if (button.type is BuildingType.LifeSupportGain or BuildingType.LifeSupportSave)
-                        {
-                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
-                        }
-                        break;
-                    case 7:
-                        if (button.type == BuildingType.MaterialSave)
-                        {
-                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
-                        }
-                        break;
-                    case 8:
+                    case >= 8:
                         if (!sideMenuManager.CanOpenPriorityListPanel) sideMenuManager.CanOpenPriorityListPanel = true;
 
                         if (button.type is BuildingType.EnergyGain or BuildingType.EnergySave)
                         {
                             if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
                         }
+                        break;
+                    case >= 7:
+                        if (button.type == BuildingType.MaterialSave)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                    case >= 6:
+                        if (button.type is BuildingType.LifeSupportGain or BuildingType.LifeSupportSave)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                    case >= 4:
+                        if (button.type == BuildingType.CitizenSave)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                    case >= 3:
+                        if (button.type == BuildingType.MaterialGain)
+                        {
+                            if (!button.button.gameObject.activeSelf) button.button.gameObject.SetActive(true);
+                        }
+                        break;
+                    case >= 1:
+                        if (!sideMenuManager.CanOpenMileStonePanel) sideMenuManager.CanOpenMileStonePanel = true;
                         break;
                 }
             }
