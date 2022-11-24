@@ -15,7 +15,7 @@ namespace MilestoneSystem.Events
             energyManager = MainManagerSingleton.Instance.EnergyManager;
             Name = MileStoneEventName.EnergyValueZero;
             Events = new MileStoneEventItem[1];
-            Events[0].text = "";
+            Events[0].text = "Bauen Sie weitere Module.";
             Events[0].isAchieved = false;
         }
 

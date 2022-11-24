@@ -1,4 +1,7 @@
-﻿namespace MilestoneSystem.Events
+﻿using Manager.Menu;
+using UnityEngine;
+
+namespace MilestoneSystem.Events
 {
     public class ShowMileStoneSystem : MileStoneEvent //Made by Robin
     {
@@ -6,6 +9,8 @@
 
         public override MileStoneEventName Name { get; set; }
         public override MileStoneEventItem[] Events { get; set; }
+
+        [SerializeField] private SideMenuManager sideMenuManager;
 
         #endregion
        
@@ -61,6 +66,7 @@
             {
                 Events[i].isAchieved = false;
             }
+            sideMenuManager.OnMileStoneSystemMenuButton();
         }
 
         #endregion

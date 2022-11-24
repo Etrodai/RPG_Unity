@@ -41,7 +41,7 @@ namespace UI.BuildMode
         }
     }
     
-    public class BuildMenuScript : MonoBehaviour //Made by Ben
+    public class BuildMenuScript : MonoBehaviour //Made by Robin
     {
         #region Variables
 
@@ -72,7 +72,6 @@ namespace UI.BuildMode
             if (!isInitialized)
             {
                 Initialize();
-                isInitialized = true;
             }
 
             InvokeRepeating(nameof(UpdateButtons), 0, 0.5f);
@@ -246,6 +245,7 @@ namespace UI.BuildMode
                 buttons[i].button.gameObject.SetActive(false);
                 buttons[i].hoverGameObject.SetActive(false);
             }
+            isInitialized = true;
         }
 
         /// <summary>
