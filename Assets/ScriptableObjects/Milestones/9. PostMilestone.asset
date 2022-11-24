@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 9. PostMilestone
   m_EditorClassIdentifier: 
   mileStoneText: []
-  requiredEvent: 
+  requiredEvent: 08000000
   requiredResources: []
   requiredModules: []
   mileStoneAchievedText: []

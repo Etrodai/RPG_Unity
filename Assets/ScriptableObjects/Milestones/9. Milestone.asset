@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mileStoneText: []
   requiredEvent: 
-  requiredResources: []
+  requiredResources:
+  - resource: 0
+    value: 3000
+    eventResourceDemandValue: 0
   requiredModules: []
   mileStoneAchievedText: []

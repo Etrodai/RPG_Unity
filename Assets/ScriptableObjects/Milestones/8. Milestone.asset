@@ -15,5 +15,7 @@ MonoBehaviour:
   mileStoneText: []
   requiredEvent: 
   requiredResources: []
-  requiredModules: []
+  requiredModules:
+  - buildingType: 7
+    value: 10
   mileStoneAchievedText: []
