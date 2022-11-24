@@ -79,7 +79,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Planet_Texture:
-        m_Texture: {fileID: 2800000, guid: 104d5f04373470a439c6fd5119b68447, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3f75ece58287fb44ba1877573b56dcea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_3558078c709d45f3bbf76a5b89183709_Texture_1:
@@ -127,7 +127,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Normal_Strength: 1
+    - _Normal_Strength: 1.66
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -145,7 +145,7 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0.0157957, b: 0.047169805, a: 1}
-    - _Rotation_Speed_Planet: {r: 0.03, g: 0.01, b: 0, a: 0}
+    - _Rotation_Speed_Planet: {r: 0.002, g: 0.002, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Sun_Position: {r: 0, g: 0, b: 100, a: 0}
     - _Texture_Tiling: {r: 1, g: 1, b: 0, a: 0}
